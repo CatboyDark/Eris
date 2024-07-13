@@ -1,19 +1,24 @@
 1. Install the necessary dependencies
 
-npm install discord.js
-npm install mineflayer
-npm install hypixel-api-reborn
+	npm install discord.js
+	npm install mineflayer
+	npm install hypixel-api-reborn
 
 2. Configure config.json
 
-Rename exampleconfig.json to config.json.
+	Rename exampleconfig.json to config.json.
 
-token: Discord Token (https://discord.com/developers/applications)
-clientId: Discord Application ID
-hapi: Hypixel API Key (https://developer.hypixel.net/)
-logsChannel (Required): Set a channel for bot logs
+	token: Discord Token (https://discord.com/developers/applications)
+	clientID: Discord Application ID
+	hapi: Hypixel API Key (https://developer.hypixel.net/)
+	logsChannel: Set a channel for bot logs
+	ign: Minecraft bot username
 
 3. Run/host the bot
 
-node a.js
-OR use pm2 (https://pm2.keymetrics.io/)
+	node a.js
+	OR use pm2 (https://pm2.keymetrics.io/)
+
+4. Run the /setup command
+
+	Note. You need Administrator perms to do this.

@@ -1,7 +1,7 @@
 const { Client, Collection, GatewayIntentBits, EmbedBuilder, REST, Routes } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const { clientID, logsChannel } = require('../../config.json');
+const { clientID, logsChannel, colorTheme } = require('../../config.json');
 
 class DCinit
 {
@@ -105,7 +105,7 @@ class DCinit
 		const command = require(filePath);
 		if (command.data && command.execute) { return command.data.toJSON(); }
 		else {
-			console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			console.warn(`[WARNING] The command at ${filePath} is incomplete!`);
 			return null;
 		}
 	}
@@ -127,7 +127,7 @@ class DCinit
 		this.client.login(this.token);
 
 		this.client.on('ready', () => {
-			const embed = new EmbedBuilder().setColor('00FF00').setDescription('**Discord is Online!**');
+			const embed = new EmbedBuilder().setColor(colorTheme).setDescription('**Discord is Online!**');
 
 			const channel = this.client.channels.cache.get(logsChannel);
 			channel.send({ embeds: [embed] });

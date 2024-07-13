@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { staffRole, guild, guildIcon } = require('../../../../config.json');
+const { staffRole, guild, guildIcon, colorTheme } = require('../../../../config.json');
 const fs = require('fs');
 const path = require('path');
 
@@ -25,8 +25,10 @@ module.exports =
 		const roles = interaction.member.roles.cache;
 		const isStaff = roles.some(role => staffRole.includes(role.id));
 		
+		fs.existsSync('config.json') ? JSON.parse(fs.readFileSync('config.json', 'utf8')) : {};
+		
 		const embed = new EmbedBuilder()
-			.setColor('000000')
+			.setColor(colorTheme)
 			.setThumbnail(guildIcon)
 			.setTitle(guild)
 			.addFields(
@@ -44,7 +46,7 @@ module.exports =
 				},
 				{
 					name: '**Bugs and Support**',
-					value: '[Github](https://github.com/CatboyDark/WristSpasm-Reborn)'
+					value: '[Github](https://github.com/CatboyDark/Eris)'
 				}
 			)
 			.setFooter({

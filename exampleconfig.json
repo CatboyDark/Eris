@@ -2,62 +2,12 @@
 	"token": "1234567890",
 	"clientID": "1234567890",
 	"hapi": "1234567890",
-
-	"guild": "",
-	"serverID": "1234567890",
-	"guildIcon": "",
 	"logsChannel": "1234567890",
-
-    "welcomeMsgToggle": false,
-	"welcomeChannel": "1234567890",
-    "welcomeRoleToggle": false,
-	"welcomeRole": "1234567890",
-
 	"ign": "",
-	"prefix": ".",
-
-	"bridgeToggle": true,
-	"bridgeChannel": "1234567890",
-    "guildToggle": false,
-	"guildChannel": "1234567890",
-	"officerToggle": false,
-	"officerChannel": "1234567890",
-
-    "autoAcceptToggle": false,
-    "sbReq": 200,
-	"bwReq": 200,
-
-	"gxpReq": 0,
-	"inactivityChannel": "1234567890",
-
-    "linkRole": "1234567890",
-    "guildRole": "1234567890",
-    "staffRole": 
-	[
-        "1234567890",
-		"1234567890",
-        "1234567890"
-    ],
-
-	"sbNotifsToggle": false,
-	"sbNotifs": 
-	{
-		"DARK_AUCTION": true,
-		"BANK_INTEREST": true,
-		"ELECTION_OVER": true,
-		"ELECTION_BOOTH_OPENS": true,
-		"FEAR_MONGERER": true,
-		"JACOBS_CONTEST": true,
-		"JERRYS_WORKSHOP": true,
-		"NEW_YEAR_CELEBRATION": true,
-		"SEASON_OF_JERRY": true,
-		"SPOOKY_FESTIVAL": true,
-		"TRAVELING_ZOO": true,
-		"FALLEN_STAR_CULT": true
-	},
-    
-	"hypixelUpdates": false,
-	"hypixelNews": false,
-    "statusUpdates": false,
-    "skyblockVersion": false
+	"----------------------------------------------------------------------------------------": "",
+	"guild": "",
+  	"serverID": "",
+  	"staffRole": [],
+	"guildIcon": "https://i.imgur.com/9AnnZVG.png",
+	"colorTheme": "000000"
 }

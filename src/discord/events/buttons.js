@@ -20,15 +20,52 @@ module.exports =
 	name: Events.InteractionCreate,
 	async execute(interaction) 
 	{
-		if (interaction.isButton()) 
+		if (!interaction.isButton())
+		{ return; }
+
+		const buttons = interaction.customId;
+
+		switch (buttons) 
 		{
-			const buttons = interaction.customId;
 
-			switch (buttons)
-			{
-
-			}
+		// setup.js
+			
+		case 'configs':
+			await Logic.configs(interaction);
+			break;
+		
+		case 'features':
+			await Logic.features(interaction);
+			break;
+			
+		case 'back':
+			await Logic.back(interaction);
+			break;
+				
+		case 'next':
+			await Logic.next(interaction);
+			break;
+				
+		case 'setGuild':
+			await Logic.setGuild(interaction);
+			break;
+				
+		case 'setServerID':
+			await Logic.setServerID(interaction);
+			break;
+				
+		case 'setStaffRole':
+			await Logic.setStaffRole(interaction);
+			break;
+		
+		case 'setGuildIcon':
+			await Logic.setGuildIcon(interaction);
+			break;
+		
+		case 'setColorTheme':
+			await Logic.setColorTheme(interaction);
+			break;
+			
 		}
-		else { return; }
 	}
 };
