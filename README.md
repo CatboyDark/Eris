@@ -17,15 +17,15 @@ A Discord/Minecraft bot template for Hypixel Skyblock, built using: <br />
 ### ✦ Easy to Setup ✦
 
 ### Guild:
-- Hypixel-Discord chat bridge
-- Auto-accept join requests
-- Skyblock commands
+- Hypixel-Discord chat bridge (WIP)
+- Auto-accept join requests (WIP)
+- Skyblock commands (WIP)
 
 ### Discord:
-- CENTRAL verification system
-- Custom Skyblock roles
-- Moderation tools
-- And more!
+- CENTRAL verification system (WIP)
+- Custom Skyblock roles (WIP)
+- Moderation tools (WIP)
+- And more! (WIP)
   
 <br />
 

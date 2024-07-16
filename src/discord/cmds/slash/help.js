@@ -1,9 +1,10 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { staffRole, guild, guildIcon, colorTheme } = require('../../../../config.json');
+const { readConfig } = require('../../../configUtils.js');
 const fs = require('fs');
 const path = require('path');
 
-function loadCmds() {
+function loadCmds()
+{
 	const commandFilesDir = __dirname;
 
 	return fs.readdirSync(commandFilesDir)
@@ -21,12 +22,12 @@ module.exports =
 		
 	async execute(interaction) 
 	{
+		const { staffRole, guild, guildIcon, colorTheme } = readConfig();
+		
 		const commands = loadCmds();
 		const roles = interaction.member.roles.cache;
 		const isStaff = roles.some(role => staffRole.includes(role.id));
-		
-		fs.existsSync('config.json') ? JSON.parse(fs.readFileSync('config.json', 'utf8')) : {};
-		
+
 		const embed = new EmbedBuilder()
 			.setColor(colorTheme)
 			.setThumbnail(guildIcon)

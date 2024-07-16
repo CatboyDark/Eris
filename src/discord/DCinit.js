@@ -1,7 +1,8 @@
-const { Client, Collection, GatewayIntentBits, EmbedBuilder, REST, Routes } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, REST, Routes } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const { clientID, logsChannel, colorTheme } = require('../../config.json');
+const { clientID, logsChannel } = require('../../config.json');
+const { createMsg } = require('../builder.js');
 
 class DCinit
 {
@@ -126,8 +127,11 @@ class DCinit
 	{
 		this.client.login(this.token);
 
-		this.client.on('ready', () => {
-			const embed = new EmbedBuilder().setColor(colorTheme).setDescription('**Discord is Online!**');
+		this.client.on('ready', () => 
+		{
+			const embed = createMsg({
+				description: '**Discord is Online!**'
+			});
 
 			const channel = this.client.channels.cache.get(logsChannel);
 			channel.send({ embeds: [embed] });

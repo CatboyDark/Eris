@@ -1,10 +1,15 @@
-const { Events, EmbedBuilder } = require('discord.js');
+const { Events } = require('discord.js');
+const { createMsg } = require('../../builder.js');
 
 const cmdError = (interaction) =>
 {
 	return error => 
 	{
-		const e = new EmbedBuilder().setColor('FF0000').setTitle('Error!').setDescription(`${error.message}`);
+		const e = createMsg({
+			color: 'FF0000',
+			title: 'Error!',
+			description: `${error.message}`
+		});
 
 		console.error(error);
 		if (interaction.replied || interaction.deferred) 

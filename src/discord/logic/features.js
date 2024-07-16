@@ -1,10 +1,8 @@
-const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, TextInputBuilder, TextInputStyle, ModalBuilder } = require('discord.js');
-const { colorTheme } = require('../../../config.json');
-const fs = require('fs');
+const { createMsg } = require('../../builder.js');
 
-const featuresEmbed = new EmbedBuilder().setColor(colorTheme).setDescription(
-	'### Features'
-);
+const featuresEmbed = createMsg({
+	description: '**Secret Staff Commands**'
+});
 
 async function features(interaction)
 {

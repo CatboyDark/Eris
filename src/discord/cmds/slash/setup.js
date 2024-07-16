@@ -1,23 +1,20 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
-const { colorTheme } = require('../../../../config.json');
-const fs = require('fs');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { createMsg, createButtons } = require('../../../builder.js');
 
-fs.existsSync('data.json') ? JSON.parse(fs.readFileSync('data.json', 'utf8')) : {};
+const startMsg = createMsg({
+	description: 
+		'## Getting Started\n' +
+		'_ _\n' +
+		'**Hello!** Thank you for using Eris.\n\n' +
+		'This command edits the **config.json** file in your bot folder.\n' +
+		'You can manually adjust these settings anytime.\n\n' +
+		'Let\'s start by filling out the Required Configs for the bot to function.'
+});
 
-const startMsg = new EmbedBuilder().setColor(colorTheme).setDescription
-(
-	'## Getting Started\n' +
-	'_ _\n' +
-	'**Hello!** Thank you for using Eris.\n\n' +
-	'This command edits the **config.json** file in your bot folder.\n' +
-	'You can manually adjust these settings anytime.\n\n' +
-	'Let\'s start by filling out the Required Configs for the bot to function.'
-);
-
-const startButtons = new ActionRowBuilder().addComponents(
-	new ButtonBuilder().setCustomId('configs').setLabel('Configs').setStyle(ButtonStyle.Success),
-	new ButtonBuilder().setCustomId('features').setLabel('Features').setStyle(ButtonStyle.Success)
-);
+const startButtons = createButtons([
+	{ id: 'configs', label: 'Configs', style: 'success' },
+	{ id: 'features', label: 'Features', style: 'success' }
+]);
 
 module.exports = 
 {
