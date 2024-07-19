@@ -1,7 +1,7 @@
 const { Client, Collection, GatewayIntentBits, REST, Routes } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const { clientID, logsChannel } = require('../../config.json');
+const { appID, logsChannel } = require('../../config.json');
 const { createMsg } = require('../builder.js');
 
 class DCinit
@@ -74,8 +74,13 @@ class DCinit
 			const ep = path.join(eDir, e);
 			const event = require(ep);
 			if (event.once)
-			{ this.client.once(event.name, (...args) => event.execute(...args)); }
-			else { this.client.on(event.name, (...args) => event.execute(...args)); }
+			{ 
+				this.client.once(event.name, (...args) => event.execute(...args)); 
+			}
+			else 
+			{ 
+				this.client.on(event.name, (...args) => event.execute(...args)); 
+			}
 		}
 	}
 
@@ -98,7 +103,7 @@ class DCinit
 		const commands = this.collectCommands(foldersPath);
 
 		const rest = new REST({ version: '10' }).setToken(this.token);
-		await rest.put(Routes.applicationCommands(clientID), { body: commands });
+		await rest.put(Routes.applicationCommands(appID), { body: commands });
 	}
 
 	readCommandFile(filePath)

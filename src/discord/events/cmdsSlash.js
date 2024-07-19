@@ -13,8 +13,13 @@ const cmdError = (interaction) =>
 
 		console.error(error);
 		if (interaction.replied || interaction.deferred) 
-		{ return interaction.followUp({ embeds: [e] }); } 
-		else { return interaction.reply({ embeds: [e] }); }
+		{
+			return interaction.followUp({ embeds: [e] }); 
+		} 
+		else 
+		{ 
+			return interaction.reply({ embeds: [e] }); 
+		}
 	};
 };
 

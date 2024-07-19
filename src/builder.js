@@ -1,58 +1,68 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
 const { readConfig } = require('./configUtils.js');
 
-const createMsg = ({ color, title, description, thumbnail }) =>
+const createMsg = ({ color, title, description, icon, footer, footerIcon }) =>
 {
 	const embed = new EmbedBuilder();
-	const config = readConfig();
+	const { colorTheme } = readConfig();
 
 	if (color) embed.setColor(color);
-	else embed.setColor(config.colorTheme);
+	else embed.setColor(colorTheme);
 
 	if (title) embed.setTitle(title);
 	if (description) embed.setDescription(description);
-	if (thumbnail) embed.setThumbnail(thumbnail);
+	if (icon) embed.setThumbnail(icon);
+	if (footer) {
+		embed.setFooter({ text: footer, iconURL: footerIcon });
+	}
 
 	return embed;
 };
 
+const styles = 
+{
+	Primary: ButtonStyle.Primary,
+	Secondary: ButtonStyle.Secondary,
+	Success: ButtonStyle.Success,
+	Danger: ButtonStyle.Danger,
+	Link: ButtonStyle.Link
+};
+
 function createButtons({ id, label, style }) 
 {
-	let buttonStyle;
-	switch (style.toLowerCase()) 
-	{
-	case 'primary':
-		buttonStyle = ButtonStyle.Primary;
-		break;
-	case 'secondary':
-		buttonStyle = ButtonStyle.Secondary;
-		break;
-	case 'success':
-		buttonStyle = ButtonStyle.Success;
-		break;
-	case 'danger':
-		buttonStyle = ButtonStyle.Danger;
-		break;
-	case 'link':
-		buttonStyle = ButtonStyle.Link;
-		break;
-	default:
-		throw new Error(`Invalid Button Style! ${style}`);
-	}
-
 	return new ButtonBuilder()
 		.setCustomId(id)
 		.setLabel(label)
-		.setStyle(buttonStyle);
+		.setStyle(styles[style]);
 }
 
-function createRow(buttonConfigs) 
+function createSelectMenu({ id, placeholder, options }) 
+{
+	const selectMenu = new StringSelectMenuBuilder()
+		.setCustomId(id)
+		.setPlaceholder(placeholder);
+
+	const selectMenuOptions = options.map(({ value, label, description }) =>
+		new StringSelectMenuOptionBuilder()
+			  .setValue(value)
+			  .setLabel(label)
+			  .setDescription(description)
+		  );
+
+	return selectMenu.addOptions(selectMenuOptions);
+}
+
+function createRow(components) 
 {
 	const actionRow = new ActionRowBuilder();
 
-	buttonConfigs.forEach(buttonConfig => 
+	components.forEach(config => 
 	{
-		actionRow.addComponents(createButtons(buttonConfig));
+		if (config.label && config.style) 
+		{ actionRow.addComponents(createButtons(config)); } 
+
+		else if (config.placeholder && config.options) 
+		{ actionRow.addComponents(createSelectMenu(config)); } 
 	});
 
 	return actionRow;
@@ -103,7 +113,6 @@ function createModal({ id, title, components })
 module.exports =
 {
 	createMsg,
-	createButtons,
 	createRow,
 	createModal
 };

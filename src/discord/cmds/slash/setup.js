@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { createMsg, createButtons } = require('../../../builder.js');
+const { createMsg, createRow } = require('../../../builder.js');
 
 const startMsg = createMsg({
 	description: 
@@ -11,9 +11,9 @@ const startMsg = createMsg({
 		'Let\'s start by filling out the Required Configs for the bot to function.'
 });
 
-const startButtons = createButtons([
-	{ id: 'configs', label: 'Configs', style: 'success' },
-	{ id: 'features', label: 'Features', style: 'success' }
+const startButtons = createRow([
+	{ id: 'configs', label: 'Configs', style: 'Success' },
+	{ id: 'features', label: 'Features', style: 'Success' }
 ]);
 
 module.exports = 
@@ -22,11 +22,11 @@ module.exports =
 	staff: true,
 	data: new SlashCommandBuilder()
 		.setName('setup')
-		.setDescription('Bot Setup')
+		.setDescription('Bot setup')
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 		
 	async execute(interaction) 
 	{
-		await interaction.reply({ embeds: [startMsg], components: [startButtons] });
+		await interaction.reply({ embeds: [startMsg], components: [startButtons], ephemeral: true });
 	}
 };

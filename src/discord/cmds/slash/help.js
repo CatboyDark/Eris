@@ -1,4 +1,5 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
+const { createMsg, createRow } = require('../../../builder.js');
 const { readConfig } = require('../../../configUtils.js');
 const fs = require('fs');
 const path = require('path');
@@ -12,8 +13,43 @@ function loadCmds()
 		.filter(command => command && command.type && command.data);
 }
 
+const buttons = createRow([
+	{id: 'mccmds', label: 'Ingame Commands', style: 'Primary'},
+	{id: 'credits', label: 'Credits', style: 'Success'},
+	{id: 'support', label: 'Support', style: 'Success'}
+]);
+
+const formatCommands = (cmds, staffOnly = false) =>
+	cmds.filter(cmd => staffOnly ? cmd.staff : !cmd.staff)
+		.sort((a, b) => a.data.name.localeCompare(b.data.name))
+		.map(cmd => `* **\`/${cmd.data.name}\`** ${cmd.data.description}`);
+
+async function updateHelp(interaction)
+{
+	const config = readConfig();
+	const cmds = loadCmds();
+	const roles = interaction.member.roles.cache;
+	const isStaff = roles.some(role => config.staffRole.includes(role.id));
+		  
+	const nonCommands = `**Commands**\n${formatCommands(cmds)}`;
+	const staffCommands = isStaff ? `\n\n**Staff**\n${formatCommands(cmds, true)}` : '';
+		  
+	const embed = createMsg({
+			  color: config.colorTheme,
+			  icon: config.guildIcon,
+			  title: config.guild,
+			  description: `${nonCommands}${staffCommands}`,
+			  footer: 'Created by @CatboyDark',
+			  footerIcon: 'https://i.imgur.com/4lpd01s.png'
+	});
+		  
+	await interaction.update({ embeds: [embed], components: [buttons] });
+}
+
 module.exports = 
 {
+	updateHelp,
+
 	type: 'slash',
 	staff: false,
 	data: new SlashCommandBuilder()
@@ -22,39 +58,23 @@ module.exports =
 		
 	async execute(interaction) 
 	{
-		const { staffRole, guild, guildIcon, colorTheme } = readConfig();
-		
-		const commands = loadCmds();
+		const config = readConfig();
+		const cmds = loadCmds();
 		const roles = interaction.member.roles.cache;
-		const isStaff = roles.some(role => staffRole.includes(role.id));
+		const isStaff = roles.some(role => config.staffRole.includes(role.id));
 
-		const embed = new EmbedBuilder()
-			.setColor(colorTheme)
-			.setThumbnail(guildIcon)
-			.setTitle(guild)
-			.addFields(
-				{
-					name: '**Commands**',
-					value: commands
-						.filter(cmd => isStaff || !cmd.staff)
-						.sort((a, b) => a.data.name.localeCompare(b.data.name))
-						.map(cmd => `* **\`/${cmd.data.name}\`** ${cmd.data.description}`)
-						.join('\n')
-				},
-				{
-					name: '**Credits**',
-					value: '✦ <@1165302964093722697> ✦ <@486155512568741900> ✦ <@1169174913832202306> ✦ <@622326625530544128> ✦'
-				},
-				{
-					name: '**Bugs and Support**',
-					value: '[Github](https://github.com/CatboyDark/Eris)'
-				}
-			)
-			.setFooter({
-				text: 'Created by @CatboyDark',
-				iconURL: 'https://i.imgur.com/4lpd01s.png'
-			});
+		const nonCommands = `**Commands**\n${formatCommands(cmds)}`;
+		const staffCommands = isStaff ? `\n\n**Staff**\n${formatCommands(cmds, true)}` : '';
 
-		await interaction.reply({ embeds: [embed] });
+		const embed = createMsg({
+			color: config.colorTheme,
+			icon: config.guildIcon,
+			title: config.guild,
+			description: `${nonCommands}${staffCommands}`,
+			footer: 'Created by @CatboyDark',
+			footerIcon: 'https://i.imgur.com/4lpd01s.png'
+		});
+
+		await interaction.reply({ embeds: [embed], components: [buttons] });
 	}
 };

@@ -9,8 +9,8 @@
 	Rename exampleconfig.json to config.json.
 
 	token: Discord Token (https://discord.com/developers/applications)
-	clientID: Discord Application ID
-	hapi: Hypixel API Key (https://developer.hypixel.net/)
+	appID: Discord Application ID
+	hypixelAPI: Hypixel API Key (https://developer.hypixel.net/)
 	logsChannel: Set a channel for bot logs
 	ign: Minecraft bot username
 

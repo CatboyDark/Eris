@@ -9,6 +9,8 @@ module.exports =
 		const command = message.client.pc.get(message.content.toLowerCase());
 
 		if (command && command.type === 'plain') 
-		{ command.execute(message); }
+		{ 
+			command.execute(message); 
+		}
 	}
 };

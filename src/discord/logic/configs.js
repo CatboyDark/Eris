@@ -1,4 +1,4 @@
-const { createMsg, createButtons, createRow, createModal } = require('./../../builder.js');
+const { createMsg, createRow, createModal } = require('./../../builder.js');
 const { readConfig, writeConfig } = require('../../configUtils.js');
 
 const startMsg = createMsg({ 
@@ -12,8 +12,8 @@ const startMsg = createMsg({
 
 const startButtons = createRow
 ([
-	{ id: 'configs', label: 'Configs', style: 'SUCCESS' },
-	{ id: 'features', label: 'Features', style: 'SUCCESS' }
+	{ id: 'configs', label: 'Configs', style: 'Success' },
+	{ id: 'features', label: 'Features', style: 'Success' }
 ]);
 
 const configsEmbeds = 
@@ -52,18 +52,40 @@ const configsEmbeds =
 
 function configsButtons(index) 
 {
-	const buttons = createRow([ { id: 'back', label: '<', style: 'Success' } ]);
+	const buttonConfigs = [
+		{ id: 'back', label: '<', style: 'Success' }
+	  ];
 
-	if (index === 0) { buttons.addComponents(createButtons({ id: 'setGuild', label: 'Guild', style: 'Primary' })); }
-	if (index === 1) { buttons.addComponents(createButtons({ id: 'setServerID', label: 'Server ID', style: 'Primary' })); }
-	if (index === 2) { buttons.addComponents(createButtons({ id: 'setStaffRole', label: 'Staff Role(s)', style: 'Primary' })); }
-	if (index === 3) { buttons.addComponents(createButtons({ id: 'setGuildIcon', label: 'Guild Icon', style: 'Primary' })); }
-	if (index === 4) { buttons.addComponents(createButtons({ id: 'setColorTheme', label: 'Color Theme', style: 'Primary' })); }
+	switch (index) 
+	{
+	case 0: 
+		buttonConfigs.push({ id: 'setGuild', label: 'Guild', style: 'Primary' }); 
+		break;
+	case 1:
+		buttonConfigs.push({ id: 'setServerID', label: 'Server ID', style: 'Primary' });
+		break;
+	case 2:
+		buttonConfigs.push({ id: 'setStaffRole', label: 'Staff Role(s)', style: 'Primary' });
+		break;
+	case 3:
+		 buttonConfigs.push({ id: 'setGuildIcon', label: 'Guild Icon', style: 'Primary' });
+		break;
+	case 4:
+		buttonConfigs.push({ id: 'setColorTheme', label: 'Color Theme', style: 'Primary' });
+		break;
+	}
 
-	if (index < configsEmbeds.length - 1) { buttons.addComponents(createButtons({ id: 'next', label: '>', style: 'Success' })); }
-	if (index === configsEmbeds.length - 1) { buttons.addComponents(createButtons({ id: 'features', label: 'Features', style: 'Primary' })); }
+	if (index < configsEmbeds.length - 1) 
+	{
+		buttonConfigs.push({ id: 'next', label: '>', style: 'Success' });
+	}
+	
+	if (index === configsEmbeds.length - 1) 
+	{
+		buttonConfigs.push({ id: 'features', label: 'Features', style: 'Primary' });
+	}
 
-	return buttons;
+	return createRow(buttonConfigs);
 }
 
 const configsState = { index: 0 };
@@ -113,7 +135,7 @@ async function setGuild(interaction)
 async function setGuildLogic(interaction) 
 {
 	const input = interaction.fields.getTextInputValue('setGuildInput');
-	let data = readConfig();
+	const data = readConfig();
 	data.guild = input;
 	writeConfig(data);
 	interaction.reply({ content: `Guild has been set to: ${input}`, ephemeral: true });
@@ -139,7 +161,7 @@ async function setServerID(interaction)
 async function setServerIDLogic(interaction) 
 {
 	const input = interaction.fields.getTextInputValue('setServerIDInput');
-	let data = readConfig();
+	const data = readConfig();
 	data.serverID = input;
 	writeConfig(data);
 	interaction.reply({ content: `Server ID has been set to: ${input}`, ephemeral: true });
@@ -166,7 +188,7 @@ async function setStaffRoleLogic(interaction)
 {
 	const input = interaction.fields.getTextInputValue('setStaffRoleInput');
 	const roleIDs = input.split(' ');
-	let data = readConfig();
+	const data = readConfig();
 	data.staffRole = roleIDs;
 	writeConfig(data);
 	interaction.reply({ content: `Staff Role(s) has been set to:\n${roleIDs.join('\n')}`, ephemeral: true });
@@ -192,7 +214,7 @@ async function setGuildIcon(interaction)
 async function setGuildIconLogic(interaction) 
 {
 	const input = interaction.fields.getTextInputValue('setGuildIconInput');
-	let data = readConfig();
+	const data = readConfig();
 	data.guildIcon = input;
 	writeConfig(data);
 	interaction.reply({ content: `Guild Icon has been set to:\n${input}`, ephemeral: true });
@@ -217,7 +239,7 @@ async function setColorTheme(interaction)
 
 async function setColorThemeLogic(interaction) {
 	const input = interaction.fields.getTextInputValue('setColorThemeInput');
-	let data = readConfig();
+	const data = readConfig();
 	data.colorTheme = input;
 	writeConfig(data);
 	interaction.reply({ content: `Color Theme has been set to: #${input}`, ephemeral: true });

@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 const { Events } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
@@ -30,42 +32,60 @@ module.exports =
 
 		// setup.js
 			
-		case 'configs':
-			await Logic.configs(interaction);
-			break;
+			case 'configs':
+				await Logic.configs(interaction);
+				break;
 		
-		case 'features':
-			await Logic.features(interaction);
-			break;
+			case 'features':
+				await Logic.features(interaction);
+				break;
+				
+			case 'back':
+				await Logic.back(interaction);
+				break;
+					
+			case 'next':
+				await Logic.next(interaction);
+				break;
+					
+			case 'setGuild':
+				await Logic.setGuild(interaction);
+				break;
+					
+			case 'setServerID':
+				await Logic.setServerID(interaction);
+				break;
+					
+			case 'setStaffRole':
+				await Logic.setStaffRole(interaction);
+				break;
 			
-		case 'back':
-			await Logic.back(interaction);
-			break;
-				
-		case 'next':
-			await Logic.next(interaction);
-			break;
-				
-		case 'setGuild':
-			await Logic.setGuild(interaction);
-			break;
-				
-		case 'setServerID':
-			await Logic.setServerID(interaction);
-			break;
-				
-		case 'setStaffRole':
-			await Logic.setStaffRole(interaction);
-			break;
-		
-		case 'setGuildIcon':
-			await Logic.setGuildIcon(interaction);
-			break;
-		
-		case 'setColorTheme':
-			await Logic.setColorTheme(interaction);
-			break;
+			case 'setGuildIcon':
+				await Logic.setGuildIcon(interaction);
+				break;
 			
-		}
+			case 'setColorTheme':
+				await Logic.setColorTheme(interaction);
+				break;
+
+		// help.js
+
+			case 'cmds':
+				await Logic.cmds(interaction);
+				break;
+
+			case 'credits':
+				await Logic.credits(interaction);
+				break;
+
+			case 'support':
+				await Logic.support(interaction);
+				break;
+			
+			case 'mccmds':
+				await Logic.mccmds(interaction);
+				break;
+				
+			}
 	}
 };
