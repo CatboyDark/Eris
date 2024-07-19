@@ -1,34 +1,23 @@
 const { createMsg, createRow, createModal } = require('./../../builder.js');
 const { readConfig, writeConfig } = require('../../configUtils.js');
-
-const startMsg = createMsg({ 
-	description:
-		'## Getting Started\n\n' +
-    	'**Hello!** Thank you for using Eris!\n\n' +
-    	'This command edits the **config.json** file in your bot folder.\n' +
-    	'You can manually adjust these settings anytime.\n\n' +
-    	'Let\'s start by filling out the Configs for the bot to function.'
-});
-
-const startButtons = createRow
-([
-	{ id: 'configs', label: 'Configs', style: 'Success' },
-	{ id: 'features', label: 'Features', style: 'Success' }
-]);
+const { startMsg, startButtons } = require('../cmds/slash/setup.js');
 
 const configsEmbeds = 
 [
 	createMsg({
-		description: '### Guild\n*Required*\n\n' +
+		title: 'Guild',
+		description: '*Required*\n\n' +
                      'Enter your EXACT guild name.\n\n' +
                      '*Note: wristspasm ≠ WristSpasm*'
 	}),
 	createMsg({
-		description: '### Server ID\n*Required*\n\n' +
+		title: 'Server ID',
+		description: '*Required*\n\n' +
                      'Enter your Discord server ID.'
 	}),
 	createMsg({
-		description: '### Staff Roles\n*Required*\n\n' +
+		title: 'Staff Roles',
+		description: '*Required*\n\n' +
                      'Enter your staff role IDs.\n' +
                      'If you have more than one staff role, separate them using a space.\n\n' +
                      '*Note: Staff will be able to:*\n' +
@@ -36,16 +25,19 @@ const configsEmbeds =
                      '- *Assign roles below their own role*'
 	}),
 	createMsg({
-		description: '### Guild Icon\n*Optional*\n\n' +
+		title: 'Guild Icon',
+		description: '*Optional*\n\n' +
                      'Link an image of your guild icon. If you don\'t, a default will be provided.'
 	}),
 	createMsg({
-		description: '### Color Theme\n*Optional*\n\n' +
+		title: 'Color Theme',
+		description: '*Optional*\n\n' +
                      'Enter a 6 digit HEX.\n' +
                      'This will be used as the main bot color.'
 	}),
 	createMsg({
-		description: '### Yay! Your bot is now functional!\n' +
+		title: 'Yay!',
+		description: '**Your bot is now functional!**\n' +
                      'Next, why don\'t you check out some features?'
 	})
 ];
@@ -88,31 +80,46 @@ function configsButtons(index)
 	return createRow(buttonConfigs);
 }
 
+const configsMenu = createRow([
+	{
+		id: 'configsMenu',
+		placeholder: 'Select a config',
+		options:
+		[
+			{ value: 'setGuild', label: 'Guild', description: 'Required' },
+			{ value: 'setServerID', label: 'Server ID', description: 'Required' },
+			{ value: 'setStaffRole', label: 'Staff Role(s)', description: 'Required' },
+			{ value: 'setGuildIcon', label: 'Guild Icon', description: 'Optional' },
+			{ value: 'setColorTheme', label: 'Color Theme', description: 'Optional' }
+		]
+	}
+]);
+
 const configsState = { index: 0 };
 
 async function configs(interaction) 
 {
 	configsState.index = 0;
 	const buttons = configsButtons(configsState.index);
-	await interaction.update({ embeds: [configsEmbeds[0]], components: [buttons] });
+	await interaction.update({ embeds: [configsEmbeds[0]], components: [buttons, configsMenu] });
 }
 
 async function next(interaction) 
 {
 	configsState.index++;
 	const buttons = configsButtons(configsState.index);
-	await interaction.update({ embeds: [configsEmbeds[configsState.index]], components: [buttons] });
+	await interaction.update({ embeds: [configsEmbeds[configsState.index]], components: [buttons, configsMenu] });
 }
 
 async function back(interaction) 
 {
 	if (configsState.index === 0) 
-	{ await interaction.update({ embeds: [startMsg()], components: [startButtons] }); } 
+	{ await interaction.update({ embeds: [startMsg], components: [startButtons] }); } 
 	else 
 	{
 		configsState.index--;
 		const buttons = configsButtons(configsState.index);
-		await interaction.update({ embeds: [configsEmbeds[configsState.index]], components: [buttons] });
+		await interaction.update({ embeds: [configsEmbeds[configsState.index]], components: [buttons, configsMenu] });
 	}
 }
 
@@ -247,7 +254,10 @@ async function setColorThemeLogic(interaction) {
 
 module.exports = 
 { 
-	configs, 
+	configs,
+	configsEmbeds,
+	configsButtons,
+	configsMenu,
 	next, 
 	back, 
 	setGuild, 

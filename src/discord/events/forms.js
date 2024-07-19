@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 const { Events } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
@@ -15,7 +17,8 @@ const Logic = lFiles.reduce((acc, file) =>
 	return acc;
 }, {});
 	
-module.exports = {
+module.exports = 
+{
 	name: Events.InteractionCreate,
 	async execute(interaction)
 	{
@@ -27,25 +30,27 @@ module.exports = {
 		switch (modals) 
 		{
 
-		case 'setGuildForm':
-			await Logic.setGuildLogic(interaction);
-			break;
-			
-		case 'setServerIDForm':
-			await Logic.setServerIDLogic(interaction);
-			break;
-			
-		case 'setStaffRoleForm':
-			await Logic.setStaffRoleLogic(interaction);
-			break;
-			
-		case 'setGuildIconForm':
-			await Logic.setGuildIconLogic(interaction);
-			break;
-			
-		case 'setColorThemeForm':
-			await Logic.setColorThemeLogic(interaction);
-			break;
+		// setup.js
+		
+			case 'setGuildForm':
+				await Logic.setGuildLogic(interaction);
+				break;
+				
+			case 'setServerIDForm':
+				await Logic.setServerIDLogic(interaction);
+				break;
+				
+			case 'setStaffRoleForm':
+				await Logic.setStaffRoleLogic(interaction);
+				break;
+				
+			case 'setGuildIconForm':
+				await Logic.setGuildIconLogic(interaction);
+				break;
+				
+			case 'setColorThemeForm':
+				await Logic.setColorThemeLogic(interaction);
+				break;
 			
 		}
 	}
