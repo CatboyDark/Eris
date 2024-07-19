@@ -5,11 +5,10 @@
 	"logsChannel": "1234567890",
 	"ign": "",
 	"----------------------------------------------------------------------------------------": "You may run /setup to adjust the rest of the configs.",
-	"prefix": "",
+	"prefix": "!",
 	"guild": "",
   	"serverID": "",
   	"staffRole": [],
 	"guildIcon": "https://i.imgur.com/9AnnZVG.png",
-	"colorTheme": "000000",
-	"penis": "asdf"
+	"colorTheme": "000000"
 }
