@@ -6,6 +6,8 @@
 
 2. Configure config.json
 
+	Rename exampleconfig.json -> config.json
+
 	token: Discord Token (https://discord.com/developers/applications)
 	appID: Discord Application ID
 	hypixelAPI: Hypixel API Key (https://developer.hypixel.net/)

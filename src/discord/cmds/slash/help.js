@@ -24,7 +24,7 @@ const formatCommands = (cmds, staffOnly = false) =>
 		.sort((a, b) => a.data.name.localeCompare(b.data.name))
 		.map(cmd => `* **\`/${cmd.data.name}\`** ${cmd.data.description}`);
 
-async function updateHelp(interaction)
+async function help(interaction)
 {
 	const config = readConfig();
 	const cmds = loadCmds();
@@ -48,7 +48,7 @@ async function updateHelp(interaction)
 
 module.exports = 
 {
-	updateHelp,
+	help,
 
 	type: 'slash',
 	staff: false,
@@ -58,23 +58,6 @@ module.exports =
 		
 	async execute(interaction) 
 	{
-		const config = readConfig();
-		const cmds = loadCmds();
-		const roles = interaction.member.roles.cache;
-		const isStaff = roles.some(role => config.staffRole.includes(role.id));
-
-		const nonCommands = `**Commands**\n${formatCommands(cmds)}`;
-		const staffCommands = isStaff ? `\n\n**Staff**\n${formatCommands(cmds, true)}` : '';
-
-		const embed = createMsg({
-			color: config.colorTheme,
-			icon: config.guildIcon,
-			title: config.guild,
-			description: `${nonCommands}${staffCommands}`,
-			footer: 'Created by @CatboyDark',
-			footerIcon: 'https://i.imgur.com/4lpd01s.png'
-		});
-
-		await interaction.reply({ embeds: [embed], components: [buttons] });
+		help(interaction);
 	}
 };
