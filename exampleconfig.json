@@ -4,7 +4,7 @@
 	"hypixelAPI": "1234567890",
 	"logsChannel": "1234567890",
 	"ign": "",
-	"----------------------------------------------------------------------------------------": "You may run /setup to adjust the rest of the configs.",
+	"----------------------------------------------------------------------------------------": "You may run /setup to configure settings or enable features.",
 	"prefix": "",
 	"guild": "",
   	"serverID": "",
