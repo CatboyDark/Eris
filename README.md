@@ -38,6 +38,7 @@ A Discord/Minecraft bot for Hypixel Skyblock, built using: <br />
 </p> </p>
 
     npm install hypixel-api-reborn
+<br />
  
 ### </p>2. Configure config.json</p>
 
@@ -66,6 +67,8 @@ OR host it use [PM2](https://pm2.keymetrics.io/)
 > Note: You need the Manage Server permission to do this.
 
 <br />
+
+---
 
 > [!NOTE]
 > This project values minimalism. Contributors will not recieve any credits on the frontend, with the exception of the credits section within the `/help` command.
