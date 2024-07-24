@@ -29,4 +29,9 @@ async function features(interaction)
 	interaction.update({ embeds: [featuresMsg], components: [featuresMenu, back] });
 }
 
-module.exports = { features };
+module.exports = 
+{ 
+	features,
+	featuresMsg,
+	featuresMenu
+};

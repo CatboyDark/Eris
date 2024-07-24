@@ -28,11 +28,11 @@ const configsMsg = createMsg({
 });
 
 const configsButtons = createRow([
-	{ id: 'setGuild', label: 'Guild', style: 'Green' },
-	{ id: 'setStaffRole', label: 'Staff Roles', style: 'Green' },
-	{ id: 'setLogsChannel', label: 'Logs Channel', style: 'Green' },
-	{ id: 'setGuildIcon', label: 'Guild Icon', style: 'Green' },
-	{ id: 'setColorTheme', label: 'Color Theme', style: 'Green' }
+	{ id: 'setGuild', label: 'Guild', style: 'Blue' },
+	{ id: 'setStaffRole', label: 'Staff Roles', style: 'Blue' },
+	{ id: 'setLogsChannel', label: 'Logs Channel', style: 'Blue' },
+	{ id: 'setGuildIcon', label: 'Guild Icon', style: 'Blue' },
+	{ id: 'setColorTheme', label: 'Color Theme', style: 'Blue' }
 ]);
 
 const backRow = createRow([

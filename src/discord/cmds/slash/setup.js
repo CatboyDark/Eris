@@ -25,7 +25,7 @@ module.exports =
 	staff: true,
 	data: new SlashCommandBuilder()
 		.setName('setup')
-		.setDescription('Bot setup *(Requires Manage Server Permission)*')
+		.setDescription('Bot setup (Requires Manage Server Permission)')
 		.setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
 		
 	async execute(interaction) 
