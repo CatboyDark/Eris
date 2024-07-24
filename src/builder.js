@@ -1,30 +1,46 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
 const { readConfig } = require('./configUtils.js');
 
-const createMsg = ({ color, title, description, icon, footer, footerIcon }) =>
+const getTimestamp = (date) => { return Math.floor(date.getTime() / 1000); };
+
+const createMsg = ({ color, title, desc, fields, icon, footer, footerIcon, timestamp }) =>
 {
 	const embed = new EmbedBuilder();
 	const { colorTheme } = readConfig();
-
-	if (color) embed.setColor(color);
-	else embed.setColor(colorTheme);
-
+	
+	if (color) embed.setColor(color); else embed.setColor(colorTheme);
 	if (title) embed.setTitle(title);
-	if (description) embed.setDescription(description);
+	if (desc) embed.setDescription(desc);
 	if (icon) embed.setThumbnail(icon);
-	if (footer) {
-		embed.setFooter({ text: footer, iconURL: footerIcon });
+	if (footer) embed.setFooter({ text: footer, iconURL: footerIcon });
+	if (fields) { fields.forEach(field => 
+	{
+		embed.addFields({
+			name: field.title,
+			value: field.desc,
+			inline: field.inline || false
+		});
+	});}
+	if (timestamp === 'relative' || timestamp === 'specific') 
+	{
+		const now = new Date();
+		const formattedTimestamp = `<t:${getTimestamp(now)}:${timestamp === 'relative' ? 'R' : 'f'}>`;
+		embed.addFields({
+		  name: '\u200B',
+		  value: formattedTimestamp,
+		  inline: false
+		});
 	}
-
+	
 	return embed;
 };
 
 const styles = 
 {
-	Primary: ButtonStyle.Primary,
-	Secondary: ButtonStyle.Secondary,
-	Success: ButtonStyle.Success,
-	Danger: ButtonStyle.Danger,
+	Blue: ButtonStyle.Primary,
+	Gray: ButtonStyle.Secondary,
+	Green: ButtonStyle.Success,
+	Red: ButtonStyle.Danger,
 	Link: ButtonStyle.Link
 };
 
@@ -42,11 +58,11 @@ function createSelectMenu({ id, placeholder, options })
 		.setCustomId(id)
 		.setPlaceholder(placeholder);
 
-	const selectMenuOptions = options.map(({ value, label, description }) =>
+	const selectMenuOptions = options.map(({ value, label, desc }) =>
 		new StringSelectMenuOptionBuilder()
 			  .setValue(value)
 			  .setLabel(label)
-			  .setDescription(description)
+			  .setDescription(desc)
 		  );
 
 	return selectMenu.addOptions(selectMenuOptions);

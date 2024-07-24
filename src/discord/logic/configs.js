@@ -1,84 +1,26 @@
 const { createMsg, createRow, createModal } = require('./../../builder.js');
 const { readConfig, writeConfig } = require('../../configUtils.js');
-const { startMsg, startButtons } = require('../cmds/slash/setup.js');
 
-const configsEmbeds = 
-[
-	createMsg({
-		title: 'Guild',
-		description: '*Required*\n\n' +
-                     'Enter your EXACT guild name.\n\n' +
-                     '*Note: wristspasm ≠ WristSpasm*'
-	}),
-	createMsg({
-		title: 'Server ID',
-		description: '*Required*\n\n' +
-                     'Enter your Discord server ID.'
-	}),
-	createMsg({
-		title: 'Staff Roles',
-		description: '*Required*\n\n' +
-                     'Enter your staff role IDs.\n' +
-                     'If you have more than one staff role, separate them using a space.\n\n' +
-                     '*Note: Staff will be able to:*\n' +
-                     '- *Delete messages*\n' +
-                     '- *Assign roles below their own role*'
-	}),
-	createMsg({
-		title: 'Guild Icon',
-		description: '*Optional*\n\n' +
-                     'Link an image of your guild icon. If you don\'t, a default will be provided.'
-	}),
-	createMsg({
-		title: 'Color Theme',
-		description: '*Optional*\n\n' +
-                     'Enter a 6 digit HEX.\n' +
-                     'This will be used as the main bot color.'
-	}),
-	createMsg({
-		title: 'Yay!',
-		description: '**Your bot is now functional!**\n' +
-                     'Next, why don\'t you check out some features?'
-	})
-];
+const configsMsg = createMsg({
+	title: 'Configs',
+	desc: 
+		'1. **Guild**\n' +
+        'Enter your EXACT guild name (wristspasm ≠ WristSpasm)\n\n' +
 
-function configsButtons(index) 
-{
-	const buttonConfigs = [
-		{ id: 'back', label: '<', style: 'Success' }
-	  ];
+		'2. **Staff Roles** *Required*\n' +
+    	'Enter your staff role ID\n' +
+        'Every role above staff role will be added automatically.\n\n' +
+        '*Note: Staff will be able to:*\n' +
+        '- *Delete messages*\n' +
+        '- *Assign roles below their own role*\n\n' +
 
-	switch (index) 
-	{
-	case 0: 
-		buttonConfigs.push({ id: 'setGuild', label: 'Guild', style: 'Primary' }); 
-		break;
-	case 1:
-		buttonConfigs.push({ id: 'setServerID', label: 'Server ID', style: 'Primary' });
-		break;
-	case 2:
-		buttonConfigs.push({ id: 'setStaffRole', label: 'Staff Role(s)', style: 'Primary' });
-		break;
-	case 3:
-		 buttonConfigs.push({ id: 'setGuildIcon', label: 'Guild Icon', style: 'Primary' });
-		break;
-	case 4:
-		buttonConfigs.push({ id: 'setColorTheme', label: 'Color Theme', style: 'Primary' });
-		break;
-	}
+		'3. **Guild Icon** *Optional*\n' +
+        'Link an image of your guild icon. If you don\'t, a default will be used.\n\n' +
 
-	if (index < configsEmbeds.length - 1) 
-	{
-		buttonConfigs.push({ id: 'next', label: '>', style: 'Success' });
-	}
-	
-	if (index === configsEmbeds.length - 1) 
-	{
-		buttonConfigs.push({ id: 'features', label: 'Features', style: 'Primary' });
-	}
-
-	return createRow(buttonConfigs);
-}
+		'4. **Color Theme** *Optional*\n\n' +
+        'Enter a 6 digit HEX.\n' +
+        'This will be used as the main bot color.'
+});
 
 const configsMenu = createRow([
 	{
@@ -86,42 +28,14 @@ const configsMenu = createRow([
 		placeholder: 'Select a config',
 		options:
 		[
-			{ value: 'setGuild', label: 'Guild', description: 'Required' },
-			{ value: 'setServerID', label: 'Server ID', description: 'Required' },
-			{ value: 'setStaffRole', label: 'Staff Role(s)', description: 'Required' },
-			{ value: 'setGuildIcon', label: 'Guild Icon', description: 'Optional' },
-			{ value: 'setColorTheme', label: 'Color Theme', description: 'Optional' }
+			{ value: 'setGuild', label: 'Guild', desc: 'Required' },
+			{ value: 'setServerID', label: 'Server ID', desc: 'Required' },
+			{ value: 'setStaffRole', label: 'Staff Roles', desc: 'Required' },
+			{ value: 'setGuildIcon', label: 'Guild Icon', desc: 'Optional' },
+			{ value: 'setColorTheme', label: 'Color Theme', desc: 'Optional' }
 		]
 	}
 ]);
-
-const configsState = { index: 0 };
-
-async function configs(interaction) 
-{
-	configsState.index = 0;
-	const buttons = configsButtons(configsState.index);
-	await interaction.update({ embeds: [configsEmbeds[0]], components: [buttons, configsMenu] });
-}
-
-async function next(interaction) 
-{
-	configsState.index++;
-	const buttons = configsButtons(configsState.index);
-	await interaction.update({ embeds: [configsEmbeds[configsState.index]], components: [buttons, configsMenu] });
-}
-
-async function back(interaction) 
-{
-	if (configsState.index === 0) 
-	{ await interaction.update({ embeds: [startMsg], components: [startButtons] }); } 
-	else 
-	{
-		configsState.index--;
-		const buttons = configsButtons(configsState.index);
-		await interaction.update({ embeds: [configsEmbeds[configsState.index]], components: [buttons, configsMenu] });
-	}
-}
 
 async function setGuild(interaction)
 {
@@ -131,47 +45,12 @@ async function setGuild(interaction)
 		components: [{
 			id: 'setGuildInput',
 			label: 'ENTER YOUR GUILD:',
-			style: 'SHORT',
+			style: 'short',
 			required: true
 		}]
 	});
 	
 	await interaction.showModal(modal);
-}
-
-async function setGuildLogic(interaction) 
-{
-	const input = interaction.fields.getTextInputValue('setGuildInput');
-	const data = readConfig();
-	data.guild = input;
-	writeConfig(data);
-	interaction.reply({ content: `Guild has been set to: ${input}`, ephemeral: true });
-}
-
-async function setServerID(interaction) 
-{
-	const modal = createModal({
-		id: 'setServerIDForm',
-		title: 'Set Server ID',
-		components: [{
-			type: 'textInput',
-			id: 'setServerIDInput',
-			label: 'ENTER YOUR SERVER ID:',
-			style: 'SHORT',
-			required: true
-		}]
-	});
-	
-	await interaction.showModal(modal);
-}
-
-async function setServerIDLogic(interaction) 
-{
-	const input = interaction.fields.getTextInputValue('setServerIDInput');
-	const data = readConfig();
-	data.serverID = input;
-	writeConfig(data);
-	interaction.reply({ content: `Server ID has been set to: ${input}`, ephemeral: true });
 }
 
 async function setStaffRole(interaction) 
@@ -183,22 +62,12 @@ async function setStaffRole(interaction)
 			type: 'textInput',
 			id: 'setStaffRoleInput',
 			label: 'SEPARATE STAFF ROLE IDS USING A SPACE:',
-			style: 'SHORT',
+			style: 'short',
 			required: true
 		}]
 	});
 	
 	await interaction.showModal(modal);
-}
-
-async function setStaffRoleLogic(interaction) 
-{
-	const input = interaction.fields.getTextInputValue('setStaffRoleInput');
-	const roleIDs = input.split(' ');
-	const data = readConfig();
-	data.staffRole = roleIDs;
-	writeConfig(data);
-	interaction.reply({ content: `Staff Role(s) has been set to:\n${roleIDs.join('\n')}`, ephemeral: true });
 }
 
 async function setGuildIcon(interaction) 
@@ -210,21 +79,12 @@ async function setGuildIcon(interaction)
 			type: 'textInput',
 			id: 'setGuildIconInput',
 			label: 'LINK AN IMAGE:',
-			style: 'SHORT',
+			style: 'short',
 			required: true
 		}]
 	});
 	
 	await interaction.showModal(modal);
-}
-
-async function setGuildIconLogic(interaction) 
-{
-	const input = interaction.fields.getTextInputValue('setGuildIconInput');
-	const data = readConfig();
-	data.guildIcon = input;
-	writeConfig(data);
-	interaction.reply({ content: `Guild Icon has been set to:\n${input}`, ephemeral: true });
 }
 
 async function setColorTheme(interaction) 
@@ -236,7 +96,7 @@ async function setColorTheme(interaction)
 			type: 'textInput',
 			id: 'setColorThemeInput',
 			label: 'ENTER A HEX COLOR (EX: \'FFFFFF\'):',
-			style: 'SHORT',
+			style: 'short',
 			required: true
 		}]
 	});
@@ -244,26 +104,72 @@ async function setColorTheme(interaction)
 	await interaction.showModal(modal);
 }
 
-async function setColorThemeLogic(interaction) {
-	const input = interaction.fields.getTextInputValue('setColorThemeInput');
+async function configs(interaction) 
+{
+	await interaction.update({ embeds: [configsMsg], components: [configsMenu] });
+}
+
+async function setGuildLogic(interaction) 
+{
+	const input = interaction.fields.getTextInputValue('setGuildInput');
+	const data = readConfig();
+	data.guild = input;
+	writeConfig(data);
+	interaction.reply({ content: `Guild has been set to: ${input}`, ephemeral: true });
+}
+
+async function setStaffRoleLogic(interaction) 
+{
+	const input = interaction.fields.getTextInputValue('setStaffRoleInput');
+	const role = interaction.guild.roles.cache.get(input);
+	if (!role) 
+	{
+		interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: 'That\'s not a valid role ID!' })], ephemeral: true });
+		return;
+	}
+	const roleIDs = interaction.guild.roles.cache
+		.filter(r => r.position >= role.position)
+		.map(r => r.id)
+		.sort((a, b) => interaction.guild.roles.cache.get(b).position - interaction.guild.roles.cache.get(a).position);
+		
+	const data = readConfig();
+	data.staffRole = roleIDs;
+	writeConfig(data);
+	const rolesFormatted = roleIDs.map(roleID => `<@&${roleID}>`).join('\n');
+	interaction.reply({ embeds: [createMsg({ color: '00FF00', desc: `Staff Role(s) have been set to:\n${rolesFormatted}` })], ephemeral: true });
+
+}
+
+async function setGuildIconLogic(interaction) 
+{
+	const input = interaction.fields.getTextInputValue('setGuildIconInput');
+	const data = readConfig();
+	data.guildIcon = input;
+	writeConfig(data);
+	interaction.reply({ content: `Guild Icon has been set to:\n${input}`, ephemeral: true });
+}
+
+async function setColorThemeLogic(interaction) 
+{
+	const input = interaction.fields.getTextInputValue('setColorThemeInput').trim();
+	const hexRegex = /^[0-9a-fA-F]{6}$/;
+	if (!hexRegex.test(input)) 
+	{
+		interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid HEX color!**' })], ephemeral: true });
+		return;
+	}
 	const data = readConfig();
 	data.colorTheme = input;
 	writeConfig(data);
-	interaction.reply({ content: `Color Theme has been set to: #${input}`, ephemeral: true });
+	interaction.reply({ embeds: [createMsg({ desc: `Color Theme has been set to: **${input}**` })], ephemeral: true });
 }
 
 module.exports = 
 { 
 	configs,
-	configsEmbeds,
-	configsButtons,
 	configsMenu,
-	next, 
-	back, 
 	setGuild, 
 	setGuildLogic, 
-	setServerID, 
-	setServerIDLogic, 
 	setStaffRole, 
 	setStaffRoleLogic, 
 	setGuildIcon, 

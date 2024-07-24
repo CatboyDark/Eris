@@ -8,7 +8,7 @@ module.exports =
 	async execute(message) 
 	{
 		const embed = createMsg({
-			description: '**Secret Staff Commands**'
+			desc: '**Secret Staff Commands**'
 		});
 		
 		await message.channel.send({ embeds: [embed] });

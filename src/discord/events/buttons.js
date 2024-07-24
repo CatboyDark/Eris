@@ -10,8 +10,7 @@ const Logic = lFiles.reduce((acc, file) =>
 {
 	const logicModule = require(path.join(lDir, file));
 
-	if (typeof logicModule === 'object' && logicModule !== null) 
-	{ Object.assign(acc, logicModule); } 
+	if (typeof logicModule === 'object' && logicModule !== null) Object.assign(acc, logicModule);
 	else { acc[file.replace('.js', '')] = logicModule; }
 
 	return acc;
@@ -22,8 +21,7 @@ module.exports =
 	name: Events.InteractionCreate,
 	async execute(interaction) 
 	{
-		if (!interaction.isButton())
-		{ return; }
+		if (!interaction.isButton()) return;
 
 		const buttons = interaction.customId;
 
@@ -44,10 +42,6 @@ module.exports =
 				await Logic.back(interaction);
 				break;
 					
-			case 'next':
-				await Logic.next(interaction);
-				break;
-					
 			case 'setGuild':
 				await Logic.setGuild(interaction);
 				break;
@@ -66,6 +60,12 @@ module.exports =
 			
 			case 'setColorTheme':
 				await Logic.setColorTheme(interaction);
+				break;
+
+			case 'logCommandsToggle':
+			case 'logButtonsToggle':
+			case 'logFormsToggle':
+				await Logic.toggleLogic(interaction);
 				break;
 
 		// help.js

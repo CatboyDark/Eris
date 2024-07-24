@@ -23,20 +23,21 @@ async function createHelpMsg(interaction)
 	const nonCommands = `**Commands**\n${formatCommands()}`;
 	const staffCommands = isStaff ? `\n\n**Staff**\n${formatCommands(true)}` : '';
 
+	console.log(nonCommands + staffCommands);
+
 	return createMsg({
-		color: config.colorTheme,
-		icon: config.guildIcon,
-		title: config.guild,
-		description: `${nonCommands}${staffCommands}`,
-		footer: 'Created by @CatboyDark',
-		footerIcon: 'https://i.imgur.com/4lpd01s.png'
+		// icon: config.guildIcon,
+		// title: config.guild,
+		desc: 'nonCommands + staffCommands'
+		// footer: 'Created by @CatboyDark',
+		// footerIcon: 'https://i.imgur.com/4lpd01s.png'
 	});
 }
 
 const helpButtons = createRow([
-	{id: 'mccmds', label: 'Ingame Commands', style: 'Primary'},
-	{id: 'credits', label: 'Credits', style: 'Success'},
-	{id: 'support', label: 'Support', style: 'Success'}
+	{id: 'mccmds', label: 'Ingame Commands', style: 'Blue'},
+	{id: 'credits', label: 'Credits', style: 'Green'},
+	{id: 'support', label: 'Support', style: 'Green'}
 ]);
 
 async function cmds(interaction) 
@@ -54,10 +55,9 @@ async function credits(interaction)
 {
 	const config = readConfig();
 	const creditsMsg = createMsg({
-		color: config.colorTheme,
 		icon: config.guildIcon,
 		title: config.guild,
-		description:
+		desc:
             '**Credits**\n\n' +
             '✦ <@1165302964093722697> ✦ <@486155512568741900> ✦\n ✦ <@1169174913832202306> ✦ <@622326625530544128> ✦\n',
 		footer: 'Created by @CatboyDark',
@@ -65,9 +65,9 @@ async function credits(interaction)
 	});
 
 	const buttons = createRow([
-		{ id: 'cmds', label: 'Commands', style: 'Primary' },
-		{ id: 'credits', label: 'Credits', style: 'Success' },
-		{ id: 'support', label: 'Support', style: 'Success' }
+		{ id: 'cmds', label: 'Commands', style: 'Blue' },
+		{ id: 'credits', label: 'Credits', style: 'Green' },
+		{ id: 'support', label: 'Support', style: 'Green' }
 	]);
 
 	interaction.update({ embeds: [creditsMsg], components: [buttons] });
@@ -77,10 +77,9 @@ async function support(interaction)
 {
 	const config = readConfig();
 	const supportMsg = createMsg({
-		color: config.colorTheme,
 		icon: config.guildIcon,
 		title: config.guild,
-		description:
+		desc:
             '**Bugs and Support**\n\n' +
             'Please report any bugs to <@622326625530544128> ❤\n\n' +
             'Source Code: https://github.com/CatboyDark/Eris\n',
@@ -89,9 +88,9 @@ async function support(interaction)
 	});
 
 	const buttons = createRow([
-		{ id: 'cmds', label: 'Commands', style: 'Primary' },
-		{ id: 'credits', label: 'Credits', style: 'Success' },
-		{ id: 'support', label: 'Support', style: 'Success' }
+		{ id: 'cmds', label: 'Commands', style: 'Blue' },
+		{ id: 'credits', label: 'Credits', style: 'Green' },
+		{ id: 'support', label: 'Support', style: 'Green' }
 	]);
 
 	interaction.update({ embeds: [supportMsg], components: [buttons] });

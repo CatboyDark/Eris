@@ -1,8 +1,9 @@
 const { Client, Collection, GatewayIntentBits, REST, Routes } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const { appID, logsChannel } = require('../../config.json');
+const { appID} = require('../../config.json');
 const { createMsg } = require('../builder.js');
+const { readConfig } = require('../configUtils.js');
 
 class DCinit
 {
@@ -44,8 +45,8 @@ class DCinit
 				const fp = path.join(cp, f);
 				const cmd = require(fp);
 
-				if (cmd.type === 'plain') { this.client.pc.set(cmd.name, cmd); }
-				if (cmd.type === 'slash') { this.client.sc.set(cmd.data.name, cmd); }
+				if (cmd.type === 'plain') this.client.pc.set(cmd.name, cmd);
+				if (cmd.type === 'slash') this.client.sc.set(cmd.data.name, cmd);
 			}
 		}
 
@@ -73,14 +74,10 @@ class DCinit
 		{
 			const ep = path.join(eDir, e);
 			const event = require(ep);
-			if (event.once)
-			{ 
+			if (event.once) 
 				this.client.once(event.name, (...args) => event.execute(...args)); 
-			}
 			else 
-			{ 
 				this.client.on(event.name, (...args) => event.execute(...args)); 
-			}
 		}
 	}
 
@@ -135,10 +132,11 @@ class DCinit
 		this.client.on('ready', () => 
 		{
 			const embed = createMsg({
-				description: '**Discord is Online!**'
+				desc: '**Discord is Online!**'
 			});
 
-			const channel = this.client.channels.cache.get(logsChannel);
+			const config = readConfig();
+			const channel = this.client.channels.cache.get(config.logsChannel);
 			channel.send({ embeds: [embed] });
 			console.log('Discord is online!');
 		});

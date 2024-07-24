@@ -3,7 +3,7 @@ const { createMsg, createRow } = require('../../../builder.js');
 
 const startMsg = createMsg({
 	title: 'Getting Started',
-	description: 
+	desc: 
 		'**Hello!** Thank you for using Eris.\n\n' +
 		'This command edits the **config.json** file in your bot folder.\n' +
 		'You can manually adjust these settings anytime.\n\n' +
@@ -11,8 +11,8 @@ const startMsg = createMsg({
 });
 
 const startButtons = createRow([
-	{ id: 'configs', label: 'Configs', style: 'Success' },
-	{ id: 'features', label: 'Features', style: 'Success' }
+	{ id: 'configs', label: 'Configs', style: 'Green' },
+	{ id: 'features', label: 'Features', style: 'Green' }
 ]);
 
 module.exports = 
@@ -25,7 +25,7 @@ module.exports =
 	data: new SlashCommandBuilder()
 		.setName('setup')
 		.setDescription('Bot setup')
-		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+		.setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
 		
 	async execute(interaction) 
 	{

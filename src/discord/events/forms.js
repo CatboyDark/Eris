@@ -10,8 +10,7 @@ const Logic = lFiles.reduce((acc, file) =>
 {
 	const logicModule = require(path.join(lDir, file));
 	
-	if (typeof logicModule === 'object' && logicModule !== null) 
-	{ Object.assign(acc, logicModule); } 
+	if (typeof logicModule === 'object' && logicModule !== null) Object.assign(acc, logicModule);
 	else { acc[file.replace('.js', '')] = logicModule; }
 	
 	return acc;
@@ -22,8 +21,7 @@ module.exports =
 	name: Events.InteractionCreate,
 	async execute(interaction)
 	{
-		if (!interaction.isModalSubmit())
-		{ return; }
+		if (!interaction.isModalSubmit()) return;
 
 		const modals = interaction.customId;
 
