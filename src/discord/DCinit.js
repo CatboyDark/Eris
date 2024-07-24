@@ -25,7 +25,7 @@ class DCinit
 
 		this.initCmds();
 		this.initEvents();
-		this.initFeatures();
+		// this.initFeatures();
 
 		this.deploy();
 		this.login();
@@ -81,18 +81,18 @@ class DCinit
 		}
 	}
 
-	initFeatures()
-	{
-		const fDir = path.join(__dirname, 'features');
-		const fFiles = fs.readdirSync(fDir).filter((file) => file.endsWith('.js'));
+	// initFeatures()
+	// {
+	// 	const fDir = path.join(__dirname, 'features');
+	// 	const fFiles = fs.readdirSync(fDir).filter((file) => file.endsWith('.js'));
 
-		for (const f of fFiles) 
-		{
-			const fp = path.join(fDir, f);
-			const feature = require(fp);
-			feature(this.client);
-		}
-	}
+	// 	for (const f of fFiles) 
+	// 	{
+	// 		const fp = path.join(fDir, f);
+	// 		const feature = require(fp);
+	// 		feature(this.client);
+	// 	}
+	// }
 
 	async deploy()
 	{

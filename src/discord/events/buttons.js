@@ -56,6 +56,26 @@ module.exports =
 				await Logic.toggleLogic(interaction);
 				break;
 
+			case 'setGuild':
+				await Logic.setGuild(interaction);
+				break;
+
+			case 'setStaffRole':
+				await Logic.setStaffRole(interaction);
+				break;
+
+			case 'setLogsChannel':
+				await Logic.setLogsChannel(interaction);
+				break;
+
+			case 'setGuildIcon':
+				await Logic.setGuildIcon(interaction);
+				break;
+
+			case 'setColorTheme':
+				await Logic.setColorTheme(interaction);
+				break;
+			
 		// help.js
 
 			case 'cmds':

@@ -6,9 +6,9 @@ const configsMsg = createMsg({
 	title: 'Configs',
 	desc: 
 		'1. **Guild** *Required*\n' +
-        'Enter your EXACT guild name. (Ex. wristspasm ≠ WristSpasm)\n\n' +
+        'Enter your EXACT guild name. (Ex: wristspasm ≠ WristSpasm)\n\n' +
 
-		'2. **Staff Roles** *Required*\n' +
+		'2. **Staff Role** *Required*\n' +
     	'Enter your staff role ID.\n' +
         'Every role above staff role will be added automatically.\n\n' +
         '*Note: Staff will be able to:*\n' +
@@ -16,30 +16,23 @@ const configsMsg = createMsg({
         '- *Assign roles below their own role*\n\n' +
 
 		'3. **Logs Channel**\n' +
-		'Enter a channel ID for bot logs\n\n' +
+		'Enter a channel ID for bot logs.\n\n' +
 
 		'4. **Guild Icon**\n' +
-        'Link an image of your guild icon\n' +
+        'Link an image of your guild icon.\n' +
 		'If you don\'t, a default will be used.\n\n' +
 
 		'5. **Color Theme**\n' +
-        'Enter a 6 digit HEX\n' +
+        'Enter a 6 digit HEX.\n' +
         'This will be used as the main bot color.'
 });
 
-const configsMenu = createRow([
-	{
-		id: 'configsMenu',
-		placeholder: 'Select a config',
-		options:
-		[
-			{ value: 'setGuild', label: 'Guild', desc: 'Required' },
-			{ value: 'setStaffRole', label: 'Staff Roles', desc: 'Required' },
-			{ value: 'setLogsChannel', label: 'Logs Channel', desc: 'Optional' },
-			{ value: 'setGuildIcon', label: 'Guild Icon', desc: 'Optional' },
-			{ value: 'setColorTheme', label: 'Color Theme', desc: 'Optional' }
-		]
-	}
+const configsButtons = createRow([
+	{ id: 'setGuild', label: 'Guild', style: 'Green' },
+	{ id: 'setStaffRole', label: 'Staff Roles', style: 'Green' },
+	{ id: 'setLogsChannel', label: 'Logs Channel', style: 'Green' },
+	{ id: 'setGuildIcon', label: 'Guild Icon', style: 'Green' },
+	{ id: 'setColorTheme', label: 'Color Theme', style: 'Green' }
 ]);
 
 const backRow = createRow([
@@ -53,7 +46,7 @@ async function setGuild(interaction)
 		title: 'Set Guild',
 		components: [{
 			id: 'setGuildInput',
-			label: 'ENTER YOUR GUILD:',
+			label: 'GUILD:',
 			style: 'short',
 			required: true
 		}]
@@ -69,7 +62,7 @@ async function setStaffRole(interaction)
 		title: 'Set Staff Role(s)',
 		components: [{
 			id: 'setStaffRoleInput',
-			label: 'ENTER A STAFF ROLE ID:',
+			label: 'STAFF ROLE ID:',
 			style: 'short',
 			required: true
 		}]
@@ -85,7 +78,7 @@ async function setLogsChannel(interaction)
 		title: 'Set Logs Channel',
 		components: [{
 			id: 'setLogsChannelInput',
-			label: 'ENTER A LOGS CHANNEL ID:',
+			label: 'LOGS CHANNEL ID:',
 			style: 'short',
 			required: true
 		}]
@@ -101,7 +94,7 @@ async function setGuildIcon(interaction)
 		title: 'Set Guild Icon',
 		components: [{
 			id: 'setGuildIconInput',
-			label: 'LINK AN IMAGE:',
+			label: 'IMAGE LINK:',
 			style: 'short',
 			required: true
 		}]
@@ -117,7 +110,7 @@ async function setColorTheme(interaction)
 		title: 'Set Color Theme',
 		components: [{
 			id: 'setColorThemeInput',
-			label: 'ENTER A HEX COLOR (EX: \'FFFFFF\'):',
+			label: 'HEX COLOR (EX: \'FFFFFF\'):',
 			style: 'short',
 			required: true
 		}]
@@ -128,7 +121,7 @@ async function setColorTheme(interaction)
 
 async function configs(interaction) 
 {
-	await interaction.update({ embeds: [configsMsg], components: [configsMenu, backRow] });
+	await interaction.update({ embeds: [configsMsg], components: [configsButtons, backRow] });
 }
 
 async function backToSetup(interaction)
@@ -209,7 +202,6 @@ async function setColorThemeLogic(interaction)
 module.exports = 
 { 
 	configs,
-	configsMenu,
 	backToSetup,
 	setGuild, 
 	setGuildLogic, 
