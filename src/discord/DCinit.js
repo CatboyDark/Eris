@@ -136,8 +136,11 @@ class DCinit
 			});
 
 			const config = readConfig();
-			const channel = this.client.channels.cache.get(config.logsChannel);
-			channel.send({ embeds: [embed] });
+			if (config.logsChannel)
+			{
+				const channel = this.client.channels.cache.get(config.logsChannel);
+				channel.send({ embeds: [embed] });
+			}
 			console.log('Discord is online!');
 		});
 	}

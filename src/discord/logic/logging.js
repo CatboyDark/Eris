@@ -1,12 +1,12 @@
 const { createMsg, createRow } = require('../../builder.js');
 const { readConfig, writeConfig } = require('../../configUtils.js');
-const { logMsg } = require('../../logger.js');
 
 const buttonMap = 
 {
 	'logsToggle': 'enabled',
 	'logCommandsToggle': 'commands',
 	'logButtonsToggle': 'buttons',
+	'logMenusToggle': 'menus',
 	'logFormsToggle': 'forms'
 };
 
@@ -16,9 +16,10 @@ const loggingMsg = createMsg({
 	title: 'Logging',
 	desc:
         '**Configure what events will be sent to the Logs channel.**\n\n' +
-        '1. `Commands`: Log all commands ran\n' +
-        '2. `Buttons`: Log all buttons pressed\n' +
-        '3. `Forms`: Log all forms submitted'
+        '1. `Commands`: Log commands ran\n' +
+        '2. `Buttons`: Log buttons pressed\n' +
+		'2. `Menus`: Log select menu options pressed\n' +
+        '3. `Forms`: Log forms submitted'
 });
 
 function logButtons() 
@@ -27,6 +28,7 @@ function logButtons()
 	return createRow([
 		{ id: 'logCommandsToggle', label: 'Log Commands', style: color['logCommandsToggle'] },
 		{ id: 'logButtonsToggle', label: 'Log Buttons', style: color['logButtonsToggle'] },
+		{ id: 'logMenusToggle', label: 'Log Menus', style: color['logMenusToggle'] },
 		{ id: 'logFormsToggle', label: 'Log Forms', style: color['logFormsToggle'] }
 	]);
 }
@@ -35,50 +37,44 @@ function backRow()
 {
 	const color = updatedColors();
 	return createRow([
-		{ id: 'backToStart', label: 'Back', style: 'Gray' },
-		{ id: 'logsToggle', label: 'Toggle ALL Logs', style: color['logsToggle'] }
+		{ id: 'backToSetup', label: 'Back', style: 'Gray' },
+		{ id: 'logsToggle', label: 'Enable Logging', style: color['logsToggle'] }
 	]);
 }
 
 function updatedColors() 
 {
-	const data = readConfig();
+	const config = readConfig();
 	const buttonColors = {};
 
 	for (const [buttonId, configKey] of Object.entries(buttonMap)) 
 	{
-		if (configKey === 'all') 
-		{
-			const allLogsEnabled = Object.values(data.logs).every(log => log);
-			buttonColors[buttonId] = getColor(allLogsEnabled);
-		} 
-		else 
-		{
-			buttonColors[buttonId] = getColor(data.logs[configKey]);
-		}
+		buttonColors[buttonId] = getColor(config.logs[configKey]);
 	}
 	return buttonColors;
 }
 
 function logging(interaction) 
 {
-	interaction.update({ embeds: [loggingMsg], components: [logButtons(), backRow()] });
+	const config = readConfig();
+	if (!config.logsChannel)
+	{
+		interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**You must add a logs channel first!**', ephemeral: true })] });
+	}
+	else
+	{
+		interaction.update({ embeds: [loggingMsg], components: [logButtons(), backRow()] });
+	}
 }
 
 async function toggleLogic(interaction) 
 {
-	const data = readConfig();
+	const config = readConfig();
 	const configKey = buttonMap[interaction.customId];
-	if (configKey === 'enabled') 
-	{
-		const allLogsEnabled = Object.values(data.logs).every(log => log);
-		for (const key in data.logs) data.logs[key] = !allLogsEnabled;
-	} 
-	else 
-	{
-		data.logs[configKey] = !data.logs[configKey];
-	}
-	writeConfig(data);
+
+	config.logs[configKey] = !config.logs[configKey];
+
+	writeConfig(config);
 	logging(interaction);
 }
 

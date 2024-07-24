@@ -1,9 +1,12 @@
 const { Events } = require('discord.js');
 const { createMsg } = require('../../builder.js');
 const { readConfig } = require('../../configUtils.js');
+const { log } = require('../../logger.js');
 
-const cmdError = (interaction) => {
-	return async (error) => {
+const cmdError = (interaction) => 
+{
+	return async (error) => 
+	{
 		const eMsg = createMsg({
 			color: 'FF0000',
 			title: 'Oops!',
@@ -26,18 +29,24 @@ const cmdError = (interaction) => {
 		logsChannel.send({ embeds: [eMsgStaff] });
 		console.error(error);
 
-		if (interaction.replied || interaction.deferred) {
+		if (interaction.replied || interaction.deferred) 
+		{
 			return interaction.followUp({ embeds: [eMsg] });
-		} else {
+		} 
+		else 
+		{
 			return interaction.reply({ embeds: [eMsg] });
 		}
 	};
 };
 
-module.exports = {
+module.exports = 
+{
 	name: Events.InteractionCreate,
-	async execute(interaction) {
+	async execute(interaction) 
+	{
 		if (!interaction.isChatInputCommand()) return;
+		log(interaction);
 
 		const command = interaction.client.sc.get(interaction.commandName);
 		await command.execute(interaction).catch(cmdError(interaction));

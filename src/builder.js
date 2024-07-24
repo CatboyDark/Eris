@@ -44,12 +44,22 @@ const styles =
 	Link: ButtonStyle.Link
 };
 
-function createButtons({ id, label, style }) 
+function createButtons({ id, label, style, url }) 
 {
-	return new ButtonBuilder()
-		.setCustomId(id)
-		.setLabel(label)
-		.setStyle(styles[style]);
+	if (url) 
+	{
+		return new ButtonBuilder()
+			.setLabel(label)
+			.setURL(url)
+			.setStyle(ButtonStyle.Link);
+	} 
+	else 
+	{
+		return new ButtonBuilder()
+			.setCustomId(id)
+			.setLabel(label)
+			.setStyle(styles[style]);
+	}
 }
 
 function createSelectMenu({ id, placeholder, options }) 
@@ -74,7 +84,7 @@ function createRow(components)
 
 	components.forEach(config => 
 	{
-		if (config.label && config.style) 
+		if (config.label) 
 		{ actionRow.addComponents(createButtons(config)); } 
 
 		else if (config.placeholder && config.options) 

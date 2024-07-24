@@ -11,6 +11,7 @@ module.exports =
 		
 	async execute(interaction) 
 	{
-		await interaction.reply({ embeds: [createHelpMsg(interaction)], components: [helpButtons] });
+		const embed = await createHelpMsg(interaction);
+		await interaction.reply({ embeds: [embed], components: [helpButtons] });
 	}
 };

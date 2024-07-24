@@ -12,7 +12,8 @@ const startMsg = createMsg({
 
 const startButtons = createRow([
 	{ id: 'configs', label: 'Configs', style: 'Green' },
-	{ id: 'features', label: 'Features', style: 'Green' }
+	{ id: 'features', label: 'Features', style: 'Green' },
+	{ id: 'logging', label: 'Logging', style: 'Blue' }
 ]);
 
 module.exports = 

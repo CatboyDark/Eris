@@ -15,8 +15,9 @@
 		"enabled": true,
 		"commands": true,
 		"buttons": true,
+		"menus": true,
 		"forms": true
-	},
+  },
 	"features": {
 		"welcomeToggle": true,
 		"welcomeMsg": "",

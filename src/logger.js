@@ -1,7 +1,9 @@
+/* eslint-disable indent */
+
 const { readConfig } = require('./configUtils.js');
 const { createMsg } = require('./builder.js');
 
-const logMsg = (interaction) => 
+function logMsg(interaction) 
 {
 	const config = readConfig();
 
@@ -12,41 +14,65 @@ const logMsg = (interaction) =>
 
 	switch (true) 
 	{
-	case interaction.isChatInputCommand():
-		if (config.logs.commands) 
-		{
-			title = 'Command';
-			desc = 
-                    `<@${interaction.user.id}> ran **/${interaction.commandName}**.\n` +
-                    `https://discord.com/channels/${interaction.guildId}/${interaction.channelId}`;
-		}
-		else return null;
-		break;
+		case interaction.isChatInputCommand():
+			if (config.logs.commands) 
+			{
+				title = 'Command';
+				desc = 
+						`<@${interaction.user.id}> ran **/${interaction.commandName}**.\n` +
+						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}`;
+			} else return null;
+			break;
 
-	case interaction.isButton():
-		if (config.logs.buttons) 
-		{
-			title = 'Button';
-			desc = 
-                    `<@${interaction.user.id}> clicked **${interaction.component.label}**.\n` +
-                    `https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
-		}
-		else return null;
-		break;
+		case interaction.isButton():
+			if (config.logs.buttons) 
+			{
+				title = 'Button';
+				desc = 
+						`<@${interaction.user.id}> clicked **${interaction.component.label}**.\n` +
+						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
+			} else return null;
+			break;
 
-	case interaction.isModalSubmit():
-		if (config.logs.forms) 
-		{
-			title = 'Form';
-			desc = 
-                    `<@${interaction.user.id}> submitted **${interaction.customId}**.\n` +
-                    `https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
-		}
-		else return null;
-		break;
+		case interaction.isStringSelectMenu():
+			if (config.logs.menus)
+			{
+				const selectMenu = interaction.component;
+				const selectedValues = interaction.values;
+				const optionLabels = selectedValues.map(value => {
+					const option = selectMenu.options.find(option => option.value === value);
+					return option ? option.label : 'Unknown';
+				});
+				title = 'Menu';
+				desc = 
+						`<@${interaction.user.id}> selected **${optionLabels.join(', ')}** from **${interaction.component.placeholder}**.\n` +
+						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
+			} else return null;
+			break;
+
+		case interaction.isModalSubmit():
+			if (config.logs.forms) 
+			{
+				title = 'Form';
+				desc = 
+						`<@${interaction.user.id}> submitted **${interaction.customId}**.\n` +
+						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
+			} else return null;
+			break;
 	}
 
 	return createMsg({ title, desc, timestamp: 'relative' });
-};
+}
 
-module.exports = { logMsg };
+async function log(interaction) 
+{
+	const config = readConfig();
+	const logsChannel = await interaction.guild.channels.cache.get(config.logsChannel);
+	const message = logMsg(interaction);
+	if (message) 
+	{
+		await logsChannel.send({ embeds: [message] });
+	}
+}
+
+module.exports = { logMsg, log };

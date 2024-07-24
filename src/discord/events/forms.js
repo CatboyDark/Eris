@@ -3,6 +3,7 @@
 const { Events } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+const { log } = require('../../logger');
 
 const lDir = path.join(__dirname, '../logic');
 const lFiles = fs.readdirSync(lDir).filter(file => file.endsWith('.js'));
@@ -22,6 +23,7 @@ module.exports =
 	async execute(interaction)
 	{
 		if (!interaction.isModalSubmit()) return;
+		log(interaction);
 
 		const modals = interaction.customId;
 
@@ -40,6 +42,10 @@ module.exports =
 				
 			case 'setStaffRoleForm':
 				await Logic.setStaffRoleLogic(interaction);
+				break;
+			
+			case 'setLogsChannelForm':
+				await Logic.setLogsChannelLogic(interaction);
 				break;
 				
 			case 'setGuildIconForm':

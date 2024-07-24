@@ -1,5 +1,6 @@
 const { createMsg, createRow, createModal } = require('./../../builder.js');
 const { readConfig, writeConfig } = require('../../configUtils.js');
+const { startMsg, startButtons } = require('../cmds/slash/setup.js');
 
 const configsMsg = createMsg({
 	title: 'Configs',
@@ -7,17 +8,20 @@ const configsMsg = createMsg({
 		'1. **Guild**\n' +
         'Enter your EXACT guild name (wristspasm ≠ WristSpasm)\n\n' +
 
-		'2. **Staff Roles** *Required*\n' +
+		'2. **Staff Roles**\n' +
     	'Enter your staff role ID\n' +
         'Every role above staff role will be added automatically.\n\n' +
         '*Note: Staff will be able to:*\n' +
         '- *Delete messages*\n' +
         '- *Assign roles below their own role*\n\n' +
 
-		'3. **Guild Icon** *Optional*\n' +
+		'3. **Logs Channel**\n' +
+		'Enter a channel ID for bot logs\n\n' +
+
+		'3. **Guild Icon**\n' +
         'Link an image of your guild icon. If you don\'t, a default will be used.\n\n' +
 
-		'4. **Color Theme** *Optional*\n\n' +
+		'4. **Color Theme**\n\n' +
         'Enter a 6 digit HEX.\n' +
         'This will be used as the main bot color.'
 });
@@ -29,12 +33,16 @@ const configsMenu = createRow([
 		options:
 		[
 			{ value: 'setGuild', label: 'Guild', desc: 'Required' },
-			{ value: 'setServerID', label: 'Server ID', desc: 'Required' },
 			{ value: 'setStaffRole', label: 'Staff Roles', desc: 'Required' },
+			{ value: 'setLogsChannel', label: 'Logs Channel', desc: 'Optional' },
 			{ value: 'setGuildIcon', label: 'Guild Icon', desc: 'Optional' },
 			{ value: 'setColorTheme', label: 'Color Theme', desc: 'Optional' }
 		]
 	}
+]);
+
+const back = createRow([
+	{ id: 'backToSetup', label: 'Back', style: 'Gray' }
 ]);
 
 async function setGuild(interaction)
@@ -59,9 +67,24 @@ async function setStaffRole(interaction)
 		id: 'setStaffRoleForm',
 		title: 'Set Staff Role(s)',
 		components: [{
-			type: 'textInput',
 			id: 'setStaffRoleInput',
-			label: 'SEPARATE STAFF ROLE IDS USING A SPACE:',
+			label: 'ENTER A STAFF ROLE ID:',
+			style: 'short',
+			required: true
+		}]
+	});
+	
+	await interaction.showModal(modal);
+}
+
+async function setLogsChannel(interaction) 
+{
+	const modal = createModal({
+		id: 'setLogsChannelForm',
+		title: 'Set Logs Channel',
+		components: [{
+			id: 'setLogsChannelInput',
+			label: 'ENTER A LOGS CHANNEL ID:',
 			style: 'short',
 			required: true
 		}]
@@ -76,7 +99,6 @@ async function setGuildIcon(interaction)
 		id: 'setGuildIconForm',
 		title: 'Set Guild Icon',
 		components: [{
-			type: 'textInput',
 			id: 'setGuildIconInput',
 			label: 'LINK AN IMAGE:',
 			style: 'short',
@@ -93,7 +115,6 @@ async function setColorTheme(interaction)
 		id: 'setColorThemeForm',
 		title: 'Set Color Theme',
 		components: [{
-			type: 'textInput',
 			id: 'setColorThemeInput',
 			label: 'ENTER A HEX COLOR (EX: \'FFFFFF\'):',
 			style: 'short',
@@ -106,7 +127,12 @@ async function setColorTheme(interaction)
 
 async function configs(interaction) 
 {
-	await interaction.update({ embeds: [configsMsg], components: [configsMenu] });
+	await interaction.update({ embeds: [configsMsg], components: [configsMenu, back] });
+}
+
+async function backToSetup(interaction)
+{
+	await interaction.update({ embeds: [startMsg], components: [startButtons] });
 }
 
 async function setGuildLogic(interaction) 
@@ -115,7 +141,7 @@ async function setGuildLogic(interaction)
 	const data = readConfig();
 	data.guild = input;
 	writeConfig(data);
-	interaction.reply({ content: `Guild has been set to: ${input}`, ephemeral: true });
+	interaction.reply({ embeds: [createMsg({ desc: `Guild has been set to **${input}**.` })], ephemeral: true });
 }
 
 async function setStaffRoleLogic(interaction) 
@@ -124,7 +150,7 @@ async function setStaffRoleLogic(interaction)
 	const role = interaction.guild.roles.cache.get(input);
 	if (!role) 
 	{
-		interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: 'That\'s not a valid role ID!' })], ephemeral: true });
+		interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**hat\'s not a valid role ID!**' })], ephemeral: true });
 		return;
 	}
 	const roleIDs = interaction.guild.roles.cache
@@ -136,8 +162,22 @@ async function setStaffRoleLogic(interaction)
 	data.staffRole = roleIDs;
 	writeConfig(data);
 	const rolesFormatted = roleIDs.map(roleID => `<@&${roleID}>`).join('\n');
-	interaction.reply({ embeds: [createMsg({ color: '00FF00', desc: `Staff Role(s) have been set to:\n${rolesFormatted}` })], ephemeral: true });
+	interaction.reply({ embeds: [createMsg({ desc: `Staff Role(s) have been set to:\n\n${rolesFormatted}` })], ephemeral: true });
+}
 
+async function setLogsChannelLogic(interaction) 
+{
+	const input = interaction.fields.getTextInputValue('setLogsChannelInput');
+	const channel = await interaction.guild.channels.fetch(input).catch(() => null);
+	if (!channel) 
+	{ 
+		interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid channel ID!**', ephemeral: true })] });
+		return;
+	}
+	const data = readConfig();
+	data.logsChannel = input;
+	writeConfig(data);
+	interaction.reply({ embeds: [createMsg({ desc: `Logs Channel has been set to **<#${input}>**.` })], ephemeral: true });
 }
 
 async function setGuildIconLogic(interaction) 
@@ -146,7 +186,8 @@ async function setGuildIconLogic(interaction)
 	const data = readConfig();
 	data.guildIcon = input;
 	writeConfig(data);
-	interaction.reply({ content: `Guild Icon has been set to:\n${input}`, ephemeral: true });
+	await interaction.reply({ embeds: [createMsg({ desc: '**Guild Icon has been updated!**' })], ephemeral: true });
+	await interaction.followUp({ content: input, ephemeral: true });
 }
 
 async function setColorThemeLogic(interaction) 
@@ -168,10 +209,13 @@ module.exports =
 { 
 	configs,
 	configsMenu,
+	backToSetup,
 	setGuild, 
 	setGuildLogic, 
 	setStaffRole, 
-	setStaffRoleLogic, 
+	setStaffRoleLogic,
+	setLogsChannel,
+	setLogsChannelLogic,
 	setGuildIcon, 
 	setGuildIconLogic, 
 	setColorTheme, 

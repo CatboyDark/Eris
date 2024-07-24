@@ -3,6 +3,7 @@
 const { Events } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+const { log } = require('../../logger');
 
 const lDir = path.join(__dirname, '../logic');
 const lFiles = fs.readdirSync(lDir).filter(file => file.endsWith('.js'));
@@ -22,38 +23,36 @@ module.exports =
 	async execute(interaction)
 	{
 		if (!interaction.isStringSelectMenu()) return;
+		log(interaction);
 
 		const { customId, values } = interaction;
 
 		switch (customId) 
 		{
 			case 'configsMenu':
-				let index;
 				const selectedValue = values[0];
             	switch (selectedValue) 
 				{
 					case 'setGuild':
-						index = 0;
-						break;
-
-					case 'setServerID':
-						index = 1;
+						await Logic.setGuild(interaction);
 						break;
 
 					case 'setStaffRole':
-						index = 2;
+						await Logic.setStaffRole(interaction);
+						break;
+
+					case 'setLogsChannel':
+						await Logic.setLogsChannel(interaction);
 						break;
 
 					case 'setGuildIcon':
-						index = 3;
+						await Logic.setGuildIcon(interaction);
 						break;
 
 					case 'setColorTheme':
-						index = 4;
+						await Logic.setColorTheme(interaction);
 						break;
             	}
-				const buttons = Logic.configsButtons(index);
-            	await interaction.update({ embeds: [Logic.configsEmbeds[index]], components: [buttons, Logic.configsMenu] });
 			break;
 		}
 	}

@@ -3,6 +3,7 @@
 const { Events } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+const { log } = require('../../logger');
 
 const lDir = path.join(__dirname, '../logic');
 const lFiles = fs.readdirSync(lDir).filter(file => file.endsWith('.js'));
@@ -22,6 +23,7 @@ module.exports =
 	async execute(interaction) 
 	{
 		if (!interaction.isButton()) return;
+		log(interaction);
 
 		const buttons = interaction.customId;
 
@@ -37,33 +39,19 @@ module.exports =
 			case 'features':
 				await Logic.features(interaction);
 				break;
-				
-			case 'back':
-				await Logic.back(interaction);
-				break;
-					
-			case 'setGuild':
-				await Logic.setGuild(interaction);
-				break;
-					
-			case 'setServerID':
-				await Logic.setServerID(interaction);
-				break;
-					
-			case 'setStaffRole':
-				await Logic.setStaffRole(interaction);
-				break;
-			
-			case 'setGuildIcon':
-				await Logic.setGuildIcon(interaction);
-				break;
-			
-			case 'setColorTheme':
-				await Logic.setColorTheme(interaction);
+
+			case 'logging':
+				await Logic.logging(interaction);
 				break;
 
+			case 'backToSetup':
+				await Logic.backToSetup(interaction);
+				break;
+
+			case 'logsToggle':
 			case 'logCommandsToggle':
 			case 'logButtonsToggle':
+			case 'logMenusToggle':
 			case 'logFormsToggle':
 				await Logic.toggleLogic(interaction);
 				break;
