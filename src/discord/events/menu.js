@@ -26,11 +26,11 @@ module.exports =
 		log(interaction);
 
 		const { customId, values } = interaction;
+		const selectedValue = values[0];
 
 		switch (customId) 
 		{
 			case 'configsMenu':
-				const selectedValue = values[0];
             	switch (selectedValue) 
 				{
 					case 'setGuild':
@@ -54,6 +54,15 @@ module.exports =
 						break;
             	}
 			break;
+
+			case 'featuresMenu':
+            	switch (selectedValue) 
+				{
+					case 'setWelcome':
+						await Logic.welcome(interaction);
+						break;
+				}
+
 		}
 	}
 };

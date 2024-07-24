@@ -5,11 +5,11 @@ const { startMsg, startButtons } = require('../cmds/slash/setup.js');
 const configsMsg = createMsg({
 	title: 'Configs',
 	desc: 
-		'1. **Guild**\n' +
-        'Enter your EXACT guild name (wristspasm ≠ WristSpasm)\n\n' +
+		'1. **Guild** *Required*\n' +
+        'Enter your EXACT guild name. (Ex. wristspasm ≠ WristSpasm)\n\n' +
 
-		'2. **Staff Roles**\n' +
-    	'Enter your staff role ID\n' +
+		'2. **Staff Roles** *Required*\n' +
+    	'Enter your staff role ID.\n' +
         'Every role above staff role will be added automatically.\n\n' +
         '*Note: Staff will be able to:*\n' +
         '- *Delete messages*\n' +
@@ -18,11 +18,12 @@ const configsMsg = createMsg({
 		'3. **Logs Channel**\n' +
 		'Enter a channel ID for bot logs\n\n' +
 
-		'3. **Guild Icon**\n' +
-        'Link an image of your guild icon. If you don\'t, a default will be used.\n\n' +
+		'4. **Guild Icon**\n' +
+        'Link an image of your guild icon\n' +
+		'If you don\'t, a default will be used.\n\n' +
 
-		'4. **Color Theme**\n\n' +
-        'Enter a 6 digit HEX.\n' +
+		'5. **Color Theme**\n' +
+        'Enter a 6 digit HEX\n' +
         'This will be used as the main bot color.'
 });
 
@@ -41,7 +42,7 @@ const configsMenu = createRow([
 	}
 ]);
 
-const back = createRow([
+const backRow = createRow([
 	{ id: 'backToSetup', label: 'Back', style: 'Gray' }
 ]);
 
@@ -127,7 +128,7 @@ async function setColorTheme(interaction)
 
 async function configs(interaction) 
 {
-	await interaction.update({ embeds: [configsMsg], components: [configsMenu, back] });
+	await interaction.update({ embeds: [configsMsg], components: [configsMenu, backRow] });
 }
 
 async function backToSetup(interaction)
