@@ -1,9 +1,9 @@
-const { Client, Collection, GatewayIntentBits, REST, Routes } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, REST, Routes, ActivityType } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const { appID} = require('../../config.json');
-const { createMsg } = require('../builder.js');
-const { readConfig } = require('../configUtils.js');
+const { createMsg } = require('../helper/builder.js');
+const { readConfig } = require('../helper/configUtils.js');
 
 class DCinit
 {
@@ -140,6 +140,10 @@ class DCinit
 			{
 				const channel = this.client.channels.cache.get(config.logsChannel);
 				channel.send({ embeds: [embed] });
+			}
+			if (config.guild)
+			{
+				this.client.user.setActivity(config.guild, {type: ActivityType.Watching});
 			}
 			console.log('Discord is online!');
 		});

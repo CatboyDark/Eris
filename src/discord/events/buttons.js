@@ -3,7 +3,7 @@
 const { Events } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const { log } = require('../../logger');
+const { log } = require('../../helper/logger.js');
 
 const lDir = path.join(__dirname, '../logic');
 const lFiles = fs.readdirSync(lDir).filter(file => file.endsWith('.js'));
@@ -47,13 +47,17 @@ module.exports =
 			case 'backToSetup':
 				await Logic.backToSetup(interaction);
 				break;
+			
+			case 'backToFeatures':
+				await Logic.backToFeatures(interaction);
+				break;
 
 			case 'logsToggle':
 			case 'logCommandsToggle':
 			case 'logButtonsToggle':
 			case 'logMenusToggle':
 			case 'logFormsToggle':
-				await Logic.toggleLogic(interaction);
+				await Logic.logging(interaction);
 				break;
 
 			case 'setGuild':
@@ -93,7 +97,31 @@ module.exports =
 			case 'mccmds':
 				await Logic.mccmds(interaction);
 				break;
-				
-			}
+
+		// welcome.js
+
+			case 'welcomeMsgToggle':
+			case 'welcomeRoleToggle':
+			case 'removeRoleOnLink':
+				await Logic.welcome(interaction);
+				break;
+
+			case 'setWelcomeChannel':
+				await Logic.setWelcomeChannel(interaction);
+				break;
+
+			case 'setwelcomeMsg':
+				await Logic.setWelcomeMsg(interaction);
+				break;
+
+			case 'setWelcomeRole':
+				await Logic.setWelcomeRole(interaction);
+				break;
+
+			case 'removeRoleOnLink':
+				await Logic.removeRoleOnLink(interaction);
+				break;
+
+		}
 	}
 };

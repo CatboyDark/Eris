@@ -1,16 +1,6 @@
-const { createMsg, createRow } = require('../../builder.js');
-const { readConfig, writeConfig } = require('../../configUtils.js');
-
-const buttonMap = 
-{
-	'logsToggle': 'enabled',
-	'logCommandsToggle': 'commands',
-	'logButtonsToggle': 'buttons',
-	'logMenusToggle': 'menus',
-	'logFormsToggle': 'forms'
-};
-
-const getColor = (enabled) => enabled ? 'Green' : 'Red';
+const { createMsg, createRow } = require('../../helper/builder.js');
+const { readConfig } = require('../../helper/configUtils.js');
+const { newColors } = require('../../helper/dynamicButtons.js');
 
 const loggingMsg = createMsg({
 	title: 'Logging',
@@ -22,60 +12,38 @@ const loggingMsg = createMsg({
         '3. `Forms`: Log forms submitted'
 });
 
-function logButtons() 
+async function createButtons(interaction) 
 {
-	const color = updatedColors();
-	return createRow([
+	const color = await newColors(interaction);
+	
+	const logButtons = createRow([
 		{ id: 'logCommandsToggle', label: 'Log Commands', style: color['logCommandsToggle'] },
 		{ id: 'logButtonsToggle', label: 'Log Buttons', style: color['logButtonsToggle'] },
 		{ id: 'logMenusToggle', label: 'Log Menus', style: color['logMenusToggle'] },
 		{ id: 'logFormsToggle', label: 'Log Forms', style: color['logFormsToggle'] }
 	]);
-}
 
-function backRow() 
-{
-	const color = updatedColors();
-	return createRow([
+	const backRow = createRow([
 		{ id: 'backToSetup', label: 'Back', style: 'Gray' },
 		{ id: 'logsToggle', label: 'Enable Logging', style: color['logsToggle'] }
 	]);
+
+	return { logButtons, backRow };
 }
 
-function updatedColors() 
+async function logging(interaction) 
 {
 	const config = readConfig();
-	const buttonColors = {};
 
-	for (const [buttonId, configKey] of Object.entries(buttonMap)) 
-	{
-		buttonColors[buttonId] = getColor(config.logs[configKey]);
-	}
-	return buttonColors;
-}
-
-function logging(interaction) 
-{
-	const config = readConfig();
 	if (!config.logsChannel)
 	{
 		interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**You must add a logs channel first!**', ephemeral: true })] });
 	}
 	else
 	{
-		interaction.update({ embeds: [loggingMsg], components: [logButtons(), backRow()] });
+		const { logButtons, backRow } = await createButtons(interaction);
+		interaction.update({ embeds: [loggingMsg], components: [logButtons, backRow] });
 	}
 }
 
-async function toggleLogic(interaction) 
-{
-	const config = readConfig();
-	const configKey = buttonMap[interaction.customId];
-
-	config.logs[configKey] = !config.logs[configKey];
-
-	writeConfig(config);
-	logging(interaction);
-}
-
-module.exports = { logging, toggleLogic };
+module.exports = { logging };

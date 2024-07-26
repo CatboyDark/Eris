@@ -10,7 +10,7 @@
   	"staffRole": [],
 	"guildIcon": "https://i.imgur.com/9AnnZVG.png",
 	"colorTheme": "000000",
-	"logsChannel": "1234567890",
+	"logsChannel": "",
   	"logs": {
 		"enabled": true,
 		"commands": true,
@@ -19,8 +19,11 @@
 		"forms": true
   },
 	"features": {
-		"welcomeToggle": true,
+		"welcomeMsgToggle": true,
+		"welcomeChannel": "",
 		"welcomeMsg": "",
-		"welcomeRole": ""
-	}
+		"welcomeRoleToggle": false,
+		"welcomeRole": "",
+		"removeRoleOnLink": false
+  }
 }

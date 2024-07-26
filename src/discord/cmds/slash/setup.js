@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { createMsg, createRow } = require('../../../builder.js');
+const { createMsg, createRow } = require('../../../helper/builder.js');
 
 const startMsg = createMsg({
 	title: 'Getting Started',
@@ -30,6 +30,6 @@ module.exports =
 		
 	async execute(interaction) 
 	{
-		await interaction.reply({ embeds: [startMsg], components: [startButtons], ephemeral: true });
+		await interaction.reply({ embeds: [startMsg], components: [startButtons] });
 	}
 };

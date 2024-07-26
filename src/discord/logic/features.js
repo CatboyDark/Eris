@@ -1,4 +1,4 @@
-const { createMsg, createRow } = require('../../builder.js');
+const { createMsg, createRow } = require('../../helper/builder.js');
 
 const featuresMsg = createMsg({
 	title: 'Features',
@@ -29,9 +29,15 @@ async function features(interaction)
 	interaction.update({ embeds: [featuresMsg], components: [featuresMenu, back] });
 }
 
+async function backToFeatures(interaction)
+{
+	interaction.update({ embeds: [featuresMsg], components: [featuresMenu, back] });
+}
+
 module.exports = 
 { 
 	features,
+	backToFeatures,
 	featuresMsg,
 	featuresMenu
 };

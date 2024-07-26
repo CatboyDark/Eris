@@ -3,7 +3,7 @@
 const { readConfig } = require('./configUtils.js');
 const { createMsg } = require('./builder.js');
 
-function logMsg(interaction) 
+async function logMsg(interaction) 
 {
 	const config = readConfig();
 
@@ -17,11 +17,13 @@ function logMsg(interaction)
 		case interaction.isChatInputCommand():
 			if (config.logs.commands) 
 			{
+				const messageId = await interaction.fetchReply().then(reply => reply.id);
 				title = 'Command';
 				desc = 
 						`<@${interaction.user.id}> ran **/${interaction.commandName}**.\n` +
-						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}`;
-			} else return null;
+						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${messageId}`;
+			} 
+			else return null;
 			break;
 
 		case interaction.isButton():
@@ -31,7 +33,8 @@ function logMsg(interaction)
 				desc = 
 						`<@${interaction.user.id}> clicked **${interaction.component.label}**.\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
-			} else return null;
+			} 
+			else return null;
 			break;
 
 		case interaction.isStringSelectMenu():
@@ -41,13 +44,14 @@ function logMsg(interaction)
 				const selectedValues = interaction.values;
 				const optionLabels = selectedValues.map(value => {
 					const option = selectMenu.options.find(option => option.value === value);
-					return option ? option.label : 'Unknown';
+					return option ? option.label : value;
 				});
 				title = 'Menu';
 				desc = 
 						`<@${interaction.user.id}> selected **${optionLabels.join(', ')}** from **${interaction.component.placeholder}**.\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
-			} else return null;
+			} 
+			else return null;
 			break;
 
 		case interaction.isModalSubmit():
@@ -57,7 +61,8 @@ function logMsg(interaction)
 				desc = 
 						`<@${interaction.user.id}> submitted **${interaction.customId}**.\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
-			} else return null;
+			} 
+			else return null;
 			break;
 	}
 
@@ -68,7 +73,7 @@ async function log(interaction)
 {
 	const config = readConfig();
 	const logsChannel = await interaction.guild.channels.cache.get(config.logsChannel);
-	const message = logMsg(interaction);
+	const message = await logMsg(interaction);
 	if (message) 
 	{
 		await logsChannel.send({ embeds: [message] });

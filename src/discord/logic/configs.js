@@ -1,6 +1,7 @@
-const { createMsg, createRow, createModal } = require('./../../builder.js');
-const { readConfig, writeConfig } = require('../../configUtils.js');
+const { createMsg, createRow, createModal } = require('../../helper/builder.js');
+const { readConfig, writeConfig } = require('../../helper/configUtils.js');
 const { startMsg, startButtons } = require('../cmds/slash/setup.js');
+const { ActivityType } = require('discord.js');
 
 const configsMsg = createMsg({
 	title: 'Configs',
@@ -20,7 +21,7 @@ const configsMsg = createMsg({
 
 		'4. **Guild Icon**\n' +
         'Link an image of your guild icon.\n' +
-		'If you don\'t, a default will be used.\n\n' +
+		'If you do not, a default will be used.\n\n' +
 
 		'5. **Color Theme**\n' +
         'Enter a 6 digit HEX.\n' +
@@ -132,10 +133,11 @@ async function backToSetup(interaction)
 async function setGuildLogic(interaction) 
 {
 	const input = interaction.fields.getTextInputValue('setGuildInput');
+	await interaction.client.user.setActivity(`${input}`, {type: ActivityType.Watching});
 	const data = readConfig();
 	data.guild = input;
 	writeConfig(data);
-	interaction.reply({ embeds: [createMsg({ desc: `Guild has been set to **${input}**.` })], ephemeral: true });
+	await interaction.reply({ embeds: [createMsg({ desc: `Guild has been set to **${input}**.` })], ephemeral: true });
 }
 
 async function setStaffRoleLogic(interaction) 
@@ -144,19 +146,21 @@ async function setStaffRoleLogic(interaction)
 	const role = interaction.guild.roles.cache.get(input);
 	if (!role) 
 	{
-		interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**hat\'s not a valid role ID!**' })], ephemeral: true });
-		return;
+		return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid Role ID!**' })], ephemeral: true });
 	}
 	const roleIDs = interaction.guild.roles.cache
 		.filter(r => r.position >= role.position)
 		.map(r => r.id)
 		.sort((a, b) => interaction.guild.roles.cache.get(b).position - interaction.guild.roles.cache.get(a).position);
-		
+
+	const serverID = interaction.guild.id;
+	console.log(serverID);
 	const data = readConfig();
 	data.staffRole = roleIDs;
+	data.serverID = serverID;
 	writeConfig(data);
-	const rolesFormatted = roleIDs.map(roleID => `<@&${roleID}>`).join('\n');
-	interaction.reply({ embeds: [createMsg({ desc: `Staff Role(s) have been set to:\n\n${rolesFormatted}` })], ephemeral: true });
+	const newRoles = roleIDs.map(roleID => `<@&${roleID}>`).join('\n');
+	interaction.reply({ embeds: [createMsg({ desc: `Staff Role(s) have been set to:\n\n${newRoles}` })], ephemeral: true });
 }
 
 async function setLogsChannelLogic(interaction) 
@@ -165,8 +169,7 @@ async function setLogsChannelLogic(interaction)
 	const channel = await interaction.guild.channels.fetch(input).catch(() => null);
 	if (!channel) 
 	{ 
-		interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid channel ID!**', ephemeral: true })] });
-		return;
+		return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid Channel ID!**' })], ephemeral: true });
 	}
 	const data = readConfig();
 	data.logsChannel = input;
@@ -190,8 +193,7 @@ async function setColorThemeLogic(interaction)
 	const hexRegex = /^[0-9a-fA-F]{6}$/;
 	if (!hexRegex.test(input)) 
 	{
-		interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid HEX color!**' })], ephemeral: true });
-		return;
+		return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid HEX color!**' })], ephemeral: true });
 	}
 	const data = readConfig();
 	data.colorTheme = input;

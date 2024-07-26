@@ -24,10 +24,10 @@ const createMsg = ({ color, title, desc, fields, icon, footer, footerIcon, times
 	if (timestamp === 'relative' || timestamp === 'specific') 
 	{
 		const now = new Date();
-		const formattedTimestamp = `<t:${getTimestamp(now)}:${timestamp === 'relative' ? 'R' : 'f'}>`;
+		const newTimestamp = `<t:${getTimestamp(now)}:${timestamp === 'relative' ? 'R' : 'f'}>`;
 		embed.addFields({
 		  name: '\u200B',
-		  value: formattedTimestamp,
+		  value: newTimestamp,
 		  inline: false
 		});
 	}

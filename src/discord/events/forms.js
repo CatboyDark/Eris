@@ -3,7 +3,7 @@
 const { Events } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const { log } = require('../../logger');
+const { log } = require('../../helper/logger.js');
 
 const lDir = path.join(__dirname, '../logic');
 const lFiles = fs.readdirSync(lDir).filter(file => file.endsWith('.js'));
@@ -54,6 +54,20 @@ module.exports =
 				
 			case 'setColorThemeForm':
 				await Logic.setColorThemeLogic(interaction);
+				break;
+
+		// welcome.js
+
+			case 'setWelcomeChannelForm':
+				await Logic.setWelcomeChannelLogic(interaction);
+				break;
+
+			case 'setwelcomeMsgForm':
+				await Logic.setWelcomeMsgLogic(interaction);
+				break;
+
+			case 'setWelcomeRoleForm':
+				await Logic.setWelcomeRoleLogic(interaction);
 				break;
 			
 		}
