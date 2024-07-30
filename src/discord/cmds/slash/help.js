@@ -7,7 +7,7 @@ module.exports =
 	staff: false,
 	data: new SlashCommandBuilder()
 		.setName('help')
-		.setDescription('Show bot info'),
+		.setDescription('Display bot info'),
 		
 	async execute(interaction) 
 	{

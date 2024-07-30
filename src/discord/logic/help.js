@@ -18,13 +18,14 @@ async function createHelpMsg(interaction)
 		cmds
 			.filter(cmd => staffOnly ? cmd.staff : !cmd.staff)
 			.sort((a, b) => a.data.name.localeCompare(b.data.name))
-			.map(cmd => `* **\`/${cmd.data.name}\`** ${cmd.data.description}`);
+			.map(cmd => `* **\`/${cmd.data.name}\`** ${cmd.data.description}`)
+			.join('\n');
 
 	const nonCommands = `**Commands**\n${formatCommands()}`;
 	const staffCommands = isStaff ? `\n\n**Staff**\n${formatCommands(true)}` : '';
 
 	return createMsg({
-		icon: config.guildIcon,
+		icon: config.icon,
 		title: config.guild,
 		desc: `${nonCommands}${staffCommands}`,
 		footer: 'Created by @CatboyDark',
@@ -37,7 +38,7 @@ function ingameCmds()
 	const config = readConfig();
 
 	return createMsg({
-		icon: config.guildIcon,
+		icon: config.icon,
 		title: config.guild,
 		desc: '**Ingame Commands**',
 		footer: 'Created by @CatboyDark',
@@ -46,7 +47,7 @@ function ingameCmds()
 }
 
 const helpButtons = createRow([
-	{id: 'mccmds', label: 'Ingame Commands', style: 'Green'},
+	{id: 'MCcmds', label: 'Ingame Commands', style: 'Green'},
 	{id: 'credits', label: 'Credits', style: 'Blue'},
 	{id: 'support', label: 'Support', style: 'Blue'},
 	{label: 'GitHub', url: 'https://github.com/CatboyDark/Eris'}
@@ -58,7 +59,7 @@ async function cmds(interaction)
 	await interaction.update({ embeds: [embed], components: [helpButtons] });
 }
 
-async function mccmds(interaction) 
+async function MCcmds(interaction) 
 {
 	interaction.update({ embeds: [ingameCmds()], components: [createRow([
 		{id: 'cmds', label: 'Commands', style: 'Green'},
@@ -72,7 +73,7 @@ async function credits(interaction)
 {
 	const config = readConfig();
 	const creditsMsg = createMsg({
-		icon: config.guildIcon,
+		icon: config.icon,
 		title: config.guild,
 		desc:
             '**Credits**\n\n' +
@@ -95,7 +96,7 @@ async function support(interaction)
 {
 	const config = readConfig();
 	const supportMsg = createMsg({
-		icon: config.guildIcon,
+		icon: config.icon,
 		title: config.guild,
 		desc:
             '**Bugs and Support**\n\n' +
@@ -115,4 +116,4 @@ async function support(interaction)
 	interaction.update({ embeds: [supportMsg], components: [buttons] });
 }
 
-module.exports = { createHelpMsg, helpButtons, cmds, mccmds, credits, support };
+module.exports = { createHelpMsg, helpButtons, cmds, MCcmds, credits, support };

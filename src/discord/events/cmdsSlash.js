@@ -1,7 +1,7 @@
 const { Events } = require('discord.js');
 const { createMsg } = require('../../helper/builder.js');
 const { readConfig } = require('../../helper/configUtils.js');
-const { log } = require('../../helper/logger.js');
+const log = require('../../helper/logger.js');
 
 const cmdError = (interaction) => 
 {

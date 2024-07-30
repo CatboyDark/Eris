@@ -8,7 +8,7 @@
 	"guild": "",
   	"serverID": "",
   	"staffRole": [],
-	"guildIcon": "https://i.imgur.com/9AnnZVG.png",
+	"icon": "https://i.imgur.com/9AnnZVG.png",
 	"colorTheme": "000000",
 	"logsChannel": "",
   	"logs": {
@@ -19,7 +19,7 @@
 		"forms": true
   },
 	"features": {
-		"welcomeMsgToggle": true,
+		"welcomeMsgToggle": false,
 		"welcomeChannel": "",
 		"welcomeMsg": "",
 		"welcomeRoleToggle": false,

@@ -3,7 +3,7 @@
 const { Events } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const { log } = require('../../helper/logger.js');
+const log = require('../../helper/logger.js');
 
 const lDir = path.join(__dirname, '../logic');
 const lFiles = fs.readdirSync(lDir).filter(file => file.endsWith('.js'));
@@ -12,7 +12,7 @@ const Logic = lFiles.reduce((acc, file) =>
 	const logicModule = require(path.join(lDir, file));
 
 	if (typeof logicModule === 'object' && logicModule !== null) Object.assign(acc, logicModule);
-	else { acc[file.replace('.js', '')] = logicModule; }
+	else acc[file.replace('.js', '')] = logicModule;
 
 	return acc;
 }, {});
@@ -72,8 +72,8 @@ module.exports =
 				await Logic.setLogsChannel(interaction);
 				break;
 
-			case 'setGuildIcon':
-				await Logic.setGuildIcon(interaction);
+			case 'setIcon':
+				await Logic.setIcon(interaction);
 				break;
 
 			case 'setColorTheme':
@@ -94,8 +94,8 @@ module.exports =
 				await Logic.support(interaction);
 				break;
 			
-			case 'mccmds':
-				await Logic.mccmds(interaction);
+			case 'MCcmds':
+				await Logic.MCcmds(interaction);
 				break;
 
 		// welcome.js
@@ -122,6 +122,15 @@ module.exports =
 				await Logic.removeRoleOnLink(interaction);
 				break;
 
+		// data.js
+			
+			case 'commandData':
+				await Logic.commandData(interaction);
+				break;
+
+			case 'buttonData':
+				await Logic.buttonData(interaction);
+				break;
 		}
 	}
 };

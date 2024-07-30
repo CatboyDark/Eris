@@ -9,8 +9,9 @@
 	"dependencies": {
 		"discord.js": "^14.15.3",
 		"git": "^0.1.5",
-		"hypixel-api-reborn": "github:Hypixel-API-Reborn/hypixel-api-reborn",
-		"mineflayer": "^4.20.1"
+		"hypixel-api-reborn": "^11.3.0",
+		"mineflayer": "^4.0.0",
+		"mongoose": "^8.5.1"
 	},
 	"devDependencies": {
 		"eslint": "^9.6.0"

@@ -2,8 +2,27 @@
 
 const { readConfig } = require('./configUtils.js');
 const { createMsg } = require('./builder.js');
+const db = require('../mongo/schemas.js');
 
-async function logMsg(interaction) 
+async function cmdCounter(command) 
+{
+    await db.Command.findOneAndUpdate(
+        { command },
+        { $inc: { count: 1 } },
+        { upsert: true, new: true }
+    );
+}
+
+async function buttonCounter(button, source)
+{
+	await db.Button.findOneAndUpdate(
+		{ button },
+        { $inc: { count: 1 }, $set: { source } },
+        { upsert: true, new: true }
+	);
+}
+
+async function createLogMsg(interaction) 
 {
 	const config = readConfig();
 
@@ -18,9 +37,22 @@ async function logMsg(interaction)
 			if (config.logs.commands) 
 			{
 				const messageId = await interaction.fetchReply().then(reply => reply.id);
+				const options = interaction.options.data.map(option => 
+				{
+					switch (option.type) 
+					{
+						case 6:
+							return ` <@${option.value}>`;
+						case 8:
+							return ` <@&${option.value}>`;
+						default:
+							return ` ${option.value}`;
+					}
+				}).join(' ');
+
 				title = 'Command';
 				desc = 
-						`<@${interaction.user.id}> ran **/${interaction.commandName}**.\n` +
+						`<@${interaction.user.id}> ran **/${interaction.commandName}**${options}\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${messageId}`;
 			} 
 			else return null;
@@ -48,7 +80,7 @@ async function logMsg(interaction)
 				});
 				title = 'Menu';
 				desc = 
-						`<@${interaction.user.id}> selected **${optionLabels.join(', ')}** from **${interaction.component.placeholder}**.\n` +
+						`<@${interaction.user.id}> selected **${optionLabels.join(', ')}** from **${interaction.component.placeholder}**\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
 			} 
 			else return null;
@@ -59,7 +91,7 @@ async function logMsg(interaction)
 			{
 				title = 'Form';
 				desc = 
-						`<@${interaction.user.id}> submitted **${interaction.customId}**.\n` +
+						`<@${interaction.user.id}> submitted **${interaction.customId}**\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
 			} 
 			else return null;
@@ -71,13 +103,13 @@ async function logMsg(interaction)
 
 async function log(interaction) 
 {
+	if (interaction.isChatInputCommand()) await cmdCounter(interaction.commandName);
+	if (interaction.isButton()) await buttonCounter(interaction.component.label, interaction.customId);
+
 	const config = readConfig();
 	const logsChannel = await interaction.guild.channels.cache.get(config.logsChannel);
-	const message = await logMsg(interaction);
-	if (message) 
-	{
-		await logsChannel.send({ embeds: [message] });
-	}
+	const message = await createLogMsg(interaction);
+	if (message) await logsChannel.send({ embeds: [message] });
 }
 
-module.exports = { logMsg, log };
+module.exports = log;

@@ -29,11 +29,11 @@ const configsMsg = createMsg({
 });
 
 const configsButtons = createRow([
-	{ id: 'setGuild', label: 'Guild', style: 'Blue' },
-	{ id: 'setStaffRole', label: 'Staff Roles', style: 'Blue' },
-	{ id: 'setLogsChannel', label: 'Logs Channel', style: 'Blue' },
-	{ id: 'setGuildIcon', label: 'Guild Icon', style: 'Blue' },
-	{ id: 'setColorTheme', label: 'Color Theme', style: 'Blue' }
+	{ id: 'setGuild', label: 'Guild', style: 'Green' },
+	{ id: 'setStaffRole', label: 'Staff Roles', style: 'Green' },
+	{ id: 'setLogsChannel', label: 'Logs Channel', style: 'Green' },
+	{ id: 'setIcon', label: 'Icon', style: 'Green' },
+	{ id: 'setColorTheme', label: 'Color Theme', style: 'Green' }
 ]);
 
 const backRow = createRow([
@@ -88,7 +88,7 @@ async function setLogsChannel(interaction)
 	await interaction.showModal(modal);
 }
 
-async function setGuildIcon(interaction) 
+async function setIcon(interaction) 
 {
 	const modal = createModal({
 		id: 'setGuildIconForm',
@@ -154,7 +154,6 @@ async function setStaffRoleLogic(interaction)
 		.sort((a, b) => interaction.guild.roles.cache.get(b).position - interaction.guild.roles.cache.get(a).position);
 
 	const serverID = interaction.guild.id;
-	console.log(serverID);
 	const data = readConfig();
 	data.staffRole = roleIDs;
 	data.serverID = serverID;
@@ -181,7 +180,7 @@ async function setGuildIconLogic(interaction)
 {
 	const input = interaction.fields.getTextInputValue('setGuildIconInput');
 	const data = readConfig();
-	data.guildIcon = input;
+	data.icon = input;
 	writeConfig(data);
 	await interaction.reply({ embeds: [createMsg({ desc: '**Guild Icon has been updated!**' })], ephemeral: true });
 	await interaction.followUp({ content: input, ephemeral: true });
@@ -211,7 +210,7 @@ module.exports =
 	setStaffRoleLogic,
 	setLogsChannel,
 	setLogsChannelLogic,
-	setGuildIcon, 
+	setIcon, 
 	setGuildIconLogic, 
 	setColorTheme, 
 	setColorThemeLogic 
