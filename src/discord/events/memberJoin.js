@@ -1,6 +1,6 @@
 const { Events } = require('discord.js');
 const { readConfig } = require('../../helper/configUtils.js');
-const { welcomeMsg, welcomeRole } = require('../logic/welcome.js');
+const { welcomeMsg, welcomeRole } = require('../logic/welcome/logic.js');
 
 module.exports = 
 {

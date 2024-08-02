@@ -1,68 +1,49 @@
-/* eslint-disable indent */
-
 const { Events } = require('discord.js');
-const fs = require('fs');
-const path = require('path');
 const log = require('../../helper/logger.js');
+const readLogic = require('../logic/logicUtils.js');
 
-const lDir = path.join(__dirname, '../logic');
-const lFiles = fs.readdirSync(lDir).filter(file => file.endsWith('.js'));
-const Logic = lFiles.reduce((acc, file) => 
+const map = // Logic Function to Menu Select Item
 {
-	const logicModule = require(path.join(lDir, file));
+	configsMenu: 
+	{
+		setGuild: 'setGuild',
+		setStaffRole: 'setStaffRole',
+		setLogsChannel: 'setLogsChannel',
+		setIcon: 'setIcon',
+		setColorTheme: 'setColorTheme'
+	},
+	featuresMenu: 
+	{
+		welcomeFeatures: 'welcomeFeatures',
+		accountLinking: 'accountLinking'
+	}
+};
+
+const Logic = readLogic();
 	
-	if (typeof logicModule === 'object' && logicModule !== null) Object.assign(acc, logicModule);
-	else acc[file.replace('.js', '')] = logicModule;
-	
-	return acc;
-}, {});
-	
+const menuHandler = async (interaction) => 
+{
+	const { customId, values } = interaction;
+	const selectedValue = values[0];
+	const logicName = map[customId]?.[selectedValue];
+    
+	if (logicName) 
+	{
+		const logicFunction = Logic[logicName];
+		if (logicFunction) await logicFunction(interaction);
+		else console.warn(`Missing logic function for menu: ${logicName}`);
+	} 
+	else console.warn(`[WARNING] Missing handler for menu ID: ${customId} and value: ${selectedValue}`);
+};
+
 module.exports = 
 {
 	name: Events.InteractionCreate,
-	async execute(interaction)
+	async execute(interaction) 
 	{
 		if (!interaction.isStringSelectMenu()) return;
 		log(interaction);
 
-		const { customId, values } = interaction;
-		const selectedValue = values[0];
-
-		switch (customId) 
-		{
-			case 'configsMenu':
-            	switch (selectedValue) 
-				{
-					case 'setGuild':
-						await Logic.setGuild(interaction);
-						break;
-
-					case 'setStaffRole':
-						await Logic.setStaffRole(interaction);
-						break;
-
-					case 'setLogsChannel':
-						await Logic.setLogsChannel(interaction);
-						break;
-
-					case 'setIcon':
-						await Logic.setIcon(interaction);
-						break;
-
-					case 'setColorTheme':
-						await Logic.setColorTheme(interaction);
-						break;
-            	}
-			break;
-
-			case 'featuresMenu':
-            	switch (selectedValue) 
-				{
-					case 'setWelcome':
-						await Logic.welcome(interaction);
-						break;
-				}
-
-		}
+		await menuHandler(interaction);
 	}
 };

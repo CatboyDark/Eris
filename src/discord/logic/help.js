@@ -1,9 +1,10 @@
+const { PermissionFlagsBits } = require('discord.js');
 const { createMsg, createRow } = require('../../helper/builder.js');
 const { readConfig } = require('../../helper/configUtils.js');
 const fs = require('fs');
 const path = require('path');
 
-async function createHelpMsg(interaction)
+async function createHelpMsg(interaction) 
 {
 	const config = readConfig();
 
@@ -12,17 +13,36 @@ async function createHelpMsg(interaction)
 		.map(file => require(path.join(cmdsDirectory, file)))
 		.filter(command => command && command.type && command.data);
 
-	const isStaff = interaction.member.roles.cache.some(role => config.staffRole.includes(role.id));
+	const userPermissions = BigInt(interaction.member.permissions.bitfield);
 
-	const formatCommands = (staffOnly = false) =>
-		cmds
-			.filter(cmd => staffOnly ? cmd.staff : !cmd.staff)
+	const hasAdminPermission = (userPermissions & PermissionFlagsBits.Administrator) === PermissionFlagsBits.Administrator;
+	
+	const hasPermission = (permissions) => 
+	{
+		if (hasAdminPermission) return true;
+		if (permissions.length === 0) return true;
+	
+		const permissionBits = permissions.reduce((acc, perm) => {
+			const permBit = PermissionFlagsBits[perm];
+			if (permBit === undefined) throw new Error(`Unsupported permission: ${perm}`);
+			return acc | BigInt(permBit);
+		}, BigInt(0));
+	
+		return (userPermissions & permissionBits) === permissionBits;
+	};
+
+	const formatCommands = (commands) =>
+		commands
+			.filter(cmd => hasPermission(cmd.permissions || []))
 			.sort((a, b) => a.data.name.localeCompare(b.data.name))
-			.map(cmd => `* **\`/${cmd.data.name}\`** ${cmd.data.description}`)
+			.map(cmd => `- **\`/${cmd.data.name}\`** ${cmd.data.description}`)
 			.join('\n');
 
-	const nonCommands = `**Commands**\n${formatCommands()}`;
-	const staffCommands = isStaff ? `\n\n**Staff**\n${formatCommands(true)}` : '';
+	const nonList = cmds.filter(cmd => !(cmd.permissions && cmd.permissions.length > 0));
+	const staffList = cmds.filter(cmd => cmd.permissions && cmd.permissions.length > 0);
+
+	const nonCommands = `**Commands**\n${formatCommands(nonList)}`;
+	const staffCommands = staffList.length > 0 ? `\n\n**Staff Commands**\n${formatCommands(staffList)}` : '';
 
 	return createMsg({
 		icon: config.icon,
@@ -83,9 +103,9 @@ async function credits(interaction)
 	});
 
 	const buttons = createRow([
-		{ id: 'cmds', label: 'Commands', style: 'Blue' },
-		{ id: 'credits', label: 'Credits', style: 'Green' },
-		{ id: 'support', label: 'Support', style: 'Green' },
+		{ id: 'cmds', label: 'Commands', style: 'Green' },
+		{ id: 'credits', label: 'Credits', style: 'Blue' },
+		{ id: 'support', label: 'Support', style: 'Blue' },
 		{label: 'GitHub', url: 'https://github.com/CatboyDark/Eris'}
 	]);
 
@@ -107,9 +127,9 @@ async function support(interaction)
 	});
 
 	const buttons = createRow([
-		{ id: 'cmds', label: 'Commands', style: 'Blue' },
-		{ id: 'credits', label: 'Credits', style: 'Green' },
-		{ id: 'support', label: 'Support', style: 'Green' },
+		{ id: 'cmds', label: 'Commands', style: 'Green' },
+		{ id: 'credits', label: 'Credits', style: 'Blue' },
+		{ id: 'support', label: 'Support', style: 'Blue' },
 		{label: 'GitHub', url: 'https://github.com/CatboyDark/Eris'}
 	]);
 

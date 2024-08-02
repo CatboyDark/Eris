@@ -6,7 +6,11 @@ const featuresMsg = createMsg({
 		'1. **Welcome** (Message, Role)\n' +
 		'What happens when someone joins your Discord server?\n\n' +
 
-		'2.'
+		'2. **Hypixel Linking**\n' +
+		'Link your Hypixel account to your Discord! (not a scam trust)\n\n' +
+
+		'3. **Custom Roles**\n' +
+		'Custom Skyblock roles! (Requires Hypixel Linking)'
 });
 
 const featuresMenu = createRow([
@@ -15,7 +19,9 @@ const featuresMenu = createRow([
 		placeholder: 'Select a feature',
 		options:
 		[
-			{ value: 'setWelcome', label: 'Welcome', desc: 'What happens when someone joins your Discord server?' }
+			{ value: 'welcomeFeatures', label: 'Welcome', desc: 'What happens when someone joins your Discord server?' },
+			{ value: 'accountLinking', label: 'Account Linking', desc: 'Discord-Hypixel linking system' },
+			{ value: 'customRoles', label: 'Custom Roles', desc: 'Custom Skyblock Roles (Requires Hypixel Linking)' }
 		]
 	}
 ]);

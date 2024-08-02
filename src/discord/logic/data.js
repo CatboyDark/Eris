@@ -11,13 +11,13 @@ async function createCommandDataMsg()
 {
 	const config = readConfig();
 	const commandData = await db.Command.find({}).sort({ count: -1 }).exec();
-	const commandDesc = commandData.map(cmd => `**/${cmd.command}**: ${cmd.count}`).join('\n');
+	const commandDesc = commandData.map(cmd => `- **\`/${cmd.command}\`** ${cmd.count}`).join('\n');
 
 	return createMsg({
 		icon: config.icon,
 		title: config.guild,
 		desc: 
-			'**Commands**\n\n' + 
+			'**Commands**\n' + 
 			commandDesc
 	});
 }
@@ -26,12 +26,12 @@ async function createButtonDataMsg()
 {
 	const config = readConfig();
 	const buttonData = await db.Button.find({}).sort({ count: -1 }).exec();
-	const buttonDesc = buttonData.map(b => `**${b.button}** (${b.source}): ${b.count}`).join('\n');
+	const buttonDesc = buttonData.map(b => `- **\`${b.button}\`** (${b.source}): ${b.count}`).join('\n');
 
 	return createMsg({
 		icon: config.icon,
 		title: config.guild,
-		desc: '**Buttons**\n\n' + buttonDesc
+		desc: '**Buttons**\n' + buttonDesc
 	});
 }
 

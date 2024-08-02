@@ -24,6 +24,10 @@
 		"welcomeMsg": "",
 		"welcomeRoleToggle": false,
 		"welcomeRole": "",
-		"removeRoleOnLink": false
+		"removeRoleOnLink": false,
+		"linkRoleToggle": false,
+		"linkRole": "",
+		"guildRoleToggle": false,
+		"guildRole": ""
   }
 }

@@ -1,6 +1,6 @@
 const { readConfig, writeConfig } = require('./configUtils.js');
 
-const buttonMap = 
+const map = // Button to Config
 {
 	logs: 
 	{
@@ -14,7 +14,9 @@ const buttonMap =
 	{
 		'welcomeMsgToggle': 'welcomeMsgToggle',
 		'welcomeRoleToggle': 'welcomeRoleToggle',
-		'removeRoleOnLink': 'removeRoleOnLink'
+		'removeRoleOnLink': 'removeRoleOnLink',
+		'linkRoleToggle': 'linkRoleToggle',
+		'guildRoleToggle': 'guildRoleToggle'
 	}
 };
 
@@ -25,7 +27,7 @@ async function newColors(interaction)
 	const config = readConfig();
 	const { customId } = interaction;
 
-	for (const [category, buttons] of Object.entries(buttonMap)) 
+	for (const [category, buttons] of Object.entries(map)) 
 	{
 		if (buttons.hasOwnProperty(customId)) 
 		{
@@ -38,7 +40,7 @@ async function newColors(interaction)
 	writeConfig(config);
 
 	const buttonColors = {};
-	for (const [category, buttons] of Object.entries(buttonMap)) 
+	for (const [category, buttons] of Object.entries(map)) 
 	{
 		for (const [buttonId, key] of Object.entries(buttons)) 
 		{
@@ -50,6 +52,6 @@ async function newColors(interaction)
 }
 
 module.exports = {
-	buttonMap,
+	buttonMap: map,
 	newColors
 };

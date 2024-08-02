@@ -131,15 +131,11 @@ class DCinit
 
 		this.client.on('ready', () => 
 		{
-			const embed = createMsg({
-				desc: '**Discord is Online!**'
-			});
-
 			const config = readConfig();
 			if (config.logsChannel)
 			{
 				const channel = this.client.channels.cache.get(config.logsChannel);
-				channel.send({ embeds: [embed] });
+				channel.send({ embeds: [createMsg({ desc: '**Discord is Online!**' })] });
 			}
 			if (config.guild)
 			{

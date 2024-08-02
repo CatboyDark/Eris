@@ -11,11 +11,21 @@ const buttonSchema = new mongoose.Schema({
 	count: { type: Number, default: 0 }
 });
 
+
+const linkSchema = new mongoose.Schema({
+	uuid: { type: String, required: true },
+	dcid: { type: String, required: true }
+}, { collection: 'playersLinked' });
+
+linkSchema.index({ uuid: 1, dcid: 1 }, { unique: true });
+
 const Command = mongoose.model('Command', commandSchema);
 const Button = mongoose.model('Button', buttonSchema);
+const Link = mongoose.model('Link', linkSchema);
 
 module.exports = 
 {
 	Command,
-	Button	
+	Button,
+	Link
 };
