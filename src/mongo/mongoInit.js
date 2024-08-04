@@ -12,7 +12,7 @@ class Mongo
 		try 
 		{
 			await mongoose.connect(`${this.URI}`);
-			console.log('Mongo is online!');
+			console.log('ErisDB is online!');
 		} 
 		catch (error) 
 		{
