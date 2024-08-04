@@ -1,19 +1,18 @@
 const mongoose = require('mongoose');
 
-class mongo
+class Mongo
 {
-	constructor() 
+	constructor(URI) 
 	{
-		this.mongoURI = 'mongodb://localhost:27017';
-		this.databaseName = 'ErisDB';
+		this.URI = URI;
 	}
 
-	async init() 
+	async connect() 
 	{
 		try 
 		{
-			await mongoose.connect(`${this.mongoURI}/${this.databaseName}`);
-			console.log(`${this.databaseName} is online!`);
+			await mongoose.connect(`${this.URI}`);
+			console.log('Mongo is online!');
 		} 
 		catch (error) 
 		{
@@ -21,6 +20,14 @@ class mongo
 			process.exit(1);
 		}
 	}
+
+	static async init(URI) 
+	{
+		const mongo = new Mongo(URI);
+		await mongo.connect();
+
+		return mongo;
+	}
 }
 
-module.exports = new mongo;
+module.exports = Mongo;
