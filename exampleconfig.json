@@ -9,7 +9,7 @@
   	"serverID": "",
   	"staffRole": [],
 	"icon": "https://i.imgur.com/9AnnZVG.png",
-	"colorTheme": "000000",
+	"colorTheme": "ff6ec7",
 	"logsChannel": "",
   	"logs": {
 		"enabled": true,

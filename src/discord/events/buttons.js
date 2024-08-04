@@ -1,68 +1,34 @@
 const { Events } = require('discord.js');
 const log = require('../../helper/logger.js');
-const readLogic = require('../logic/logicUtils.js');
+const readLogic = require('../../helper/logicUtils.js');
 
-const map = // Logic Function to Button
+const map = // Exceptions
 {
-	// Setup
-	'configs': ['configs'],
-	'features': ['features'],
-	'logging': 
-	[
-		'logging',
-		'logsToggle',
-		'logCommandsToggle',
-		'logButtonsToggle',
-		'logMenusToggle',
-		'logFormsToggle'
-	],
-	'backToSetup': ['backToSetup'],
-	'backToFeatures': ['backToFeatures'],
-	'setGuildForm': ['setGuild'],
-	'setStaffRoleForm': ['setStaffRole'],
-	'setLogsChannelForm': ['setLogsChannel'],
-	'setIconForm': ['setIcon'],
-	'setColorThemeForm': ['setColorTheme'],
+	'logsToggle': 'logging',
+	'logCommandsToggle': 'logging',
+	'logButtonsToggle': 'logging',
+	'logMenusToggle': 'logging',
+	'logFormsToggle': 'logging',
 
-	// Welcome
-	'setWelcomeChannelForm': ['setWelcomeChannel'],
-	'setWelcomeMsgForm': ['setwelcomeMsg'],
-	'setWelcomeRoleForm': ['setWelcomeRole'],
+	'welcomeMsgToggle': 'welcome',
+	'welcomeRoleToggle': 'welcome',
+	'removeRoleOnLink': 'welcome',
 
-	// Link
-	'setLinkChannelForm': ['setLinkChannel'],
-	'setLinkRoleForm': ['setLinkRole'],
-	'setGuildRoleForm': ['setGuildRole'],
-	'accountLinking': 
-	[
-		'linkRoleToggle',
-		'guildRoleToggle'
-	],
-	'linkHelp': ['linkHelp'],
-	'linkForm': ['link'],
-
-	// Help
-	'cmds': ['cmds'],
-	'credits': ['credits'],
-	'support': ['support'],
-	'MCcmds': ['MCcmds'],
-	'welcome': 
-	[
-		'welcomeMsgToggle',
-		'welcomeRoleToggle',
-		'removeRoleOnLink'
-	],
-
-	// Data
-	'commandData': ['commandData'],
-	'buttonData': ['buttonData']
+	'linkRoleToggle': 'accountLinking',
+	'guildRoleToggle': 'accountLinking'
 };
 
 const Logic = readLogic();
 
-const buttonHandlers = Object.keys(map).reduce((acc, key) => 
+const buttonHandler = Object.keys(Logic).reduce((acc, logicName) => 
 {
-	map[key].forEach(buttonId => acc[buttonId] = Logic[key]);
+	acc[logicName] = Logic[logicName];
+
+	for (const [buttonId, exceptionLogic] of Object.entries(map)) 
+	{
+		if (exceptionLogic === logicName) acc[buttonId] = Logic[logicName];
+	}
+
 	return acc;
 }, {});
 
@@ -74,9 +40,9 @@ module.exports =
 		if (!interaction.isButton()) return;
 		log(interaction);
 
-		const handler = buttonHandlers[interaction.customId];
+		const handler = buttonHandler[interaction.customId];
 
 		if (handler) await handler(interaction);
-		else console.warn(`Missing logic for button: ${interaction.customId}`);
+		else console.warn(`${interaction.customId} logic does not exist!`);
 	}
 };

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const dir = path.join(__dirname, '../logic');
+const dir = path.join(__dirname, '..', 'discord', 'logic');
 
 function readLogic() 
 {

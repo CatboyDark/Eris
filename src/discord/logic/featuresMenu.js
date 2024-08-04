@@ -19,7 +19,7 @@ const featuresMenu = createRow([
 		placeholder: 'Select a feature',
 		options:
 		[
-			{ value: 'welcomeFeatures', label: 'Welcome', desc: 'What happens when someone joins your Discord server?' },
+			{ value: 'welcome', label: 'Welcome', desc: 'What happens when someone joins your Discord server?' },
 			{ value: 'accountLinking', label: 'Account Linking', desc: 'Discord-Hypixel linking system' },
 			{ value: 'customRoles', label: 'Custom Roles', desc: 'Custom Skyblock Roles (Requires Hypixel Linking)' }
 		]

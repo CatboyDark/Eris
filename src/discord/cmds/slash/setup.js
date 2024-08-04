@@ -1,4 +1,4 @@
-const { startMsg, startButtons } = require('../../logic/configs/assets.js');
+const { setupMsg, setupButtons } = require('../../logic/setup/setupMenu.js');
 const { createSlash } = require('../../../helper/builder.js');
 
 module.exports = createSlash({
@@ -8,6 +8,6 @@ module.exports = createSlash({
 		
 	async execute(interaction) 
 	{
-		await interaction.reply({ embeds: [startMsg], components: [startButtons] });
+		await interaction.reply({ embeds: [setupMsg], components: [setupButtons] });
 	}
 });

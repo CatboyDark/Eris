@@ -1,8 +1,8 @@
-const { createMsg, createRow, createModal } = require('../../../helper/builder.js');
+const { createMsg, createRow } = require('../../../helper/builder.js');
 const { readConfig } = require('../../../helper/configUtils.js');
 const { newColors } = require('../../../helper/dynamicButtons.js');
 
-const welcomeFeaturesMsg = createMsg({
+const welcomeMsg = createMsg({
 	title: 'Welcome',
 	desc:
 		'1. **Welcome Message**\n' +
@@ -41,7 +41,7 @@ async function createButtons(interaction)
 	return { welcomeMsgButtons, welcomeRoleButtons, back };
 }
 
-async function welcomeFeatures(interaction)
+async function welcome(interaction)
 {
 	const config = await readConfig();
 
@@ -78,62 +78,11 @@ async function welcomeFeatures(interaction)
 	}
 	
 	const { welcomeMsgButtons, welcomeRoleButtons, back } = await createButtons(interaction);
-	interaction.update({ embeds: [welcomeFeaturesMsg], components: [welcomeMsgButtons, welcomeRoleButtons, back] });
+	interaction.update({ embeds: [welcomeMsg], components: [welcomeMsgButtons, welcomeRoleButtons, back] });
 	return true;
 }
 
-async function setWelcomeChannel(interaction)
+module.exports =
 {
-	const modal = createModal({
-		id: 'setWelcomeChannelForm',
-		title: 'Set Welcome Channel',
-		components: [{
-			id: 'setWelcomeChannelInput',
-			label: 'CHANNEL ID:',
-			style: 'short',
-			required: false
-		}]
-	});
-	
-	await interaction.showModal(modal);
-}
-
-async function setWelcomeMsg(interaction)
-{
-	const modal = createModal({
-		id: 'setwelcomeMsgForm',
-		title: 'Set Welcome Msg',
-		components: [{
-			id: 'setwelcomeMsgInput',
-			label: 'WELCOME MESSAGE:',
-			style: 'long',
-			required: false
-		}]
-	});
-	
-	await interaction.showModal(modal);
-}
-
-async function setWelcomeRole(interaction)
-{
-	const modal = createModal({
-		id: 'setWelcomeRoleForm',
-		title: 'Set Welcome Channel',
-		components: [{
-			id: 'setWelcomeRoleInput',
-			label: 'ROLE ID:',
-			style: 'short',
-			required: false
-		}]
-	});
-	
-	await interaction.showModal(modal);
-}
-
-module.exports = 
-{
-	welcomeFeatures,
-	setWelcomeChannel,
-	setWelcomeMsg,
-	setWelcomeRole
+	welcome
 };

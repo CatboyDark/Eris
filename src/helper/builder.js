@@ -124,14 +124,14 @@ function createModal({ id, title, components })
 			.setStyle(textInputStyle)
 			.setRequired(component.required);
 
-		if (component.length) 
-		{
-			const [minLength, maxLength] = component.length.split(' ').map(num => parseInt(num));
-			textInput.setMinLength(minLength).setMaxLength(maxLength);
-			
-			if (isNaN(minLength) || isNaN(maxLength)) 
-			{ throw new Error(`Invalid length format: ${component.length}`); }
-		}
+			if (Array.isArray(component.length) && component.length.length === 2) 
+			{
+				const [minLength, maxLength] = component.length.map(num => parseInt(num, 10));
+	
+				if (isNaN(minLength) || isNaN(maxLength)) throw new Error(`Invalid length values: ${component.length}`);
+	
+				textInput.setMinLength(minLength).setMaxLength(maxLength);
+			}
 	
 		modal.addComponents(new ActionRowBuilder().addComponents(textInput));
 	});
