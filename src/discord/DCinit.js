@@ -26,7 +26,6 @@ class DCinit
 
 		this.initCmds();
 		this.initEvents();
-		// this.initFeatures();
 		this.initEmojis();
 		this.login();
 	}
@@ -89,19 +88,6 @@ class DCinit
 				this.client.on(event.name, (...args) => event.execute(...args)); 
 		}
 	}
-
-	// initFeatures()
-	// {
-	// 	const fDir = path.join(__dirname, 'features');
-	// 	const fFiles = fs.readdirSync(fDir).filter((file) => file.endsWith('.js'));
-
-	// 	for (const f of fFiles) 
-	// 	{
-	// 		const fp = path.join(fDir, f);
-	// 		const feature = require(fp);
-	// 		feature(this.client);
-	// 	}
-	// }
 
 	async initEmojis() 
 	{
