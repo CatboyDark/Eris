@@ -145,41 +145,51 @@ function createSlash({ name, desc, options = [], execute, permissions = [] })
         .setName(name)
         .setDescription(desc);
 
-    options.forEach(option => 
-	{
-        const { type, name, description, required } = option;
-        const isRequired = required === undefined ? false : required;
-
-        switch (type) 
+		options.forEach(option => 
 		{
-            case 'user':
-                commandBuilder.addUserOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
-                break;
-            case 'role':
-                commandBuilder.addRoleOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
-                break;
-            case 'channel':
-                commandBuilder.addChannelOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
-                break;
-            case 'string':
-                commandBuilder.addStringOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
-				break;
-			case 'integer':
-				commandBuilder.addIntegerOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
-                break;
-            default:
-                throw new Error(`Unsupported option type: ${type}`);
-        }
-    });
+			const { type, name, description, required, choices } = option;
+			const isRequired = required === undefined ? false : required;
+			const hasChoices = choices || [];
+	
+			switch (type) 
+			{
+				case 'user':
+					commandBuilder.addUserOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
+					break;
+				case 'role':
+					commandBuilder.addRoleOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
+					break;
+				case 'channel':
+					commandBuilder.addChannelOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
+					break;
+				case 'string':
+					commandBuilder.addStringOption(o => {
+						o.setName(name).setDescription(description).setRequired(isRequired);
+						if (hasChoices.length > 0) o.addChoices(...hasChoices);
+						return o;
+					});
+					break;
+				case 'integer':
+					commandBuilder.addIntegerOption(o => {
+						o.setName(name).setDescription(description).setRequired(isRequired);
+						if (hasChoices.length > 0) o.addChoices(...hasChoices);
+						return o;
+					});
+					break;
+				default:
+					throw new Error(`Unsupported option type: ${type}`);
+			}
+		});
 
-    if (permissions) 
+    if (permissions && permissions.length > 0) 
 	{
-        const permissionBits = permissions.reduce((acc, perm) => {
+        const permissionBits = permissions.reduce((acc, perm) => 
+		{
             const permBit = PermissionFlagsBits[perm];
             if (permBit === undefined) throw new Error(`Unsupported permission: ${perm}`);
             return acc | BigInt(permBit);
         }, BigInt(0));
-        
+
         commandBuilder.setDefaultMemberPermissions(permissionBits);
     }
 
@@ -187,7 +197,7 @@ function createSlash({ name, desc, options = [], execute, permissions = [] })
         type: 'slash',
         data: commandBuilder,
         execute,
-		permissions
+        permissions
     };
 }
 
