@@ -38,21 +38,17 @@ async function createLogMsg(interaction)
 			{
 				const messageId = await interaction.fetchReply().then(reply => reply.id);
 				const options = interaction.options.data.map(option => 
-				{
-					switch (option.type) 
-					{
-						case 6:
-							return ` <@${option.value}>`;
-						case 8:
-							return ` <@&${option.value}>`;
-						default:
-							return ` ${option.value}`;
-					}
-				}).join(' ');
+					option.type === 6 ? ` <@${option.value}> ` : 
+					option.type === 8 ? ` <@&${option.value}> ` : 
+					` ${option.value} `
+				);
+            	// .join(' ');
+
+        		const optionsString = options ? `[${options}]` : '';
 
 				title = 'Command';
 				desc = 
-						`<@${interaction.user.id}> ran **/${interaction.commandName}**${options}\n` +
+						`<@${interaction.user.id}> ran **/${interaction.commandName}** ${optionsString}\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${messageId}`;
 			} 
 			else return null;

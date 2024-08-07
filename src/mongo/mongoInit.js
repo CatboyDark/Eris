@@ -1,17 +1,18 @@
 const mongoose = require('mongoose');
+const { mongoURI } = require('../../config.json');
 
-class Mongo
+class Mongo 
 {
-	constructor(URI) 
+	constructor() 
 	{
-		this.URI = URI;
+		this.URI = mongoURI;
 	}
 
 	async connect() 
 	{
 		try 
 		{
-			await mongoose.connect(`${this.URI}`);
+			await mongoose.connect(this.URI);
 			console.log('ErisDB is online!');
 		} 
 		catch (error) 
@@ -21,13 +22,15 @@ class Mongo
 		}
 	}
 
-	static async init(URI) 
+	static async create() 
 	{
-		const mongo = new Mongo(URI);
+		const mongo = new Mongo();
 		await mongo.connect();
-
 		return mongo;
 	}
 }
 
-module.exports = Mongo;
+module.exports = async function() 
+{
+	return await Mongo.create();
+};

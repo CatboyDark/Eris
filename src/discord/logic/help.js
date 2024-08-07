@@ -38,8 +38,8 @@ async function createHelpMsg(interaction)
 			.map(cmd => `- **\`/${cmd.data.name}\`** ${cmd.data.description}`)
 			.join('\n');
 
-	const nonList = cmds.filter(cmd => !(cmd.permissions && cmd.permissions.length > 0));
-	const staffList = cmds.filter(cmd => cmd.permissions && cmd.permissions.length > 0);
+	const nonList = cmds.filter(cmd => !cmd.permissions);
+	const staffList = cmds.filter(cmd => cmd.permissions);
 
 	const nonCommands = `**Commands**\n${formatCommands(nonList)}`;
 	const staffCommands = staffList.length > 0 ? `\n\n**Staff Commands**\n${formatCommands(staffList)}` : '';

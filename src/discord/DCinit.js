@@ -1,13 +1,14 @@
 const { Client, Collection, GatewayIntentBits, REST, Routes, ActivityType } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const { appID} = require('../../config.json');
+const { appID, token } = require('../../config.json');
 const { createMsg } = require('../helper/builder.js');
 const { readConfig } = require('../helper/configUtils.js');
+const emojis = path.join(__dirname, '../../assets/emojis');
 
 class DCinit
 {
-	constructor(token)
+	constructor()
 	{
 		this.client = new Client({
 			intents: [
@@ -19,36 +20,44 @@ class DCinit
 		});
 
 		this.token = token;
-
+		this.appID = appID;
 		this.client.pc = new Collection();
 		this.client.sc = new Collection();
 
 		this.initCmds();
 		this.initEvents();
 		// this.initFeatures();
-
-		this.deploy();
+		this.initEmojis();
 		this.login();
 	}
 
-	async initCmds()
+	async initCmds() 
 	{
 		const cDir = path.join(__dirname, 'cmds');
 		const cFiles = fs.readdirSync(cDir);
 
-		for (const c of cFiles) 
-		{
+		const commands = [];
+
+		for (const c of cFiles) {
 			const cp = path.join(cDir, c);
 			const cf = fs.readdirSync(cp).filter((file) => file.endsWith('.js'));
-			for (const f of cf) 
-			{
+
+			for (const f of cf) {
 				const fp = path.join(cp, f);
 				const cmd = require(fp);
 
-				if (cmd.type === 'plain') this.client.pc.set(cmd.name, cmd);
-				if (cmd.type === 'slash') this.client.sc.set(cmd.data.name, cmd);
+				if (cmd.type === 'plain') {
+					this.client.pc.set(cmd.name, cmd);
+				}
+				if (cmd.type === 'slash') {
+					this.client.sc.set(cmd.data.name, cmd);
+					commands.push(cmd.data.toJSON());
+				}
 			}
 		}
+
+		const rest = new REST({ version: '10' }).setToken(this.token);
+		await rest.put(Routes.applicationCommands(this.appID), { body: commands });
 
 		this.client.on('message', async (message) => 
 		{
@@ -94,37 +103,54 @@ class DCinit
 	// 	}
 	// }
 
-	async deploy()
+	async initEmojis() 
 	{
-		const foldersPath = path.join(__dirname, 'cmds');
-		const commands = this.collectCommands(foldersPath);
-
-		const rest = new REST({ version: '10' }).setToken(this.token);
-		await rest.put(Routes.applicationCommands(appID), { body: commands });
-	}
-
-	readCommandFile(filePath)
-	{
-		const command = require(filePath);
-		if (command.data && command.execute) { return command.data.toJSON(); }
-		else {
-			console.warn(`[WARNING] The command at ${filePath} is incomplete!`);
-			return null;
+		const response = await fetch(`https://discord.com/api/v10/applications/${this.appID}/emojis`, 
+			{
+				method: 'GET',
+				headers: {
+					'Authorization': `Bot ${this.token}`
+				}
+			});
+		if (!response.ok) throw new Error('Failed to fetch emojis D:');
+	
+		const existingEmojis = await response.json();
+		this.client.emojiMap = new Map(existingEmojis.items.map(emoji => [emoji.name, emoji.id]));
+	
+		const files = fs.readdirSync(emojis);
+	
+		for (const file of files) 
+		{
+			const filePath = path.join(emojis, file);
+			const fileName = path.parse(file).name;
+	
+			if (path.extname(file) === '.png' && !this.client.emojiMap.has(fileName)) 
+			{
+				const base64Image = `data:image/png;base64,${fs.readFileSync(filePath).toString('base64')}`;
+				const postResponse = await fetch(`https://discord.com/api/v10/applications/${this.appID}/emojis`, 
+					{
+						method: 'POST',
+						headers: {
+							'Authorization': `Bot ${this.token}`,
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							name: fileName,
+							image: base64Image
+						})
+					});
+				if (postResponse.ok) 
+				{
+					const newEmoji = await postResponse.json();
+					this.client.emojis.cache.set(newEmoji.id, newEmoji);
+					this.client.emojiMap.set(newEmoji.name, newEmoji.id);
+					console.log(`New Emoji: ${fileName}`);
+				} 
+				else console.error(`Failed to add emoji: ${fileName}`, await postResponse.json());
+			}
 		}
 	}
-
-	collectCommands(commandsPath)
-	{
-		const commandsPathSlash = path.join(commandsPath, 'slash');
-		const commandFiles = fs.readdirSync(commandsPathSlash).filter(file => file.endsWith('.js'));
-
-		return commandFiles.flatMap(file =>
-		{
-			const filePath = path.join(commandsPathSlash, file);
-			return this.readCommandFile(filePath);
-		}).filter(Boolean);
-	}
-
+	
 	login()
 	{
 		this.client.login(this.token);

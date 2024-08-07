@@ -24,7 +24,7 @@ function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon
 			inline: field.inline || false
 		});
 	});}
-	if (timestamp === 'relative' || timestamp === 'specific') 
+	if (timestamp === 'relative' || timestamp === 'exact') 
 	{
 		const now = new Date();
 		const newTimestamp = `<t:${getTimestamp(now)}:${timestamp === 'relative' ? 'R' : 'f'}>`;
@@ -172,7 +172,7 @@ function createSlash({ name, desc, options = [], execute, permissions = [] })
         }
     });
 
-    if (permissions && permissions.length > 0) 
+    if (permissions) 
 	{
         const permissionBits = permissions.reduce((acc, perm) => {
             const permBit = PermissionFlagsBits[perm];

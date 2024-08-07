@@ -8,8 +8,7 @@ module.exports = createSlash({
 		{ type: 'string', name: 'filter', description: 'User OR bot messages', choices: [
 			{ name: 'Bot Messages', value: 'bot' },
 			{ name: 'User Messages', value: 'user' }
-		]
-		}
+		]}
 	],
 	permissions: ['ManageMessages'],
 
