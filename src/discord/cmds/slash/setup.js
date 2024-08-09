@@ -1,4 +1,4 @@
-const { setupMsg, setupButtons } = require('../../logic/setup/setupMenu.js');
+const { setupMsg, setupButtons } = require('../../logic/settings/setupMenu.js');
 const { createSlash } = require('../../../helper/builder.js');
 
 module.exports = createSlash({

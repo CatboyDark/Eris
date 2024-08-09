@@ -1,4 +1,5 @@
 const { createMsg, createSlash } = require('../../../helper/builder.js');
+const getEmoji = require('../../../helper/emojiUtils.js');
 	
 module.exports = createSlash({
 	name: 'role',
@@ -15,6 +16,9 @@ module.exports = createSlash({
 
 	async execute(interaction) 
 	{
+		const plus = await getEmoji('plus');
+		const minus = await getEmoji('minus');
+
 		await interaction.deferReply();
 
 		const user = interaction.options.getMember('user');
@@ -44,8 +48,8 @@ module.exports = createSlash({
 		if (roleAdd.length > 0) await user.roles.add(roleAdd);
 
 		if (roleAdd.length > 0 || roleRemove.length > 0) {
-			const addedRoles = roleAdd.map(role => `+ <@&${role.id}>`).join('\n');
-			const removedRoles = roleRemove.map(role => `- <@&${role.id}>`).join('\n');
+			const addedRoles = roleAdd.map(role => `${plus} <@&${role.id}>`).join('\n');
+			const removedRoles = roleRemove.map(role => `${minus} <@&${role.id}>`).join('\n');
 			const desc = [addedRoles, removedRoles].filter(Boolean).join('\n');
 
 			const embed = createMsg({ desc: `${user} **Updated roles!**\n\n${desc}` });

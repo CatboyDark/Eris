@@ -1,6 +1,6 @@
 const { createMsg, createRow } = require('../../../helper/builder.js');
-const { readConfig } = require('../../../helper/configUtils.js');
-const { newColors } = require('../../../helper/dynamicButtons.js');
+const { readConfig, toggleConfig } = require('../../../helper/configUtils.js');
+
 
 const welcomeMsg = createMsg({
 	title: 'Welcome',
@@ -18,20 +18,20 @@ const welcomeMsg = createMsg({
 		'This is useful if you want members to link before they can access your server.'
 });
 
-async function createButtons(interaction) 
+async function createButtons() 
 {
-	const color = await newColors(interaction);
+	const config = readConfig();
 
 	const welcomeMsgButtons = createRow([
-		{ id: 'welcomeMsgToggle', label: 'Toggle Welcome Message', style: color['welcomeMsgToggle'] },
+		{ id: 'welcomeMsgToggle', label: 'Enable Welcome Message', style: config.features.welcomeMsgToggle },
 		{ id: 'setWelcomeChannel', label: 'Set Channel', style: 'Blue' },
 		{ id: 'setwelcomeMsg', label: 'Set Message', style: 'Blue' }
 	]);
 
 	const welcomeRoleButtons = createRow([
-		{ id: 'welcomeRoleToggle', label: 'Toggle Welcome Role', style: color['welcomeRoleToggle'] },
+		{ id: 'welcomeRoleToggle', label: 'Enable Welcome Role', style: config.features.welcomeRoleToggle },
 		{ id: 'setWelcomeRole', label: 'Set Role', style: 'Blue' },
-		{ id: 'removeRoleOnLink', label: 'Remove Role On Link', style: color['removeRoleOnLink'] }
+		{ id: 'removeRoleOnLink', label: 'Remove Role On Link', style: config.features.removeRoleOnLink }
 	]);
 
 	const back = createRow([
@@ -53,6 +53,7 @@ async function welcome(interaction)
 			await interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**You need to set a Welcome Channel first!**' })], ephemeral: true });
 			return false;
 		}
+		await toggleConfig('features.welcomeMsgToggle');
 		break;
 
 	case 'welcomeRoleToggle':
@@ -61,6 +62,7 @@ async function welcome(interaction)
 			await interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**You need to set a Welcome Role first!**' })], ephemeral: true });
 			return false;
 		}
+		await toggleConfig('features.guildRoleToggle');
 		break;
 
 	case 'removeRoleOnLink':
@@ -76,8 +78,8 @@ async function welcome(interaction)
 		}
 		break;
 	}
-	
-	const { welcomeMsgButtons, welcomeRoleButtons, back } = await createButtons(interaction);
+
+	const { welcomeMsgButtons, welcomeRoleButtons, back } = await createButtons();
 	interaction.update({ embeds: [welcomeMsg], components: [welcomeMsgButtons, welcomeRoleButtons, back] });
 	return true;
 }

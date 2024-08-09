@@ -43,12 +43,13 @@ const styles =
 	Blue: ButtonStyle.Primary,
 	Gray: ButtonStyle.Secondary,
 	Green: ButtonStyle.Success,
-	Red: ButtonStyle.Danger,
-	Link: ButtonStyle.Link
+	Red: ButtonStyle.Danger
 };
 
-function createButtons({ id, label, style, url }) 
+function createButtons({ id, label, style = 'Gray', url }) 
 {
+	if (typeof style === 'boolean') style = style ? 'Green' : 'Red';
+
 	if (url) 
 	{
 		return new ButtonBuilder()

@@ -19,7 +19,7 @@ async function getEmoji(name)
 		const emojis = data.items;
 
 		const emoji = emojis.find(e => e.name === name);
-		return emoji || null;
+		return emoji ? `<:${emoji.name}:${emoji.id}>` : null;
 	} 
 	catch (error) 
 	{

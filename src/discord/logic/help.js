@@ -33,14 +33,12 @@ async function createHelpMsg(interaction)
 
 	const formatCommands = (commands) =>
 		commands
-			.filter(cmd => hasPermission(cmd.permissions || []))
 			.sort((a, b) => a.data.name.localeCompare(b.data.name))
 			.map(cmd => `- **\`/${cmd.data.name}\`** ${cmd.data.description}`)
 			.join('\n');
 
-	const nonList = cmds.filter(cmd => !cmd.permissions);
-	const staffList = cmds.filter(cmd => cmd.permissions);
-
+	const nonList = cmds.filter(cmd => !cmd.permissions || cmd.permissions.length === 0);
+	const staffList = cmds.filter(cmd => cmd.permissions && cmd.permissions.length > 0 && hasPermission(cmd.permissions));
 	const nonCommands = `**Commands**\n${formatCommands(nonList)}`;
 	const staffCommands = staffList.length > 0 ? `\n\n**Staff Commands**\n${formatCommands(staffList)}` : '';
 
@@ -52,6 +50,7 @@ async function createHelpMsg(interaction)
 		footerIcon: 'https://i.imgur.com/4lpd01s.png'
 	});
 }
+
 
 function ingameCmds()
 {
@@ -97,7 +96,10 @@ async function credits(interaction)
 		title: config.guild,
 		desc:
             '**Credits**\n\n' +
-            '✦ <@1165302964093722697> ✦ <@486155512568741900> ✦\n ✦ <@1169174913832202306> ✦ <@468043261911498767> ✦',
+            '✦ <@1165302964093722697> ✦\n' +
+			'✦ <@486155512568741900> ✦\n' +
+			'✦ <@1169174913832202306> ✦\n' +
+			'✦ <@468043261911498767> ✦\n\n_ _',
 		footer: 'Created by @CatboyDark',
 		footerIcon: 'https://i.imgur.com/4lpd01s.png'
 	});
@@ -119,9 +121,9 @@ async function support(interaction)
 		icon: config.icon,
 		title: config.guild,
 		desc:
-            '**Bugs and Support**\n\n' +
-            'You may contact <@622326625530544128> for support. ❤\n' +
-            'To report any bugs or suggestions, check out our GitHub!\n',
+            '**Bugs and Support  ❤**\n\n' +
+            'Please contact <@622326625530544128> for support!\n' +
+            'To report any bugs or suggestions, check out our GitHub!\n\n_ _',
 		footer: 'Created by @CatboyDark',
 		footerIcon: 'https://i.imgur.com/4lpd01s.png'
 	});

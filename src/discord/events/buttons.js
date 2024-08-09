@@ -12,10 +12,7 @@ const map = // Exceptions
 
 	'welcomeMsgToggle': 'welcome',
 	'welcomeRoleToggle': 'welcome',
-	'removeRoleOnLink': 'welcome',
-
-	'linkRoleToggle': 'accountLinking',
-	'guildRoleToggle': 'accountLinking'
+	'removeRoleOnLink': 'welcome'
 };
 
 const Logic = readLogic();

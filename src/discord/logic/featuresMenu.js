@@ -3,11 +3,11 @@ const { createMsg, createRow } = require('../../helper/builder.js');
 const featuresMsg = createMsg({
 	title: 'Features',
 	desc: 
-		'1. **Welcome** (Message, Role)\n' +
+		'1. **Welcome**\n' +
 		'What happens when someone joins your Discord server?\n\n' +
 
 		'2. **Hypixel Linking**\n' +
-		'Link your Hypixel account to your Discord! (not a scam trust)\n\n' +
+		'Link your Hypixel account to your Discord!\n\n' +
 
 		'3. **Custom Roles**\n' +
 		'Custom Skyblock roles! (Requires Hypixel Linking)'

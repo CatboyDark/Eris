@@ -15,9 +15,9 @@
   	"logs": {
 		"enabled": true,
 		"commands": true,
-		"buttons": true,
-		"menus": true,
-		"forms": true
+		"buttons": false,
+		"menus": false,
+		"forms": false
   },
 	"features": {
 		"welcomeMsgToggle": false,

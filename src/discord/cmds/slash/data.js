@@ -3,7 +3,7 @@ const { createCommandDataMsg, dataButtons } = require('../../logic/data.js');
 
 module.exports = createSlash({
 	name: 'data',
-	desc: 'Display bot data',
+	desc: 'Display bot usage data',
 
 	async execute(interaction) 
 	{

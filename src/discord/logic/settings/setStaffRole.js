@@ -34,7 +34,7 @@ async function setStaffRole(interaction)
 	data.serverID = serverID;
 	writeConfig(data);
 	const newRoles = roleIDs.map(roleID => `<@&${roleID}>`).join('\n');
-	interaction.reply({ embeds: [createMsg({ desc: `Staff Role(s) have been set to:\n\n${newRoles}` })], ephemeral: true });
+	interaction.reply({ embeds: [createMsg({ desc: `**Staff Role(s) have been set to:**\n\n${newRoles}` })], ephemeral: true });
 }
 
 module.exports = 

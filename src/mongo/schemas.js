@@ -11,7 +11,6 @@ const buttonSchema = new mongoose.Schema({
 	count: { type: Number, default: 0 }
 });
 
-
 const linkSchema = new mongoose.Schema({
 	uuid: { type: String, required: true },
 	dcid: { type: String, required: true }

@@ -3,14 +3,14 @@ const { createMsg, createRow } = require('../../../helper/builder.js');
 const setupMsg = createMsg({
 	title: 'Getting Started',
 	desc: 
-		'**Hello!** Thank you for using Eris.\n\n' +
+		'**Hello!** Thank you for using Eris!\n\n' +
 		'This command edits the **config.json** file in your bot folder.\n' +
 		'You can manually adjust these settings anytime.\n\n' +
-		'Let\'s start by filling out the required Configs for the bot to function.'
+		'Let\'s start by filling out the required **Settings** for the bot to function!'
 });
 
 const setupButtons = createRow([
-	{ id: 'configs', label: 'Configs', style: 'Green' },
+	{ id: 'settings', label: 'Settings', style: 'Green' },
 	{ id: 'features', label: 'Features', style: 'Green' },
 	{ id: 'logging', label: 'Logs', style: 'Blue' }
 ]);

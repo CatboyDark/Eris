@@ -37,18 +37,22 @@ class DCinit
 
 		const commands = [];
 
-		for (const c of cFiles) {
+		for (const c of cFiles) 
+		{
 			const cp = path.join(cDir, c);
 			const cf = fs.readdirSync(cp).filter((file) => file.endsWith('.js'));
 
-			for (const f of cf) {
+			for (const f of cf) 
+			{
 				const fp = path.join(cp, f);
 				const cmd = require(fp);
 
-				if (cmd.type === 'plain') {
+				if (cmd.type === 'plain') 
+				{
 					this.client.pc.set(cmd.name, cmd);
 				}
-				if (cmd.type === 'slash') {
+				if (cmd.type === 'slash') 
+				{
 					this.client.sc.set(cmd.data.name, cmd);
 					commands.push(cmd.data.toJSON());
 				}
