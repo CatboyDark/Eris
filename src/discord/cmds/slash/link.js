@@ -1,34 +1,49 @@
-const { createMsg, createSlash } = require('../../../helper/builder.js');
+const { createSlash, createError, createMsg } = require('../../../helper/builder.js');
+const { getEmoji, readConfig, getPlayer, getDiscord, getGuild, getSBLevelHighest } = require('../../../helper/utils.js');
 const db = require('../../../mongo/schemas.js');
-const { readConfig, getEmoji, getPlayer, getGuild, getSBLevelHighest } = require('../../../helper/utils.js');
-	
-module.exports = createSlash({
-	name: 'roles',
-	desc: 'Update your roles',
+const Errors = require('hypixel-api-reborn');
 
+const notLinked = createError('**Discord is not linked!**\n_ _\nClick on **How To Link** for more info.');
+const noMatch = createError('**Discord does not match!**\n_ _\nClick on **How To Link** for more info.');
+const invalidIGN = createError('**Invalid Username!**');
+
+module.exports = createSlash({
+	name: 'link',
+	desc: 'Link your account',
+	options: [
+		{ type: 'string', name: 'ign', description: 'Enter your IGN', required: true }
+	],
+    
 	async execute(interaction) 
 	{
-		await interaction.deferReply({ ephemeral: true });
+		await interaction.deferReply();
 
-		const config = readConfig();
-		const user = interaction.user.id;
+		const input = interaction.options.getString('ign');
+		const check = await getEmoji('check');
 		const plus = await getEmoji('plus');
 		const minus = await getEmoji('minus');
-		
-		try 
-		{
-			const data = await db.Link.findOne({ dcid: user }).exec();
-			const uuid = data.uuid;
-			const player = await getPlayer(uuid);
 
-			try { await interaction.member.setNickname(player.nickname); } 
-			catch (e) 
-			{ 
-				if (e.message.includes('Missing Permissions')) 
-				{ 
-					await interaction.followUp({ embeds: [createMsg({ color: 'FFA500', desc: '**Silly! I cannot change the nickname of the server owner!**' })] });
-				} 
-			}
+		try
+		{
+			const config = readConfig();
+
+			const player = await getPlayer(input);
+			const discord = await getDiscord(player.uuid);
+			if (!discord) 
+				return interaction.followUp({ embeds: [notLinked] });
+			if (interaction.user.username !== discord) 
+				return interaction.followUp({ embeds: [noMatch] });
+
+			// Register into DB
+			db.Link.create({ uuid: player.uuid, dcid: interaction.user.id })
+				.catch((e) => { if (e.code === 11000) console.log('playersLinked: Duplicate Key!'); });;
+
+			// Set Nickname
+			interaction.member.setNickname(player.nickname)
+				.catch(e => {
+					if (e.message.includes('Missing Permissions')) 
+						return interaction.followUp({ embeds: [createMsg({ color: 'FFA500', desc: '**Silly! I cannot change the nickname of the server owner!**' })]});
+				});
 
 			const addedRoles = [];
 			const removedRoles = [];
@@ -42,7 +57,7 @@ module.exports = createSlash({
 					addedRoles.push(config.features.linkRole);
 				}
 			}
-			if (config.features.guildRoleToggle) 
+			if (config.features.guildRoleToggle)
 			{
 				const guild = await getGuild('player', player.uuid);
 				if (guild && guild.name === config.guild)
@@ -69,7 +84,7 @@ module.exports = createSlash({
 				const highestLevel = await getSBLevelHighest(player);
 				const roleIndex = Math.min(config.levelRoles.length - 1, Math.floor(highestLevel / 40));
 				const assignedRole = config.levelRoles[roleIndex];
-			
+		
 				if (!interaction.member.roles.cache.has(assignedRole)) 
 				{
 					await interaction.member.roles.add(assignedRole);
@@ -88,31 +103,31 @@ module.exports = createSlash({
 			let desc;
 			if (addedRoles.length > 0 && removedRoles.length > 0)
 			{
-				desc = '**Your roles have been updated!**\n_ _\n';
+				desc = `${check} **Account linked!**\n_ _\n`;
 				desc += `${addedRoles.map(roleId => `${plus} <@&${roleId}>`).join('\n')}\n_ _\n`;
 				desc += `${removedRoles.map(roleId => `${minus} <@&${roleId}>`).join('\n')}`;
 			}
 			else if (addedRoles.length > 0)
 			{
-				desc = '**Your roles have been updated!**\n_ _\n';
+				desc = `${check} **Account linked!**\n_ _\n`;
 				desc += `${addedRoles.map(roleId => `${plus} <@&${roleId}>`).join('\n')}\n_ _`;
 			}
 			else if (removedRoles.length > 0)
 			{
-				desc = '**Your roles have been updated!**\n_ _\n';
+				desc = `${check} **Account linked!**\n_ _\n`;
 				desc += `${removedRoles.map(roleId => `${minus} <@&${roleId}>`).join('\n')}\n_ _`;
 			}
 			else
 			{
-				desc = '**Your roles are up to date!**';
+				desc = `${check} **Account linked!**`;
 			}
 
 			return interaction.followUp({ embeds: [createMsg({ desc: desc })] });
-		} 
-		catch (error) 
-		{
-			throw error;
 		}
-
+		catch (e)
+		{
+			if (e.message === Errors.PLAYER_DOES_NOT_EXIST) { return interaction.followUp({ embeds: [invalidIGN] }); }
+			console.log(e); 
+		}
 	}
 });

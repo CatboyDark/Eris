@@ -1,5 +1,5 @@
 const { createModal, createMsg } = require('../../../helper/builder.js');
-const { readConfig, writeConfig } = require('../../../helper/configUtils.js');
+const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
 async function setColorTheme(interaction) 
 {
@@ -23,10 +23,10 @@ async function setColorTheme(interaction)
 	const hexRegex = /^[0-9a-fA-F]{6}$/;
 	if (!hexRegex.test(input)) return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid HEX color!**' })], ephemeral: true });
 
-	const data = readConfig();
-	data.colorTheme = input;
-	writeConfig(data);
-	interaction.reply({ embeds: [createMsg({ desc: `**Color Theme has been set to** ${input}` })], ephemeral: true });
+	const config = readConfig();
+	config.colorTheme = input;
+	writeConfig(config);
+	interaction.reply({ embeds: [createMsg({ desc: `Color Theme has been set to **${input}**` })], ephemeral: true });
 }
 
 module.exports = 

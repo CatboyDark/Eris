@@ -21,7 +21,7 @@ const featuresMenu = createRow([
 		[
 			{ value: 'welcome', label: 'Welcome', desc: 'What happens when someone joins your Discord server?' },
 			{ value: 'accountLinking', label: 'Account Linking', desc: 'Discord-Hypixel linking system' },
-			{ value: 'customRoles', label: 'Custom Roles', desc: 'Custom Skyblock Roles (Requires Hypixel Linking)' }
+			{ value: 'customRoles', label: 'Custom Roles', desc: 'Custom Skyblock Roles (Requires Account Linking)' }
 		]
 	}
 ]);
@@ -32,18 +32,12 @@ const back = createRow([
 
 async function features(interaction)
 {
-	interaction.update({ embeds: [featuresMsg], components: [featuresMenu, back] });
-}
-
-async function backToFeatures(interaction)
-{
-	interaction.update({ embeds: [featuresMsg], components: [featuresMenu, back] });
+	await interaction.update({ embeds: [featuresMsg], components: [featuresMenu, back] });
 }
 
 module.exports = 
 { 
 	features,
-	backToFeatures,
 	featuresMsg,
 	featuresMenu
 };

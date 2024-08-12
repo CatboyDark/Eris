@@ -1,5 +1,5 @@
 const { createMsg, createRow } = require('../../../helper/builder.js');
-const { readConfig, toggleConfig } = require('../../../helper/configUtils.js');
+const { readConfig, toggleConfig } = require('../../../helper/utils.js');
 
 
 const welcomeMsg = createMsg({
@@ -35,7 +35,7 @@ async function createButtons()
 	]);
 
 	const back = createRow([
-		{ id: 'backToFeatures', label: 'Back', style: 'Gray' }
+		{ id: 'features', label: 'Back', style: 'Gray' }
 	]);
 
 	return { welcomeMsgButtons, welcomeRoleButtons, back };

@@ -1,19 +1,14 @@
 const { Events } = require('discord.js');
 const log = require('../../helper/logger.js');
-const readLogic = require('../../helper/logicUtils.js');
+const { readLogic } = require('../../helper/utils.js');
 
 const map = // Exceptions
 {
-	'logsToggle': 'logging',
-	'logCommandsToggle': 'logging',
-	'logButtonsToggle': 'logging',
-	'logMenusToggle': 'logging',
-	'logFormsToggle': 'logging',
-
-	'welcomeMsgToggle': 'welcome',
-	'welcomeRoleToggle': 'welcome',
-	'removeRoleOnLink': 'welcome'
+	'logging': ['logsToggle', 'logCommandsToggle', 'logButtonsToggle', 'logMenusToggle', 'logFormsToggle' ],
+	'welcome': ['welcomeMsgToggle', 'welcomeRoleToggle', 'removeRoleOnLink' ],
+	'accountLinking': ['linkRoleToggle', 'guildRoleToggle']
 };
+
 
 const Logic = readLogic();
 
@@ -37,9 +32,19 @@ module.exports =
 		if (!interaction.isButton()) return;
 		log(interaction);
 
-		const handler = buttonHandler[interaction.customId];
+		const customId = interaction.customId;
+		const handler = buttonHandler[customId];
 
 		if (handler) await handler(interaction);
-		else console.warn(`${interaction.customId} logic does not exist!`);
+		else 
+		{
+			const mappedLogic = map[customId];
+			if (mappedLogic) 
+			{
+				if (Logic[mappedLogic]) console.warn(`${customId} mapped to ${mappedLogic} does not exist!`);
+				else console.warn(`Logic for ${customId} (${mappedLogic}) does not exist!`);
+			} 
+			else console.warn(`Logic for ${customId} does not exist!`);
+		}
 	}
 };

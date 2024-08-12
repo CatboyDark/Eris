@@ -1,5 +1,5 @@
 const { createMsg, createRow } = require('../../helper/builder.js');
-const { readConfig } = require('../../helper/configUtils.js');
+const { readConfig } = require('../../helper/utils.js');
 const db = require('../../mongo/schemas.js');
 
 const dataButtons = createRow([

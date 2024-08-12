@@ -1,5 +1,5 @@
 const { createMsg } = require('../../../helper/builder.js');
-const { readConfig } = require('../../../helper/configUtils.js');
+const { readConfig } = require('../../../helper/utils.js');
 
 async function welcomeMsg(member)
 {

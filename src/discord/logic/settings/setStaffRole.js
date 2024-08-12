@@ -1,5 +1,5 @@
 const { createModal, createMsg } = require('../../../helper/builder.js');
-const { readConfig, writeConfig } = require('../../../helper/configUtils.js');
+const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
 async function setStaffRole(interaction) 
 {
@@ -29,10 +29,10 @@ async function setStaffRole(interaction)
 		.sort((a, b) => interaction.guild.roles.cache.get(b).position - interaction.guild.roles.cache.get(a).position);
 
 	const serverID = interaction.guild.id;
-	const data = readConfig();
-	data.staffRole = roleIDs;
-	data.serverID = serverID;
-	writeConfig(data);
+	const config = readConfig();
+	config.staffRole = roleIDs;
+	config.serverID = serverID;
+	writeConfig(config);
 	const newRoles = roleIDs.map(roleID => `<@&${roleID}>`).join('\n');
 	interaction.reply({ embeds: [createMsg({ desc: `**Staff Role(s) have been set to:**\n\n${newRoles}` })], ephemeral: true });
 }

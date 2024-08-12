@@ -1,5 +1,5 @@
 const { createModal, createMsg } = require('../../../helper/builder.js');
-const { readConfig, writeConfig } = require('../../../helper/configUtils.js');
+const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
 async function setWelcomeChannel(interaction)
 {
@@ -25,9 +25,9 @@ async function setWelcomeChannel(interaction)
 	{ 
 		return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid channel ID!**' })], ephemeral: true });
 	}
-	const data = readConfig();
-	data.features.welcomeChannel = input;
-	writeConfig(data);
+	const config = readConfig();
+	config.features.welcomeChannel = input;
+	writeConfig(config);
 	interaction.reply({ embeds: [createMsg({ desc: `Welcome Channel has been set to **<#${input}>**.` })], ephemeral: true });
 }
 

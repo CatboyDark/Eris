@@ -1,5 +1,5 @@
 const { createMsg, createRow } = require('../../../helper/builder.js');
-const { readConfig } = require('../../../helper/configUtils.js');
+const { readConfig } = require('../../../helper/utils.js');
 
 const linkFeaturesMsg = createMsg({
 	title: 'Account Linking',
@@ -29,7 +29,7 @@ async function createLinkFeaturesButtons()
 }
 
 const back = createRow([
-	{ id: 'backToFeatures', label: 'Back', style: 'Gray' }
+	{ id: 'features', label: 'Back', style: 'Gray' }
 ]);
 
 async function accountLinking(interaction)

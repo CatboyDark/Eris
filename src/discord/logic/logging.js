@@ -1,12 +1,12 @@
 /* eslint-disable indent */
 
 const { createMsg, createRow } = require('../../helper/builder.js');
-const { readConfig, toggleConfig } = require('../../helper/configUtils.js');
+const { readConfig, toggleConfig } = require('../../helper/utils.js');
 
 const loggingMsg = createMsg({
 	title: 'Logging',
 	desc:
-        '**Configure what events will be sent to the Logs channel.**\n\n' +
+        '**Configure what events are sent to the Logs channel.**\n\n' +
         '1. `Commands`: Log commands run\n' +
         '2. `Buttons`: Log buttons pressed\n' +
 		'2. `Menus`: Log select menu options pressed\n' +

@@ -1,5 +1,5 @@
 const { createModal, createMsg, createRow } = require('../../../helper/builder.js');
-const { readConfig, writeConfig, toggleConfig } = require('../../../helper/configUtils.js');
+const { readConfig, writeConfig, toggleConfig } = require('../../../helper/utils.js');
 
 async function createButtons()
 {
@@ -14,7 +14,7 @@ async function createButtons()
 }
 
 const back = createRow([
-	{ id: 'backToFeatures', label: 'Back', style: 'Gray' }
+	{ id: 'features', label: 'Back', style: 'Gray' }
 ]);
 
 async function linkRoleToggle(interaction)
@@ -26,7 +26,7 @@ async function linkRoleToggle(interaction)
 		if (!interaction.isModalSubmit())
 		{
 			const modal = createModal({
-				id: 'setLinkRoleForm',
+				id: 'linkRoleToggle',
 				title: 'Set Link Role',
 				components: [{
 					id: 'setLinkRoleInput',

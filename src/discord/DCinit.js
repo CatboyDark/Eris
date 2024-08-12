@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { appID, token } = require('../../config.json');
 const { createMsg } = require('../helper/builder.js');
-const { readConfig } = require('../helper/configUtils.js');
+const { readConfig } = require('../helper/utils.js');
 const emojis = path.join(__dirname, '../../assets/emojis');
 
 class DCinit

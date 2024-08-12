@@ -1,10 +1,9 @@
 const { createMsg, createRow } = require('../../../helper/builder.js');
-const { readConfig } = require('../../../helper/configUtils.js');
 
 const customRolesMsg = createMsg({
 	title: 'Custom Roles',
 	desc:
-		'Assign custom roles when a member links their Discord or runs `/roles`.\n\n' +
+		'Assign roles when a user links their Discord or runs `/roles`.\n\n' +
 
 		'1. **Level**\n' +
 		'Assign roles based on the user\'s Skyblock level.\n\n' +
@@ -19,29 +18,30 @@ const customRolesMsg = createMsg({
 		'Assign roles based on the user\'s Catacombs level.'
 });
 
-async function createButtons()
-{
-	const config = readConfig();
-	const customRolesButtons = createRow([
-		{ id: 'sbLevelRoleToggle', label: 'Toggle Link Role', style: config.features.sbLevelRoleToggle }
-	]);
-
-	return customRolesButtons;
-}
-
-const createMenu = createRow([
+const customRolesMenu = createRow([
 	{ 
 		id: 'customRolesMenu',
-		placeholder: 'Set roles IDs',
+		placeholder: 'Enable custom roles',
 		options:
 		[
-			{ value: 'welcome', label: 'Welcome', desc: 'What happens when someone joins your Discord server?' },
-			{ value: 'accountLinking', label: 'Account Linking', desc: 'Discord-Hypixel linking system' },
-			{ value: 'customRoles', label: 'Custom Roles', desc: 'Custom Skyblock Roles (Requires Hypixel Linking)' }
+			{ value: 'levelRoles', label: 'Level Roles', desc: 'Skyblock level' },
+			{ value: 'nwRoles', label: 'Networth Roles', desc: 'Skyblock networth' },
+			{ value: 'skillRoles', label: 'Skill Roles', desc: 'Skyblock skills' },
+			{ value: 'dungeonRoles', label: 'Dungeon Roles', desc: 'Skyblock Catacombs level' }
 		]
 	}
 ]);
 
 const back = createRow([
-	{ id: 'backToFeatures', label: 'Back', style: 'Gray' }
+	{ id: 'features', label: 'Back', style: 'Gray' }
 ]);
+
+async function customRoles(interaction)
+{
+	await interaction.update({ embeds: [customRolesMsg], components: [customRolesMenu, back] });
+}
+
+module.exports =
+{
+	customRoles
+};

@@ -1,5 +1,5 @@
 const { createModal, createMsg } = require('../../../helper/builder.js');
-const { readConfig, writeConfig } = require('../../../helper/configUtils.js');
+const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
 async function setWelcomeRole(interaction)
 {
@@ -29,9 +29,9 @@ async function setWelcomeRole(interaction)
 	{
 		return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**You do not have permission to assign that role!**' })], ephemeral: true });
 	}
-	const data = readConfig();
-	data.features.welcomeRole = input;
-	writeConfig(data);
+	const config = readConfig();
+	config.features.welcomeRole = input;
+	writeConfig(config);
 	interaction.reply({ embeds: [createMsg({ desc: `Welcome Role has been set to ${role}.` })], ephemeral: true });
 }
 

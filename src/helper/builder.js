@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { readConfig } = require('./configUtils.js');
+const { readConfig } = require('./utils.js');
 
 const getTimestamp = (date) => { return Math.floor(date.getTime() / 1000); };
 
@@ -45,6 +45,11 @@ const styles =
 	Green: ButtonStyle.Success,
 	Red: ButtonStyle.Danger
 };
+
+function createError(error)
+{
+	return createMsg({ color: 'FF0000', desc: error });
+}
 
 function createButtons({ id, label, style = 'Gray', url }) 
 {
@@ -128,9 +133,7 @@ function createModal({ id, title, components })
 			if (Array.isArray(component.length) && component.length.length === 2) 
 			{
 				const [minLength, maxLength] = component.length.map(num => parseInt(num, 10));
-	
 				if (isNaN(minLength) || isNaN(maxLength)) throw new Error(`Invalid length values: ${component.length}`);
-	
 				textInput.setMinLength(minLength).setMaxLength(maxLength);
 			}
 	
@@ -205,6 +208,7 @@ function createSlash({ name, desc, options = [], execute, permissions = [] })
 module.exports =
 {
 	createMsg,
+	createError,
 	createRow,
 	createModal,
 	createSlash

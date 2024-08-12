@@ -8,7 +8,6 @@
 	"prefix": "",
 	"guild": "",
   	"serverID": "",
-  	"staffRole": [],
 	"icon": "https://i.imgur.com/9AnnZVG.png",
 	"colorTheme": "ff6ec7",
 	"logsChannel": "",
@@ -29,6 +28,18 @@
 		"linkRoleToggle": false,
 		"linkRole": "",
 		"guildRoleToggle": false,
-		"guildRole": ""
-  }
+		"guildRole": "",
+		"guildRankRolesToggle": false,
+		"levelRolesToggle": false,
+		"nwRolesToggle": false,
+		"skillRolesToggle": false,
+		"cataRolesToggle": false,
+		"classAvgRolesToggle": false
+  },
+  "guildRankRoles": [],
+  "levelRoles": [],
+  "nwRoles": [],
+  "skillRoles": [],
+  "cataRoles": [],
+  "cataAvgRoles": []
 }

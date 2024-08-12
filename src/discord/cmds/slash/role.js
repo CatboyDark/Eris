@@ -1,5 +1,5 @@
 const { createMsg, createSlash } = require('../../../helper/builder.js');
-const getEmoji = require('../../../helper/emojiUtils.js');
+const { getEmoji } = require('../../../helper/utils.js');
 	
 module.exports = createSlash({
 	name: 'role',
@@ -47,12 +47,14 @@ module.exports = createSlash({
 		if (roleRemove.length > 0) await user.roles.remove(roleRemove);
 		if (roleAdd.length > 0) await user.roles.add(roleAdd);
 
-		if (roleAdd.length > 0 || roleRemove.length > 0) {
-			const addedRoles = roleAdd.map(role => `${plus} <@&${role.id}>`).join('\n');
-			const removedRoles = roleRemove.map(role => `${minus} <@&${role.id}>`).join('\n');
-			const desc = [addedRoles, removedRoles].filter(Boolean).join('\n');
-
+		if (roleAdd.length > 0 || roleRemove.length > 0) 
+		{
+			const addedRoles = roleAdd.length > 0 ? roleAdd.map(role => `${plus} <@&${role.id}>`).join('\n') : '';
+			const removedRoles = roleRemove.length > 0 ? roleRemove.map(role => `${minus} <@&${role.id}>`).join('\n') : '';
+		
+			const desc = [addedRoles, removedRoles].filter(Boolean).join('\n\n');
 			const embed = createMsg({ desc: `${user} **Updated roles!**\n\n${desc}` });
+		
 			await interaction.followUp({ embeds: [embed] });
 		}
 	}

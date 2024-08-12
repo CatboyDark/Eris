@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-const { readConfig } = require('./configUtils.js');
+const { readConfig } = require('./utils.js');
 const { createMsg } = require('./builder.js');
 const db = require('../mongo/schemas.js');
 
@@ -42,9 +42,8 @@ async function createLogMsg(interaction)
 					option.type === 8 ? ` <@&${option.value}> ` : 
 					` ${option.value} `
 				);
-            	// .join(' ');
 
-        		const optionsString = options ? `[${options}]` : '';
+        		const optionsString = options.length > 0 ? `[${options.join(', ')}]` : '';
 
 				title = 'Command';
 				desc = 

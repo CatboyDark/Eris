@@ -1,25 +1,31 @@
 const { Events } = require('discord.js');
 const log = require('../../helper/logger.js');
-const readLogic = require('../../helper/logicUtils.js');
-
-const map = 
-{
-	'setLinkRoleForm': 'linkRoleToggle',
-	'setGuildRoleForm': 'guildRoleToggle'
-};
+const { readLogic } = require('../../helper/utils.js');
 
 const Logic = readLogic();
-const formHandler = {};
 
-Object.keys(Logic).forEach(logicName => 
+const map = // Exceptions
+{
+	'createLevelRoles': ['level0Form', 'level40Form', 'level80Form', 'level120Form', 'level160Form', 'level200Form', 'level240Form', 'level280Form', 'level320Form', 'level360Form', 'level400Form', 'level440Form', 'level480Form']
+};
+
+const formHandler = Object.keys(Logic).reduce((acc, logicName) => 
 {
 	const formId = `${logicName}Form`;
-	formHandler[formId] = Logic[logicName];
-});
+	acc[formId] = Logic[logicName];
 
-Object.entries(map).forEach(([formId, logicName]) => { formHandler[formId] = Logic[logicName]; });
+	if (map[logicName]) 
+	{
+		map[logicName].forEach(formId => 
+		{
+			acc[formId] = Logic[logicName];
+		});
+	}
 
-module.exports =
+	return acc;
+}, {});
+	
+module.exports = 
 {
 	name: Events.InteractionCreate,
 	async execute(interaction) 
@@ -27,9 +33,10 @@ module.exports =
 		if (!interaction.isModalSubmit()) return;
 		log(interaction);
 
-		const handler = formHandler[interaction.customId];
-
+		const logicName = interaction.customId.replace(/Form$/, '');
+		const handler = formHandler[`${logicName}Form`];
+	
 		if (handler) await handler(interaction);
-		else console.warn(`${interaction.customId} logic does not exist!`);
+		else console.warn(`Logic for ${interaction.customId} does not exist! `);
 	}
 };

@@ -1,5 +1,5 @@
 const { createModal, createMsg } = require('../../../helper/builder.js');
-const { readConfig, writeConfig } = require('../../../helper/configUtils.js');
+const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
 async function setLogsChannel(interaction) 
 {
@@ -23,9 +23,9 @@ async function setLogsChannel(interaction)
 	const channel = await interaction.guild.channels.fetch(input).catch(() => null);
 	if (!channel) return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid Channel ID!**' })], ephemeral: true });
 
-	const data = readConfig();
-	data.logsChannel = input;
-	writeConfig(data);
+	const config = readConfig();
+	config.logsChannel = input;
+	writeConfig(config);
 	interaction.reply({ embeds: [createMsg({ desc: `**Logs Channel has been set to** <#${input}>` })], ephemeral: true });
 }
 

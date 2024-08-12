@@ -1,6 +1,6 @@
 const { PermissionFlagsBits } = require('discord.js');
 const { createMsg, createRow } = require('../../helper/builder.js');
-const { readConfig } = require('../../helper/configUtils.js');
+const { readConfig } = require('../../helper/utils.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -14,6 +14,11 @@ async function createHelpMsg(interaction)
 		.filter(command => command && command.type && command.data);
 
 	const userPermissions = BigInt(interaction.member.permissions.bitfield);
+	
+	const getPermissionName = (permissionBit) => 
+	{
+		return Object.keys(PermissionFlagsBits).find(key => PermissionFlagsBits[key] === permissionBit);
+	};
 
 	const hasAdminPermission = (userPermissions & PermissionFlagsBits.Administrator) === PermissionFlagsBits.Administrator;
 	
@@ -34,7 +39,15 @@ async function createHelpMsg(interaction)
 	const formatCommands = (commands) =>
 		commands
 			.sort((a, b) => a.data.name.localeCompare(b.data.name))
-			.map(cmd => `- **\`/${cmd.data.name}\`** ${cmd.data.description}`)
+			.map(cmd => {
+				let description = `- **\`/${cmd.data.name}\`** ${cmd.data.description}`;
+				if (cmd.permissions && cmd.permissions.length > 0) 
+				{
+					const permissionsRequired = cmd.permissions.map(perm => getPermissionName(PermissionFlagsBits[perm])).join(', ');
+					description += ` **(${permissionsRequired})**`;
+				}
+				return description;
+			})
 			.join('\n');
 
 	const nonList = cmds.filter(cmd => !cmd.permissions || cmd.permissions.length === 0);

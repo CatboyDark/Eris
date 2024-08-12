@@ -1,5 +1,5 @@
 const { createModal, createMsg } = require('../../../helper/builder.js');
-const { readConfig, writeConfig } = require('../../../helper/configUtils.js');
+const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
 async function setIcon(interaction) 
 {
@@ -20,9 +20,9 @@ async function setIcon(interaction)
 	}
 
 	const input = interaction.fields.getTextInputValue('setIconInput');
-	const data = readConfig();
-	data.icon = input;
-	writeConfig(data);
+	const config = readConfig();
+	config.icon = input;
+	writeConfig(config);
 	await interaction.reply({ embeds: [createMsg({ desc: '**Icon has been updated!**' })], ephemeral: true });
 	await interaction.followUp({ content: input, ephemeral: true });
 }
