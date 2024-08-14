@@ -5,12 +5,12 @@ const levelRolesMsg = createMsg({
 	title: 'Custom Roles: Level',
 	desc: 
 		'Assign roles based on the user\'s Skyblock level.\n\n' +
-		'You may create new roles or assign existing roles.'
+		'*Note: You do not need to assign a role to every level.*'
 });
 
 const back = createRow([
-	{ id: 'customRoles', label: 'Back', style: 'Gray' },
-	{ id: 'createLevelRoles', label: 'Create New Level Roles', style: 'Green' }
+	{ id: 'customRoles', label: 'Back', style: 'Gray' }
+	// { id: 'createLevelRoles', label: 'Generate New Roles', style: 'Green' }
 ]);
 
 const levels = 
@@ -33,7 +33,7 @@ const levels =
 const levelRolesMenu = createRow([
 	{
 	  id: 'levelRolesMenu',
-	  placeholder: 'Set existing level roles',
+	  placeholder: 'Setup existing roles',
 	  options: levels.map(option => ({
 			value: option.id,
 			label: option.label,
@@ -42,14 +42,14 @@ const levelRolesMenu = createRow([
 	}
 ]);
 
-async function createLevelRoles(interaction)
+async function createLevelRoles(interaction) 
 {
-	if (interaction.isStringSelectMenu())
+	if (interaction.isStringSelectMenu()) 
 	{
 		const selectedOption = interaction.values[0];
 
 		const level = levels.find(l => l.id === selectedOption);
-	
+    
 		const modal = createModal({
 			id: `${selectedOption}Form`,
 			title: `${level.label} Role`,
@@ -60,7 +60,7 @@ async function createLevelRoles(interaction)
 				required: true
 			}]
 		});
-	
+    
 		await interaction.showModal(modal);
 	}
 
@@ -68,15 +68,19 @@ async function createLevelRoles(interaction)
 	{
 		const selectedOption = interaction.customId.replace('Form', '');
 		const input = interaction.fields.getTextInputValue(`${selectedOption}Input`);
+
 		const role = interaction.guild.roles.cache.get(input);
 		if (!role) return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid Role ID!**' })], ephemeral: true });
 
-		const levelIndex = levels.findIndex(l => l.id === selectedOption);
+		const levelNumber = selectedOption.replace('level', '');
+
+		levelRoles[levelNumber] = input;
+
 		const config = readConfig();
-		config.levelRoles[levelIndex] = input;
+		config.levelRoles[levelNumber] = input;
 		writeConfig(config);
 
-		await interaction.reply({ embeds: [createMsg({ desc: `**${levels[levelIndex].label} has been set to** <@&${input}>` })], ephemeral: true });
+		await interaction.reply({ embeds: [createMsg({ desc: `**${levels.find(l => l.id === selectedOption).label} has been set to** <@&${input}>` })], ephemeral: true });
 	}
 }
 

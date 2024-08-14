@@ -27,7 +27,7 @@ const customRolesMenu = createRow([
 			{ value: 'levelRoles', label: 'Level Roles', desc: 'Skyblock level' },
 			{ value: 'nwRoles', label: 'Networth Roles', desc: 'Skyblock networth' },
 			{ value: 'skillRoles', label: 'Skill Roles', desc: 'Skyblock skills' },
-			{ value: 'dungeonRoles', label: 'Dungeon Roles', desc: 'Skyblock Catacombs level' }
+			{ value: 'cataRoles', label: 'Dungeon Roles', desc: 'Skyblock Catacombs level' }
 		]
 	}
 ]);

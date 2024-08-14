@@ -18,13 +18,20 @@ const linkSchema = new mongoose.Schema({
 
 linkSchema.index({ uuid: 1, dcid: 1 }, { unique: true });
 
+const pinsSchema = new mongoose.Schema({
+	channelId: { type: String, required: true, unique: true },
+	pinnedMessages: { type: [String], default: [] }
+}, { collection: 'serverPins' });
+
 const Command = mongoose.model('Command', commandSchema);
 const Button = mongoose.model('Button', buttonSchema);
 const Link = mongoose.model('Link', linkSchema);
+const Pin = mongoose.model('Pin', pinsSchema);
 
 module.exports = 
 {
 	Command,
 	Button,
-	Link
+	Link,
+	Pin
 };

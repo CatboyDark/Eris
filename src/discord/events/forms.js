@@ -26,17 +26,19 @@ const formHandler = Object.keys(Logic).reduce((acc, logicName) =>
 }, {});
 	
 module.exports = 
-{
-	name: Events.InteractionCreate,
-	async execute(interaction) 
+[
 	{
-		if (!interaction.isModalSubmit()) return;
-		log(interaction);
+		name: Events.InteractionCreate,
+		async execute(interaction) 
+		{
+			if (!interaction.isModalSubmit()) return;
+			log(interaction);
 
-		const logicName = interaction.customId.replace(/Form$/, '');
-		const handler = formHandler[`${logicName}Form`];
+			const logicName = interaction.customId.replace(/Form$/, '');
+			const handler = formHandler[`${logicName}Form`];
 	
-		if (handler) await handler(interaction);
-		else console.warn(`Logic for ${interaction.customId} does not exist! `);
+			if (handler) await handler(interaction);
+			else console.warn(`Logic for ${interaction.customId} does not exist! `);
+		}
 	}
-};
+];

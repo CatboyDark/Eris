@@ -1,25 +1,6 @@
 const { createSlash, createMsg } = require('../../../helper/builder');
-const hypixel = require('../../../helper/hapi.js');
-const { getDiscord } = require('../../../helper/utils.js');
-const db = require('../../../mongo/schemas.js');
-
-async function getCata(interaction, uuid) 
-{
-	await interaction.deferReply();
-	try {
-		const sbMember = await hypixel.getSkyblockMember(uuid);
-
-		const highestCataLevel = 0;
-
-		
-
-		await interaction.reply('Highest Catacombs level: ' + highestCataLevel);
-	} 
-	catch (error) 
-	{
-		console.error(error);
-	}
-}
+const { getDiscord, getPlayer, getCataHighest, getSkills, getNw, getCata, getGuild } = require('../../../helper/utils.js');
+const { Link } = require('../../../mongo/schemas.js');
 
 module.exports = createSlash({
 	name: 'test',
@@ -30,12 +11,10 @@ module.exports = createSlash({
 
 	async execute(interaction) 
 	{
-		// const data = await db.Link.findOne({ dcid: interaction.user.id }).exec();
-		// await getCata(interaction, data.uuid);
-
 		const user = interaction.options.getString('user');
-		const discord = await getDiscord(user);
+		
+		const nw = await getCata(user);
 
-		await interaction.reply({ embeds: [createMsg({ desc: `${user}'s discord is ${discord}` })] });
+		await interaction.reply('cata: ' + nw);
 	}
 });

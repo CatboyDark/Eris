@@ -60,13 +60,15 @@ const menuHandler = async (interaction) =>
 };
 	
 module.exports = 
-{
-	name: Events.InteractionCreate,
-	async execute(interaction) 
+[
 	{
-		if (!interaction.isStringSelectMenu()) return;
-		log(interaction);
+		name: Events.InteractionCreate,
+		async execute(interaction) 
+		{
+			if (!interaction.isStringSelectMenu()) return;
+			log(interaction);
 
-		await menuHandler(interaction);
+			await menuHandler(interaction);
+		}
 	}
-};
+];

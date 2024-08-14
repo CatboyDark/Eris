@@ -1,7 +1,7 @@
 const { Events } = require('discord.js');
 const { createMsg } = require('../../helper/builder.js');
-const { readConfig } = require('../../helper/utils.js');
 const log = require('../../helper/logger.js');
+const { readConfig } = require('../../helper/utils.js');
 
 const cmdError = (interaction) => 
 {
@@ -40,14 +40,16 @@ const cmdError = (interaction) =>
 };
 
 module.exports = 
-{
-	name: Events.InteractionCreate,
-	async execute(interaction) 
+[
 	{
-		if (!interaction.isChatInputCommand()) return;
-		log(interaction);
+		name: Events.InteractionCreate,
+		async execute(interaction) 
+		{
+			if (!interaction.isChatInputCommand()) return;
+			log(interaction);
 
-		const command = interaction.client.sc.get(interaction.commandName);
-		await command.execute(interaction).catch(cmdError(interaction));
+			const command = interaction.client.sc.get(interaction.commandName);
+			await command.execute(interaction).catch(cmdError(interaction));
+		}
 	}
-};
+];

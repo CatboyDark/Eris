@@ -1,4 +1,4 @@
-const { Client, Collection, GatewayIntentBits, REST, Routes, ActivityType } = require('discord.js');
+const { Client, Partials, Collection, GatewayIntentBits, REST, Routes, ActivityType } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const { appID, token } = require('../../config.json');
@@ -6,7 +6,7 @@ const { createMsg } = require('../helper/builder.js');
 const { readConfig } = require('../helper/utils.js');
 const emojis = path.join(__dirname, '../../assets/emojis');
 
-class DCinit
+class DC
 {
 	constructor()
 	{
@@ -15,7 +15,15 @@ class DCinit
 				GatewayIntentBits.Guilds,
 				GatewayIntentBits.GuildMessages,
 				GatewayIntentBits.MessageContent,
-				GatewayIntentBits.GuildMembers
+				GatewayIntentBits.GuildMembers,
+				GatewayIntentBits.GuildPresences,
+				GatewayIntentBits.GuildScheduledEvents
+			],
+			partials: [
+				Partials.Message,
+				Partials.Channel,
+				Partials.GuildMember,
+				Partials.User
 			]
 		});
 
@@ -23,10 +31,13 @@ class DCinit
 		this.appID = appID;
 		this.client.pc = new Collection();
 		this.client.sc = new Collection();
+	}
 
-		this.initCmds();
-		this.initEvents();
-		this.initEmojis();
+	async init() 
+	{
+		await this.initCmds();
+		await this.initEvents();
+		await this.initEmojis();
 		this.login();
 	}
 
@@ -77,19 +88,21 @@ class DCinit
 		});
 	}
 
-	initEvents()
+	async initEvents() 
 	{
 		const eDir = path.join(__dirname, 'events');
 		const eFiles = fs.readdirSync(eDir).filter(file => file.endsWith('.js'));
-
+	
 		for (const e of eFiles) 
 		{
 			const ep = path.join(eDir, e);
-			const event = require(ep);
-			if (event.once) 
-				this.client.once(event.name, (...args) => event.execute(...args)); 
-			else 
-				this.client.on(event.name, (...args) => event.execute(...args)); 
+			const events = require(ep);
+	
+			if (Array.isArray(events))
+			{
+				for (const event of events) this.client.on(event.name, (...args) => event.execute(...args));
+			}
+			else console.error(`${e} does not export an array of events`);
 		}
 	}
 
@@ -162,4 +175,4 @@ class DCinit
 	}
 }
 
-module.exports = DCinit;
+module.exports = DC;

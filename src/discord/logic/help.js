@@ -1,8 +1,8 @@
 const { PermissionFlagsBits } = require('discord.js');
 const { createMsg, createRow } = require('../../helper/builder.js');
-const { readConfig } = require('../../helper/utils.js');
 const fs = require('fs');
 const path = require('path');
+const { readConfig } = require('../../helper/utils.js');
 
 async function createHelpMsg(interaction) 
 {

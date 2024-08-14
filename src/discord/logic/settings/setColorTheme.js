@@ -1,5 +1,5 @@
-const { createModal, createMsg } = require('../../../helper/builder.js');
-const { readConfig, writeConfig } = require('../../../helper/utils.js');
+const { createModal, createMsg } = require('../../../helper/builder.js');const { readConfig, writeConfig } = require('../../../helper/utils.js');
+;
 
 async function setColorTheme(interaction) 
 {

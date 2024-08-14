@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { readConfig } = require('./utils.js');
+const { readConfig } = require('./utils');
 
 const getTimestamp = (date) => { return Math.floor(date.getTime() / 1000); };
 
@@ -24,7 +24,7 @@ function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon
 			inline: field.inline || false
 		});
 	});}
-	if (timestamp === 'relative' || timestamp === 'exact') 
+	if (timestamp === 'relative' || timestamp === 'fixed') 
 	{
 		const now = new Date();
 		const newTimestamp = `<t:${getTimestamp(now)}:${timestamp === 'relative' ? 'R' : 'f'}>`;

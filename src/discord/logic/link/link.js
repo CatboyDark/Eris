@@ -1,7 +1,7 @@
 const db = require('../../../mongo/schemas.js');
 const Errors = require('hypixel-api-reborn');
 const { createMsg, createRow, createModal, createError } = require('../../../helper/builder.js');
-const { readConfig, getEmoji, getDiscord, getPlayer, getGuild, getSBLevelHighest } = require('../../../helper/utils.js');
+const { getEmoji, getDiscord, getPlayer, updateRoles } = require('../../../helper/utils.js');
 
 async function createLinkMsg() 
 {
@@ -50,9 +50,9 @@ const notLinked = createError('**Discord is not linked!**\n_ _\nClick on **How T
 const noMatch = createError('**Discord does not match!**\n_ _\nClick on **How To Link** for more info.');
 const invalidIGN = createError('**Invalid Username!**');
 
-async function link(interaction)
+async function link(interaction) 
 {
-	if (!interaction.isModalSubmit()) return interaction.showModal(modal); 
+	if (!interaction.isModalSubmit()) return interaction.showModal(modal);
 
 	const check = await getEmoji('check');
 	const plus = await getEmoji('plus');
@@ -64,116 +64,56 @@ async function link(interaction)
 
 	try
 	{
-		const config = readConfig();
-
 		const player = await getPlayer(input);
 		const discord = await getDiscord(input);
-		if (!discord) 
-			return interaction.followUp({ embeds: [notLinked] });
-		if (interaction.user.username !== discord) 
-			return interaction.followUp({ embeds: [noMatch] });
+		if (!discord) return interaction.followUp({ embeds: [notLinked] });
+		if (interaction.user.username !== discord) return interaction.followUp({ embeds: [noMatch] });
 
-		// Register into DB
-		db.Link.create({ uuid: player.uuid, dcid: interaction.user.id }).catch(() => {});
+		await db.Link.create({ uuid: player.uuid, dcid: interaction.user.id }).catch(() => {});
 
-		// Set Nickname
 		try 
-		{ 
-			await interaction.member.setNickname(player.nickname); 
+		{
+			await interaction.member.setNickname(player.nickname);
 		} 
 		catch (e) 
-		{ 
+		{
 			if (e.message.includes('Missing Permissions')) 
-			{ 
 				interaction.followUp({ embeds: [createMsg({ color: 'FFA500', desc: '**Silly! I cannot change the nickname of the server owner!**' })]});
-			} 
 		}
 
-		const addedRoles = [];
-		const removedRoles = [];
-
-		// Assign Linked and Guild Role
-		if (config.features.linkRoleToggle)
-		{
-			if (!interaction.member.roles.cache.has(config.features.linkRole))
-			{
-				await interaction.member.roles.add(config.features.linkRole);
-				addedRoles.push(config.features.linkRole);
-			}
-		}
-		if (config.features.guildRoleToggle)
-		{
-			const guild = await getGuild('player', player.uuid);
-			if (guild && guild.name === config.guild)
-			{
-				if (!interaction.member.roles.cache.has(config.features.guildRole))
-				{
-					await interaction.member.roles.add(config.features.guildRole); 
-					addedRoles.push(config.features.guildRole);
-				}
-			}
-			else
-			{
-				if (interaction.member.roles.cache.has(config.features.guildRole))
-				{
-					await interaction.member.roles.remove(config.features.guildRole); 
-					removedRoles.push(config.features.guildRole);
-				}
-			}
-		}
-
-		// Assign Level Role
-		if (config.features.levelRolesToggle)
-		{
-			const highestLevel = await getSBLevelHighest(player);
-			const roleIndex = Math.min(config.levelRoles.length - 1, Math.floor(highestLevel / 40));
-			const assignedRole = config.levelRoles[roleIndex];
-		
-			if (!interaction.member.roles.cache.has(assignedRole)) 
-			{
-				await interaction.member.roles.add(assignedRole);
-				addedRoles.push(assignedRole);
-			}
-			for (const role of config.levelRoles) 
-			{
-				if (interaction.member.roles.cache.has(role) && role !== assignedRole)
-				{
-					await interaction.member.roles.remove(role);
-					removedRoles.push(role);
-				}
-			}
-		}
+		const { addedRoles, removedRoles } = await updateRoles(interaction, player);
 
 		let desc;
-		if (addedRoles.length > 0 && removedRoles.length > 0)
+		if (addedRoles.length > 0 && removedRoles.length > 0) 
 		{
 			desc = `${check} **Account linked!**\n_ _\n`;
 			desc += `${addedRoles.map(roleId => `${plus} <@&${roleId}>`).join('\n')}\n_ _\n`;
 			desc += `${removedRoles.map(roleId => `${minus} <@&${roleId}>`).join('\n')}`;
-		}
-		else if (addedRoles.length > 0)
+		} 
+		else if (addedRoles.length > 0) 
 		{
 			desc = `${check} **Account linked!**\n_ _\n`;
 			desc += `${addedRoles.map(roleId => `${plus} <@&${roleId}>`).join('\n')}\n_ _`;
-		}
-		else if (removedRoles.length > 0)
+		} 
+		else if (removedRoles.length > 0) 
 		{
 			desc = `${check} **Account linked!**\n_ _\n`;
 			desc += `${removedRoles.map(roleId => `${minus} <@&${roleId}>`).join('\n')}\n_ _`;
-		}
-		else
+		} 
+		else 
 		{
 			desc = `${check} **Account linked!**`;
 		}
 
 		return interaction.followUp({ embeds: [createMsg({ desc: desc })], ephemeral: true });
-	}
+	} 
 	catch (e)
 	{
 		if (e.message === Errors.PLAYER_DOES_NOT_EXIST) { return interaction.followUp({ embeds: [invalidIGN] }); }
 		console.log(e); 
 	}
 }
+
 
 async function linkHelpLogic(interaction)
 {

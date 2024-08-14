@@ -10,7 +10,7 @@
 		"discord.js": "^14.15.3",
 		"git": "^0.1.5",
 		"hypixel-api-reborn": "^11.3.4",
-		"mineflayer": "^4.0.0",
+		"mineflayer": "^4.20.1",
 		"mongoose": "^8.5.1"
 	},
 	"devDependencies": {

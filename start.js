@@ -1,11 +1,15 @@
-const DCinit = require('./src/discord/DCinit');
-const MCinit = require('./src/minecraft/MCinit');
+const DC = require('./src/discord/DCinit');
+const MC = require('./src/minecraft/MCinit');
 const Mongo = require('./src/mongo/mongoInit');
 
-const start = async () =>
+async function start()
 {
 	await Mongo();
-	new DCinit();
+
+	const discord = new DC();
+	await discord.init();
+	
+	// new MC(discord.client);
 };
 
 start();

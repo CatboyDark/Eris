@@ -1,8 +1,8 @@
 /* eslint-disable indent */
 
-const { readConfig } = require('./utils.js');
 const { createMsg } = require('./builder.js');
 const db = require('../mongo/schemas.js');
+const { readConfig } = require('./utils.js');
 
 async function cmdCounter(command) 
 {
@@ -43,7 +43,7 @@ async function createLogMsg(interaction)
 					` ${option.value} `
 				);
 
-        		const optionsString = options.length > 0 ? `[${options.join(', ')}]` : '';
+        		const optionsString = options.length > 0 ? `**[**${options.join('**,** ')}**]**` : '';
 
 				title = 'Command';
 				desc = 
@@ -93,7 +93,8 @@ async function createLogMsg(interaction)
 			break;
 	}
 
-	return createMsg({ title, desc, timestamp: 'relative' });
+	const icon = interaction.user.displayAvatarURL();
+	return createMsg({ icon, title, desc, timestamp: 'relative' });
 }
 
 async function log(interaction) 

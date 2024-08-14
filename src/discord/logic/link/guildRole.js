@@ -1,5 +1,5 @@
 const { createModal, createMsg, createRow } = require('../../../helper/builder.js');
-const { readConfig, writeConfig, toggleConfig } = require('../../../helper/utils.js');
+const { writeConfig, toggleConfig, readConfig } = require('../../../helper/utils.js');
 
 async function createButtons()
 {

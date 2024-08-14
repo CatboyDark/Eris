@@ -25,26 +25,28 @@ const buttonHandler = Object.keys(Logic).reduce((acc, logicName) =>
 }, {});
 
 module.exports = 
-{
-	name: Events.InteractionCreate,
-	async execute(interaction) 
+[
 	{
-		if (!interaction.isButton()) return;
-		log(interaction);
-
-		const customId = interaction.customId;
-		const handler = buttonHandler[customId];
-
-		if (handler) await handler(interaction);
-		else 
+		name: Events.InteractionCreate,
+		async execute(interaction) 
 		{
-			const mappedLogic = map[customId];
-			if (mappedLogic) 
+			if (!interaction.isButton()) return;
+			log(interaction);
+
+			const customId = interaction.customId;
+			const handler = buttonHandler[customId];
+
+			if (handler) await handler(interaction);
+			else 
 			{
-				if (Logic[mappedLogic]) console.warn(`${customId} mapped to ${mappedLogic} does not exist!`);
-				else console.warn(`Logic for ${customId} (${mappedLogic}) does not exist!`);
-			} 
-			else console.warn(`Logic for ${customId} does not exist!`);
+				const mappedLogic = map[customId];
+				if (mappedLogic) 
+				{
+					if (Logic[mappedLogic]) console.warn(`${customId} mapped to ${mappedLogic} does not exist!`);
+					else console.warn(`Logic for ${customId} (${mappedLogic}) does not exist!`);
+				} 
+				else console.warn(`Logic for ${customId} does not exist!`);
+			}
 		}
 	}
-};
+];
