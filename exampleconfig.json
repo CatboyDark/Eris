@@ -37,10 +37,10 @@
 		"cataRolesToggle": false,
 		"classAvgRolesToggle": false
   },
-  "guildRankRoles": [],
+  "guildRankRoles": {},
   "levelRoles": {},
-  "nwRoles": [],
-  "skillRoles": [],
-  "cataRoles": [],
-  "cataAvgRoles": []
+  "nwRoles": {},
+  "skillRoles": {},
+  "cataRoles": {},
+  "cataAvgRoles": {}
 }

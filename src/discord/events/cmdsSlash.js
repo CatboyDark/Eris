@@ -18,7 +18,7 @@ const cmdError = (interaction) =>
 			color: 'FF0000',
 			title: 'A Silly Has Occured!',
 			desc: 
-					`${error.message}\n\n` +
+					`\`${error.message}\`\n\n` +
 					'**If you believe this is a bug, please contact <@622326625530544128>.**'
 		});
 	

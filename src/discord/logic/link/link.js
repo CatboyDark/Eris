@@ -1,4 +1,4 @@
-const db = require('../../../mongo/schemas.js');
+const { Link } = require('../../../mongo/schemas.js');
 const Errors = require('hypixel-api-reborn');
 const { createMsg, createRow, createModal, createError } = require('../../../helper/builder.js');
 const { getEmoji, getDiscord, getPlayer, updateRoles } = require('../../../helper/utils.js');
@@ -69,7 +69,7 @@ async function link(interaction)
 		if (!discord) return interaction.followUp({ embeds: [notLinked] });
 		if (interaction.user.username !== discord) return interaction.followUp({ embeds: [noMatch] });
 
-		await db.Link.create({ uuid: player.uuid, dcid: interaction.user.id }).catch(() => {});
+		await Link.create({ uuid: player.uuid, dcid: interaction.user.id }).catch(() => {});
 
 		try 
 		{

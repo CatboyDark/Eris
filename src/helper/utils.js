@@ -4,7 +4,6 @@ const hypixel = require('./hapi.js');
 const { appID, token } = require('../../config.json');
 const fs = require('fs');
 const path = require('path');
-const { getNetworth } = require('skyhelper-networth');
 const configs = path.join(__dirname, '../../config.json');
 
 function readConfig()
@@ -204,32 +203,20 @@ async function getSkills(player, interaction)
 	return highestLevel;
 }
 
-async function getNw(player) {
-	try {
+async function getNw(player) 
+{
+	try 
+	{
 		const sbMember = await hypixel.getSkyblockMember(player.uuid);
 
-		let networthMessage = '';
-
-		for (const [profileName, profileData] of Object.entries(sbMember)) {
-			const networthResult = await getNetworth(profileData, profileData?.banking?.balance || 0, {
-				onlyNetworth: true,
-				v2Endpoint: true,
-				cache: true
-			});
-
-			if (networthResult && networthResult.networth) {
-				networthMessage += `**Profile: ${profileName}**\nTotal Net Worth: ${networthResult.networth}\n`;
-			} else {
-				networthMessage += `**Profile: ${profileName}**\nNo net worth data available.\n`;
-			}
+		for (const [profileName, profileData] of sbMember.entries()) 
+		{
+			console.log(await profileData.getNetworth());
 		}
-
-		console.log(networthMessage || 'No net worth data available.');
-
-		return networthMessage || 'No net worth data available.';
-	} catch (error) {
-		console.error('Error fetching net worth:', error);
-		return 'There was an error fetching the net worth data.';
+	}
+	catch
+	{
+		console.log;
 	}
 }
 

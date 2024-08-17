@@ -151,31 +151,31 @@ function createSlash({ name, desc, options = [], execute, permissions = [] })
 
 		options.forEach(option => 
 		{
-			const { type, name, description, required, choices } = option;
+			const { type, name, desc, required, choices } = option;
 			const isRequired = required === undefined ? false : required;
 			const hasChoices = choices || [];
 	
 			switch (type) 
 			{
 				case 'user':
-					commandBuilder.addUserOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
+					commandBuilder.addUserOption(o => o.setName(name).setDescription(desc).setRequired(isRequired));
 					break;
 				case 'role':
-					commandBuilder.addRoleOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
+					commandBuilder.addRoleOption(o => o.setName(name).setDescription(desc).setRequired(isRequired));
 					break;
 				case 'channel':
-					commandBuilder.addChannelOption(o => o.setName(name).setDescription(description).setRequired(isRequired));
+					commandBuilder.addChannelOption(o => o.setName(name).setDescription(desc).setRequired(isRequired));
 					break;
 				case 'string':
 					commandBuilder.addStringOption(o => {
-						o.setName(name).setDescription(description).setRequired(isRequired);
+						o.setName(name).setDescription(desc).setRequired(isRequired);
 						if (hasChoices.length > 0) o.addChoices(...hasChoices);
 						return o;
 					});
 					break;
 				case 'integer':
 					commandBuilder.addIntegerOption(o => {
-						o.setName(name).setDescription(description).setRequired(isRequired);
+						o.setName(name).setDescription(desc).setRequired(isRequired);
 						if (hasChoices.length > 0) o.addChoices(...hasChoices);
 						return o;
 					});

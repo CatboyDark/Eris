@@ -1,6 +1,5 @@
 const { readConfig } = require('../../helper/utils.js');
 
-
 module.exports = 
 {
 	command: 'test',

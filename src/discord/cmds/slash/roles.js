@@ -1,5 +1,5 @@
 const { createMsg, createSlash } = require('../../../helper/builder.js');
-const db = require('../../../mongo/schemas.js');
+const { Link } = require('../../../mongo/schemas.js');
 const { getEmoji, getPlayer, updateRoles } = require('../../../helper/utils.js');
 
 module.exports = createSlash({
@@ -16,7 +16,11 @@ module.exports = createSlash({
 
 		try 
 		{
-			const data = await db.Link.findOne({ dcid: user }).exec();
+			const data = await Link.findOne({ dcid: user }).exec();
+			if (!data) 
+			{
+				return interaction.followUp({ embeds: [createMsg({ color: 'FF0000', desc: '**You are not linked! Please run /link to link your account!**' })], ephemeral: true });
+			}
 			const uuid = data.uuid;
 			const player = await getPlayer(uuid);
 

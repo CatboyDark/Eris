@@ -1,6 +1,6 @@
 const { createSlash, createError, createMsg } = require('../../../helper/builder.js');
 const { getEmoji, getPlayer, getDiscord, updateRoles } = require('../../../helper/utils.js');
-const db = require('../../../mongo/schemas.js');
+const { Link } = require('../../../mongo/schemas.js');
 const Errors = require('hypixel-api-reborn');
 
 const notLinked = createError('**Discord is not linked!**\n_ _\nClick on **How To Link** for more info.');
@@ -11,7 +11,7 @@ module.exports = createSlash({
 	name: 'link',
 	desc: 'Link your account',
 	options: [
-		{ type: 'string', name: 'ign', description: 'Enter your IGN', required: true }
+		{ type: 'string', name: 'ign', desc: 'Enter your IGN', required: true }
 	],
     
 	async execute(interaction) 
@@ -32,7 +32,7 @@ module.exports = createSlash({
 			if (interaction.user.username !== discord) 
 				return interaction.followUp({ embeds: [noMatch] });
 
-			await db.Link.create({ uuid: player.uuid, dcid: interaction.user.id })
+			await Link.create({ uuid: player.uuid, dcid: interaction.user.id })
 				.catch((e) => { if (e.code === 11000) console.log('playersLinked: Duplicate Key!'); });
 
 			try 

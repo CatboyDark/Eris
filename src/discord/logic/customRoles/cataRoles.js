@@ -1,11 +1,5 @@
 const { createMsg, createRow, createModal } = require('../../../helper/builder.js');
-const { readConfig, writeConfig } = require('../../../helper/utils.js');
-
-const back = createRow([
-	{ id: 'customRoles', label: 'Back', style: 'Gray' },
-	{ id: 'createCataRoles', label: 'Create Roles', style: 'Green' },
-	{ id: 'deleteCataRoles', label: 'Delete Roles', style: 'Red' }
-]);
+const { readConfig, writeConfig, toggleConfig } = require('../../../helper/utils.js');
 
 function createCataRolesMsg() 
 {
@@ -18,6 +12,22 @@ function createCataRolesMsg()
 		.join('\n');
 
 	return createMsg({ title: 'Custom Roles: Cata', desc: `You may assign a role to any Catacombs level.\n### Roles:\n${roleList}` });
+}
+
+const buttons = createRow([
+	{ id: 'createCataRoles', label: 'Create Role', style: 'Green' },
+	{ id: 'deleteCataRoles', label: 'Remove Role', style: 'Red' }
+]);
+
+function createButtons()
+{
+	const config = readConfig();
+	const back = createRow([
+		{ id: 'customRoles', label: 'Back', style: 'Gray' },
+		{ id: 'cataRolesToggle', label: 'Enable Cata Roles', style: config.features.cataRolesToggle }
+	]);
+
+	return back;
 }
 
 async function createCataRoles(interaction)
@@ -59,7 +69,7 @@ async function createCataRoles(interaction)
 		config.cataRoles[cataInput] = cataRole;
 		writeConfig(config);
 
-		await interaction.update({ embeds: [createCataRolesMsg()] });
+		await cataRoles(interaction);
 	}
 }
 
@@ -96,21 +106,28 @@ async function deleteCataRoles(interaction)
 			}
 			else return interaction.reply({ embeds: [createMsg({ desc: `You don\'t have a role set for **Catacombs Level ${cataRemoveInput}**!` })], ephemeral: true });
 
-			await interaction.update({ embeds: [createCataRolesMsg()] });
+			await cataRoles(interaction);
 		}
 
 		else return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**That\'s not a valid Catacombs level!**' })], ephemeral: true });
 	}
 }
 
+async function cataRolesToggle(interaction)
+{
+	await toggleConfig('features.cataRolesToggle');
+	await cataRoles(interaction);
+}
+
 async function cataRoles(interaction)
 {
-	await interaction.update({ embeds: [createCataRolesMsg()], components: [back] });
+	await interaction.update({ embeds: [createCataRolesMsg()], components: [buttons, createButtons()] });
 }
 
 module.exports =
 {
 	cataRoles,
 	createCataRoles,
-	deleteCataRoles
+	deleteCataRoles,
+	cataRolesToggle
 };

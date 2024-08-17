@@ -1,17 +1,33 @@
 const { createMsg, createRow, createModal } = require('../../../helper/builder.js');
-const { readConfig, writeConfig } = require('../../../helper/utils.js');
+const { readConfig, writeConfig, toggleConfig } = require('../../../helper/utils.js');
 
-const levelRolesMsg = createMsg({
-	title: 'Custom Roles: Level',
-	desc: 
-		'Assign roles based on the user\'s Skyblock level.\n\n' +
-		'*Note: You do not need to assign a role to every level.*'
-});
+function createLevelRolesMsg() 
+{
+	const config = readConfig();
+	const roles = Object.entries(config.levelRoles)
+		.filter(([level, roleID]) => roleID)
+		.map(([level, roleID]) => `<@&${roleID}> - **Level ${level}**`)
+		.join('\n');
 
-const back = createRow([
-	{ id: 'customRoles', label: 'Back', style: 'Gray' }
-	// { id: 'createLevelRoles', label: 'Generate New Roles', style: 'Green' }
-]);
+	if (roles.length === 0) 
+		return createMsg({ title: 'Custom Roles: Level', desc: 'Assign roles based on the user\'s Skyblock level.\n\nYou do not need to assign a role to every level.' });
+
+	return createMsg({ 
+		title: 'Custom Roles: Level', 
+		desc: `Assign roles based on the user's Skyblock level.\n\nYou do not need to assign a role to every level.\n### Active Roles:\n${roles}`
+	});
+}
+
+function createButtons()
+{
+	const config = readConfig();
+	const back = createRow([
+		{ id: 'customRoles', label: 'Back', style: 'Gray' },
+		{ id: 'levelRolesToggle', label: 'Enable Level Roles', style: config.features.levelRolesToggle }
+	]);
+
+	return back;
+}
 
 const levels = 
 [
@@ -33,13 +49,17 @@ const levels =
 const levelRolesMenu = createRow([
 	{
 	  id: 'levelRolesMenu',
-	  placeholder: 'Setup existing roles',
+	  placeholder: 'Add roles',
 	  options: levels.map(option => ({
 			value: option.id,
 			label: option.label,
 			desc: option.desc
 	  }))
 	}
+]);
+
+const removeRoleButton = createRow([
+	{ id: 'removeLevelRole', label: 'Remove Role', style: 'Red' }
 ]);
 
 async function createLevelRoles(interaction) 
@@ -80,17 +100,61 @@ async function createLevelRoles(interaction)
 		config.levelRoles[levelNumber] = input;
 		writeConfig(config);
 
-		await interaction.reply({ embeds: [createMsg({ desc: `**${levels.find(l => l.id === selectedOption).label} has been set to** <@&${input}>` })], ephemeral: true });
+		await levelRoles(interaction);
+	}
+}
+
+async function levelRolesToggle(interaction)
+{
+	await toggleConfig('features.levelRolesToggle');
+	await levelRoles(interaction);
+}
+
+async function removeLevelRole(interaction)
+{
+	if (interaction.isButton())
+	{
+		const modal = createModal({
+			id: 'removeLevelRoleForm',
+			title: 'Remove Level Role',
+			components: [{
+				id: 'removeLevelRoleInput',
+				label: 'ENTER A LEVEL TO REMOVE:',
+				style: 'short',
+				required: true
+			}]
+		});
+    
+		await interaction.showModal(modal);
+	}
+
+	if(interaction.isModalSubmit())
+	{
+		const input = interaction.fields.getTextInputValue('removeLevelRoleInput');
+		const config = readConfig();
+
+		if(config.levelRoles[input])
+		{
+			config.levelRoles[input] = '';
+			writeConfig(config);
+			await levelRoles(interaction);
+		}
+		else
+		{
+			await interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: `**No role found for Level ${input}!**` })], ephemeral: true });
+		}
 	}
 }
 
 async function levelRoles(interaction)
 {
-	await interaction.update({ embeds: [levelRolesMsg], components: [levelRolesMenu, back] });
+	await interaction.update({ embeds: [createLevelRolesMsg()], components: [levelRolesMenu, removeRoleButton, createButtons()] });
 }
 
 module.exports = 
 {
 	createLevelRoles,
-	levelRoles
+	levelRoles,
+	levelRolesToggle,
+	removeLevelRole
 };

@@ -4,8 +4,8 @@ module.exports = createSlash({
 	name: 'purge',
 	desc: 'Purge messages',
 	options: [
-		{ type: 'integer', name: 'count', description: 'Number of messages', required: true },
-		{ type: 'string', name: 'filter', description: 'User OR bot messages', choices: [
+		{ type: 'integer', name: 'count', desc: 'Number of messages', required: true },
+		{ type: 'string', name: 'filter', desc: 'User OR bot messages', choices: [
 			{ name: 'Bot Messages', value: 'bot' },
 			{ name: 'User Messages', value: 'user' }
 		]}

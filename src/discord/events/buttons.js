@@ -9,16 +9,18 @@ const map = // Exceptions
 	'accountLinking': ['linkRoleToggle', 'guildRoleToggle']
 };
 
-
 const Logic = readLogic();
 
-const buttonHandler = Object.keys(Logic).reduce((acc, logicName) => 
-{
+const buttonHandler = Object.keys(Logic).reduce((acc, logicName) => {
 	acc[logicName] = Logic[logicName];
 
-	for (const [buttonId, exceptionLogic] of Object.entries(map)) 
-	{
-		if (exceptionLogic === logicName) acc[buttonId] = Logic[logicName];
+	// Map all button IDs associated with this logicName
+	for (const [exceptionLogic, buttonIds] of Object.entries(map)) {
+		if (exceptionLogic === logicName) {
+			buttonIds.forEach(buttonId => {
+				acc[buttonId] = Logic[exceptionLogic]; // Map button ID to the handler function
+			});
+		}
 	}
 
 	return acc;

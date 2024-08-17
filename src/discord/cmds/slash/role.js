@@ -5,12 +5,12 @@ module.exports = createSlash({
 	name: 'role',
 	desc: 'Add or remove a user\'s roles',
 	options: [
-		{ type: 'user', name: 'user', description: 'Select a user', required: true },
-		{ type: 'role', name: 'role', description: 'Select a role', required: true },
-		{ type: 'role', name: 'role_', description: 'Select a role' },
-		{ type: 'role', name: 'role__', description: 'Select a role' },
-		{ type: 'role', name: 'role___', description: 'Select a role' },
-		{ type: 'role', name: 'role____', description: 'Select a role' }
+		{ type: 'user', name: 'user', desc: 'Select a user', required: true },
+		{ type: 'role', name: 'role', desc: 'Select a role', required: true },
+		{ type: 'role', name: 'role_', desc: 'Select a role' },
+		{ type: 'role', name: 'role__', desc: 'Select a role' },
+		{ type: 'role', name: 'role___', desc: 'Select a role' },
+		{ type: 'role', name: 'role____', desc: 'Select a role' }
 	],
 	permissions: ['ManageRoles'],
 
