@@ -1,19 +1,19 @@
 {
-	"name": "eris",
-	"description": "A Hypixel-Discord bot template. Easy-to-setup. Features a guild chat bridge, ingame commands, and Discord server setup!",
-	"version": "1.0.0",
-	"author": "CatboyDark",
-	"license": "MIT",
-	"homepage": "https://github.com/CatboyDark/Eris.git",
+    "name": "wristspasm-reborn",
+    "description": "The Official WristSpasm Bot!",
+    "version": "1.0.0",
+    "author": "CatboyDark",
+    "license": "MIT",
+    "homepage": "https://github.com/CatboyDark/WristSpasm-Reborn",
 	"main": "start.js",
 	"dependencies": {
 		"discord.js": "^14.15.3",
 		"git": "^0.1.5",
 		"hypixel-api-reborn": "^11.3.4",
 		"mineflayer": "^4.20.1",
-		"mongoose": "^8.5.1"
+		"mongoose": "^8.5.3"
 	},
 	"devDependencies": {
-		"eslint": "^9.6.0"
+		"eslint": "^9.9.0"
 	}
 }
