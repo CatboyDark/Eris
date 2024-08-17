@@ -11,7 +11,7 @@ module.exports = createSlash({
 		try
 		{
 			console.log(setupMsg, setupButtons);
-			await interaction.reply({ embeds: [setupMsg], components: [setupButtons] });
+			await interaction.reply({ embeds: [setupMsg], components: [setupButtons], ephemeral: true });
 		}
 		catch{
 			console.log;

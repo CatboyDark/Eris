@@ -1,15 +1,8 @@
-<p align="center" width="100%">
-    <img width="350" height="350" src="https://github.com/CatboyDark/WristSpasm-Reborn/blob/main/assets/wristspazm.png">
-</p>
-
 <h1 align="center">
-    The Official WristSpasm Bot</h1>
+    Eris
+</h1>
 
-<div align="center">
-    
-[![Discord](https://img.shields.io/badge/Discord-Join%20us!-5555ff?style=flat&logo=discord&link=https://discord.gg/DV4yR5p5KE)](https://discord.gg/DV4yR5p5KE)
-
-</div>
+<br />
 
 A Discord/Minecraft bot for Hypixel Skyblock, built using: <br />
 >
@@ -18,28 +11,68 @@ A Discord/Minecraft bot for Hypixel Skyblock, built using: <br />
 > [mineflayer](https://github.com/PrismarineJS/mineflayer) <br />
 >
 > [hypixel-api-reborn](https://github.com/Hypixel-API-Reborn/hypixel-api-reborn) <br />
+<br />
+
+<h2>Features (WIP)</h2>
+
+### Guild:
+- Hypixel-Discord chat bridge
+- Auto-accept join requests
+- Skyblock commands
+
+### Discord:
+- CENTRAL verification system 
+- Custom Skyblock roles
+- Moderation tools
+- And more!
+<br />
+
+<h2>How To Setup</h2>
+
+### </p>1. Install the necessary dependencies</p>
+
+    npm install discord.js
+</p> </p>
+
+    npm install mineflayer
+</p> </p>
+
+    npm install hypixel-api-reborn
+<br />
+ 
+### </p>2. Configure config.json</p>
+
+</p>Rename exampleconfig.json → config.json </p>
+
+> 
+> token: Discord Token (https://discord.com/developers/applications) <br />
+> 
+> appID: Discord Application ID <br />
+> 
+> hypixelAPI: Hypixel API Key (https://developer.hypixel.net/) <br />
+> 
+> ign: Minecraft Bot Username <br />
 >
-<br /> 
-For the WristSpasm guild, <br /> 
-Created by CatboyDark on Apr 29, 2024 <br /> 
+<br />
 
-<div align="center">
-    
-<h2>Credits</h2><br>
+### </p>3. Run/host the bot </p>
 
-</div>
+    node start.js
+OR host it use [PM2](https://pm2.keymetrics.io/)
+
+<br />
+
+### 4. Run /setup to adjust configs and enable features
+
+> Note: You need the Manage Server permission to do this.
+
+<br />
+
+---
 
 > [!NOTE]
-> This project values minimalism. Contributors will not recieve any credits on the front end, with the exception of the credits section within the /help command.
+> This project values minimalism. Contributors will not recieve any credits on the frontend, with the exception of the credits section within the `/help` command.
 
-<div align="center">
-    
-Based on the [WristSpasm-Discord-Bot](https://github.com/Wristspasm/Wristspasm-Discord-Bot)
+<br />
 
-[Calculus_](https://github.com/DrRed96)
-
-[DuckySoLucky](https://github.com/DuckySoLucky)
-
-[Kathund](https://github.com/Kathund)
-
-</div>
+Created by CatboyDark on July 11, 2024. <br /> 
