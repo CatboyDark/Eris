@@ -8,6 +8,13 @@ module.exports = createSlash({
 		
 	async execute(interaction) 
 	{
-		await interaction.reply({ embeds: [setupMsg], components: [setupButtons] });
+		try
+		{
+			console.log(setupMsg, setupButtons);
+			await interaction.reply({ embeds: [setupMsg], components: [setupButtons] });
+		}
+		catch{
+			console.log;
+		}
 	}
 });
