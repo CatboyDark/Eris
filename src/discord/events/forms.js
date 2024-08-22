@@ -38,7 +38,14 @@ module.exports =
 			const handler = formHandler[`${logicName}Form`];
 	
 			if (handler) await handler(interaction);
-			else console.warn(`Logic for ${interaction.customId} does not exist! `);
+			else {
+				const exceptionLogic = Object.keys(map).find(logic => map[logic].includes(interaction.customId));
+
+				if (exceptionLogic) 
+					console.warn(`Logic for ${interaction.customId} (${exceptionLogic}) does not exist!`);
+				else 
+					console.warn(`Logic for ${interaction.customId} does not exist!`);
+			}
 		}
 	}
 ];

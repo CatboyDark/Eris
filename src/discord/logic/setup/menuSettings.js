@@ -13,7 +13,7 @@ const settingsMsg = createMsg({
 		// '- *Delete messages*\n' +
 		// '- *Assign roles below their highest role*\n\n' +
 
-		'2. **Logs Channel** *Highly Recommended*\n' +
+		'2. **Logs Channel** *Required*\n' +
 		'Enter a channel ID for bot logs.\n' +
 		'You can customize what events are sent to the Logs channel in the previous menu.\n\n' +
 

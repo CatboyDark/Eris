@@ -1,4 +1,8 @@
-const { createMsg, createSlash } = require('../../../helper/builder');
+const { createMsg, createSlash, createError } = require('../../../helper/builder');
+
+const minCount = createError('You must purge at least one message!');
+const maxCount = createError('You can only purge up to 100 messages!');
+const ageLimit = createError('You cannot purge messages older than 14 days!');
 
 module.exports = createSlash({
 	name: 'purge',
@@ -17,8 +21,8 @@ module.exports = createSlash({
 		const filter = interaction.options.getString('filter');
 		const count = interaction.options.getInteger('count');
         
-		if (count < 1) return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**You must purge at least one message!**' })], ephemeral: true });
-		if (count > 100) return interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**You can only purge up to 100 messages!**' })], ephemeral: true });
+		if (count < 1) return interaction.reply({ embeds: [minCount], ephemeral: true });
+		if (count > 100) return interaction.reply({ embeds: [maxCount], ephemeral: true });
 
 		let messages = await interaction.channel.messages.fetch({ limit: count });
 
@@ -38,7 +42,7 @@ module.exports = createSlash({
 		} 
 		else 
 		{
-			await interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: '**You cannot purge messages older than 14 days!**' })], ephemeral: true });
+			await interaction.reply({ embeds: [ageLimit], ephemeral: true });
 		}
 	}
 });

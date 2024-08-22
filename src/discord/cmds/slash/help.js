@@ -1,4 +1,4 @@
-const { createHelpMsg, helpButtons } = require('../../logic/help.js');
+const { cmds } = require('../../logic/help/help.js');
 const { createSlash } = require('../../../helper/builder.js');
 
 module.exports = createSlash({
@@ -7,7 +7,6 @@ module.exports = createSlash({
     
 	async execute(interaction) 
 	{
-		const embed = await createHelpMsg(interaction);
-		await interaction.reply({ embeds: [embed], components: [helpButtons] });
+		await cmds(interaction);
 	}
 });

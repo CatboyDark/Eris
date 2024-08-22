@@ -3,7 +3,7 @@
 	"appID": "1234567890",
 	"hypixelAPI": "1234567890",
 	"ign": "",
-	"---------------------------------------------------------------------------------------- You may run /setup to configure settings or enable features.": "Note: This requires Manage Servers permission.",
+	"--------------------- DON'T TOUCH ANYTHING BELOW THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING ---------------------": "Run /setup to configure settings or enable features (This requires Manage Servers permission).",
 	"mongoURI": "mongodb://localhost:27017/ErisDB",
 	"prefix": "",
 	"guild": "",
@@ -11,7 +11,7 @@
 	"colorTheme": "ff6ec7",
 	"logsChannel": "",
   	"logs": {
-		"enabled": true,
+		"enabled": false,
 		"auditLog": true,
 		"commands": true,
 		"buttons": false,
@@ -19,7 +19,7 @@
 		"forms": false
 	},
 	"features": {
-		"bridgeToggle": true,
+		"bridgeToggle": false,
 		"bridgeChannel": "",
 		"welcomeMsgToggle": false,
 		"welcomeChannel": "",

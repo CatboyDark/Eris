@@ -38,6 +38,11 @@ function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon
 	return embed;
 };
 
+function createError(error)
+{
+	return createMsg({ color: 'FF0000', desc: error });
+}
+
 const styles = 
 {
 	Blue: ButtonStyle.Primary,
@@ -45,11 +50,6 @@ const styles =
 	Green: ButtonStyle.Success,
 	Red: ButtonStyle.Danger
 };
-
-function createError(error)
-{
-	return createMsg({ color: 'FF0000', desc: error });
-}
 
 function createButtons({ id, label, style = 'Gray', url }) 
 {

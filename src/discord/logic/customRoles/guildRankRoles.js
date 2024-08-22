@@ -1,10 +1,12 @@
 const { createMsg, createRow, createModal } = require('../../../helper/builder.js');
 const { readConfig, getGuild, toggleConfig } = require('../../../helper/utils');
 
-async function getGuildRanks() {
+async function getGuildRanks() 
+{
 	const config = readConfig();
 	const guild = await getGuild('guild', config.guild);
-	if (guild) {
+	if (guild) 
+	{
 		const guildRanks = guild.ranks.map(rank => rank.name);
 		return guildRanks;
 	}
