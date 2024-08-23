@@ -51,7 +51,7 @@ const styles =
 	Red: ButtonStyle.Danger
 };
 
-function createButtons({ id, label, style = 'Gray', url }) 
+function createButtons({ id, label, style, url }) 
 {
 	if (typeof style === 'boolean') style = style ? 'Green' : 'Red';
 

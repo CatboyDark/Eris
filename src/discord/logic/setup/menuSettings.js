@@ -4,7 +4,7 @@ const settingsMsg = createMsg({
 	title: 'Settings',
 	desc: 
 		'1. **Guild** *Required*\n' +
-        'Enter your EXACT guild name. (Ex: wristspasm ≠ WristSpasm)\n\n' +
+        'Enter your Hypixel guild name.\n\n' +
 
 		// '2. **Staff Role** *Required*\n' +
     	// 'Enter your staff role ID.\n' +
