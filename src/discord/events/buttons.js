@@ -6,7 +6,8 @@ const map = // Exceptions
 {
 	'logging': ['logsToggle', 'logCommandsToggle', 'logButtonsToggle', 'logMenusToggle', 'logFormsToggle' ],
 	'welcome': ['welcomeMsgToggle', 'welcomeRoleToggle', 'removeRoleOnLink' ],
-	'accountLinking': ['linkRoleToggle', 'guildRoleToggle']
+	'accountLinking': ['linkRoleToggle', 'guildRoleToggle'],
+	'guildRanksToggle': ['guildRank1', 'guildRank2', 'guildRank3', 'guildRank4', 'guildRank5']
 };
 
 const Logic = readLogic();

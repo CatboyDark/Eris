@@ -6,7 +6,8 @@ const Logic = readLogic();
 
 const map = // Exceptions
 {
-	'createLevelRoles': ['level0Form', 'level40Form', 'level80Form', 'level120Form', 'level160Form', 'level200Form', 'level240Form', 'level280Form', 'level320Form', 'level360Form', 'level400Form', 'level440Form', 'level480Form']
+	'createLevelRoles': ['level0Form', 'level40Form', 'level80Form', 'level120Form', 'level160Form', 'level200Form', 'level240Form', 'level280Form', 'level320Form', 'level360Form', 'level400Form', 'level440Form', 'level480Form'],
+	'guildRanksToggle': ['guildRank1Form', 'guildRank2Form', 'guildRank3Form', 'guildRank4Form', 'guildRank5Form']
 };
 
 const formHandler = Object.keys(Logic).reduce((acc, logicName) => 
