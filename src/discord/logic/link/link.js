@@ -66,8 +66,10 @@ async function link(interaction)
 	{
 		const player = await getPlayer(input);
 		const discord = await getDiscord(input);
-		if (!discord) return interaction.followUp({ embeds: [notLinked] });
-		if (interaction.user.username !== discord) return interaction.followUp({ embeds: [noMatch] });
+		if (!discord || discord === null) 
+			return interaction.followUp({ embeds: [notLinked] });
+		if (interaction.user.username !== discord) 
+			return interaction.followUp({ embeds: [noMatch] });
 
 		await Link.create({ uuid: player.uuid, dcid: interaction.user.id }).catch(() => {});
 
@@ -116,9 +118,9 @@ async function link(interaction)
 }
 
 
-async function linkHelpLogic(interaction)
+async function linkHelp(interaction)
 {
-	await interaction.reply({ embeds: [linkHelpMsg] });
+	await interaction.reply({ embeds: [linkHelpMsg], ephemeral: true });
 }
 
 module.exports = 
@@ -126,5 +128,5 @@ module.exports =
 	createLinkMsg,
 	linkButtons,
 	link,
-	linkHelpLogic
+	linkHelp
 };

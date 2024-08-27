@@ -34,7 +34,7 @@ const back = createRow([
 
 async function accountLinking(interaction)
 {
-	await interaction.update({ embeds: [linkFeaturesMsg], components: [createRow1(), back] });
+	await interaction.update({ embeds: [linkFeaturesMsg], components: [await createRow1(), back] });
 }
 
 module.exports =
