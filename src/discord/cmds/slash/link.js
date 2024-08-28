@@ -1,5 +1,5 @@
 const { createSlash, createMsg, createError } = require('../../../helper/builder.js');
-const { getEmoji, getPlayer, getDiscord, updateRoles } = require('../../../helper/utils.js');
+const { getEmoji, getPlayer, getDiscord, updateRoles, readConfig } = require('../../../helper/utils.js');
 const { Link } = require('../../../mongo/schemas.js');
 const Errors = require('hypixel-api-reborn');
 
@@ -38,10 +38,10 @@ module.exports = createSlash({
 			await interaction.member.setNickname(player.nickname)
 				.catch(e => {
 					if (e.message.includes('Missing Permissions')) 
-						interaction.followUp({embeds: [createMsg({ color: 'FF5B00', desc: '**I don\'t have permission to change your nickname!**' })] });
+						interaction.followUp({embeds: [createMsg({ color: 'FFD800', desc: '**I don\'t have permission to change your nickname!**' })] });
 				});
 	
-			const { addedRoles, removedRoles } = await updateRoles(interaction, player);
+			const { addedRoles, removedRoles } = await updateRoles(interaction, player, true);
 	
 			let desc;
 			if (addedRoles.length > 0 && removedRoles.length > 0) 

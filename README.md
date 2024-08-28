@@ -38,6 +38,12 @@ A Discord/Minecraft bot for Hypixel Skyblock, built using: <br />
 </p> </p>
 
     npm install hypixel-api-reborn
+</p> </p>
+
+    npm install mongoose
+</p> </p>
+
+    npm install node-cron
 <br />
  
 ### </p>2. Configure config.json</p>

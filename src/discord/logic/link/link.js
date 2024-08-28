@@ -66,24 +66,20 @@ async function link(interaction)
 	{
 		const player = await getPlayer(input);
 		const discord = await getDiscord(input);
-		if (!discord || discord === null) 
+		if (!discord) 
 			return interaction.followUp({ embeds: [notLinked] });
 		if (interaction.user.username !== discord) 
 			return interaction.followUp({ embeds: [noMatch] });
 
 		await Link.create({ uuid: player.uuid, dcid: interaction.user.id }).catch(() => {});
 
-		try 
-		{
-			await interaction.member.setNickname(player.nickname);
-		} 
-		catch (e) 
-		{
-			if (e.message.includes('Missing Permissions')) 
-				interaction.followUp({embeds: [createMsg({ color: 'FF5B00', desc: '**I don\'t have permission to change your nickname!**' })] });
-		}
+		await interaction.member.setNickname(player.nickname)
+			.catch(e => {
+				if (e.message.includes('Missing Permissions')) 
+					interaction.followUp({embeds: [createMsg({ color: 'FFD800', desc: '**I don\'t have permission to change your nickname!**' })] });
+			});
 
-		const { addedRoles, removedRoles } = await updateRoles(interaction, player);
+		const { addedRoles, removedRoles } = await updateRoles(interaction, player, true);
 
 		let desc;
 		if (addedRoles.length > 0 && removedRoles.length > 0) 
@@ -116,7 +112,6 @@ async function link(interaction)
 		console.log(e); 
 	}
 }
-
 
 async function linkHelp(interaction)
 {
