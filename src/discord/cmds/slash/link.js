@@ -1,5 +1,5 @@
-const { createSlash, createMsg, createError } = require('../../../helper/builder.js');
-const { getEmoji, getPlayer, getDiscord, updateRoles, readConfig } = require('../../../helper/utils.js');
+const {createMsg, createError } = require('../../../helper/builder.js');
+const { getEmoji, getPlayer, getDiscord, updateRoles } = require('../../../helper/utils.js');
 const { Link } = require('../../../mongo/schemas.js');
 const Errors = require('hypixel-api-reborn');
 
@@ -7,7 +7,8 @@ const notLinked = createError('**Discord is not linked!**');
 const noMatch = createError('**Discord does not match!**');
 const invalidIGN = createError('**Invalid Username!**');
 
-module.exports = createSlash({
+module.exports =
+{
 	name: 'link',
 	desc: 'Link your account',
 	options: [
@@ -75,4 +76,4 @@ module.exports = createSlash({
 			console.log(e); 
 		}
 	}
-});
+};
