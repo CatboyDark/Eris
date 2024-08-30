@@ -2,16 +2,15 @@ const { restart } = require('../../logic/restart.js');
 
 module.exports =
 {
-	name: 'restart',
-	desc: 'Restarts and updates the bot',
-	permissions: ['ManageGuild'],
-    
-	async execute(interaction) 
-	{
-		await interaction.deferReply();
+    name: 'restart',
+    desc: 'Restarts and updates the bot',
+    permissions: ['ManageGuild'],
 
-		await restart();
+    async execute(interaction) {
+        await interaction.deferReply();
 
-		await interaction.followUp(`**${interaction.client.user.username} has been restarted!**`);
-	}
+        await restart();
+
+        await interaction.followUp(`**${interaction.client.user.username} has been restarted!**`);
+    }
 };
