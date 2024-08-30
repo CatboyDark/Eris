@@ -177,7 +177,7 @@ async function getCata(player)
 	const data = await hypixel.getSkyblockProfiles(player).catch(() => null);
 	const profile = data.find((profile) => profile.selected)?.me;
 
-	if (profile === null || profile === undefined) return console.log('no profile');
+	if (profile === null || profile === undefined) return console.log('Empty Profile!');
 
 	let level = profile.dungeons.experience.level;
 	if (level > 50) level = 50;

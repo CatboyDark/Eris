@@ -1,7 +1,7 @@
 const { Events } = require('discord.js');
 const { exec } = require('child_process');
 const util = require('util');
-const { readConfig } = require('../../helper/utils.js');
+const { readConfig, writeConfig } = require('../../helper/utils.js');
 const { createMsg, createRow } = require('../../helper/builder.js');
 const axios = require('axios');
 const execPromise = util.promisify(exec);
@@ -27,15 +27,20 @@ async function updateCheck(client)
 		const commitMsg = latestCommit.commit.message;
 		const localHash = localHashResult.stdout.trim();
 
-		if (remoteHash !== localHash) 
+		const lastHash = config.lastHash || null;
+
+		if (remoteHash !== localHash && remoteHash !== lastHash) 
 		{
+			config.lastHash = remoteHash;
+			writeConfig(config);
+
 			const channel = await client.channels.fetch(config.eventsChannel);
 			channel.send({
 				embeds: [createMsg({ title: 'Update available!', desc: `**Summary:**\n\`${commitMsg}\`` })],
 				components: [updateButton]
 			});
-		}
-		else
+		} 
+		else 
 		{
 			console.log(client.user.username + ' is up to date!');
 		}
