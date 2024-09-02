@@ -38,7 +38,7 @@ async function logGXP() {
                 if (!updateResult.matchedCount) {
                     await GXP.updateOne(
                         { uuid },
-                        { $push: { entries: entry } },
+                        { $push: { entries: { $each: [entry], $sort: { date: -1 } } } },
                         { upsert: true }
                     );
                 }

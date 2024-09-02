@@ -102,9 +102,9 @@ async function getIGN(uuid) {
 
 async function getDiscord(user) {
     const player = await getPlayer(user);
-    const discord = await player.socialMedia.find(media => media.id === 'DISCORD');
+    const discord = player.socialMedia.find(media => media.id === 'DISCORD');
 
-    return discord.link || null;
+    return discord ? discord.link.toLowerCase() : null;
 }
 
 async function getGuild(type, value) {

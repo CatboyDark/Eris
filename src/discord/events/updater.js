@@ -12,40 +12,36 @@ const updateButton = createRow([
 ]);
 
 async function updateCheck(client) {
-
     const config = readConfig();
 
     try {
-        const [latestCommitResponse, localHashResult] = await Promise.all([
+        const [latestHashResult, localHashResult] = await Promise.all([
             axios.get(`${repoURL}/commits/main`, { headers: { Accept: 'application/vnd.github.v3+json' } }),
             execPromise('git rev-parse HEAD')
         ]);
 
-        const latestCommit = latestCommitResponse.data;
-        const remoteHash = latestCommit.sha;
-        const commitMsg = latestCommit.commit.message;
-        const localHash = localHashResult.stdout.trim();
+        const latestHash = latestHashResult.data.sha;
+        const currentHash = localHashResult.stdout.trim();
+        const commitMsg = latestHashResult.data.commit.message;
 
-        const lastHash = config.lastHash || null;
+        if (currentHash !== latestHash) {
+            console.warn(`${client.user.username}: Update Available! Run "git pull" to update!`);
+        }
 
-        if (remoteHash !== localHash && remoteHash !== lastHash) {
-            config.lastHash = remoteHash;
-            writeConfig(config);
-
+        if (config.latestHash !== latestHash) {
             const channel = await client.channels.fetch(config.eventsChannel);
-            channel.send({
+            await channel.send({
                 embeds: [createMsg({ title: 'Update available!', desc: `**Summary:**\n\`${commitMsg}\`` })],
                 components: [updateButton]
             });
-        }
-        else {
-            console.log(`${client.user.username} is up to date!`);
+            config.latestHash = latestHash;
+            writeConfig(config);
         }
     }
     catch (error) {
         console.error('Error checking for updates:', error);
         const channel = await client.channels.fetch(config.eventsChannel);
-        channel.send({ embeds: [createMsg({ title: config.guild, desc: '**Error checking for updates!**' })] });
+        await channel.send({ embeds: [createMsg({ title: config.guild, desc: '**Error checking for updates!**' })] });
     }
 }
 
@@ -53,7 +49,8 @@ module.exports =
 [
     {
         name: Events.ClientReady,
-        async execute(client) {
+        async execute(client) 
+		{
             await updateCheck(client);
 
             setInterval(async() => {

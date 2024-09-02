@@ -33,6 +33,7 @@ class DC {
     }
 
     async init() {
+        await this.update();
         await this.initCmds();
         await this.initEvents();
         await this.initEmojis();
@@ -141,9 +142,9 @@ class DC {
 
     login() {
         this.client.login(this.token);
+        const config = readConfig();
 
         this.client.on('ready', () => {
-            const config = readConfig();
             if (config.logsChannel) {
                 const channel = this.client.channels.cache.get(config.logsChannel);
                 channel.send({ embeds: [createMsg({ desc: '**Discord is Online!**' })] });

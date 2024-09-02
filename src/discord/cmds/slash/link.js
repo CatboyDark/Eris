@@ -27,7 +27,7 @@ module.exports =
             const player = await getPlayer(input);
             const discord = await getDiscord(player.uuid);
             if (!discord) return interaction.followUp({ embeds: [notLinked] });
-            if (interaction.user.username !== discord) return interaction.followUp({ embeds: [noMatch] });
+            if (interaction.user.username !== discord.toLowerCase()) return interaction.followUp({ embeds: [noMatch] });
 
             await Link.create({ uuid: player.uuid, dcid: interaction.user.id })
                 .catch((e) => {
