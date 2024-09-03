@@ -1,9 +1,8 @@
 const cron = require('node-cron');
-const { readConfig, toggleConfig } = require('../../helper/utils.js');
+const { readConfig } = require('../../helper/utils.js');
 const { logGXP } = require('../logic/GXP/logGXP.js');
 const { createMsg } = require('../../helper/builder.js');
 const { Events } = require('discord.js');
-const { sendStaffInactivityNotif, sendInactivityNotif } = require('../logic/GXP/inactivityNotif.js');
 
 module.exports =
 [{
