@@ -5,13 +5,13 @@ const Mongo = require('./src/mongo/mongoInit');
 class Instance {
     async init() {
         this.discord = new DC();
-        this.minecraft = new MC(this.discord.client);
+        // this.minecraft = new MC(this.discord.client);
     }
 
     async start() {
         await Mongo();
         await this.discord.init();
-        await this.minecraft.init();
+        // await this.minecraft.init();
     }
 }
 

@@ -14,14 +14,15 @@ const updateButton = createRow([
 async function updateCheck(client) {
     const config = readConfig();
     const channel = await client.channels.fetch(config.logsChannel);
+    const owner = client.owner;
 
     try {
         const [latestHashResult, localHashResult] = await Promise.all([
             axios.get(`${repoURL}/commits/main`, { headers: { Accept: 'application/vnd.github.v3+json' } }),
-            execPromise('git rev-parse HEAD')
+            execPromise('git rev-parse --short HEAD')
         ]);
 
-        const latestHash = latestHashResult.data.sha;
+        const latestHash = latestHashResult.data.sha.substring(0, 7);
         const currentHash = localHashResult.stdout.trim();
         const commitMsg = latestHashResult.data.commit.message;
 
@@ -31,6 +32,7 @@ async function updateCheck(client) {
 
         if (config.latestHash !== latestHash) {
             await channel.send({
+                content: `<@${owner.id}>`,
                 embeds: [createMsg({ title: 'Update available!', desc: `**Summary:**\n\`${commitMsg}\`` })],
                 components: [updateButton]
             });
