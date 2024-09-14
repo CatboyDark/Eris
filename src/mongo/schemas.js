@@ -31,11 +31,17 @@ const gxpSchema = new mongoose.Schema({
     }]
 }, { collection: 'gxpLog' });
 
+const inactivitySchema = new mongoose.Schema({
+    dcid: { type: String, required: true },
+    reason: { type: String, required: false }
+}, { collection: 'inactivityList' });
+
 const Command = mongoose.model('Command', commandSchema);
 const Button = mongoose.model('Button', buttonSchema);
 const Link = mongoose.model('Link', linkSchema);
 const Pin = mongoose.model('Pin', pinsSchema);
 const GXP = mongoose.model('GXP', gxpSchema);
+const Inactivity = mongoose.model('Inactivity', inactivitySchema);
 
 module.exports =
 {
@@ -43,5 +49,6 @@ module.exports =
     Button,
     Link,
     Pin,
-    GXP
+    GXP,
+    Inactivity
 };
