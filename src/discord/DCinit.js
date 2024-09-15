@@ -7,6 +7,7 @@ const { readConfig } = require('../helper/utils.js');
 const emojis = path.join(__dirname, '../../assets/emojis');
 
 class DC {
+
     constructor() {
         this.client = new Client({
             intents: [

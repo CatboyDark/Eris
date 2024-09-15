@@ -1,5 +1,5 @@
 const { readConfig, getGuild, getIGN } = require('../../../helper/utils.js');
-const { GXP } = require('../../../mongo/schemas.js');
+const { GXP, Inactivity } = require('../../../mongo/schemas.js');
 
 async function getGXP(client) {
     const config = readConfig();
@@ -30,7 +30,24 @@ async function getGXP(client) {
     return membersData;
 }
 
-module.exports =
-{
-    getGXP
-};
+async function getPurge(client) {
+    const membersData = await getGXP(client);
+    const inactivityRequests = await Inactivity.find({});
+    const inactivityList = new Set(inactivityRequests.map(entry => entry.dcid));
+
+    const twoWeeksAgo = new Date();
+    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+
+    const fMembers = membersData.filter(member => {
+        const missingGXP = member.gxp < 100000;
+        const joinedDate = new Date(member.joinDate);
+        const expiredJoinDate = joinedDate < twoWeeksAgo;
+        const unexcused = !inactivityList.has(member.uuid);
+
+        return missingGXP && expiredJoinDate && unexcused;
+    });
+
+    return fMembers;
+}
+
+module.exports = { getGXP, getPurge };

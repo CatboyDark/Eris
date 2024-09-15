@@ -6,7 +6,7 @@ const { createMsg } = require('../../helper/builder.js');
 const axios = require('axios');
 const { readConfig } = require('../../helper/utils.js');
 
-const repoURL = 'https://api.github.com/repos/CatboyDark/Eris';
+const repoURL = 'https://api.github.com/repos/CatboyDark/WristSpasm-Reborn';
 
 async function restart(client) {
     try {
