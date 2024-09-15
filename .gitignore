@@ -1,5 +1,3 @@
 node_modules
-eslint.config.js
 .vscode
 config.json
-**/test.js

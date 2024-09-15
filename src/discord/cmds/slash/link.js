@@ -1,7 +1,7 @@
 const { createMsg, createError } = require('../../../helper/builder.js');
 const { getEmoji, getPlayer, getDiscord, updateRoles } = require('../../../helper/utils.js');
 const { Link } = require('../../../mongo/schemas.js');
-const Errors = require('hypixel-api-reborn');
+const { Errors } = require('hypixel-api-reborn');
 
 const notLinked = createError('**Discord is not linked!**');
 const noMatch = createError('**Discord does not match!**');
@@ -63,7 +63,6 @@ module.exports =
         }
         catch (e) {
             if (e.message === Errors.PLAYER_DOES_NOT_EXIST) return interaction.followUp({ embeds: [invalidIGN] });
-
             console.log(e);
         }
     }

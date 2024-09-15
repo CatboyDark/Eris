@@ -6,11 +6,10 @@ const { createMsg } = require('../../helper/builder.js');
 const axios = require('axios');
 const { readConfig } = require('../../helper/utils.js');
 
-const repoURL = 'https://api.github.com/repos/CatboyDark/WristSpasm-Reborn';
+const repoURL = 'https://api.github.com/repos/CatboyDark/Eris';
 
 async function restart(client) {
     try {
-        await execPromise('git update-index --skip-worktree README.md');
         await execPromise('git pull');
 
         await client.destroy();
@@ -30,7 +29,7 @@ async function update(interaction) {
 
     try {
         const [latestHashResult, localHashResult] = await Promise.all([
-            axios.get(`${repoURL}/commits/main`, { headers: { Accept: 'application/vnd.github.v3+json' } }),
+            axios.get(`${repoURL}/commits/wsr`, { headers: { Accept: 'application/vnd.github.v3+json' } }),
             execPromise('git rev-parse --short HEAD')
         ]);
 

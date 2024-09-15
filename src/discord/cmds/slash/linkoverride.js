@@ -50,7 +50,7 @@ module.exports =
                 roleDesc = `\n\n${removedRoles.map(roleID => `${minus} <@&${roleID}>`).join('\n')}\n_ _`;
             }
 
-            const desc = `${check} **Successfully linked ${user} to ${player.nickname}**${roleDesc}`;
+            const desc = `${check} **${user} is now linked to ${player.nickname}**${roleDesc}`;
 
             await interaction.followUp({ embeds: [createMsg({ desc })] });
         }

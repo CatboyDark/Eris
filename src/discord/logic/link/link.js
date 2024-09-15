@@ -3,8 +3,8 @@ const Errors = require('hypixel-api-reborn');
 const { createMsg, createRow, createForm, createError } = require('../../../helper/builder.js');
 const { getEmoji, getDiscord, getPlayer, updateRoles } = require('../../../helper/utils.js');
 
-const notLinked = createError('**Discord is not linked!**\n_ _\nClick on **How To Link** for more info.');
-const noMatch = createError('**Discord does not match!**\n_ _\nClick on **How To Link** for more info.');
+const notLinked = createError('### Discord is not linked!**\nClick on **How To Link** for more info.');
+const noMatch = createError('### Discord does not match!\nClick on **How To Link** for more info.');
 const invalidIGN = createError('**Invalid Username!**');
 
 async function createLinkMsg() {
