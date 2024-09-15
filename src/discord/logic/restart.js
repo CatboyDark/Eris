@@ -4,12 +4,20 @@ const execPromise = util.promisify(exec);
 const app = require('../../../start.js');
 const { createMsg } = require('../../helper/builder.js');
 const axios = require('axios');
-const { readConfig } = require('../../helper/utils.js');
+const { readConfig, writeConfig } = require('../../helper/utils.js');
 
 const repoURL = 'https://api.github.com/repos/CatboyDark/Eris';
 
 async function restart(client) {
+    const config = readConfig();
     try {
+        const latestHashResult = await axios.get(`${repoURL}/commits/wsr`, {
+            headers: { Accept: 'application/vnd.github.v3+json' }
+        });
+        const latestHash = latestHashResult.data.sha.substring(0, 7);
+        config.latestHash = latestHash;
+        writeConfig(config);
+
         await execPromise('git pull');
 
         await client.destroy();
