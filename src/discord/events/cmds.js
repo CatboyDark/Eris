@@ -30,9 +30,8 @@ const cmdError = (interaction) => {
 
         const e = createMsg({
             color: 'FF0000',
-            title: 'Oops! That wasn\'t supposed to happen!',
             desc:
-					'Staff has been notified. Thank you for your patience!'
+					'### Oops!\nThat wasn\'t supposed to happen. Staff has been notified!'
         });
         if (interaction.replied || interaction.deferred) {
             return interaction.followUp({ embeds: [e] });
