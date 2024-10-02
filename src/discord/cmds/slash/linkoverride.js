@@ -1,62 +1,52 @@
-const { Errors } = require('hypixel-api-reborn');
 const { createMsg, createError } = require('../../../helper/builder.js');
-const { getPlayer, updateRoles, getEmoji } = require('../../../helper/utils.js');
+const { updateRoles } = require('../../../helper/utils.js');
 const { Link } = require('../../../mongo/schemas.js');
+const { Errors } = require('hypixel-api-reborn');
+const HAPI = require('../../../helper/hapi.js');
 
-const invalidIGN = createError('**Invalid Username!**');
+module.exports = {
+  name: 'linkoverride',
+  desc: 'Link Override',
+  options: [
+    { type: 'user', name: 'discord', desc: 'Discord', required: true },
+    { type: 'string', name: 'ign', desc: 'IGN', required: true }
+  ],
+  permissions: ['ManageRoles'],
 
-module.exports =
-{
-    name: 'linkoverride',
-    desc: 'Link Override',
-    options: [
-        { type: 'user', name: 'discord', desc: 'Discord', required: true },
-        { type: 'string', name: 'ign', desc: 'IGN', required: true }
-    ],
-    permissions: ['ManageRoles'],
-
-    async execute(interaction) {
-        const user = interaction.options.getUser('discord');
-        const member = interaction.guild.members.cache.get(user.id);
-        const check = await getEmoji('check');
-        const plus = await getEmoji('plus');
-        const minus = await getEmoji('minus');
-
-        await interaction.deferReply();
-
-        try {
-            const player = await getPlayer(interaction.options.getString('ign'));
-
-            const existingEntry = await Link.findOne({ $or: [{ uuid: player.uuid }, { dcid: user.id }] });
-
-            if (existingEntry) {
-                await Link.updateOne({ _id: existingEntry._id }, { uuid: player.uuid, dcid: user.id });
-            }
-            else {
-                await Link.create({ uuid: player.uuid, dcid: user.id });
-            }
-
-            const { addedRoles, removedRoles } = await updateRoles(member, player, true);
-
-            let roleDesc = '';
-            if (addedRoles.length > 0 && removedRoles.length > 0) {
-                roleDesc = `\n\n${addedRoles.map(roleID => `${plus} <@&${roleID}>`).join('\n')}\n_ _\n`;
-                roleDesc += `${removedRoles.map(roleID => `${minus} <@&${roleID}>`).join('\n')}`;
-            }
-            else if (addedRoles.length > 0) {
-                roleDesc = `\n\n${addedRoles.map(roleID => `${plus} <@&${roleID}>`).join('\n')}\n_ _`;
-            }
-            else if (removedRoles.length > 0) {
-                roleDesc = `\n\n${removedRoles.map(roleID => `${minus} <@&${roleID}>`).join('\n')}\n_ _`;
-            }
-
-            const desc = `${check} **Successfully linked ${user} to ${player.nickname}**${roleDesc}`;
-
-            await interaction.followUp({ embeds: [createMsg({ desc })] });
-        }
-        catch (e) {
-            if (e.message === Errors.PLAYER_DOES_NOT_EXIST) return interaction.followUp({ embeds: [invalidIGN] });
-            console.log(e);
-        }
+  async execute(interaction) {
+    const user = interaction.options.getUser('discord');
+    const member = interaction.guild.members.cache.get(user.id);
+    const application = await interaction.client.application.fetch();
+    const emojis = await application.emojis.fetch();
+    const check = emojis.find((emoji) => 'check' === emoji.name);
+    const plus = emojis.find((emoji) => 'plus' === emoji.name);
+    const minus = emojis.find((emoji) => 'minus' === emoji.name);
+    await interaction.deferReply();
+    try {
+      const player = await HAPI.getPlayer(interaction.options.getString('ign'));
+      const existingEntry = await Link.findOne({ $or: [{ uuid: player.uuid }, { dcid: user.id }] });
+      if (existingEntry) {
+        await Link.updateOne({ _id: existingEntry._id }, { uuid: player.uuid, dcid: user.id });
+      } else {
+        await Link.create({ uuid: player.uuid, dcid: user.id });
+      }
+      const { addedRoles, removedRoles } = await updateRoles(member, player.uuid, true);
+      let roleDesc = '';
+      if (addedRoles.length > 0 && removedRoles.length > 0) {
+        roleDesc = `\n\n${addedRoles.map((roleID) => `${plus} <@&${roleID}>`).join('\n')}\n_ _\n`;
+        roleDesc += `${removedRoles.map((roleID) => `${minus} <@&${roleID}>`).join('\n')}`;
+      } else if (addedRoles.length > 0) {
+        roleDesc = `\n\n${addedRoles.map((roleID) => `${plus} <@&${roleID}>`).join('\n')}\n_ _`;
+      } else if (removedRoles.length > 0) {
+        roleDesc = `\n\n${removedRoles.map((roleID) => `${minus} <@&${roleID}>`).join('\n')}\n_ _`;
+      }
+      const desc = `${check} **Successfully linked ${user} to ${player.nickname}**${roleDesc}`;
+      await interaction.followUp({ embeds: [createMsg({ desc })] });
+    } catch (e) {
+      if (e.message === Errors.PLAYER_DOES_NOT_EXIST) {
+        return interaction.followUp({ embeds: [createError('**Invalid Username!**')] });
+      }
+      console.log(e);
     }
+  }
 };
