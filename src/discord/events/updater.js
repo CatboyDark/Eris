@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, Team } = require('discord.js');
 const { exec } = require('child_process');
 const util = require('util');
 const { readConfig, writeConfig } = require('../../helper/utils.js');
@@ -15,7 +15,6 @@ async function updateCheck(client) {
     const config = readConfig();
     const channel = await client.channels.fetch(config.logsChannel);
     const app = await client.application.fetch();
-    const owner = app.owner;
 
     try {
         const [latestHashResult, localHashResult] = await Promise.all([
@@ -33,7 +32,7 @@ async function updateCheck(client) {
 
         if (config.latestHash !== latestHash) {
             await channel.send({
-                content: `<@${owner.id}>`,
+                content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
                 embeds: [createMsg({ title: 'Update available!', desc: `**Summary:**\n\`${commitMsg}\`` })],
                 components: [updateButton]
             });

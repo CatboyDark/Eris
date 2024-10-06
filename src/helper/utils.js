@@ -86,12 +86,11 @@ async function getPlayer(user) {
 
 async function getIGN(client, uuid) {
     const app = await client.application.fetch();
-    const owner = app.owner;
 
     try {
         const response = await axios.get(`https://playerdb.co/api/player/minecraft/${uuid}`, {
             headers: {
-                'User-Agent': `Discord: @${owner.username}`
+                'User-Agent': `Discord: @${app.owner instanceof Team ? app.owner.owner?.username : app.owner.username}`
             }
         });
         return response.data.data.player.username;

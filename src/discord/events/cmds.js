@@ -15,10 +15,12 @@ async function erisError(interaction, error) {
 				'**If you believe this is a bug, please contact <@622326625530544128>.**'
     });
 
-    const client = await interaction.client.application.fetch();
-    const owner = client.owner;
+    const app = await interaction.client.application.fetch();
 
-    channel.send({ content: `<@${owner.id}>`, embeds: [e] });
+    channel.send({
+      content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
+      embeds: [e],
+    });
     console.error(error);
 }
 
