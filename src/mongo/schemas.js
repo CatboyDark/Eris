@@ -1,35 +1,46 @@
 const mongoose = require('mongoose');
 
 const commandSchema = new mongoose.Schema({
-    command: { type: String, required: true, unique: true },
-    count: { type: Number, default: 0 }
+  command: { type: String, required: true, unique: true },
+  count: { type: Number, default: 0 }
 });
 
 const buttonSchema = new mongoose.Schema({
-    button: { type: String, required: true, unique: true },
-    source: { type: String, default: '' },
-    count: { type: Number, default: 0 }
+  button: { type: String, required: true, unique: true },
+  source: { type: String, default: '' },
+  count: { type: Number, default: 0 }
 });
 
-const linkSchema = new mongoose.Schema({
+const linkSchema = new mongoose.Schema(
+  {
     uuid: { type: String, required: true },
     dcid: { type: String, required: true }
-}, { collection: 'playersLinked' });
+  },
+  { collection: 'playersLinked' }
+);
 
 linkSchema.index({ uuid: 1, dcid: 1 }, { unique: true });
 
-const pinsSchema = new mongoose.Schema({
+const pinsSchema = new mongoose.Schema(
+  {
     channelId: { type: String, required: true, unique: true },
     pinnedMessages: { type: [String], default: [] }
-}, { collection: 'serverPins' });
+  },
+  { collection: 'serverPins' }
+);
 
-const gxpSchema = new mongoose.Schema({
+const gxpSchema = new mongoose.Schema(
+  {
     uuid: { type: String, required: true, unique: true },
-    entries: [{
+    entries: [
+      {
         date: { type: Number, required: true },
         gxp: { type: Number, required: true }
-    }]
-}, { collection: 'gxpLog' });
+      }
+    ]
+  },
+  { collection: 'gxpLog' }
+);
 
 const Command = mongoose.model('Command', commandSchema);
 const Button = mongoose.model('Button', buttonSchema);
@@ -37,11 +48,10 @@ const Link = mongoose.model('Link', linkSchema);
 const Pin = mongoose.model('Pin', pinsSchema);
 const GXP = mongoose.model('GXP', gxpSchema);
 
-module.exports =
-{
-    Command,
-    Button,
-    Link,
-    Pin,
-    GXP
+module.exports = {
+  Command,
+  Button,
+  Link,
+  Pin,
+  GXP
 };
