@@ -10,7 +10,7 @@ async function credits(interaction) {
             '**Credits**\n\n' +
             '✦ <@1165302964093722697> ✦\n' +
 			'✦ <@486155512568741900> ✦\n' +
-			'✦ <@1169174913832202306> ✦\n' +
+			'✦ <@1276524855445164098> ✦\n' +
 			'✦ <@468043261911498767> ✦\n\n_ _',
         footer: 'Created by @CatboyDark',
         footerIcon: 'https://i.imgur.com/4lpd01s.png'
