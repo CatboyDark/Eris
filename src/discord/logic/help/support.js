@@ -1,7 +1,8 @@
 const { createMsg, createRow } = require('../../../helper/builder.js');
 const { readConfig } = require('../../../helper/utils.js');
 
-async function support(interaction) {
+async function support(interaction)
+{
     const config = readConfig();
     const supportMsg = createMsg({
         icon: config.icon,
@@ -24,7 +25,6 @@ async function support(interaction) {
     interaction.update({ embeds: [supportMsg], components: [buttons] });
 }
 
-module.exports =
-{
+module.exports = {
     support
 };

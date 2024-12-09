@@ -1,9 +1,10 @@
-const { Events } = require('discord.js');
+const { Events, Team } = require('discord.js');
 const { createMsg } = require('../../helper/builder.js');
 const log = require('../../helper/logger.js');
 const { readConfig } = require('../../helper/utils.js');
 
-async function erisError(interaction, error) {
+async function erisError(interaction, error)
+{
     const config = readConfig();
     const channel = await interaction.client.channels.fetch(config.logsChannel);
 
@@ -11,19 +12,23 @@ async function erisError(interaction, error) {
         color: 'FF0000',
         title: 'A Silly Has Occured!',
         desc:
-				`\`${error.message}\`\n\n` +
-				'**If you believe this is a bug, please contact <@622326625530544128>.**'
+            `\`${error.message}\`\n\n` +
+            '**If you believe this is a bug, please contact <@622326625530544128>.**'
     });
 
-    const client = await interaction.client.application.fetch();
-    const owner = client.owner;
+    const app = await interaction.client.application.fetch();
 
-    channel.send({ content: `<@${owner.id}>`, embeds: [e] });
+    channel.send({
+        content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
+        embeds: [e]
+    });
     console.error(error);
 }
 
-const cmdError = (interaction) => {
-    return async(error) => {
+const cmdError = (interaction) =>
+{
+    return async(error) =>
+    {
         await erisError(interaction, error);
 
         console.log(error);
@@ -31,22 +36,25 @@ const cmdError = (interaction) => {
         const e = createMsg({
             color: 'FF0000',
             title: 'Oops! That wasn\'t supposed to happen!',
-            desc:
-					'Staff has been notified. Thank you for your patience!'
+            desc: 'Staff has been notified. Thank you for your patience!'
         });
-        if (interaction.replied || interaction.deferred) {
+        if (interaction.replied || interaction.deferred)
+        {
             return interaction.followUp({ embeds: [e] });
         }
         return interaction.reply({ embeds: [e] });
     };
 };
 
-module.exports =
-[
+module.exports = [
     {
         name: Events.InteractionCreate,
-        async execute(interaction) {
-            if (!interaction.isChatInputCommand()) return;
+        async execute(interaction)
+        {
+            if (!interaction.isChatInputCommand())
+            {
+                return;
+            }
             log(interaction);
 
             const command = interaction.client.sc.get(interaction.commandName);
