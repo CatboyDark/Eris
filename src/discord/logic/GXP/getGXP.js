@@ -1,7 +1,8 @@
 const { readConfig, getGuild, getIGN } = require('../../../helper/utils.js');
 const { GXP } = require('../../../mongo/schemas.js');
 
-async function getGXP(client) {
+async function getGXP(client)
+{
     const config = readConfig();
     const guild = await getGuild('guild', config.guild);
 
@@ -10,12 +11,19 @@ async function getGXP(client) {
     const timeLimit = date.toISOString().slice(0, 10).replace(/-/g, '');
 
     const membersData = [];
-    for (const member of guild.members) {
+    for (const member of guild.members)
+    {
         const { uuid, joinedAt } = member;
         const gxpData = await GXP.findOne({ uuid });
-        if (gxpData) {
-            const recentEntries = gxpData.entries.filter(entry => entry.date >= timeLimit);
-            const totalGXP = recentEntries.reduce((sum, entry) => sum + entry.gxp, 0);
+        if (gxpData)
+        {
+            const recentEntries = gxpData.entries.filter(
+                (entry) => entry.date >= timeLimit
+            );
+            const totalGXP = recentEntries.reduce(
+                (sum, entry) => sum + entry.gxp,
+                0
+            );
             const user = await getIGN(client, uuid);
             membersData.push({
                 uuid,
@@ -30,7 +38,6 @@ async function getGXP(client) {
     return membersData;
 }
 
-module.exports =
-{
+module.exports = {
     getGXP
 };

@@ -1,31 +1,59 @@
 const { readConfig } = require('../../helper/utils.js');
 const ignore = JSON.parse(require('fs').readFileSync('ignore.json'));
 
-module.exports = (bot, client) => {
+module.exports = (bot, client) =>
+{
     const config = readConfig();
 
     // Ingame -> Discord
-    bot.on('message', message => {
-        if (!config.features.bridgeToggle) return;
+    bot.on('message', (message) =>
+    {
+        if (!config.features.bridgeToggle)
+        {
+            return;
+        }
 
         const content = message.toString().trim();
-        const isIgnored = ignore.some(ignoredPhrase => content.startsWith(ignoredPhrase));
-        if (content.length < 1 || isIgnored) return;
+        const isIgnored = ignore.some((ignoredPhrase) =>
+            content.startsWith(ignoredPhrase)
+        );
+        if (content.length < 1 || isIgnored)
+        {
+            return;
+        }
 
-        const fContent = content.replace(/<@/g, '<@\u200B').replace(/<#/g, '<#\u200B').replace(/<:/g, '<:\u200B').replace(/<a/g, '<a\u200B').replace(/@everyone/g, '@ everyone').replace(/@here/g, '@ here');
+        const fContent = content
+            .replace(/<@/g, '<@\u200B')
+            .replace(/<#/g, '<#\u200B')
+            .replace(/<:/g, '<:\u200B')
+            .replace(/<a/g, '<a\u200B')
+            .replace(/@everyone/g, '@ everyone')
+            .replace(/@here/g, '@ here');
 
-        const channel = client.channels.cache.get(config.features.bridgeChannel);
+        const channel = client.channels.cache.get(
+            config.features.bridgeChannel
+        );
         channel.send(`${fContent}`);
     });
 
     // Discord -> Ingame
-    client.on('messageCreate', message => {
-        if (!config.features.bridgeToggle) return;
+    client.on('messageCreate', (message) =>
+    {
+        if (!config.features.bridgeToggle)
+        {
+            return;
+        }
 
-        const channel = client.channels.cache.get(config.features.bridgeChannel);
-        if (message.channel.id === channel?.id) {
+        const channel = client.channels.cache.get(
+            config.features.bridgeChannel
+        );
+        if (message.channel.id === channel?.id)
+        {
             const content = message.content;
-            if (message.author.bot) return;
+            if (message.author.bot)
+            {
+                return;
+            }
 
             bot.chat(content);
         }

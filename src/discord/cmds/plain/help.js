@@ -1,11 +1,13 @@
 const { createMsg } = require('../../../helper/builder.js');
 
-module.exports =
-{
-    name: '.h',
+module.exports = {
+    name: 'help',
 
-    async execute(message) {
-        const embed = createMsg({ desc: '**Super Secret Staff Commands owo**' });
+    async execute(message)
+    {
+        const embed = createMsg({
+            desc: '**Super Secret Staff Commands owo**'
+        });
 
         await message.channel.send({ embeds: [embed] });
     }

@@ -1,37 +1,55 @@
-const { createForm, createMsg, createError } = require('../../../helper/builder.js');
+const {
+    createForm,
+    createMsg,
+    createError
+} = require('../../../helper/builder.js');
 const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
 const invalidChannel = createError('**That\'s not a valid channel ID!**');
 
-async function setWelcomeChannel(interaction) {
-
-    if (!interaction.isModalSubmit()) {
+async function setWelcomeChannel(interaction)
+{
+    if (!interaction.isModalSubmit())
+    {
         const modal = createForm({
             id: 'setWelcomeChannelForm',
             title: 'Set Welcome Channel',
-            components: [{
-                id: 'setWelcomeChannelInput',
-                label: 'CHANNEL ID:',
-                style: 'short',
-                required: false
-            }]
+            components: [
+                {
+                    id: 'setWelcomeChannelInput',
+                    label: 'CHANNEL ID:',
+                    style: 'short',
+                    required: false
+                }
+            ]
         });
 
         return interaction.showModal(modal);
     }
 
-    const input = interaction.fields.getTextInputValue('setWelcomeChannelInput');
-    const channel = await interaction.guild.channels.fetch(input).catch(() => null);
-    if (!channel) {
+    const input = interaction.fields.getTextInputValue(
+        'setWelcomeChannelInput'
+    );
+    const channel = await interaction.guild.channels
+        .fetch(input)
+        .catch(() => null);
+    if (!channel)
+    {
         return interaction.reply({ embeds: [invalidChannel], ephemeral: true });
     }
     const config = readConfig();
     config.features.welcomeChannel = input;
     writeConfig(config);
-    interaction.reply({ embeds: [createMsg({ desc: `Welcome Channel has been set to **<#${input}>**.` })], ephemeral: true });
+    interaction.reply({
+        embeds: [
+            createMsg({
+                desc: `Welcome Channel has been set to **<#${input}>**.`
+            })
+        ],
+        ephemeral: true
+    });
 }
 
-module.exports =
-{
+module.exports = {
     setWelcomeChannel
 };

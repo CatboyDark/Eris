@@ -1,4 +1,8 @@
-const { createMsg, createRow, createError } = require('../../helper/builder.js');
+const {
+    createMsg,
+    createRow,
+    createError
+} = require('../../helper/builder.js');
 const { readConfig, toggleConfig } = require('../../helper/utils.js');
 
 const missingChannel = createError('**You must add a logs channel first!**');
@@ -9,15 +13,24 @@ const loggingMsg = createMsg({
         '**Configure what events are sent to the Logs channel.**\n\n' +
         '1. `Commands`: Log commands run\n' +
         '2. `Buttons`: Log buttons pressed\n' +
-		'2. `Menus`: Log select menu options pressed\n' +
+        '2. `Menus`: Log select menu options pressed\n' +
         '3. `Forms`: Log forms submitted'
 });
 
-async function createButtons() {
+async function createButtons()
+{
     const config = readConfig();
     const logButtons = createRow([
-        { id: 'logCommandsToggle', label: 'Log Commands', style: config.logs.commands },
-        { id: 'logButtonsToggle', label: 'Log Buttons', style: config.logs.buttons },
+        {
+            id: 'logCommandsToggle',
+            label: 'Log Commands',
+            style: config.logs.commands
+        },
+        {
+            id: 'logButtonsToggle',
+            label: 'Log Buttons',
+            style: config.logs.buttons
+        },
         { id: 'logMenusToggle', label: 'Log Menus', style: config.logs.menus },
         { id: 'logFormsToggle', label: 'Log Forms', style: config.logs.forms }
     ]);
@@ -30,14 +43,18 @@ async function createButtons() {
     return { logButtons, backRow };
 }
 
-async function logging(interaction) {
+async function logging(interaction)
+{
     const config = readConfig();
 
-    if (!config.logsChannel) {
+    if (!config.logsChannel)
+    {
         interaction.reply({ embeds: [missingChannel], ephemeral: true });
     }
-    else {
-        switch (interaction.customId) {
+    else
+    {
+        switch (interaction.customId)
+        {
         case 'logsToggle':
             await toggleConfig('logs.enabled');
             break;
@@ -60,7 +77,10 @@ async function logging(interaction) {
         }
 
         const { logButtons, backRow } = await createButtons();
-        interaction.update({ embeds: [loggingMsg], components: [logButtons, backRow] });
+        interaction.update({
+            embeds: [loggingMsg],
+            components: [logButtons, backRow]
+        });
     }
 }
 

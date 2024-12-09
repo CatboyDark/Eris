@@ -11,25 +11,36 @@ const buttonSchema = new mongoose.Schema({
     count: { type: Number, default: 0 }
 });
 
-const linkSchema = new mongoose.Schema({
-    uuid: { type: String, required: true },
-    dcid: { type: String, required: true }
-}, { collection: 'playersLinked' });
+const linkSchema = new mongoose.Schema(
+    {
+        uuid: { type: String, required: true },
+        dcid: { type: String, required: true }
+    },
+    { collection: 'playersLinked' }
+);
 
 linkSchema.index({ uuid: 1, dcid: 1 }, { unique: true });
 
-const pinsSchema = new mongoose.Schema({
-    channelId: { type: String, required: true, unique: true },
-    pinnedMessages: { type: [String], default: [] }
-}, { collection: 'serverPins' });
+const pinsSchema = new mongoose.Schema(
+    {
+        channelId: { type: String, required: true, unique: true },
+        pinnedMessages: { type: [String], default: [] }
+    },
+    { collection: 'serverPins' }
+);
 
-const gxpSchema = new mongoose.Schema({
-    uuid: { type: String, required: true, unique: true },
-    entries: [{
-        date: { type: Number, required: true },
-        gxp: { type: Number, required: true }
-    }]
-}, { collection: 'gxpLog' });
+const gxpSchema = new mongoose.Schema(
+    {
+        uuid: { type: String, required: true, unique: true },
+        entries: [
+            {
+                date: { type: Number, required: true },
+                gxp: { type: Number, required: true }
+            }
+        ]
+    },
+    { collection: 'gxpLog' }
+);
 
 const Command = mongoose.model('Command', commandSchema);
 const Button = mongoose.model('Button', buttonSchema);
@@ -37,8 +48,7 @@ const Link = mongoose.model('Link', linkSchema);
 const Pin = mongoose.model('Pin', pinsSchema);
 const GXP = mongoose.model('GXP', gxpSchema);
 
-module.exports =
-{
+module.exports = {
     Command,
     Button,
     Link,

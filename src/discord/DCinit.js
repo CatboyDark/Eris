@@ -1,13 +1,13 @@
-const { Client, Partials, Collection, GatewayIntentBits, REST, Routes, ActivityType } = require('discord.js');
-const fs = require('fs');
-const path = require('path');
-const { appID, token } = require('../../config.json');
-const { createMsg, createSlash } = require('../helper/builder.js');
-const { readConfig } = require('../helper/utils.js');
-const emojis = path.join(__dirname, '../../assets/emojis');
+import { Client, Partials, Collection, GatewayIntentBits, REST, Routes, ActivityType } from 'discord.js';
+import { createMsg, createSlash } from '../helper/builder.js';
+import { readConfig } from '../helper/utils.js';
+import { token, consoleChannels } from '../../config.json';
+import fs from 'fs';
 
-class DC {
-    constructor() {
+class DC
+{
+    constructor()
+    {
         this.client = new Client({
             intents: [
                 GatewayIntentBits.Guilds,
@@ -25,130 +25,116 @@ class DC {
             ]
         });
 
-        this.token = token;
-        this.appID = appID;
         this.client.pc = new Collection();
         this.client.sc = new Collection();
     }
 
-    async init() {
+    async init()
+    {
         await this.initCmds();
-        await this.initEvents();
         await this.initEmojis();
+        this.initEvents();
         this.login();
     }
 
-    async initCmds() {
-        const slashDir = path.join(__dirname, 'cmds/slash');
-        const plainDir = path.join(__dirname, 'cmds/plain');
-
-        const slashFiles = fs.readdirSync(slashDir);
-        const plainFiles = fs.readdirSync(plainDir);
-
+    async initCmds() // Credit: Kathund
+    {
+        const slashDir = fs.readdirSync('./src/discord/cmds/slash').filter((file) => { return file.endsWith('.js'); });
         const slashCommands = [];
-
-        for (const f of slashFiles) {
-            const filePath = path.join(slashDir, f);
-            const cmdData = require(filePath);
-
-            const slashCmd = createSlash(cmdData);
+        slashDir.forEach((slashFile) =>
+        {
+            const slashCommand = require(slashFile);
+            const slashCmd = createSlash(slashCommand);
             this.client.sc.set(slashCmd.data.name, slashCmd);
             slashCommands.push(slashCmd.data.toJSON());
-        }
+        });
 
-        const rest = new REST({ version: '10' }).setToken(this.token);
-        await rest.put(Routes.applicationCommands(this.appID), { body: slashCommands });
+        const rest = new REST({ version: '10' }).setToken(token);
+        await rest.put(Routes.applicationCommands(Buffer.from(token.split('.')[0], 'base64').toString('ascii')), { body: slashCommands });
 
-        for (const f of plainFiles) {
-            const filePath = path.join(plainDir, f);
-            const cmdData = require(filePath);
+        const plainDir = fs.readdirSync('./src/discord/cmds/plain').filter((file) => { return file.endsWith('.js'); });
+        plainDir.forEach((plainFile) =>
+        {
+            const cmdData = require(plainFile);
+            this.client.plainCommands.set(cmdData.name, cmdData);
+        });
 
-            this.client.pc.set(cmdData.name, cmdData);
-        }
-
-        this.client.on('messageCreate', async(message) => {
+        this.client.on('messageCreate', async(message) =>
+        {
             if (message.author.bot) return;
-
             const args = message.content.trim().split(/ +/);
             const commandName = args.shift().toLowerCase();
 
-            if (this.client.pc.has(commandName)) {
-                const command = this.client.pc.get(commandName);
+            if (this.client.plainCommands.has(commandName))
+            {
+                const command = this.client.plainCommands.get(commandName);
                 await command.execute(message, args);
             }
         });
     }
 
-    async initEvents() {
-        const eDir = path.join(__dirname, 'events');
-        const eFiles = fs.readdirSync(eDir).filter(file => file.endsWith('.js'));
-
-        for (const e of eFiles) {
-            const ep = path.join(eDir, e);
-            const events = require(ep);
-
-            if (Array.isArray(events)) {
-                for (const event of events) this.client.on(event.name, (...args) => event.execute(...args));
-            }
-            else console.error(`${e} is incomplete!`);
-        }
+    async initEvents() // Credit: Kathund
+    {
+        const eFiles = fs.readdirSync('./src/discord/events').filter((file) => { return file.endsWith('.js'); });
+        eFiles.forEach((ePath) => 
+        {
+            const event = require(ePath);
+            this.client.on(event.name, (...args) => 
+            { 
+                return event.execute(...args);
+            });
+        });
     }
 
-    async initEmojis() {
-        const response = await fetch(`https://discord.com/api/v10/applications/${this.appID}/emojis`,
-            {
-                method: 'GET',
-                headers: {
-                    Authorization: `Bot ${this.token}`
-                }
-            });
-        if (!response.ok) throw new Error('Failed to fetch emojis :(');
+    async initEmojis() // Credit: Kathund
+    {
+        const application = await this.client.application.fetch();
 
         const existingEmojis = await response.json();
-        this.client.emojiMap = new Map(existingEmojis.items.map(emoji => [emoji.name, emoji.id]));
+        this.client.emojiMap = new Map(
+            existingEmojis.items.map((emoji) => [emoji.name, emoji.id])
+        );
+        const currentEmojis = await application.emojis.fetch();
+        const emojiFiles = fs.readdirSync('./assets/emojis').filter((file) => 
+        {
+            return file.endsWith('.png');
+        });
+        if (emojiFiles.length === 0) throw new Error('Emojis are missing');
+    emojiFiles.forEach((emoji) => 
+{
+      if (currentEmojis.has(emoji.split('.')[0])) return;
+      application.emojis
+        .create({ attachment: `./assets/emojis/${emoji}`, name: emoji.split('.')[0] })
+        .then((emoji) => 
+{
+          return console.log(`Uploaded ${emoji.name}`);
+        })
+        .catch(console.error);
+    });
 
-        const files = fs.readdirSync(emojis);
-
-        for (const file of files) {
-            const filePath = path.join(emojis, file);
-            const fileName = path.parse(file).name;
-
-            if (path.extname(file) === '.png' && !this.client.emojiMap.has(fileName)) {
-                const base64Image = `data:image/png;base64,${fs.readFileSync(filePath).toString('base64')}`;
-                const postResponse = await fetch(`https://discord.com/api/v10/applications/${this.appID}/emojis`,
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bot ${this.token}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name: fileName,
-                            image: base64Image
-                        })
-                    });
-                if (postResponse.ok) {
-                    const newEmoji = await postResponse.json();
-                    this.client.emojis.cache.set(newEmoji.id, newEmoji);
-                    this.client.emojiMap.set(newEmoji.name, newEmoji.id);
-                    console.log(`New Emoji: ${fileName}`);
-                }
-                else console.error(`Failed to add emoji: ${fileName}`, await postResponse.json());
-            }
-        }
     }
 
-    login() {
-        this.client.login(this.token);
+    login()
+    {
+        this.client.login(token);
         const config = readConfig();
 
-        this.client.on('ready', () => {
-            if (config.logsChannel) {
-                const channel = this.client.channels.cache.get(config.logsChannel);
-                channel.send({ embeds: [createMsg({ desc: '**Discord is Online!**' })] });
+        this.client.on('ready', () =>
+        {
+            if (config.logsChannel)
+            {
+                const channel = this.client.channels.cache.get(
+                    config.logsChannel
+                );
+                channel.send({
+                    embeds: [createMsg({ desc: '**Discord is Online!**' })]
+                });
             }
-            if (config.guild) {
-                this.client.user.setActivity(config.guild, { type: ActivityType.Watching });
+            if (config.guild)
+            {
+                this.client.user.setActivity(config.guild, {
+                    type: ActivityType.Watching
+                });
             }
             console.log('Discord is online!');
         });

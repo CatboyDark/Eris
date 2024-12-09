@@ -10,21 +10,6 @@ A Discord/Minecraft bot for Hypixel Skyblock, built using:
 >
 > [hypixel-api-reborn](https://github.com/Hypixel-API-Reborn/hypixel-api-reborn)
 
-<h2>Features (WIP)</h2>
-
-### Guild:
-
-- Hypixel-Discord chat bridge
-- Auto-accept join requests
-- Skyblock commands
-
-### Discord:
-
-- CENTRAL verification system
-- Custom Skyblock roles
-- Moderation tools
-- And more!
-
 <h2>How To Setup</h2>
 
 ### 1. Install the necessary dependencies
@@ -35,15 +20,9 @@ A Discord/Minecraft bot for Hypixel Skyblock, built using:
 
 ### 2. Configure config.json
 
-Rename exampleconfig.json → config.json
-
 > token: Discord Token (https://discord.com/developers/applications)
 >
-> appID: Discord Application ID
->
 > hypixelAPI: Hypixel API Key (https://developer.hypixel.net/)
->
-> ign: Minecraft Bot Username
 
 ### 3. Run/host the bot
 
@@ -51,7 +30,7 @@ Rename exampleconfig.json → config.json
     node start.js
 ```
 
-OR host it use [PM2](https://pm2.keymetrics.io/)
+OR host it with [PM2](https://pm2.keymetrics.io/)
 
 ### 4. Run /setup to adjust configs and enable features
 

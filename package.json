@@ -1,11 +1,12 @@
 {
     "name": "eris",
     "description": "A Hypixel-Discord bot template. Easy-to-setup. Features a guild chat bridge, ingame commands, and Discord server setup!",
-    "version": "1.0.0",
+    "version": "0.1",
     "author": "CatboyDark",
     "license": "MIT",
     "homepage": "https://github.com/CatboyDark/Eris",
     "main": "start.js",
+    "type": "module",
     "engines": {
         "node": ">=20.16.0",
         "pnpm": ">=9.9.0",
@@ -14,12 +15,19 @@
         "bun": "forbidden, use pnpm instead"
     },
     "dependencies": {
-        "axios": "^1.7.5",
+        "axios": "^1.7.9",
         "discord.js": "^14.15.3",
-        "eslint": "^9.9.1",
         "hypixel-api-reborn": "^11.3.5",
         "mineflayer": "^4.20.1",
         "mongoose": "^8.6.0",
         "node-cron": "^3.0.3"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.16.0",
+        "eslint": "^9.16.0",
+        "globals": "^15.13.0"
+    },
+    "scripts": {
+        "fix": "eslint . --fix"
     }
 }
