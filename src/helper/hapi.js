@@ -1,6 +1,4 @@
-const { Client } = require('hypixel-api-reborn');
-const config = require('../../config.json');
+import { Client } from 'hypixel-api-reborn';
+import config from '../../config.json' with { type: 'json' };
 
-const client = new Client(config.hypixelAPI, { cache: true });
-
-module.exports = client;
+export default new Client(config.hypixelAPI, { cache: true });
