@@ -1,6 +1,6 @@
-const { createMsg, createRow } = require('../../helper/builder.js');
+const { createMsg, createRow } = require('../../helper/builder.js').default;
 const { readConfig } = require('../../helper/utils.js');
-const db = require('../../mongo/schemas.js');
+const db = require('../../mongo/schemas.js').default;
 
 const dataButtons = createRow([
     { id: 'commandData', label: 'Commands', style: 'Green' },

@@ -1,290 +1,228 @@
-const {
-    EmbedBuilder,
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-    ModalBuilder,
-    TextInputBuilder,
-    TextInputStyle,
-    StringSelectMenuBuilder,
-    StringSelectMenuOptionBuilder,
-    SlashCommandBuilder,
-    PermissionFlagsBits
-} = require('discord.js');
-const { readConfig } = require('./utils');
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
+import { readConfig } from './utils.js';
 
 const getTimestamp = (date) =>
 {
-    return Math.floor(date.getTime() / 1000);
+	return Math.floor(date.getTime() / 1000);
 };
 
-function createMsg({
-    color,
-    title,
-    desc,
-    fields,
-    icon,
-    image,
-    footer,
-    footerIcon,
-    timestamp
-})
+function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon, timestamp })
 {
-    const embed = new EmbedBuilder();
-    const { colorTheme } = readConfig();
+	const embed = new EmbedBuilder();
+	const { colorTheme } = readConfig();
 
-    if (color)
-    {
-        embed.setColor(color);
-    }
-    else
-    {
-        embed.setColor(colorTheme);
-    }
-    if (title)
-    {
-        embed.setTitle(title);
-    }
-    if (desc)
-    {
-        embed.setDescription(desc);
-    }
-    if (icon)
-    {
-        embed.setThumbnail(icon);
-    }
-    if (image)
-    {
-        embed.setImage(image);
-    }
-    if (footer)
-    {
-        embed.setFooter({ text: footer, iconURL: footerIcon });
-    }
-    if (fields)
-    {
-        fields.forEach((field) =>
-        {
-            embed.addFields({
-                name: field.title,
-                value: field.desc,
-                inline: field.inline || false
-            });
-        });
-    }
-    if (timestamp === 'relative' || timestamp === 'fixed')
-    {
-        const now = new Date();
-        const newTimestamp = `<t:${getTimestamp(now)}:${timestamp === 'relative' ? 'R' : 'f'}>`;
-        embed.addFields({
-            name: '\u200B',
-            value: newTimestamp,
-            inline: false
-        });
-    }
+	if (color) embed.setColor(color); else embed.setColor(colorTheme);
+	if (title) embed.setTitle(title);
+	if (desc) embed.setDescription(desc);
+	if (icon) embed.setThumbnail(icon);
+	if (image) embed.setImage(image);
+	if (footer) embed.setFooter({ text: footer, iconURL: footerIcon });
+	if (fields) {
+		fields.forEach(field => {
+			embed.addFields({
+				name: field.title,
+				value: field.desc,
+				inline: field.inline || false
+			});
+		});
+	}
+	if (timestamp === 'relative' || timestamp === 'fixed') {
+		const now = new Date();
+		const newTimestamp = `<t:${getTimestamp(now)}:${timestamp === 'relative' ? 'R' : 'f'}>`;
+		embed.addFields({
+			name: '\u200B',
+			value: newTimestamp,
+			inline: false
+		});
+	}
 
-    return embed;
-}
-
-function createError(error)
-{
-    return createMsg({ color: 'FF0000', desc: error });
-}
+	return embed;
+};
 
 const styles = {
-    Blue: ButtonStyle.Primary,
-    Gray: ButtonStyle.Secondary,
-    Green: ButtonStyle.Success,
-    Red: ButtonStyle.Danger
+	Blue: ButtonStyle.Primary,
+	Gray: ButtonStyle.Secondary,
+	Green: ButtonStyle.Success,
+	Red: ButtonStyle.Danger
 };
 
 function createButtons({ id, label, style, url })
 {
-    if (typeof style === 'boolean')
-    {
-        style = style ? 'Green' : 'Red';
-    }
+	if (typeof style === 'boolean') style = style ? 'Green' : 'Red';
 
-    if (url)
-    {
-        return new ButtonBuilder()
-            .setLabel(label)
-            .setURL(url)
-            .setStyle(ButtonStyle.Link);
-    }
+	if (url)
+	{
+		return new ButtonBuilder()
+			.setLabel(label)
+			.setURL(url)
+			.setStyle(ButtonStyle.Link);
+	}
 
-    return new ButtonBuilder()
-        .setCustomId(id)
-        .setLabel(label)
-        .setStyle(styles[style]);
+	return new ButtonBuilder()
+		.setCustomId(id)
+		.setLabel(label)
+		.setStyle(styles[style]);
 }
 
 function createSelectMenu({ id, placeholder, options })
 {
-    const selectMenu = new StringSelectMenuBuilder()
-        .setCustomId(id)
-        .setPlaceholder(placeholder);
+	const selectMenu = new StringSelectMenuBuilder()
+		.setCustomId(id)
+		.setPlaceholder(placeholder);
 
-    const selectMenuOptions = options.map(({ value, label, desc }) =>
-        new StringSelectMenuOptionBuilder()
-            .setValue(value)
-            .setLabel(label)
-            .setDescription(desc)
-    );
+	const selectMenuOptions = options.map(({ value, label, desc }) =>
+		new StringSelectMenuOptionBuilder()
+			.setValue(value)
+			.setLabel(label)
+			.setDescription(desc)
+	);
 
-    return selectMenu.addOptions(selectMenuOptions);
+	return selectMenu.addOptions(selectMenuOptions);
 }
 
 function createRow(components)
 {
-    const actionRow = new ActionRowBuilder();
+	const actionRow = new ActionRowBuilder();
 
-    components.forEach((config) =>
-    {
-        if (config.label)
-        {
-            actionRow.addComponents(createButtons(config));
-        }
-        else if (config.placeholder && config.options)
-        {
-            actionRow.addComponents(createSelectMenu(config));
-        }
-    });
+	components.forEach((config) =>
+	{
+		if (config.label)
+		{
+			actionRow.addComponents(createButtons(config));
+		}
+		else if (config.placeholder && config.options)
+		{
+			actionRow.addComponents(createSelectMenu(config));
+		}
+	});
 
-    return actionRow;
+	return actionRow;
 }
 
 function createForm({ id, title, components })
 {
-    const modal = new ModalBuilder().setCustomId(id).setTitle(title);
+	const modal = new ModalBuilder().setCustomId(id).setTitle(title);
 
-    components.forEach((component) =>
-    {
-        let textInputStyle;
+	components.forEach((component) =>
+	{
+		let textInputStyle;
 
-        switch (component.style.toLowerCase())
-        {
-        case 'short':
-            textInputStyle = TextInputStyle.Short;
-            break;
-        case 'long':
-            textInputStyle = TextInputStyle.Paragraph;
-            break;
-        default:
-            throw new Error(`Invalid Text Input Style! ${component.style}`);
-        }
+		switch (component.style.toLowerCase())
+		{
+		case 'short':
+			textInputStyle = TextInputStyle.Short;
+			break;
+		case 'long':
+			textInputStyle = TextInputStyle.Paragraph;
+			break;
+		default:
+			throw new Error(`Invalid Text Input Style! ${component.style}`);
+		}
 
-        const textInput = new TextInputBuilder()
-            .setCustomId(component.id)
-            .setLabel(component.label)
-            .setStyle(textInputStyle)
-            .setRequired(component.required);
+		const textInput = new TextInputBuilder()
+			.setCustomId(component.id)
+			.setLabel(component.label)
+			.setStyle(textInputStyle)
+			.setRequired(component.required);
 
-        if (Array.isArray(component.length) && component.length.length === 2)
-        {
-            const [minLength, maxLength] = component.length.map((num) =>
-                parseInt(num, 10)
-            );
-            if (isNaN(minLength) || isNaN(maxLength))
-            {
-                throw new Error(`Invalid length values: ${component.length}`);
-            }
-            textInput.setMinLength(minLength).setMaxLength(maxLength);
-        }
+		if (Array.isArray(component.length) && component.length.length === 2)
+		{
+			const [minLength, maxLength] = component.length.map((num) =>
+				parseInt(num, 10)
+			);
+			if (isNaN(minLength) || isNaN(maxLength))
+			{
+				throw new Error(`Invalid length values: ${component.length}`);
+			}
+			textInput.setMinLength(minLength).setMaxLength(maxLength);
+		}
 
-        modal.addComponents(new ActionRowBuilder().addComponents(textInput));
-    });
+		modal.addComponents(new ActionRowBuilder().addComponents(textInput));
+	});
 
-    return modal;
+	return modal;
 }
 
 function createSlash({ name, desc, options = [], permissions = [], execute })
 {
-    const commandBuilder = new SlashCommandBuilder()
-        .setName(name)
-        .setDescription(desc);
+	const commandBuilder = new SlashCommandBuilder()
+		.setName(name)
+		.setDescription(desc);
 
-    options.forEach((option) =>
-    {
-        const { type, name, desc, required, choices } = option;
-        const isRequired = required === undefined ? false : required;
-        const hasChoices = choices || [];
+	options.forEach((option) =>
+	{
+		const { type, name, desc, required, choices } = option;
+		const isRequired = required === undefined ? false : required;
+		const hasChoices = choices || [];
 
-        switch (type)
-        {
-        case 'user':
-            commandBuilder.addUserOption((o) =>
-                o.setName(name).setDescription(desc).setRequired(isRequired)
-            );
-            break;
-        case 'role':
-            commandBuilder.addRoleOption((o) =>
-                o.setName(name).setDescription(desc).setRequired(isRequired)
-            );
-            break;
-        case 'channel':
-            commandBuilder.addChannelOption((o) =>
-                o.setName(name).setDescription(desc).setRequired(isRequired)
-            );
-            break;
-        case 'string':
-            commandBuilder.addStringOption((o) =>
-            {
-                o.setName(name)
-                    .setDescription(desc)
-                    .setRequired(isRequired);
-                if (hasChoices.length > 0)
-                {
-                    o.addChoices(...hasChoices);
-                }
-                return o;
-            });
-            break;
-        case 'integer':
-            commandBuilder.addIntegerOption((o) =>
-            {
-                o.setName(name)
-                    .setDescription(desc)
-                    .setRequired(isRequired);
-                if (hasChoices.length > 0)
-                {
-                    o.addChoices(...hasChoices);
-                }
-                return o;
-            });
-            break;
-        default:
-            throw new Error(`Unsupported option type: ${type}`);
-        }
-    });
+		switch (type)
+		{
+			case 'user':
+				commandBuilder.addUserOption((o) => o.setName(name).setDescription(desc).setRequired(isRequired));S
+				break;
+			case 'role':
+				commandBuilder.addRoleOption((o) => o.setName(name).setDescription(desc).setRequired(isRequired));
+				break;
+			case 'channel':
+				commandBuilder.addChannelOption((o) => o.setName(name).setDescription(desc).setRequired(isRequired));
+				break;
+			case 'string':
+				commandBuilder.addStringOption((o) =>
+				{
+					o.setName(name)
+						.setDescription(desc)
+						.setRequired(isRequired);
+					if (hasChoices.length > 0)
+					{
+						o.addChoices(...hasChoices);
+					}
+					return o;
+				});
+				break;
+			case 'integer':
+				commandBuilder.addIntegerOption((o) =>
+				{
+					o.setName(name)
+						.setDescription(desc)
+						.setRequired(isRequired);
+					if (hasChoices.length > 0)
+					{
+						o.addChoices(...hasChoices);
+					}
+					return o;
+				});
+				break;
+			default:
+				throw new Error(`Unsupported option type: ${type}`);
+		}
+	});
 
-    if (permissions && permissions.length > 0)
-    {
-        const permissionBits = permissions.reduce((acc, perm) =>
-        {
-            const permBit = PermissionFlagsBits[perm];
-            if (permBit === undefined)
-            {
-                throw new Error(`Unsupported permission: ${perm}`);
-            }
-            return acc | BigInt(permBit);
-        }, BigInt(0));
+	if (permissions && permissions.length > 0)
+	{
+		const permissionBits = permissions.reduce((acc, perm) =>
+		{
+			const permBit = PermissionFlagsBits[perm];
+			if (permBit === undefined)
+			{
+				throw new Error(`Unsupported permission: ${perm}`);
+			}
+			return acc | BigInt(permBit);
+		}, BigInt(0));
 
-        commandBuilder.setDefaultMemberPermissions(permissionBits);
-    }
+		commandBuilder.setDefaultMemberPermissions(permissionBits);
+	}
 
-    return {
-        type: 'slash',
-        data: commandBuilder,
-        execute,
-        permissions
-    };
+	return {
+		type: 'slash',
+		data: commandBuilder,
+		execute,
+		permissions
+	};
 }
 
-module.exports = {
-    createMsg,
-    createError,
-    createRow,
-    createForm,
-    createSlash
+export default {
+	createMsg,
+	createRow,
+	createForm,
+	createSlash
 };

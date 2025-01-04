@@ -1,5 +1,5 @@
 const { readConfig, getGuild, getIGN } = require('../../../helper/utils.js');
-const { GXP } = require('../../../mongo/schemas.js');
+const { GXP } = require('../../../mongo/schemas.js').default;
 
 async function getGXP(client)
 {
