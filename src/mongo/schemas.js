@@ -39,7 +39,7 @@ const Button = model('Button', buttonSchema);
 const Link = model('Link', linkSchema);
 const GXP = model('GXP', gxpSchema);
 
-export default {
+export {
 	Command,
 	Button,
 	Link,

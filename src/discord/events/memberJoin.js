@@ -1,13 +1,14 @@
-const { Events } = require('discord.js');
-const { welcomeMsg, welcomeRole } = require('../logic/welcome/welcome.js');
+import { Events } from 'discord.js';
+import { welcomeMsg, welcomeRole } from '../logic/welcome/welcome.js';
 
-module.exports = [
-    {
-        name: Events.GuildMemberAdd,
-        async execute(member)
-        {
-            await welcomeMsg(member);
-            await welcomeRole(member);
-        }
-    }
+export default 
+[
+	{
+		name: Events.GuildMemberAdd,
+		async execute(member)
+		{
+			await welcomeMsg(member);
+			await welcomeRole(member);
+		}
+	}
 ];

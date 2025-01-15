@@ -17,8 +17,10 @@ function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon
 	if (icon) embed.setThumbnail(icon);
 	if (image) embed.setImage(image);
 	if (footer) embed.setFooter({ text: footer, iconURL: footerIcon });
-	if (fields) {
-		fields.forEach(field => {
+	if (fields) 
+	{
+		fields.forEach(field => 
+		{
 			embed.addFields({
 				name: field.title,
 				value: field.desc,
@@ -26,7 +28,8 @@ function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon
 			});
 		});
 	}
-	if (timestamp === 'relative' || timestamp === 'fixed') {
+	if (timestamp === 'relative' || timestamp === 'fixed') 
+	{
 		const now = new Date();
 		const newTimestamp = `<t:${getTimestamp(now)}:${timestamp === 'relative' ? 'R' : 'f'}>`;
 		embed.addFields({
@@ -39,7 +42,8 @@ function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon
 	return embed;
 };
 
-const styles = {
+const styles = 
+{
 	Blue: ButtonStyle.Primary,
 	Gray: ButtonStyle.Secondary,
 	Green: ButtonStyle.Success,
@@ -109,14 +113,14 @@ function createForm({ id, title, components })
 
 		switch (component.style.toLowerCase())
 		{
-		case 'short':
-			textInputStyle = TextInputStyle.Short;
-			break;
-		case 'long':
-			textInputStyle = TextInputStyle.Paragraph;
-			break;
-		default:
-			throw new Error(`Invalid Text Input Style! ${component.style}`);
+			case 'short':
+				textInputStyle = TextInputStyle.Short;
+				break;
+			case 'long':
+				textInputStyle = TextInputStyle.Paragraph;
+				break;
+			default:
+				throw new Error(`Invalid Text Input Style! ${component.style}`);
 		}
 
 		const textInput = new TextInputBuilder()
@@ -158,7 +162,7 @@ function createSlash({ name, desc, options = [], permissions = [], execute })
 		switch (type)
 		{
 			case 'user':
-				commandBuilder.addUserOption((o) => o.setName(name).setDescription(desc).setRequired(isRequired));S
+				commandBuilder.addUserOption((o) => o.setName(name).setDescription(desc).setRequired(isRequired));
 				break;
 			case 'role':
 				commandBuilder.addRoleOption((o) => o.setName(name).setDescription(desc).setRequired(isRequired));
@@ -169,26 +173,16 @@ function createSlash({ name, desc, options = [], permissions = [], execute })
 			case 'string':
 				commandBuilder.addStringOption((o) =>
 				{
-					o.setName(name)
-						.setDescription(desc)
-						.setRequired(isRequired);
-					if (hasChoices.length > 0)
-					{
-						o.addChoices(...hasChoices);
-					}
+					o.setName(name).setDescription(desc).setRequired(isRequired);
+					if (hasChoices.length > 0) o.addChoices(...hasChoices);
 					return o;
 				});
 				break;
 			case 'integer':
 				commandBuilder.addIntegerOption((o) =>
 				{
-					o.setName(name)
-						.setDescription(desc)
-						.setRequired(isRequired);
-					if (hasChoices.length > 0)
-					{
-						o.addChoices(...hasChoices);
-					}
+					o.setName(name).setDescription(desc).setRequired(isRequired);
+					if (hasChoices.length > 0) o.addChoices(...hasChoices);
 					return o;
 				});
 				break;
@@ -220,7 +214,8 @@ function createSlash({ name, desc, options = [], permissions = [], execute })
 	};
 }
 
-export default {
+export 
+{
 	createMsg,
 	createRow,
 	createForm,
