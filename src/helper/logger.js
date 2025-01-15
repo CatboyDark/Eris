@@ -34,78 +34,83 @@ function createLogMsg(interaction)
 
 	switch (true)
 	{
-	case interaction.isChatInputCommand():
-		if (config.logs.commands)
-		{
-			const options = interaction.options.data.map((option) =>
-				option.type === 6 ? ` <@${option.value}> ` : 
-				option.type === 8 ? ` <@&${option.value}> ` : 
-				` ${option.value} `
-			);
-
-			const optionsString =
-					options.length > 0 ? `**[**${options.join('**,** ')}**]**` : '';
-
-			title = 'Command';
-			desc = `<@${interaction.user.id}> ran **/${interaction.commandName}** ${ optionsString }\n
-					${interaction.message.url}`;
-		}
-		else 
-		{
-			return null;
-		}
-		break;
-
-	case interaction.isButton():
-		if (config.logs.buttons)
-		{
-			title = 'Button';
-			desc =
-					`<@${interaction.user.id}> clicked **${interaction.component.label}**.\n
-					${interaction.message.url}`;
-		}
-		else
-		{
-			return null;
-		}
-		break;
-
-	case interaction.isStringSelectMenu():
-		if (config.logs.menus)
-		{
-			const selectMenu = interaction.component;
-			const selectedValues = interaction.values;
-			const optionLabels = selectedValues.map((value) =>
+		case interaction.isChatInputCommand():
+			if (config.logs.commands)
 			{
-				const option = selectMenu.options.find(
-					(option) => option.value === value
+				const options = interaction.options.data.map((option) =>
+					option.type === 6 ? ` <@${option.value}> ` : 
+					option.type === 8 ? ` <@&${option.value}> ` : 
+					` ${option.value} `
 				);
-				return option ? option.label : value;
-			});
-			title = 'Menu';
-			desc =
-					`<@${interaction.user.id}> selected **${optionLabels.join(', ')}** from **${interaction.component.placeholder}**\n
-					${interaction.message.url}`;
-		}
-		else
-		{
-			return null;
-		}
-		break;
 
-	case interaction.isModalSubmit():
-		if (config.logs.forms)
-		{
-			title = 'Form';
-			desc =
-					`<@${interaction.user.id}> submitted **${interaction.customId}**\n
-					${interaction.message.url}`;
-		}
-		else
-		{
-			return null;
-		}
-		break;
+				const optionsString =
+						options.length > 0 ? `**[**${options.join('**,** ')}**]**` : '';
+
+				title = 'Command';
+				desc = `<@${interaction.user.id}> ran **/${interaction.commandName}** ${ optionsString }\n
+						${interaction.message.url}`;
+			}
+			else 
+			{
+				return null;
+			}
+			break;
+
+		case interaction.isButton():
+			if (config.logs.buttons)
+			{
+				title = 'Button';
+				desc =
+						`<@${interaction.user.id}> clicked **${interaction.component.label}**.\n
+						${interaction.message.url}`;
+			}
+			else
+			{
+				return null;
+			}
+			break;
+
+		case interaction.isStringSelectMenu():
+			if (config.logs.menus)
+			{
+				const selectMenu = interaction.component;
+				const selectedValues = interaction.values;
+				const optionLabels = selectedValues.map((value) =>
+				{
+					const option = selectMenu.options.find(
+						(option) => option.value === value
+					);
+					return option ? option.label : value;
+				});
+				title = 'Menu';
+				desc =
+						`<@${interaction.user.id}> selected **${optionLabels.join(', ')}** from **${interaction.component.placeholder}**\n
+						${interaction.message.url}`;
+			}
+			else
+			{
+				return null;
+			}
+			break;
+
+		case interaction.isModalSubmit():
+			if (config.logs.forms)
+			{
+				title = 'Form';
+				desc =
+						`<@${interaction.user.id}> submitted **${interaction.customId}**\n
+						${interaction.message.url}`;
+			}
+			else
+			{
+				return null;
+			}
+			break;
+
+		default: 
+			{
+				console.log('Unknown interaction!');
+			}
 	}
 
 	const icon = interaction.user.displayAvatarURL();

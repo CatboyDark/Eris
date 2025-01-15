@@ -4,13 +4,10 @@ import Mongo from './src/mongo/mongoInit.js';
 
 class Instance 
 {
-	async init() 
+	constructor()
 	{
-		constructor() 
-		{
-			this.discord = new DC();
-			this.minecraft = new MC(this.discord.client);
-		}
+		this.discord = new DC();
+		this.minecraft = new MC(this.discord.client);
 	}
 
 	async start() 

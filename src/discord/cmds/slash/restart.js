@@ -1,24 +1,17 @@
-const { createMsg } = require('../../../helper/builder.js');
-const { restart } = require('../../logic/restart.js');
+import { createMsg } from '../../../helper/builder.js';
+import { restart } from '../../logic/other/restart.js';
 
-module.exports = {
-    name: 'restart',
-    desc: 'Restarts and updates the bot',
-    permissions: ['ManageGuild'],
+export default
+{
+	name: 'restart',
+	desc: 'Restarts and updates the bot',
+	permissions: ['ManageGuild'],
 
-    async execute(interaction)
-    {
-        await interaction.deferReply();
+	async execute(interaction) 
+	{
+		await interaction.deferReply();
+		await restart(interaction.client);
 
-        await restart(interaction.client);
-
-        await interaction.followUp({
-            embeds: [
-                createMsg({
-                    color: '00FF00',
-                    desc: `**Successfully restarted ${interaction.client.user.username}!**`
-                })
-            ]
-        });
-    }
+		await interaction.followUp({ embeds: [createMsg({color: 'Red', desc: `**Successfully restarted ${interaction.client.user.username}!**` })] });
+	}
 };
