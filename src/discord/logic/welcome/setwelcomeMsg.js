@@ -1,10 +1,8 @@
 import { createForm, createMsg } from '../../../helper/builder.js';
 import { readConfig, writeConfig } from '../../../helper/utils.js';
 
-async function setWelcomeMsg(interaction)
-{
-	if (!interaction.isModalSubmit())
-	{
+async function setWelcomeMsg(interaction) {
+	if (!interaction.isModalSubmit()) {
 		const modal = createForm({
 			id: 'setwelcomeMsgForm',
 			title: 'Set Welcome Msg',

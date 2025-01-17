@@ -5,8 +5,7 @@ export default
 	name: 'help',
 	desc: 'Display bot info',
 	
-	async execute(interaction) 
-	{
+	async execute(interaction) {
 		await cmds(interaction);
 	}
 };

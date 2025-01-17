@@ -1,8 +1,7 @@
 import { createMsg, createRow } from '../../../helper/builder';
 import { readConfig } from '../../../helper/utils.js';
 
-function createMCcmds()
-{
+function createMCcmds() {
 	const config = readConfig();
 
 	return createMsg({
@@ -14,8 +13,7 @@ function createMCcmds()
 	});
 }
 
-async function MCcmds(interaction)
-{
+async function MCcmds(interaction) {
 	interaction.update({
 		embeds: [createMCcmds()],
 		components: [

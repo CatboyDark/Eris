@@ -17,8 +17,7 @@ const setupButtons = createRow([
 
 const back = createRow([{ id: 'backToSetup', label: 'Back', style: 'Gray' }]);
 
-async function backToSetup(interaction)
-{
+async function backToSetup(interaction) {
 	await interaction.update({ embeds: [setupMsg], components: [setupButtons] });
 }
 

@@ -3,10 +3,8 @@ import { createMsg, createSlash } from '../helper/builder.js';
 import config from '../../config.json' with { type: 'json' };
 import fs from 'fs';
 
-class DC
-{
-	constructor()
-	{
+class DC {
+	constructor() {
 		this.client = new Client({
 			intents: [
 				GatewayIntentBits.Guilds,
@@ -28,22 +26,19 @@ class DC
 		this.client.sc = new Collection();
 	}
 
-	async init()
-	{
+	async init() {
 		await this.initCmds();
 		// await this.initEmojis();
 		this.initEvents();
 		this.login();
 	}
 
-	async initCmds() // Credit: Kathund
-	{
+	async initCmds() { // Credit: Kathund
 		console.log('Loading slash commands...');
 
 		const slashDir = fs.readdirSync('./src/discord/cmds/slash').filter(file => file.endsWith('.js'));
 		const slashCommands = [];
-		for (const slashFile of slashDir)
-		{
+		for (const slashFile of slashDir) {
 			console.log(`Importing slash command: ${slashFile}`);
 			
 			const slashCommand = (await import(`./cmds/slash/${slashFile}`)).default;
@@ -57,38 +52,32 @@ class DC
 		const rest = new REST({ version: '10' }).setToken(config.token);
 		
  		console.log('Registering slash commands with Discord API...');
-        await rest.put(Routes.applicationCommands(Buffer.from(config.token.split('.')[0], 'base64').toString('ascii')), { body: slashCommands });
-        console.log('Slash commands successfully registered.');
+		await rest.put(Routes.applicationCommands(Buffer.from(config.token.split('.')[0], 'base64').toString('ascii')), { body: slashCommands });
+		console.log('Slash commands successfully registered.');
 
 		const plainDir = fs.readdirSync('./src/discord/cmds/plain').filter(file => file.endsWith('.js'));
-		for (const plainFile of plainDir)
-		{
+		for (const plainFile of plainDir) {
 			const cmdData = await import(`./cmds/plain/${plainFile}`);
 			this.client.pc.set(cmdData.name, cmdData);
 		};
 
-		this.client.on('messageCreate', async(message) =>
-		{
+		this.client.on('messageCreate', async(message) => {
 			if (message.author.bot) return;
 			const args = message.content.trim().split(/ +/);
 			const commandName = args.shift().toLowerCase();
 
-			if (this.client.pc.has(commandName))
-			{
+			if (this.client.pc.has(commandName)) {
 				const command = this.client.pc.get(commandName);
 				await command.execute(message, args);
 			}
 		});
 	}
 
-	async initEvents() // Credit: Kathund
-	{
+	async initEvents() { // Credit: Kathund
 		const eventDir = fs.readdirSync('./src/discord/events').filter(file => file.endsWith('.js'));
-		for (const eventFile of eventDir)
-		{
+		for (const eventFile of eventDir) {
 			const event = await import(`./events/${eventFile}`);
-			this.client.on(event.name, (...args) => 
-			{ 
+			this.client.on(event.name, (...args) => { 
 				return event.execute(...args);
 			});
 		};
@@ -112,19 +101,15 @@ class DC
 	// 	});
 	// }
 
-	login()
-	{
+	login() {
 		this.client.login(config.token);
 
-		this.client.on('ready', () =>
-		{
-			if (config.logsChannel)
-			{
+		this.client.on('ready', () => {
+			if (config.logsChannel) {
 				const channel = this.client.channels.cache.get(config.logsChannel);
 				channel.send({ embeds: [createMsg({ desc: '**Discord is Online!**' })] });
 			}
-			if (config.guild)
-			{
+			if (config.guild) {
 				this.client.user.setActivity(config.guild, {
 					type: ActivityType.Watching
 				});

@@ -13,8 +13,7 @@ export default
 	],
 	permissions: ['ManageRoles'],
 
-	async execute(interaction) 
-	{
+	async execute(interaction) {
 		const user = interaction.options.getUser('discord');
 		const member = interaction.guild.members.cache.get(user.id);
 		const check = await getEmoji('check');
@@ -23,45 +22,37 @@ export default
 
 		await interaction.deferReply();
 
-		try 
-		{
+		try {
 			const player = await getPlayer(interaction.options.getString('ign'));
 			const existingEntry = await Link.findOne({ $or: [{ uuid: player.uuid }, { dcid: user.id }] });
-			if (existingEntry) 
-			{
+			if (existingEntry) {
 				await Link.updateOne(
 					{ _id: existingEntry._id },
 					{ uuid: player.uuid, dcid: user.id }
 				);
 			}
-			else 
-			{
+			else {
 				await Link.create({ uuid: player.uuid, dcid: user.id });
 			}
 			const { addedRoles, removedRoles } = await updateRoles(member, player, true);
 
 			let roleDesc = '';
-			if (addedRoles.length > 0 && removedRoles.length > 0) 
-			{
+			if (addedRoles.length > 0 && removedRoles.length > 0) {
 				roleDesc = `\n\n${addedRoles.map((roleID) => `${plus} <@&${roleID}>`).join('\n')}\n_ _\n`;
 				roleDesc += `${removedRoles.map((roleID) => `${minus} <@&${roleID}>`).join('\n')}`;
 			}
-			else if (addedRoles.length > 0) 
-			{
+			else if (addedRoles.length > 0) {
 				roleDesc = `\n\n${addedRoles.map((roleID) => `${plus} <@&${roleID}>`).join('\n')}\n_ _`;
 			}
-			else if (removedRoles.length > 0) 
-			{
+			else if (removedRoles.length > 0) {
 				roleDesc = `\n\n${removedRoles.map((roleID) => `${minus} <@&${roleID}>`).join('\n')}\n_ _`;
 			}
 
 			const desc = `${check} **Successfully linked ${user} to ${player.nickname}**${roleDesc}`;
 			await interaction.followUp({ embeds: [createMsg({ desc })] });
 		}
-		catch (e) 
-		{
-			if (e.message === Errors.PLAYER_DOES_NOT_EXIST) 
-			{
+		catch (e) {
+			if (e.message === Errors.PLAYER_DOES_NOT_EXIST) {
 				return interaction.followUp({ embeds: [createMsg({ color: 'Red', desc: '**Invalid Username!**' })] });
 			}
 			console.log(e);

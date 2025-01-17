@@ -15,8 +15,7 @@ export default
 	],
 	permissions: ['ManageRoles'],
 
-	async execute(interaction) 
-	{
+	async execute(interaction) {
 		const plus = await getEmoji('plus');
 		const minus = await getEmoji('minus');
 
@@ -37,8 +36,7 @@ export default
 		const noPerms = uniqueRoles.filter((role) => role.managed || interaction.member.roles.highest.comparePositionTo(role) <= 0);
 		const validRoles = uniqueRoles.filter((role) => !noPerms.includes(role));
 
-		if (noPerms.length > 0) 
-		{
+		if (noPerms.length > 0) {
 			const noPermRoles = noPerms.map((role) => `- <@&${role.id}>`).join('\n');
 			await interaction.followUp({ embeds: [createMsg({ color: 'Red', desc: `**You do not have permission to manage these roles:**\n\n${noPermRoles}` })] });
 		}
@@ -49,8 +47,7 @@ export default
 		if (roleRemove.length > 0) { await user.roles.remove(roleRemove); }
 		if (roleAdd.length > 0) { await user.roles.add(roleAdd); }
 
-		if (roleAdd.length > 0 || roleRemove.length > 0) 
-		{
+		if (roleAdd.length > 0 || roleRemove.length > 0) {
 			const addedRoles = roleAdd.length > 0 ? roleAdd.map((role) => `${plus} <@&${role.id}>`).join('\n') : '';
 			const removedRoles = roleRemove.length > 0 ? roleRemove .map((role) => `${minus} <@&${role.id}>`).join('\n') : '';
 

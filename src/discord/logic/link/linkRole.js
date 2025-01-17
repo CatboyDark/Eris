@@ -1,8 +1,7 @@
 import { createForm, createRow } from '../../../helper/builder.js';
 import { readConfig, writeConfig, toggleConfig } from '../../../helper/utils.js';
 
-async function createButtons()
-{
+async function createButtons() {
 	const config = readConfig();
 
 	const roleButtons = createRow([
@@ -23,14 +22,11 @@ async function createButtons()
 
 const back = createRow([{ id: 'features', label: 'Back', style: 'Gray' }]);
 
-async function linkRoleToggle(interaction)
-{
+async function linkRoleToggle(interaction) {
 	const config = readConfig();
 
-	if (!config.features.linkRoleToggle)
-	{
-		if (!interaction.isModalSubmit())
-		{
+	if (!config.features.linkRoleToggle) {
+		if (!interaction.isModalSubmit()) {
 			const modal = createForm({
 				id: 'linkRoleToggle',
 				title: 'Set Link Role',
@@ -50,8 +46,7 @@ async function linkRoleToggle(interaction)
 		const input =
 			await interaction.fields.getTextInputValue('setLinkRoleInput');
 		const role = interaction.guild.roles.cache.get(input);
-		if (!role)
-		{
+		if (!role) {
 			return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**That\'s not a valid Role ID!**' })], ephemeral: true });
 		}
 

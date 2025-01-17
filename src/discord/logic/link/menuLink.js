@@ -14,8 +14,7 @@ const linkFeaturesMsg = createMsg({
 		'You may create a new role or set an existing role as the Linked Role.'
 });
 
-function createRow1()
-{
+function createRow1() {
 	const config = readConfig();
 	const buttons = createRow([
 		{ id: 'setLinkChannel', label: 'Set Link Channel', style: 'Blue' },
@@ -36,8 +35,7 @@ function createRow1()
 
 const back = createRow([{ id: 'features', label: 'Back', style: 'Gray' }]);
 
-async function accountLinking(interaction)
-{
+async function accountLinking(interaction) {
 	await interaction.update({
 		embeds: [linkFeaturesMsg],
 		components: [await createRow1(), back]

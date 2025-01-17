@@ -1,8 +1,7 @@
 import { createMsg, createRow } from '../../../helper/builder.js';
 import { readConfig } from '../../../helper/utils.js';
 
-async function credits(interaction)
-{
+async function credits(interaction) {
 	const config = readConfig();
 	const creditsMsg = createMsg({
 		icon: config.icon,

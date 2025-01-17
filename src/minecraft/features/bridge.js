@@ -11,13 +11,11 @@ const ignore =
 	'Watch out, though, as there are things that live in Limbo.'
 ];
  
-export default (bot, client) =>
-{
+export default (bot, client) => {
 	const config = readConfig();
 
 	// Ingame -> Discord
-	bot.on('message', (message) =>
-	{
+	bot.on('message', (message) => {
 		if (!config.features.bridgeToggle) return;
 
 		const content = message.toString().trim();
@@ -37,13 +35,11 @@ export default (bot, client) =>
 	});
 
 	// Discord -> Ingame
-	client.on('messageCreate', (message) =>
-	{
+	client.on('messageCreate', (message) => {
 		if (!config.features.bridgeToggle) return;
 
 		const channel = client.channels.cache.get(config.features.bridgeChannel);
-		if (message.channel.id === channel?.id)
-		{
+		if (message.channel.id === channel?.id) {
 			const content = message.content;
 			if (message.author.bot) return;
 

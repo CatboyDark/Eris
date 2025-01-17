@@ -1,10 +1,8 @@
 import { createForm, createMsg } from '../../../helper/builder.js';
 import { readConfig, writeConfig } from '../../../helper/utils.js';
 
-async function setIcon(interaction)
-{
-	if (!interaction.isModalSubmit())
-	{
+async function setIcon(interaction) {
+	if (!interaction.isModalSubmit()) {
 		const modal = createForm({
 			id: 'setIconForm',
 			title: 'Set Icon',
@@ -22,8 +20,7 @@ async function setIcon(interaction)
 	}
 
 	const input = interaction.fields.getTextInputValue('setIconInput');
-	if (!/\.(jpg|jpeg|png|gif|webp)$/i.test(input))
-	{
+	if (!/\.(jpg|jpeg|png|gif|webp)$/i.test(input)) {
 		return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**Invalid URL!**\n\nDiscord supports: **.jpg .jpeg .png .gif .webp**' })], ephemeral: true });
 	}
 

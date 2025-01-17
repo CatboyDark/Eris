@@ -33,8 +33,7 @@ const settingsButtons = createRow([
 
 const back = createRow([{ id: 'backToSetup', label: 'Back', style: 'Gray' }]);
 
-async function settings(interaction)
-{
+async function settings(interaction) {
 	await interaction.update({ embeds: [settingsMsg], components: [settingsButtons, back]
 	});
 }

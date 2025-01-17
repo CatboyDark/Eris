@@ -15,8 +15,7 @@ export default
 	],
 	permissions: ['ManageMessages'],
 
-	async execute(interaction) 
-	{
+	async execute(interaction) {
 		const filter = interaction.options.getString('filter');
 		const count = interaction.options.getInteger('count');
 
@@ -31,16 +30,14 @@ export default
 		const now = Date.now();
 		messages = messages.filter((msg) => now - msg.createdTimestamp <= 1209600000);
 
-		if (messages.size > 0) 
-		{
+		if (messages.size > 0) {
 			await interaction.channel.bulkDelete(messages, true);
 			const success = count === 1
 				? createMsg({ desc: '**Deleted a message.**' })
 				: createMsg({ desc: `**Deleted ${messages.size} ${filter === 'user' ? 'user' : filter === 'bot' ? 'bot' : ''} messages.**` });
 			await interaction.reply({ embeds: [success], ephemeral: true });
 		}
-		else 
-		{
+		else {
 			await interaction.reply({ embeds: [createMsg({ color: 'Red', desc: 'You cannot purge messages older than 14 days!' })], ephemeral: true });
 		}
 	}

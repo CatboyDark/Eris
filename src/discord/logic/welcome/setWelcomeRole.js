@@ -1,10 +1,8 @@
 import { createForm, createMsg } from '../../../helper/builder.js';
 import { readConfig, writeConfig } from '../../../helper/utils.js';
 
-async function setWelcomeRole(interaction)
-{
-	if (!interaction.isModalSubmit())
-	{
+async function setWelcomeRole(interaction) {
+	if (!interaction.isModalSubmit()) {
 		const modal = createForm({
 			id: 'setWelcomeRoleForm',
 			title: 'Set Welcome Channel',
@@ -23,12 +21,10 @@ async function setWelcomeRole(interaction)
 
 	const input = interaction.fields.getTextInputValue('setWelcomeRoleInput');
 	const role = interaction.guild.roles.cache.get(input);
-	if (!role)
-	{
+	if (!role) {
 		return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**That\'s not a valid role ID!**' })], ephemeral: true });
 	}
-	if (interaction.member.roles.highest.comparePositionTo(role) <= 0)
-	{
+	if (interaction.member.roles.highest.comparePositionTo(role) <= 0) {
 		return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**You do not have permission to assign that role!**' })], ephemeral: true });
 	}
 	const config = readConfig();

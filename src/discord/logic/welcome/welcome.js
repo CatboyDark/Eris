@@ -1,8 +1,7 @@
 import { createMsg } from '../../../helper/builder.js';
 import { readConfig } from '../../../helper/utils.js';
 
-async function welcomeMsg(member)
-{
+async function welcomeMsg(member) {
 	const config = readConfig();
 	if (!config.features.welcomeMsgToggle) return;
 
@@ -16,11 +15,9 @@ async function welcomeMsg(member)
 	await welcomeChannel.send({ embeds: [msg] });
 }
 
-async function welcomeRole(member)
-{
+async function welcomeRole(member) {
 	const config = readConfig();
-	if (!config.features.welcomeRoleToggle)
-	{
+	if (!config.features.welcomeRoleToggle) {
 		return;
 	}
 

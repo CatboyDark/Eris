@@ -6,10 +6,8 @@ import { readConfig } from '../../../helper/utils.js';
 
 const execPromise = promisify(exec);
 
-async function restart(client)
-{
-	try
-	{
+async function restart(client) {
+	try {
 		await execPromise('git update-index --skip-worktree README.md');
 		await execPromise('git pull');
 
@@ -17,20 +15,17 @@ async function restart(client)
 
 		await execPromise('node start.js');
 	}
-	catch (error)
-	{
+	catch (error) {
 		console.error('Error during restart:', error);
 		throw error;
 	}
 }
 
-async function update(interaction)
-{
+async function update(interaction) {
 	const config = readConfig();
 	await interaction.deferReply();
 
-	try
-	{
+	try {
 		const [latestHashResult, localHashResult] = await Promise.all([
 			axios.get('https://api.github.com/repos/CatboyDark/Eris/commits/main', {
 				headers: { Accept: 'application/vnd.github.v3+json' }
@@ -41,13 +36,11 @@ async function update(interaction)
 		const latestHash = latestHashResult.data.sha.substring(0, 7);
 		const currentHash = localHashResult.stdout.trim();
 
-		if (currentHash === latestHash)
-		{
+		if (currentHash === latestHash) {
 			return interaction.followUp({ embeds: [createMsg({ desc: `** ${interaction.client.user.username} is already up to date!**` })], ephemeral: true });
 		}
 	}
-	catch (error)
-	{
+	catch (error) {
 		console.error('Error checking for updates:', error);
 		return interaction.followUp({ embeds: [createMsg({ title: config.guild, color: 'Red', desc: '**Error checking for updates!**' })] });
 	}
