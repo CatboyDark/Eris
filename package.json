@@ -19,7 +19,7 @@
         "discord.js": "^14.17.2",
         "hypixel-api-reborn": "^11.3.7",
         "mineflayer": "^4.23.0",
-        "mongoose": "^8.9.3",
+        "mongoose": "^8.9.5",
         "node-cron": "^3.0.3"
     },
     "devDependencies": {
