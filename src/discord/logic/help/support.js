@@ -1,8 +1,7 @@
 import { createMsg, createRow } from '../../../helper/builder.js';
 import { readConfig } from '../../../helper/utils.js';
 
-async function support(interaction)
-{
+async function support(interaction) {
 	const config = readConfig();
 	const supportMsg = createMsg({
 		icon: config.icon,

@@ -2,8 +2,7 @@ import { createMsg } from './builder.js';
 import { Command, Button } from '../mongo/schemas.js';
 import { readConfig } from './utils.js';
 
-async function cmdCounter(command)
-{
+async function cmdCounter(command) {
 	await Command.findOneAndUpdate(
 		{ command },
 		{ $inc: { count: 1 } },
@@ -11,8 +10,7 @@ async function cmdCounter(command)
 	);
 }
 
-async function buttonCounter(button, source)
-{
+async function buttonCounter(button, source) {
 	await Button.findOneAndUpdate(
 		{ button },
 		{ $inc: { count: 1 }, $set: { source } },
@@ -20,23 +18,19 @@ async function buttonCounter(button, source)
 	);
 }
 
-function createLogMsg(interaction)
-{
+function createLogMsg(interaction) {
 	const config = readConfig();
 
-	if (!config.logs.enabled)
-	{
+	if (!config.logs.enabled) {
 		return null;
 	}
 
 	let title;
 	let desc;
 
-	switch (true)
-	{
+	switch (true) {
 		case interaction.isChatInputCommand():
-			if (config.logs.commands)
-			{
+			if (config.logs.commands) {
 				const options = interaction.options.data.map((option) =>
 					option.type === 6 ? ` <@${option.value}> ` : 
 					option.type === 8 ? ` <@&${option.value}> ` : 
@@ -50,33 +44,28 @@ function createLogMsg(interaction)
 				desc = `<@${interaction.user.id}> ran **/${interaction.commandName}** ${ optionsString }\n
 						${interaction.message.url}`;
 			}
-			else 
-			{
+			else {
 				return null;
 			}
 			break;
 
 		case interaction.isButton():
-			if (config.logs.buttons)
-			{
+			if (config.logs.buttons) {
 				title = 'Button';
 				desc =
 						`<@${interaction.user.id}> clicked **${interaction.component.label}**.\n
 						${interaction.message.url}`;
 			}
-			else
-			{
+			else {
 				return null;
 			}
 			break;
 
 		case interaction.isStringSelectMenu():
-			if (config.logs.menus)
-			{
+			if (config.logs.menus) {
 				const selectMenu = interaction.component;
 				const selectedValues = interaction.values;
-				const optionLabels = selectedValues.map((value) =>
-				{
+				const optionLabels = selectedValues.map((value) => {
 					const option = selectMenu.options.find(
 						(option) => option.value === value
 					);
@@ -87,22 +76,19 @@ function createLogMsg(interaction)
 						`<@${interaction.user.id}> selected **${optionLabels.join(', ')}** from **${interaction.component.placeholder}**\n
 						${interaction.message.url}`;
 			}
-			else
-			{
+			else {
 				return null;
 			}
 			break;
 
 		case interaction.isModalSubmit():
-			if (config.logs.forms)
-			{
+			if (config.logs.forms) {
 				title = 'Form';
 				desc =
 						`<@${interaction.user.id}> submitted **${interaction.customId}**\n
 						${interaction.message.url}`;
 			}
-			else
-			{
+			else {
 				return null;
 			}
 			break;
@@ -117,14 +103,11 @@ function createLogMsg(interaction)
 	return createMsg({ icon, title, desc, timestamp: 'relative' });
 }
 
-async function log(interaction)
-{
-	if (interaction.isChatInputCommand())
-	{
+async function log(interaction) {
+	if (interaction.isChatInputCommand()) {
 		await cmdCounter(interaction.commandName);
 	}
-	if (interaction.isButton())
-	{
+	if (interaction.isButton()) {
 		await buttonCounter(interaction.component.label, interaction.customId);
 	}
 
@@ -133,8 +116,7 @@ async function log(interaction)
 	const guild = await interaction.client.guilds.cache.get(server);
 	const channel = await guild.channels.cache.get(config.logsChannel);
 	const message = await createLogMsg(interaction);
-	if (message)
-	{
+	if (message) {
 		await channel.send({ embeds: [message] });
 	}
 }

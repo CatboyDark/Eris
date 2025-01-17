@@ -1,8 +1,7 @@
 import { createMsg, createRow } from '../../../helper/builder.js';
 import { readConfig, toggleConfig } from '../../../helper/utils.js';
 
-async function createButtons()
-{
+async function createButtons() {
 	const config = readConfig();
 	const logButtons = createRow([
 		{
@@ -27,18 +26,14 @@ async function createButtons()
 	return { logButtons, backRow };
 }
 
-async function logging(interaction)
-{
+async function logging(interaction) {
 	const config = readConfig();
 
-	if (!config.logsChannel)
-	{
+	if (!config.logsChannel) {
 		interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**You must add a logs channel first!**' })], ephemeral: true });
 	}
-	else
-	{
-		switch (interaction.customId)
-		{
+	else {
+		switch (interaction.customId) {
 			case 'logsToggle':
 				toggleConfig('logs.enabled');
 				break;

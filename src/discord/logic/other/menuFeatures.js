@@ -24,8 +24,7 @@ const featuresMenu = createRow([
 	}
 ]);
 
-async function features(interaction)
-{
+async function features(interaction) {
 	await interaction.update({ 
 		embeds: [createMsg({
 			title: 'Features',

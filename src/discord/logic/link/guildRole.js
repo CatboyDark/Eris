@@ -1,8 +1,7 @@
 import { createForm, createRow } from '../../../helper/builder.js';
 import { writeConfig, toggleConfig, readConfig } from '../../../helper/utils.js';
 
-function createButtons()
-{
+function createButtons() {
 	const config = readConfig();
 
 	const roleButtons = createRow([
@@ -23,14 +22,11 @@ function createButtons()
 
 const back = createRow([{ id: 'features', label: 'Back', style: 'Gray' }]);
 
-async function guildRoleToggle(interaction)
-{
+async function guildRoleToggle(interaction) {
 	const config = readConfig();
 
-	if (!config.features.guildRoleToggle)
-	{
-		if (!interaction.isModalSubmit())
-		{
+	if (!config.features.guildRoleToggle) {
+		if (!interaction.isModalSubmit()) {
 			const modal = createForm({
 				id: 'guildRoleToggle',
 				title: 'Set Guild Role',
@@ -50,8 +46,7 @@ async function guildRoleToggle(interaction)
 		const input =
 			await interaction.fields.getTextInputValue('setGuildRoleInput');
 		const role = interaction.guild.roles.cache.get(input);
-		if (!role)
-		{
+		if (!role) {
 			return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**That\'s not a valid Role ID!**' })], ephemeral: true });
 		}
 

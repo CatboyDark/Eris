@@ -5,8 +5,7 @@ export default
 [
 	{
 		name: Events.GuildMemberAdd,
-		async execute(member)
-		{
+		async execute(member) {
 			await welcomeMsg(member);
 			await welcomeRole(member);
 		}

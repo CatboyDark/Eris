@@ -3,14 +3,12 @@ import { createMsg, createRow } from '../../../helper/builder.js';
 import fs from 'fs';
 import { readConfig } from '../../../helper/utils.js';
 
-async function createHelpMsg(interaction)
-{
+async function createHelpMsg(interaction) {
 	const config = readConfig();
 
 	const cmds = fs.readdirSync('../../cmds/slash')
 		.filter((file) => file.endsWith('.js'))
-		.map(async (file) => 
-		{
+		.map(async (file) => {
 			const command = await import(`../../cmds/slash/${file}`);
 			return command;
 		})
@@ -18,8 +16,7 @@ async function createHelpMsg(interaction)
 
 	const userPermissions = BigInt(interaction.member.permissions.bitfield);
 
-	const getPermissionName = (permissionBit) =>
-	{
+	const getPermissionName = (permissionBit) => {
 		return Object.keys(PermissionFlagsBits).find(
 			(key) => PermissionFlagsBits[key] === permissionBit
 		);
@@ -29,18 +26,14 @@ async function createHelpMsg(interaction)
 		(userPermissions & PermissionFlagsBits.Administrator) ===
 		PermissionFlagsBits.Administrator;
 
-	const hasPermission = (permissions) =>
-	{
-		if (hasAdminPermission)
-		{
+	const hasPermission = (permissions) => {
+		if (hasAdminPermission) {
 			return true;
 		}
-		if (permissions.length === 0)
-		{
+		if (permissions.length === 0) {
 			return true;
 		}
-		const permissionBits = permissions.reduce((acc, perm) =>
-		{
+		const permissionBits = permissions.reduce((acc, perm) => {
 			const permBit = PermissionFlagsBits[perm];
 			return acc | BigInt(permBit);
 		}, BigInt(0));
@@ -51,11 +44,9 @@ async function createHelpMsg(interaction)
 	const formatCommands = (commands) =>
 		commands
 			.sort((a, b) => a.name.localeCompare(b.name))
-			.map((cmd) =>
-			{
+			.map((cmd) => {
 				let description = `- **\`/${cmd.name}\`** ${cmd.desc}`;
-				if (cmd.permissions && cmd.permissions.length > 0)
-				{
+				if (cmd.permissions && cmd.permissions.length > 0) {
 					const permissionsRequired = cmd.permissions
 						.map((perm) =>
 							getPermissionName(PermissionFlagsBits[perm])
@@ -98,16 +89,13 @@ const helpButtons = createRow([
 	{ label: 'GitHub', url: 'https://github.com/CatboyDark/Eris' }
 ]);
 
-async function cmds(interaction)
-{
+async function cmds(interaction) {
 	const embed = await createHelpMsg(interaction);
 
-	if (interaction.isCommand())
-	{
+	if (interaction.isCommand()) {
 		await interaction.reply({ embeds: [embed], components: [helpButtons] });
 	}
-	else if (interaction.isButton())
-	{
+	else if (interaction.isButton()) {
 		await interaction.update({
 			embeds: [embed],
 			components: [helpButtons]

@@ -1,10 +1,8 @@
 import { createForm, createMsg } from '../../../helper/builder.js';
 import { readConfig, writeConfig } from '../../../helper/utils.js';
 
-async function setLogsChannel(interaction)
-{
-	if (!interaction.isModalSubmit())
-	{
+async function setLogsChannel(interaction) {
+	if (!interaction.isModalSubmit()) {
 		const modal = createForm({
 			id: 'setLogsChannelForm',
 			title: 'Set Logs Channel',
@@ -23,8 +21,7 @@ async function setLogsChannel(interaction)
 
 	const input = interaction.fields.getTextInputValue('setLogsChannelInput');
 	const channel = await interaction.guild.channels.fetch(input).catch(() => null);
-	if (!channel)
-	{
+	if (!channel) {
 		return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**That\'s not a valid Channel ID!**' })], ephemeral: true });
 	}
 

@@ -1,8 +1,7 @@
 import { createMsg, createRow, createForm } from '../../../helper/builder.js';
 import { readConfig, writeConfig, toggleConfig } from '../../../helper/utils.js';
 
-function createCataRolesMsg()
-{
+function createCataRolesMsg() {
 	const config = readConfig();
 	if (Object.keys(config.cataRoles).length === 0) { return createMsg({ title: 'Custom Roles: Cata', desc: 'You may assign a role to any Catacombs level.' }); }
 
@@ -19,8 +18,7 @@ const row1 = createRow([
 	{ id: 'deleteCataRoles', label: 'Remove Role', style: 'Red' }
 ]);
 
-function createRow2()
-{
+function createRow2() {
 	const config = readConfig();
 	const back = createRow([
 		{ id: 'customRoles', label: 'Back', style: 'Gray' },
@@ -34,24 +32,20 @@ function createRow2()
 	return back;
 }
 
-async function cataRoles(interaction)
-{
+async function cataRoles(interaction) {
 	await interaction.update({
 		embeds: [createCataRolesMsg()],
 		components: [row1, createRow2()]
 	});
 }
 
-async function cataRolesToggle(interaction)
-{
+async function cataRolesToggle(interaction) {
 	toggleConfig('features.cataRolesToggle');
 	await cataRoles(interaction);
 }
 
-async function createCataRoles(interaction)
-{
-	if (interaction.isButton())
-	{
+async function createCataRoles(interaction) {
+	if (interaction.isButton()) {
 		const modal = createForm({
 			id: 'createCataRolesForm',
 			title: 'Create Cata Role',
@@ -74,18 +68,15 @@ async function createCataRoles(interaction)
 		await interaction.showModal(modal);
 	}
 
-	if (interaction.isModalSubmit())
-	{
+	if (interaction.isModalSubmit()) {
 		const cataInput = interaction.fields.getTextInputValue('cataInput');
 		const cataRole = interaction.fields.getTextInputValue('cataRoleInput');
 
-		if (cataInput < 0 || cataInput > 50)
-		{
+		if (cataInput < 0 || cataInput > 50) {
 			return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**That\'s not a valid Cata level!**' })], ephemeral: true });
 		}
 		const role = interaction.guild.roles.cache.get(cataRole);
-		if (!role)
-		{
+		if (!role) {
 			return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**That\'s not a valid Role ID!**' })], ephemeral: true});
 		}
 
@@ -97,10 +88,8 @@ async function createCataRoles(interaction)
 	}
 }
 
-async function deleteCataRoles(interaction)
-{
-	if (interaction.isButton())
-	{
+async function deleteCataRoles(interaction) {
+	if (interaction.isButton()) {
 		const modal = createForm({
 			id: 'deleteCataRolesForm',
 			title: 'Remove Cata Role',
@@ -117,29 +106,24 @@ async function deleteCataRoles(interaction)
 		await interaction.showModal(modal);
 	}
 
-	if (interaction.isModalSubmit())
-	{
+	if (interaction.isModalSubmit()) {
 		const cataRemoveInput =
 			interaction.fields.getTextInputValue('cataRemoveInput');
 
 		const config = readConfig();
 
-		if (cataRemoveInput >= 0 || cataRemoveInput <= 50) 
-		{
-			if (config.cataRoles[cataRemoveInput]) 
-			{
+		if (cataRemoveInput >= 0 || cataRemoveInput <= 50) {
+			if (config.cataRoles[cataRemoveInput]) {
 				delete config.cataRoles[cataRemoveInput];
 				writeConfig(config);
 			} 
-			else 
-			{
+			else {
 				return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: `You don't have a role set for **Catacombs Level ${cataRemoveInput}**!` })], ephemeral: true });
 			}
 
 			await cataRoles(interaction);
 		}
-		else
-		{
+		else {
 			return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**That\'s not a valid Cata level!**' })], ephemeral: true });
 		}
 	}

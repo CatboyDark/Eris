@@ -3,8 +3,7 @@ import Errors from 'hypixel-api-reborn';
 import { createMsg, createRow, createForm } from '../../../helper/builder.js';
 import { getEmoji, getDiscord, getPlayer, updateRoles } from '../../../helper/utils.js';
 
-async function createLinkMsg() 
-{
+async function createLinkMsg() {
 	const check = await getEmoji('check');
 
 	const linkMsg = createMsg({
@@ -47,10 +46,8 @@ const modal = createForm({
 	]
 });
 
-async function link(interaction)
-{
-	if (!interaction.isModalSubmit())
-	{
+async function link(interaction) {
+	if (!interaction.isModalSubmit()) {
 		return interaction.showModal(modal);
 	}
 
@@ -62,25 +59,20 @@ async function link(interaction)
 
 	const input = interaction.fields.getTextInputValue('linkInput');
 
-	try
-	{
+	try {
 		const player = await getPlayer(input);
 		const discord = await getDiscord(input);
-		if (!discord)
-		{
+		if (!discord) {
 			return interaction.followUp({ embeds: [createMsg({ color: 'Red', desc: '**Discord is not linked!**\n_ _\nClick on **How To Link** for more info.' })] });
 		}
-		if (interaction.user.username !== discord)
-		{
+		if (interaction.user.username !== discord) {
 			return interaction.followUp({ embeds: [createMsg({ color: 'Red', desc: '**Discord does not match!**\n_ _\nClick on **How To Link** for more info.' })] });
 		}
 
 		await Link.create({ uuid: player.uuid, dcid: interaction.user.id });
 
-		await interaction.member.setNickname(player.nickname).catch((e) =>
-		{
-			if (e.message.includes('Missing Permissions'))
-			{
+		await interaction.member.setNickname(player.nickname).catch((e) => {
+			if (e.message.includes('Missing Permissions')) {
 				interaction.followUp({ embeds: [createMsg({ color: 'FFD800', desc: '**I don\'t have permission to change your nickname!**' })] });
 			}
 		});
@@ -88,41 +80,34 @@ async function link(interaction)
 		const { addedRoles, removedRoles } = await updateRoles(interaction.member, player, true);
 
 		let desc;
-		if (addedRoles.length > 0 && removedRoles.length > 0)
-		{
+		if (addedRoles.length > 0 && removedRoles.length > 0) {
 			desc = `${check} **Account linked!**\n_ _\n`;
 			desc += `${addedRoles.map((roleId) => `${plus} <@&${roleId}>`).join('\n')}\n_ _\n`;
 			desc += `${removedRoles.map((roleId) => `${minus} <@&${roleId}>`).join('\n')}`;
 		}
-		else if (addedRoles.length > 0)
-		{
+		else if (addedRoles.length > 0) {
 			desc = `${check} **Account linked!**\n_ _\n`;
 			desc += `${addedRoles.map((roleId) => `${plus} <@&${roleId}>`).join('\n')}\n_ _`;
 		}
-		else if (removedRoles.length > 0)
-		{
+		else if (removedRoles.length > 0) {
 			desc = `${check} **Account linked!**\n_ _\n`;
 			desc += `${removedRoles.map((roleId) => `${minus} <@&${roleId}>`).join('\n')}\n_ _`;
 		}
-		else
-		{
+		else {
 			desc = `${check} **Account linked!**`;
 		}
 
 		return interaction.followUp({ embeds: [createMsg({ desc })], ephemeral: true });
 	}
-	catch (e)
-	{
-		if (e.message === Errors.PLAYER_DOES_NOT_EXIST)
-		{
+	catch (e) {
+		if (e.message === Errors.PLAYER_DOES_NOT_EXIST) {
 			return interaction.followUp({ embeds: [createMsg({ color: 'Red', desc: '**Invalid Username!**' })] });
 		}
 		console.log(e);
 	}
 }
 
-async function linkHelp(interaction)
-{
+async function linkHelp(interaction) {
 	await interaction.reply({ embeds: [linkHelpMsg], ephemeral: true });
 }
 

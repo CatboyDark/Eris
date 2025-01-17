@@ -4,8 +4,7 @@ export default
 {
 	name: 'help',
 
-	async execute()
-	{
+	async execute() {
 		const embed = createMsg({ desc: '**Super Secret Staff Commands owo**' });
 		await message.channel.send({ embeds: [embed] });
 	}

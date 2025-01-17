@@ -7,8 +7,7 @@ export default
 	desc: 'Restarts and updates the bot',
 	permissions: ['ManageGuild'],
 
-	async execute(interaction) 
-	{
+	async execute(interaction) {
 		await interaction.deferReply();
 		await restart(interaction.client);
 

@@ -1,8 +1,7 @@
 import { createMsg, createRow, createForm } from '../../../helper/builder.js';
 import { readConfig, writeConfig, toggleConfig } from '../../../helper/utils.js';
 
-function createLevelRolesMsg()
-{
+function createLevelRolesMsg() {
 	const config = readConfig();
 	const roles = Object.entries(config.levelRoles)
 		// eslint-disable-next-line no-unused-vars
@@ -10,8 +9,7 @@ function createLevelRolesMsg()
 		.map(([level, roleID]) => `<@&${roleID}> - **Level ${level}**`)
 		.join('\n');
 
-	if (roles.length === 0)
-	{
+	if (roles.length === 0) {
 		return createMsg({
 			title: 'Custom Roles: Level',
 			desc: 'Assign roles based on the user\'s Skyblock level.\n\nYou do not need to assign a role to every level.'
@@ -24,8 +22,7 @@ function createLevelRolesMsg()
 	});
 }
 
-function createRow3()
-{
+function createRow3() {
 	const config = readConfig();
 	const back = createRow([
 		{ id: 'customRoles', label: 'Back', style: 'Gray' },
@@ -69,18 +66,15 @@ const row1 = createRow([
 
 const row2 = createRow([{ id: 'removeLevelRole', label: 'Remove Role', style: 'Red' }]);
 
-async function levelRoles(interaction)
-{
+async function levelRoles(interaction) {
 	await interaction.update({
 		embeds: [createLevelRolesMsg()],
 		components: [row1, row2, createRow3()]
 	});
 }
 
-async function createLevelRoles(interaction)
-{
-	if (interaction.isStringSelectMenu())
-	{
+async function createLevelRoles(interaction) {
+	if (interaction.isStringSelectMenu()) {
 		const selectedOption = interaction.values[0];
 
 		const level = levels.find((l) => l.id === selectedOption);
@@ -101,14 +95,12 @@ async function createLevelRoles(interaction)
 		await interaction.showModal(modal);
 	}
 
-	if (interaction.isModalSubmit())
-	{
+	if (interaction.isModalSubmit()) {
 		const selectedOption = interaction.customId.replace('Form', '');
 		const input = interaction.fields.getTextInputValue(`${selectedOption}Input`);
 
 		const role = interaction.guild.roles.cache.get(input);
-		if (!role)
-		{
+		if (!role) {
 			return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**That\'s not a valid Role ID!**' })], ephemeral: true });
 		}
 
@@ -124,16 +116,13 @@ async function createLevelRoles(interaction)
 	}
 }
 
-async function levelRolesToggle(interaction)
-{
+async function levelRolesToggle(interaction) {
 	toggleConfig('features.levelRolesToggle');
 	await levelRoles(interaction);
 }
 
-async function removeLevelRole(interaction)
-{
-	if (interaction.isButton())
-	{
+async function removeLevelRole(interaction) {
+	if (interaction.isButton()) {
 		const modal = createForm({
 			id: 'removeLevelRoleForm',
 			title: 'Remove Level Role',
@@ -150,19 +139,16 @@ async function removeLevelRole(interaction)
 		await interaction.showModal(modal);
 	}
 
-	if (interaction.isModalSubmit())
-	{
+	if (interaction.isModalSubmit()) {
 		const input = interaction.fields.getTextInputValue('removeLevelRoleInput');
 		const config = readConfig();
 
-		if (config.levelRoles[input])
-		{
+		if (config.levelRoles[input]) {
 			config.levelRoles[input] = '';
 			writeConfig(config);
 			await levelRoles(interaction);
 		}
-		else
-		{
+		else {
 			await interaction.reply({ embeds: [createMsg({ color: 'FF0000', desc: `**No role found for Level ${input}!**` })], ephemeral: true });
 		}
 	}

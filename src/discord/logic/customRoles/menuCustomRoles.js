@@ -1,7 +1,6 @@
 import { createMsg, createRow } from '../../../helper/builder.js';
 
-async function customRoles(interaction)
-{
+async function customRoles(interaction) {
 	await interaction.update({
 		embeds: [createMsg({
 			title: 'Custom Roles',
