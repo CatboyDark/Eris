@@ -1,7 +1,7 @@
-export default 
+export default
 [
     {
-        rules: 
+        rules:
         {
 			'brace-style': ['error', 'stroustrup', { 'allowSingleLine': true }],
 			'semi': ['warn', 'always'],
