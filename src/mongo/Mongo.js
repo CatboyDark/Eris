@@ -1,13 +1,10 @@
 import mongoose from 'mongoose';
 import display from '../display.js';
-import { readConfig } from '../helper.js';
+import auth from '../../auth.json' with { type: 'json' };
 
 async function mongo() {
-	const config = readConfig();
-	const URI = config.mongoURI;
-
 	try {
-		await mongoose.connect(URI);
+		await mongoose.connect(auth.mongoURI);
 		display.c('Database is online!');
 	}
 	catch (error) {
