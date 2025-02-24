@@ -1,4 +1,9 @@
 function display(str) {
+	if (typeof str !== 'string') {
+		display.r('Display > Invalid string.');
+		return;
+	}
+
 	const validFormats = 'ibusr';
 	const validColors = 'ABCDEFabcdef1234567890';
 

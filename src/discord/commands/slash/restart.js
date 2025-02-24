@@ -1,14 +1,18 @@
 import { execSync } from 'child_process';
+import { start } from '../../../../start.js';
 import display from '../../../display.js';
 import { createMsg } from '../../../helper.js';
+import { client } from '../../Discord.js';
 
-async function restart(client) {
+async function restart() {
+	display.y('Restarting...');
+
 	try {
 		const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
 		execSync(`git pull origin ${branch}`);
 		await client.destroy();
-		execSync('node start.js');
+		start();
 	}
 	catch (error) {
 		display.r(`Restart > ${error}`);
@@ -24,10 +28,9 @@ export default
 
 	async execute(interaction) {
 		await interaction.deferReply();
-		await restart(interaction.client);
+		await restart();
 		await interaction.followUp({ embeds: [createMsg({ desc: `**Successfully restarted ${interaction.client.user.username}!**` })] });
 	}
 };
 
 export { restart };
-

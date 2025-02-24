@@ -1,5 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ModalBuilder, PermissionFlagsBits, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import fs from 'fs';
+import hypixel from './api/hypixel.js';
 import { client } from './discord/Discord.js';
 import display from './display.js';
 
@@ -189,13 +190,103 @@ async function getEmoji(name) {
  	return emoji;
 }
 
+const permissions = new Set([
+	'Owner',
+	'Admin',
+	'DeleteMessages'
+]);
+
+function getPerms(member) {
+	const config = readConfig();
+	const roles = member.roles.cache.map(role => role.id);
+	const perms = new Set();
+
+	config.permissions.forEach(p => {
+		if (roles.includes(p.role)) {
+			if (p.perms.includes('Owner')) {
+				permissions.forEach(perm => perms.add(perm));
+			}
+			else if (p.perms.includes('Admin')) {
+				permissions.forEach(perm => {
+					if (perm !== 'Owner') perms.add(perm);
+				});
+			}
+			else {
+				p.perms.forEach(perm => perms.add(perm));
+			}
+		}
+	});
+	return [...perms];
+}
+
+async function getPlayer(user) {
+	const player = await hypixel.getPlayer(user);
+	return player;
+}
+
+async function getDiscord(ign) {
+	const player = await hypixel.getPlayer(ign);
+	const discord = player.socialMedia.find((media) => media.id === 'DISCORD');
+	return discord ? discord.link.toLowerCase() : null;
+}
+
+async function getGuild(type, value) {
+	let guild;
+
+	if (type === 'player') {
+		guild = await hypixel.getGuild('player', value);
+	}
+	else if (type === 'guild') {
+		guild = await hypixel.getGuild('name', value);
+	}
+
+	return guild;
+}
+
+async function updateRoles(member, player) {
+	const config = readConfig();
+	const guild = await getGuild('player', player.uuid);
+
+	const addedRoles = [];
+	const removedRoles = [];
+
+	if (config.link.roleToggle) {
+		if (!member.roles.cache.has(config.link.role)) {
+			await member.roles.add(config.link.role);
+			addedRoles.push(config.link.role);
+		}
+	}
+
+	if (config.guild.roleToggle) {
+		if (guild && guild.name === config.guild.name) {
+			if (!member.roles.cache.has(config.guild.role)) {
+				await member.roles.add(config.guild.role);
+				addedRoles.push(config.guild.role);
+			}
+		}
+		else {
+			if (member.roles.cache.has(config.guild.role)) {
+				await member.roles.remove(config.guild.role);
+				removedRoles.push(config.guild.role);
+			}
+		}
+	}
+
+	return { addedRoles, removedRoles };
+}
+
 export {
 	createForm,
 	createMsg,
 	createRow,
 	createSlash,
+	getDiscord,
 	getEmoji,
+	getGuild,
+	getPerms,
+	getPlayer,
 	readConfig,
+	updateRoles,
 	writeConfig
 };
 

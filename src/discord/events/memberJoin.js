@@ -1,6 +1,6 @@
 import { Events } from 'discord.js';
-import { createMsg, readConfig } from '../../helper.js';
 import display from '../../display.js';
+import { createMsg, readConfig } from '../../helper.js';
 
 export default
 {
@@ -14,7 +14,7 @@ export default
 			const welcomeChannel = member.guild.channels.cache.get(config.welcome.channel);
 			if (welcomeChannel.guild.id !== member.guild.id) return;
 
-			let welcomeMsg = config.welcome.message || `### Welcome to the ${config.guild ?? client.channels.cache.get(config.logsChannel)?.guild.name} server!\n### @member`;
+			let welcomeMsg = config.welcome.message || `### Welcome to the ${config.guild.name ?? client.channels.cache.get(config.logsChannel)?.guild.name} server!\n### @member`;
 			welcomeMsg = welcomeMsg.replace(/@member/g, member.toString());
 
 			await welcomeChannel.send({ embeds: [createMsg({ desc: welcomeMsg, icon: member.user.displayAvatarURL() })] });

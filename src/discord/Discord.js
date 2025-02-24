@@ -1,24 +1,26 @@
 import { Client, Collection, GatewayIntentBits, REST, Routes } from 'discord.js';
 import fs from 'fs';
 import auth from '../../auth.json' with { type: 'json' };
-import { createSlash } from '../helper.js';
 import display from '../display.js';
+import { createSlash, readConfig } from '../helper.js';
 
-const client = new Client({
-	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildMembers,
-		GatewayIntentBits.GuildPresences,
-		GatewayIntentBits.GuildScheduledEvents
-	]
-});
-
-client.pc = new Collection();
-client.sc = new Collection();
+let client;
 
 async function discord() { // Credits: Kathund
+	client = new Client({
+		intents: [
+			GatewayIntentBits.Guilds,
+			GatewayIntentBits.GuildMessages,
+			GatewayIntentBits.MessageContent,
+			GatewayIntentBits.GuildMembers,
+			GatewayIntentBits.GuildPresences,
+			GatewayIntentBits.GuildScheduledEvents
+		]
+	});
+
+	client.plainCommands = new Collection();
+	client.slashCommands = new Collection();
+	client.buttons = new Collection();
 
 	// Commands
 	const slashDir = fs.readdirSync('./src/discord/commands/slash').filter((file) => file.endsWith('.js'));
@@ -29,9 +31,8 @@ async function discord() { // Credits: Kathund
 			display.r(`Invalid command: ${slashFile}`);
 			continue;
 		}
-
 		const slashCmd = createSlash(slashCommand);
-		client.sc.set(slashCmd.data.name, slashCmd);
+		client.slashCommands.set(slashCmd.data.name, slashCmd);
 		slashCommands.push(slashCmd.data.toJSON());
 	}
 
@@ -39,10 +40,26 @@ async function discord() { // Credits: Kathund
 	await rest.put(Routes.applicationCommands(Buffer.from(auth.token.split('.')[0], 'base64').toString('ascii')), { body: slashCommands });
 
 	const plainDir = fs.readdirSync('./src/discord/commands/plain').filter(file => file.endsWith('.js'));
+	const config = readConfig();
+    const prefix = config.prefix;
 	for (const plainFile of plainDir) {
-		const plainCmd = (await import(`./commands/plain/${plainFile}`)).default;
-		client.pc.set(plainCmd.name, plainCmd);
+		const plainC = (await import(`./commands/plain/${plainFile}`)).default;
+		if (plainC.prefix) {
+			plainC.name = `${prefix}${plainC.name}`;
+		}
+		client.plainCommands.set(plainC.name, plainC);
 	};
+
+	// Buttons
+	const buttonDir = fs.readdirSync('./src/discord/buttons').filter(file => file.endsWith('.js'));
+	for (const buttonFile of buttonDir) {
+		const button = (await import(`./buttons/${buttonFile}`)).default;
+		if (!button) {
+			display.r(`Invalid button: ${buttonFile}`);
+			continue;
+		}
+		client.buttons.set(button.id, button);
+	}
 
 	// Events
 	const eventDir = fs.readdirSync('./src/discord/events').filter(file => file.endsWith('.js'));
@@ -56,3 +73,4 @@ async function discord() { // Credits: Kathund
 }
 
 export { client, discord };
+
