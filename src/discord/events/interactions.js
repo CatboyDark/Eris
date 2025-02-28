@@ -2,32 +2,6 @@ import { Events, Team } from 'discord.js';
 import display from '../../display.js';
 import { createMsg, readConfig } from '../../helper.js';
 
-async function error(interaction, e) {
-	const config = readConfig();
-	const channel = await interaction.client.channels.fetch(config.logsChannel);
-	const app = await interaction.client.application.fetch();
-
-	await channel.send({
-		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
-		embeds: [createMsg({
-			color: 'Red',
-			title: 'A Silly Has Occured!',
-			desc: `\`${e.message}\`\n\n-# If you believe this is a bug, please contact <@622326625530544128>.`
-		})]
-	});
-
-	const userError = createMsg({ embeds: [createMsg({
-		color: 'Red',
-		title: 'Oops!',
-		desc: 'That wasn\'t supposed to happen. Staff has been notified.'
-	})] });
-
-	if (interaction.replied || interaction.deferred) {
-		return interaction.followUp({ embeds: [userError] });
-	}
-	return interaction.reply({ embeds: [userError] });
-}
-
 export default {
 	name: Events.InteractionCreate,
 
@@ -54,3 +28,29 @@ export default {
 		}
 	}
 };
+
+async function error(interaction, e) {
+	const config = readConfig();
+	const channel = await interaction.client.channels.fetch(config.logsChannel);
+	const app = await interaction.client.application.fetch();
+
+	await channel.send({
+		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
+		embeds: [createMsg({
+			color: 'Red',
+			title: 'A Silly Has Occured!',
+			desc: `\`${e.message}\`\n\n-# If you believe this is a bug, please contact @CatboyDark.`
+		})]
+	});
+
+	const userError = createMsg({ embeds: [createMsg({
+		color: 'Red',
+		title: 'Oops!',
+		desc: 'That wasn\'t supposed to happen. Staff has been notified.'
+	})] });
+
+	if (interaction.replied || interaction.deferred) {
+		return interaction.followUp({ embeds: [userError] });
+	}
+	return interaction.reply({ embeds: [userError] });
+}

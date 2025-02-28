@@ -1,6 +1,8 @@
 import { restart } from '../commands/slash/restart.js';
 
-export default {
+export { restartButton };
+
+const restartButton = {
 	id: 'restart',
 
 	async execute(interaction) {

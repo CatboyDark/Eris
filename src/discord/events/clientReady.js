@@ -5,6 +5,63 @@ import { schedule } from 'node-cron';
 import display from '../../display.js';
 import { createMsg, createRow, readConfig } from '../../helper.js';
 
+export default
+{
+	name: Events.ClientReady,
+
+	async execute(client) {
+		const config = readConfig();
+		const logsChannel = client.channels.cache.get(config.logsChannel);
+
+		logsChannel?.send({ embeds: [createMsg({ desc: `**${client.user.username} is online!**` })] });
+		client.user.setActivity(config.guild.name ?? logsChannel?.guild.name, { type: ActivityType.Watching });
+
+		display.c(`${client.user.username} is online!`);
+
+		await initEmojis(client);
+
+		updateCheck(client);
+		schedule('0 */6 * * *', // Once every 6 hours
+			async () => updateCheck(client)
+		);
+
+		schedule( '1 22 * * *', // 10:01 PST every day
+			async () => logGXP(client)
+		);
+	}
+};
+
+async function initEmojis(client) {
+	try {
+		const app = await client.application.fetch();
+		const emojis = await app.emojis.fetch();
+
+		const emojiFiles = fs.readdirSync('./assets/emojis').filter((file) => file.endsWith('.png'));
+		const map = new Map(emojis.map(emoji => [emoji.name, emoji]));
+
+		for (const [name, emoji] of map) {
+			if (!emojiFiles.includes(`${name}.png`)) {
+				await emoji.delete();
+			}
+		}
+
+		for (const emojiFile of emojiFiles) {
+			const emojiName = emojiFile.split('.')[0];
+
+			if (map.has(emojiName)) {
+				const emoji = map.get(emojiName);
+				await emoji.edit({ name: emojiName });
+			}
+			else {
+				await app.emojis.create({ attachment: `./assets/emojis/${emojiFile}`, name: emojiName });
+			}
+		}
+	}
+	catch (e) {
+		console.log(e);
+	}
+}
+
 async function updateCheck(client) {
 	const config = readConfig();
 	const logsChannel = client.channels.cache.get(config.logsChannel);
@@ -20,8 +77,8 @@ async function updateCheck(client) {
 		remoteHash = execSync(`git ls-remote origin ${branch}`).toString().split('\t')[0].trim();
 		commitMessage = execSync('git log -1 --pretty=%B').toString().trim();
 	}
-	catch (error) {
-		display.r(`UpdateCheck > ${error}`);
+	catch (e) {
+		display.r(`UpdateCheck > ${e}`);
 		logsChannel?.send({ embeds: [createMsg({ title: config.guild.name ?? logsChannel.guild.name, color: 'Red', desc: '**Error checking for updates!**' })] });
 	}
 
@@ -34,37 +91,6 @@ async function updateCheck(client) {
 		embeds: [createMsg({ title: 'Update available!', desc: `\`${commitMessage}\`` })],
 		components: [createRow([{ id: 'restart', label: 'Update', color: 'Green' }])]
 	});
-}
-
-async function initEmojis(client) {
-	try {
-		const app = await client.application.fetch();
-		const emojis = await app.emojis.fetch();
-		const emojiFiles = fs.readdirSync('./assets/emojis').filter((file) => file.endsWith('.png'));
-
-		const map = new Map(emojis.map(emoji => [emoji.name, emoji]));
-
-		for (const [name, emoji] of map) {
-			if (!emojiFiles.includes(`${name}.png`)) {
-				await emoji.delete();
-			}
-		}
-
-		for (const emojiFile of emojiFiles) {
-			const emojiName = emojiFile.split('.')[0];
-
-			if (map.has(emojiName)) {
-				const emoji = map.get(emojiName);
-				await emoji.edit({ attachment: `./assets/emojis/${emojiFile}` });
-			}
-			else {
-				await app.emojis.create({ attachment: `./assets/emojis/${emojiFile}`, name: emojiName });
-			}
-		}
-	}
-	catch (e) {
-		display.r(`Emoji > ${e.message}`);
-	}
 }
 
 async function logGXP(client) {
@@ -106,37 +132,8 @@ async function logGXP(client) {
 		await db.bulkWrite(bulk);
 
 	}
-	catch (error) {
-		display.r('GXP Logger >', error);
+	catch (e) {
+		display.r('GXP Logger >', e);
 	}
 	await client.channels.cache.get(config.logsChannel)?.send({ embeds: [createMsg({ title: config.guild.name, desc: '**GXP has been logged!**' })] });
 }
-
-export default
-{
-	name: Events.ClientReady,
-
-	async execute(client) {
-		const config = readConfig();
-		const logsChannel = client.channels.cache.get(config.logsChannel);
-
-		//
-		logsChannel?.send({ embeds: [createMsg({ desc: '**Bot is Online!**' })] });
-		client.user.setActivity(config.guild.name ?? logsChannel?.guild.name, { type: ActivityType.Watching });
-
-		display.c(`${client.user.username} is online!`);
-
-		await initEmojis(client);
-
-		updateCheck(client);
-		schedule('0 */6 * * *', // Once every 6 hours
-			async () => updateCheck(client)
-		);
-
-		// GXP Logger
-		schedule( '1 22 * * *', // 10:01 PST every day
-			async () => logGXP(client)
-		);
-	}
-};
-

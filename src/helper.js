@@ -1,15 +1,32 @@
+import axios from 'axios';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ModalBuilder, PermissionFlagsBits, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import fs from 'fs';
 import hypixel from './api/hypixel.js';
 import { client } from './discord/Discord.js';
 import display from './display.js';
 
+export {
+	readConfig,
+	writeConfig,
+	createMsg,
+	createRow,
+	createForm,
+	createSlash,
+	getEmoji,
+	getPerms,
+	getGuild,
+	getIGN,
+	getPlayer,
+	getDiscord,
+	updateRoles
+};
+
 function readConfig() {
 	return JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 }
 
 function writeConfig(config) {
-	fs.writeFileSync('./config.json', JSON.stringify(config, null, 2), 'utf8');
+	fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'), 'utf8');
 }
 
 function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon }) {
@@ -176,10 +193,8 @@ function createSlash({ name, desc, options = [], permissions = [], execute }) {
 	}
 
 	return {
-		type: 'slash',
 		data: command,
-		execute,
-		permissions
+		execute
 	};
 }
 
@@ -187,13 +202,17 @@ async function getEmoji(name) {
 	const app = await client.application.emojis.fetch();
 	const emoji = app.find(e => e.name === name);
 	if (!emoji) display.r(`Invalid emoji: ${name}`);
+
  	return emoji;
 }
 
 const permissions = new Set([
 	'Owner',
 	'Admin',
-	'DeleteMessages'
+	'setLinkChannel',
+	'DeleteMessages',
+	'RestartBot',
+	'LinkOverride'
 ]);
 
 function getPerms(member) {
@@ -219,6 +238,17 @@ function getPerms(member) {
 	return [...perms];
 }
 
+async function getIGN(uuid) {
+	try {
+		const { data } = await axios.get(`https://mowojang.matdoes.dev/${uuid}`);
+		return data.name;
+	}
+	catch (e) {
+		console.error(e);
+		if (e.response?.data === 'Not found') return 'Invalid UUID.';
+	}
+}
+
 async function getPlayer(user) {
 	const player = await hypixel.getPlayer(user);
 	return player;
@@ -239,7 +269,6 @@ async function getGuild(type, value) {
 	else if (type === 'guild') {
 		guild = await hypixel.getGuild('name', value);
 	}
-
 	return guild;
 }
 
@@ -271,22 +300,5 @@ async function updateRoles(member, player) {
 			}
 		}
 	}
-
 	return { addedRoles, removedRoles };
 }
-
-export {
-	createForm,
-	createMsg,
-	createRow,
-	createSlash,
-	getDiscord,
-	getEmoji,
-	getGuild,
-	getPerms,
-	getPlayer,
-	readConfig,
-	updateRoles,
-	writeConfig
-};
-

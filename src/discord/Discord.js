@@ -4,6 +4,8 @@ import auth from '../../auth.json' with { type: 'json' };
 import display from '../display.js';
 import { createSlash, readConfig } from '../helper.js';
 
+export { client, discord };
+
 let client;
 
 async function discord() { // Credits: Kathund
@@ -53,12 +55,11 @@ async function discord() { // Credits: Kathund
 	// Buttons
 	const buttonDir = fs.readdirSync('./src/discord/buttons').filter(file => file.endsWith('.js'));
 	for (const buttonFile of buttonDir) {
-		const button = (await import(`./buttons/${buttonFile}`)).default;
-		if (!button) {
-			display.r(`Invalid button: ${buttonFile}`);
-			continue;
+		const buttonModule = await import(`./buttons/${buttonFile}`);
+		const buttons = Object.values(buttonModule);
+		for (const button of buttons) {
+			client.buttons.set(button.id, button);
 		}
-		client.buttons.set(button.id, button);
 	}
 
 	// Events
@@ -71,6 +72,3 @@ async function discord() { // Credits: Kathund
 	// Login
 	await client.login(auth.token);
 }
-
-export { client, discord };
-

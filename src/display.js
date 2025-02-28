@@ -1,3 +1,5 @@
+export default display;
+
 function display(str) {
 	if (typeof str !== 'string') {
 		display.r('Display > Invalid string.');
@@ -107,7 +109,5 @@ display.m = function (str) {
 display.y = function (str) {
 	display(`^+FFFF00${str}`);
 };
-
-export default display;
 
 // '\\^' acts as an escape char
