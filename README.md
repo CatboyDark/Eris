@@ -79,7 +79,7 @@ Built using:
 
 > [!NOTE]
 > This project values minimalism.  
-> Contributors will not recieve any credits on the frontend, except for the credits section within the `/help` command.
+> Contributors will not recieve any credits on the frontend, except for the credits section within `/help`.
 
 Created by CatboyDark  
 2024' 07' 11
