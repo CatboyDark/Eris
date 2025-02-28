@@ -1,5 +1,11 @@
 import mongoose, { Schema } from 'mongoose';
 
+export {
+	getMongo,
+	gxpSchema,
+	membersSchema
+};
+
 function getMongo(db, collection, schema) {
 	return mongoose.connection.useDb(db).model(collection, schema, collection);
 }
@@ -25,9 +31,3 @@ const gxpSchema = new Schema(
 		]
 	}
 );
-
-export {
-	getMongo,
-	membersSchema,
-	gxpSchema
-};
