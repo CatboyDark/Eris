@@ -14,8 +14,8 @@ export default {
 			embeds: [createMsg({
 				desc:
 					`### ${check} Link your Account!\n` +
-					'Enter your \`.ign\` to link your account.\n' +
-					'Ex. \`.Technoblade\`\n\n' +
+					'Run `/link` to link your account.\n' +
+					'Ex. \`/link Technoblade\`\n\n' +
 					'-# Please contact a staff member if the bot is down or if you require further assistance.'
 				})
 			],
