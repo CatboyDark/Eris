@@ -47,7 +47,7 @@ Built using:
 	Send a message when a member joins the server:
 	- `welcome > messageToggle: true`  
 	- `welcome > channel` Enter a channel ID to send the message.  
-	- `welcome > message` Customize the message. Leave empty for default.  
+	- `welcome > message` Customize the message. Leave empty for default. Type @member to ping the member.
   
 	Assign new members a role:
 	- `welcome > roleToggle: true`  
@@ -61,6 +61,9 @@ Built using:
 	- `link > role` Enter a role ID.
   
 	Roles with `DeleteMessages` permission can enter `clear` to clear messages in the linking channel.
+
+	**These features will not work if members aren't linked:**
+	- asdf
   
   
 - **Guild Roles**
@@ -74,6 +77,16 @@ Built using:
 	- `guild > rankRoles: true`
 	- `guild > rankRoles > rank:` Enter a guild rank name.
 	- `guild > rankRoles > role` Enter a role ID.
+
+ - **Permissions**
+
+   	Custom Bot Permissions:
+   	- `Owner`:
+   	- `Admin`: has all perms except Owner
+   	- `setLinkChannel`
+   	- `DeleteMessages`
+   	- `RestartBot`
+   	- `LinkOverride`
 
 ---
 
