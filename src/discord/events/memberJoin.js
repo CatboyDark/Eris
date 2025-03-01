@@ -7,23 +7,23 @@ export default {
 	async execute(member) {
 		const config = readConfig();
 
-		if (config.welcome.messageToggle) {
+		if (config.welcome.message.enabled) {
 			await welcomeMessage(member, config);
 		}
 
-		if (config.welcome.roleToggle) {
+		if (config.welcome.role.enabled) {
 			await welcomeRole(member, config);
 		}
 	}
 };
 
 async function welcomeMessage(member, config) {
-	const welcomeChannel = member.guild.channels.cache.get(config.welcome.channel);
+	const welcomeChannel = member.guild.channels.cache.get(config.welcome.message.channel);
 
 	if (welcomeChannel.guild.id !== member.guild.id) return;
 
-	let welcomeMsg = config.welcome.message ||
-		`### Welcome to the ${config.guild.name ?? client.channels.cache.get(config.logsChannel)?.guild.name} server!\n### @member`;
+	let welcomeMsg = config.welcome.message.message ||
+		`### Welcome to the ${config.guild.name ?? client.channels.cache.get(config.logs.channel)?.guild.name} server!\n### @member`;
 
 	welcomeMsg = welcomeMsg.replace(/@member/g, member.toString());
 
@@ -37,7 +37,7 @@ async function welcomeMessage(member, config) {
 
 async function welcomeRole(member, config) {
 	try {
-		await member.roles.add(config.welcome.role);
+		await member.roles.add(config.welcome.role.role);
 	}
 	catch (e) {
 		if (e.message.includes('Missing Permissions')) {

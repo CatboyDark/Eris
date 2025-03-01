@@ -279,26 +279,73 @@ async function updateRoles(member, player) {
 	const addedRoles = [];
 	const removedRoles = [];
 
-	if (config.link.roleToggle) {
-		if (!member.roles.cache.has(config.link.role)) {
-			await member.roles.add(config.link.role);
-			addedRoles.push(config.link.role);
+	if (config.link.role.enabled) {
+		if (!member.roles.cache.has(config.link.role.role)) {
+			await member.roles.add(config.link.role.role);
+			addedRoles.push(config.link.role.role);
 		}
 	}
 
-	if (config.guild.roleToggle) {
+	if (config.guild.role.enabled) {
 		if (guild && guild.name === config.guild.name) {
-			if (!member.roles.cache.has(config.guild.role)) {
-				await member.roles.add(config.guild.role);
-				addedRoles.push(config.guild.role);
+			if (!member.roles.cache.has(config.guild.role.role)) {
+				await member.roles.add(config.guild.role.role);
+				addedRoles.push(config.guild.role.role);
 			}
 		}
 		else {
-			if (member.roles.cache.has(config.guild.role)) {
-				await member.roles.remove(config.guild.role);
-				removedRoles.push(config.guild.role);
+			if (member.roles.cache.has(config.guild.role.role)) {
+				await member.roles.remove(config.guild.role.role);
+				removedRoles.push(config.guild.role.role);
 			}
 		}
 	}
+
+	// guildRankRoles
+
+	if (config.levelRoles.enabled) {
+		const level = await getSBLevel.highest(player);
+		const key = Math.floor(level / 40) * 40;
+		const assignedRole = config.levelRoles.roles[key];
+
+		if (!assignedRole) return;
+
+		if (!member.roles.cache.has(assignedRole)) {
+			await member.roles.add(assignedRole);
+			addedRoles.push(assignedRole);
+		}
+
+		for (const role of Object.values(config.levelRoles.roles)) {
+			if (role !== assignedRole && member.roles.cache.has(role)) {
+				await member.roles.remove(role);
+				removedRoles.push(role);
+			}
+		}
+	}
+
 	return { addedRoles, removedRoles };
 }
+
+const getSBLevel = {
+	highest: async function (player) {
+		let level = 0;
+
+		const profiles = await hypixel.getSkyblockMember(player.uuid).catch(() => null);
+		if (!profiles) return 0;
+		// eslint-disable-next-line no-unused-vars
+		for (const [profileName, profileData] of profiles.entries()) {
+			if (level < profileData.level) {
+				level = profileData.level;
+			}
+		}
+		return level;
+	},
+
+	current: async function (player) {
+		const profiles = await hypixel.getSkyblockMember(player.uuid).catch(() => null);
+		if (!profiles) return 0;
+
+		const profile = [...profiles.values()].find((profile) => profile.selected);
+		return profile?.level || 0;
+	}
+};

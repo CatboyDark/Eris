@@ -39,7 +39,27 @@ export default
 				{ upsert: true, new: true }
 			);
 
-			const { addedRoles, removedRoles } = await updateRoles(member, player);
+			try {
+				await member.setNickname(player.nickname);
+			}
+			catch (e) {
+				if (e.message.includes('Missing Permissions')) {
+					interaction.editReply({ embeds: [createMsg({ color: 'FFD800', desc: '**I don\'t have permission to change your nickname!**' })] });
+					nickError = true;
+				}
+				console.log(e);
+			}
+
+			let addedRoles = [], removedRoles = [];
+
+			try {
+				const roles = await updateRoles(member, player);
+				addedRoles = roles.addedRoles;
+				removedRoles = roles.removedRoles;
+			}
+			catch (e) {
+				console.log(e);
+			}
 
 			let roleDesc = '';
 			if (addedRoles.length > 0 && removedRoles.length > 0) {
