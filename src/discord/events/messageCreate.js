@@ -5,7 +5,7 @@ export default {
 
 	async execute(message) {
 		if (message.author.bot) return;
-
+		
 		await plainCommands(message);
 	}
 };

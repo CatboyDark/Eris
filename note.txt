@@ -1,14 +1,2 @@
-1. pnpm i
-2. auth.json
-3. config.json
-	guild.name: hypixel guild
-	color: main embed color ("FF6EC7")
-	logsChannel: main bot logs channel
-	permissions:
-		Owner:
-		Admin:
-
-welcome message uses syntax "@member" to ping member
-update linkinfomsg
 **dont put staff ranks in guild rank roles**
 list of things that will break if user is not linked: (anything that uses the db)

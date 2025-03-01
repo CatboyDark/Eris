@@ -31,10 +31,10 @@ export default {
 
 async function error(interaction, e) {
 	const config = readConfig();
-	const channel = await interaction.client.channels.fetch(config.logsChannel);
+	const logs = client.channels.cache.get(config.logs.bot);
 	const app = await interaction.client.application.fetch();
 
-	await channel.send({
+	await logs.send({
 		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
 		embeds: [createMsg({
 			color: 'Red',
