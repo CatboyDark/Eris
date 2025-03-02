@@ -26,14 +26,14 @@ Built using:
   https://www.mongodb.com/docs/manual/administration/install-community/
 ```
 
-3. **Edit auth.json**  
+3. **Edit auth.json**
 `token` Discord bot token
 `hypixelAPI` Hypixel API token
 
-4. **Edit config.json**  
-`color` Main bot color  
-`logsChannel` Bot logs channel  
+4. **Edit config.json**
+`color` Main bot color
 `prefix` Discord and Ingame command prefix
+`logsChannel` Bot logs channel
 
 5. **Run the bot**
 ```bash
@@ -45,45 +45,45 @@ Built using:
 - **Discord Welcome Message and Role**
 
 	Send a message when a member joins the server:
-	- `welcome > messageToggle: true`  
-	- `welcome > channel` Enter a channel ID to send the message.  
-	- `welcome > message` Customize the message. Leave empty for default. Type @member to ping the member.
-  
+	- `welcome > message > enabled: true`
+	- `welcome > message > channel` Enter a channel ID to send the message.
+	- `welcome > message > message` Customize the message. Leave empty for default. Type @member to ping the member.
+
 	Assign new members a role:
-	- `welcome > roleToggle: true`  
-	- `welcome > role` Enter a role ID.
-  
+	- `welcome > role > enabled: true`
+	- `welcome > role > role` Enter a role ID.
+
 - **Account Linking**
 
 	Link your Discord account to Hypixel to auto-assign custom roles.
 	Type `.setlink` in a channel to set it as the linking channel. Also send the linking message. Optional but recommended.
-	- `link > roleToggle` Assign a role when a user links their account.
-	- `link > role` Enter a role ID.
-  
+	- `link > role > enabled: true` Assign a role when a user links their account.
+	- `link > role > role` Enter a role ID.
+
 	Roles with `DeleteMessages` permission can enter `clear` to clear messages in the linking channel.
 
 	**These features will not work if members aren't linked:**
 	- asdf
-  
-  
+
 - **Guild Roles**
 
 	Assign guild members a role when they link their account.
 	- `guild > name` Enter a guild name.
-	- `guild > roleToggle: true`
- 	- `guild > role` Enter a role ID.
+	- `guild > role > enabled: true`
+ 	- `guild > role > role` Enter a role ID.
 
 	Assign guild members a role based on their guild rank when they link their account.
-	- `guild > rankRoles: true`
-	- `guild > rankRoles > rank:` Enter a guild rank name.
-	- `guild > rankRoles > role` Enter a role ID.
+	- `guild > rankRoles > enabled: true`
+	- `guild > rankRoles > roles > rank:` Enter a guild rank name.
+	- `guild > rankRoles > roles > role` Enter a role ID.
 
  - **Permissions**
 
    	Custom Bot Permissions:
    	- `Owner`:
    	- `Admin`: has all perms except Owner
-   	- `setLinkChannel`
+   	- `SetLinkChannel`
+	- `SetMapChannel`
    	- `DeleteMessages`
    	- `RestartBot`
    	- `LinkOverride`
@@ -91,8 +91,8 @@ Built using:
 ---
 
 > [!NOTE]
-> This project values minimalism.  
+> This project values minimalism.
 > Contributors will not recieve any credits on the frontend, except for the credits section within `/help`.
 
-Created by CatboyDark  
+Created by CatboyDark
 2024' 07' 11
