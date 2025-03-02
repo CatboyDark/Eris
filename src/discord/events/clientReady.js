@@ -35,7 +35,7 @@ export default
 			async () => {
 				const config = readConfig();
 				await logGXP(client, config);
-				// await syncRoles(client, config);
+				await syncRoles(client, config);
 			}
 		);
 	}
@@ -101,7 +101,7 @@ async function updateCheck(client) {
 	display.y('Update Available! Run "git pull" to update!');
 	logs.send({
 		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
-		embeds: [createMsg({ title: 'Update available!', desc: `\`${commitMessage}\`` })],
+		embeds: [createMsg({ desc: `**Update Available!**\n\n\`${commitMessage}\`` })],
 		components: [createRow([{ id: 'restart', label: 'Update', color: 'Green' }])]
 	});
 }
@@ -149,43 +149,56 @@ async function logGXP(client, config) {
 	}
 
 	const logs = client.channels.cache.get(config.logs.bot);
-	await logs.send({ embeds: [createMsg({ title: config.guild.name ?? logs.guild.name, desc: '**GXP has been logged!**' })] });
+	await logs.send({ embeds: [createMsg({ desc: `### ${config.guild.name ?? logs.guild.name}\n**GXP has been logged!**` })] });
 }
 
-// async function syncRoles(client, config) {
-// 	const guild = await getGuild('guild', config.guild.name);
-// 	const guildMembers = guild.members;
+async function syncRoles(client, config) {
+	const plus = await getEmoji('plus');
+	const minus = await getEmoji('minus');
 
-// 	const discord = client.channels.cache.get(config.logs.channel).guild;
-// 	const guildRole = discord.roles.cache.get(config.guild.role.role);
+	const guild = await getGuild('guild', config.guild.name);
+	const guildMembers = guild.members;
+	const discord = client.channels.cache.get(config.logs.channel).guild;
+	const guildRole = discord.roles.cache.get(config.guild.role.role);
+	const members = getMongo('Eris', 'members', membersSchema);
 
-// 	const members = getMongo('Eris', 'members', membersSchema);
-// 	const data = await members.find({});
+	const guildMemberUUIDs = new Set(guildMembers.map(member => member.uuid));
 
-// 	for (const [id, member] of guildRole.members) {
-// 		const entry = data.find(data => data.dcid === id);
-// 		if (entry) {
-// 			const inGuild = guildMembers.some(gameMember => gameMember.uuid === entry.uuid);
-// 			if (!inGuild) {
-// 				await member.roles.remove(guildRole);
-// 			}
-// 		}
-// 		else {
-// 			await member.roles.remove(guildRole);
-// 		}
-// 	}
+	const addedRoles = [];
+	const removedRoles = [];
 
-// 	for (const member of guildMembers) {
-// 		const entry = data.find(data => data.uuid === member.uuid);
-// 		if (entry) {
-// 			const member = discord.members.cache.get(entry.dcid);
-// 			if (member && !member.roles.cache.has(guildRole.id)) {
-// 				await member.roles.add(guildRole);
-// 			}
-// 		}
-// 	}
+	for (const [discordId, discordMember] of guildRole.members) {
+		const linked = await members.findOne({ dcid: discordId });
+		if (!linked || !guildMemberUUIDs.has(linked.uuid)) {
+			discordMember.roles.remove(guildRole);
+			removedRoles.push(discordMember.user.id);
+		}
+	}
 
-// 	const logs = client.channels.cache.get(config.logs.bot);
-// 	logs.send({ embeds: [createMsg({ title: config.guild.name ?? logs.guild.name, desc: '**Guild members have been synced!**' })]
-// 	});
-// }
+	for (const guildMember of guildMembers) {
+		const linked = await members.findOne({ uuid: guildMember.uuid });
+		if (linked) {
+			const discordMember = discord.members.cache.get(linked.dcid);
+			if (discordMember && !discordMember.roles.cache.has(guildRole.id)) {
+				discordMember.roles.add(guildRole);
+				addedRoles.push(discordMember.user.id);
+			}
+		}
+	}
+
+	let desc = '**Guild members have been synced!**';
+	if (addedRoles.length > 0 && removedRoles.length > 0) {
+		desc += `\n_ _\n${addedRoles.map((user) => `${plus} <@${user}>`).join('\n')}`;
+		desc += `\n_ _\n${removedRoles.map((user) => `${minus} <@${user}>`).join('\n')}`;
+	}
+	else if (addedRoles.length > 0) {
+		desc += `\n_ _\n${addedRoles.map((user) => `${plus} <@${user}>`).join('\n')}\n_ _`;
+	}
+	else if (removedRoles.length > 0) {
+		desc += `\n_ _\n${removedRoles.map((user) => `${minus} <@${user}>`).join('\n')}\n_ _`;
+	}
+
+	const logs = client.channels.cache.get(config.logs.bot);
+	logs.send({ embeds: [createMsg({ desc: desc })]
+	});
+}
