@@ -8,7 +8,9 @@ const restartButton = {
 
 	async execute(interaction) {
 		await interaction.deferReply();
+		console.log('e');
 		await restart();
+		console.log('f');
 		await interaction.followUp({ embeds: [createMsg({ desc: `**Successfully updated ${interaction.client.user.username}!**` })] });
 	}
 };
