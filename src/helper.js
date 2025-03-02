@@ -209,7 +209,8 @@ async function getEmoji(name) {
 const permissions = new Set([
 	'Owner',
 	'Admin',
-	'setLinkChannel',
+	'SetLinkChannel',
+	'SetMapChannel',
 	'DeleteMessages',
 	'RestartBot',
 	'LinkOverride'

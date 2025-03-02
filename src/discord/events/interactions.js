@@ -31,7 +31,7 @@ export default {
 
 async function error(interaction, e) {
 	const config = readConfig();
-	const logs = client.channels.cache.get(config.logs.bot);
+	const logs = interaction.client.channels.cache.get(config.logs.bot);
 	const app = await interaction.client.application.fetch();
 
 	await logs.send({
