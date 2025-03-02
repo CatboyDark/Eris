@@ -6,7 +6,7 @@ export default {
 
 	async execute(message) {
 		const perms = getPerms(message.member);
-		if (!perms.includes('SetMapChannel')) return console.log('e');
+		if (!perms.includes('SetMapChannel')) return;
 
 		const general_1 = createRow([
 			{ id: 'SkyblockZ', label: 'SkyblockZ', color: 'Green' },
