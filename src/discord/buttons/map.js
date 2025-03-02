@@ -1,56 +1,54 @@
 import { MessageFlags } from 'discord.js';
 import { createMsg } from '../../helper.js';
 
-const map = {
+const buttonData = [
 	// General
-	'SkyblockZ': { url: 'https://discord.gg/skyblock'},
-	'SkyblockManiacs': { url: 'https://discord.gg/aRmgGbU3SA' },
-	'Cowshed': { url: 'https://discord.gg/QCXArXgj7d' },
-	'ExoticCafe': { url: 'https://discord.gg/RTm9gkxhHX' },
-	'IronmanSweats': { url: 'https://discord.gg/UYcuH64JGP' },
-	'BingoBrewers': { url: 'https://discord.gg/5VNFYPqQdV' },
-	'KuudraGang': { url: 'https://discord.gg/98JM7gFU9Q' },
-	'OfficialHunters': { url: 'https://discord.gg/pumpzffDva' },
-	'Furfsky': { url: 'https://discord.gg/RyBeaqajT3' },
+	{ id: 'SkyblockZ', url: 'https://discord.gg/skyblock' },
+	{ id: 'SkyblockManiacs', url: 'https://discord.gg/aRmgGbU3SA' },
+	{ id: 'Cowshed', url: 'https://discord.gg/QCXArXgj7d' },
+	{ id: 'ExoticCafe', url: 'https://discord.gg/RTm9gkxhHX' },
+	{ id: 'IronmanSweats', url: 'https://discord.gg/UYcuH64JGP' },
+	{ id: 'BingoBrewers', url: 'https://discord.gg/5VNFYPqQdV' },
+	{ id: 'KuudraGang', url: 'https://discord.gg/98JM7gFU9Q' },
+	{ id: 'OfficialHunters', url: 'https://discord.gg/pumpzffDva' },
+	{ id: 'Furfsky', url: 'https://discord.gg/RyBeaqajT3' },
 
 	// Skills
-	'MiningCult': { url: 'https://discord.gg/EnEYQw9Gat' },
-	'HotShirtlessMen': { url: 'https://github.com/Rekteiru/Hot-Shirtless-Men' },
-	'FarmingCouncil': { url: 'https://discord.gg/farmers' },
-	'EliteFarmers': { url: 'https://discord.gg/qyex8a7h3Z' },
+	{ id: 'MiningCult', url: 'https://discord.gg/EnEYQw9Gat' },
+	{ id: 'HotShirtlessMen', url: 'https://github.com/Rekteiru/Hot-Shirtless-Men' },
+	{ id: 'FarmingCouncil', url: 'https://discord.gg/farmers' },
+	{ id: 'EliteFarmers', url: 'https://discord.gg/qyex8a7h3Z' },
 
 	// Mods
-	'Optifine': { url: 'https://optifine.net/downloads' },
-	'Patcher': { url: 'https://discord.gg/sk1er' },
-	'SkyClient': { url: 'https://discord.gg/3qw4vzNJNs' },
-	'SkyblockAddons': { url: 'https://discord.gg/zWyr3f5GXz' },
-	'Skytils': { url: 'https://discord.gg/k6C5Jv4ncs' },
-	'NotEnoughUpdates': { url: 'https://discord.gg/moulberry' },
-	'ChatTriggers': { url: 'https://discord.gg/aEehjNVcMN', note: '### Useful Modules: `/ct import`\n- **bettermap**\n - **lividsolver**\n - **dragprio**' },
-	'SoopyV2': { url: 'https://discord.gg/q9Wv6q35th' },
-	'DungeonRoomsMod': { url: 'https://discord.gg/qHx6FPmRY3' },
-	'Dulkir': { url: 'https://discord.gg/CnsM8QXFdJ' },
-	'Skyhanni': { url: 'https://discord.gg/WaYmeTeypy' },
-	'PartlySaneSkies': { url: 'https://discord.gg/V2qeeusd46' },
-	'Odin': { url: 'https://discord.gg/odin-1041616706327552000', note: '### NOTE:\n**There is both a safe and a CHEATER version of this mod.**\n\n-# Use at your own risk!' },
-	'Apec': {url: 'https://discord.gg/92qZHU3K5f' }
-};
+	{ id: 'Optifine', url: 'https://optifine.net/downloads' },
+	{ id: 'Patcher', url: 'https://discord.gg/sk1er' },
+	{ id: 'SkyClient', url: 'https://discord.gg/3qw4vzNJNs' },
+	{ id: 'SkyblockAddons', url: 'https://discord.gg/zWyr3f5GXz' },
+	{ id: 'Skytils', url: 'https://discord.gg/k6C5Jv4ncs' },
+	{ id: 'NotEnoughUpdates', url: 'https://discord.gg/moulberry' },
+	{ id: 'ChatTriggers', url: 'https://discord.gg/aEehjNVcMN', note: '### Useful Modules: `/ct import`\n- **bettermap**\n - **lividsolver**\n - **dragprio**' },
+	{ id: 'SoopyV2', url: 'https://discord.gg/q9Wv6q35th' },
+	{ id: 'DungeonRoomsMod', url: 'https://discord.gg/qHx6FPmRY3' },
+	{ id: 'Dulkir', url: 'https://discord.gg/CnsM8QXFdJ' },
+	{ id: 'Skyhanni', url: 'https://discord.gg/WaYmeTeypy' },
+	{ id: 'PartlySaneSkies', url: 'https://discord.gg/V2qeeusd46' },
+	{ id: 'Odin', url: 'https://discord.gg/odin-1041616706327552000', note: '### NOTE:\n**There is both a safe and a CHEATER version of this mod.**\n\n-# Use at your own risk!' },
+	{ id: 'Apec', url: 'https://discord.gg/92qZHU3K5f' }
+];
 
-const buttons = Object.entries(map).map(([name, { url, note }]) => ({
-	id: name,
-
-	async execute(interaction) {
-		const message = {
-			content: url,
-			flags: MessageFlags.Ephemeral
-		};
-
-		if (note) {
-			message.embeds = [createMsg({ desc: note })];
+const buttons = buttonData.reduce((acc, { id, url, note }) => {
+	acc[id] = {
+		id,
+		async execute(interaction) {
+			const message = {
+				content: url,
+				flags: MessageFlags.Ephemeral
+			};
+			if (note) message.embeds = [createMsg({ desc: note })];
+			await interaction.reply(message);
 		}
+	};
+	return acc;
+}, {});
 
-		await interaction.reply(message);
-	}
-}));
-
-export default buttons;
+export { buttons };

@@ -56,14 +56,11 @@ async function discord() { // Credits: Kathund
 	const buttonDir = fs.readdirSync('./src/discord/buttons').filter(file => file.endsWith('.js'));
 	for (const buttonFile of buttonDir) {
 		const buttonModule = await import(`./buttons/${buttonFile}`);
-		const buttons = buttonModule.default;
-		if (Array.isArray(buttons)) {
-			for (const button of buttons) {
-				client.buttons.set(button.id, button);
-			}
+		const buttons = Object.values(buttonModule);
+		for (const button of buttons) {
+			client.buttons.set(button.id, button);
 		}
 	}
-
 
 	// Events
 	const eventDir = fs.readdirSync('./src/discord/events').filter(file => file.endsWith('.js'));

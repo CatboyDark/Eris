@@ -7,7 +7,7 @@ export default {
 	async execute(message) {
 		const config = readConfig();
 		const perms = getPerms(message.member);
-		if (!perms.includes('setLinkChannel')) return;
+		if (!perms.includes('SetLinkChannel')) return;
 
 		const check = await getEmoji('check');
 		const infoMessage = await message.channel.send({
