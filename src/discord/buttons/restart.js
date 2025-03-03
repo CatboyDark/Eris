@@ -1,8 +1,6 @@
 import { createMsg, getPerms } from '../../helper.js';
 import { restart } from '../commands/slash/restart.js';
 
-export { restartButton };
-
 const restartButton = {
 	id: 'restart',
 
@@ -15,3 +13,5 @@ const restartButton = {
 		await interaction.followUp({ embeds: [createMsg({ desc: `**Successfully updated ${interaction.client.user.username}!**` })] });
 	}
 };
+
+export default [ restartButton ];

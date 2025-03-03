@@ -55,10 +55,10 @@ async function discord() { // Credits: Kathund
 	// Buttons
 	const buttonDir = fs.readdirSync('./src/discord/buttons').filter(file => file.endsWith('.js'));
 	for (const buttonFile of buttonDir) {
-		const buttonModule = await import(`./buttons/${buttonFile}`);
-		const buttons = Object.values(buttonModule);
-		for (const button of buttons) {
-			client.buttons.set(button.id, button);
+		const button = await import(`./buttons/${buttonFile}`);
+		const buttons = button.default || [];
+		for (const b of buttons) {
+			client.buttons.set(b.id, b);
 		}
 	}
 
