@@ -36,19 +36,8 @@ const buttonData = [
 	{ id: 'Apec', url: 'https://discord.gg/92qZHU3K5f' }
 ];
 
-const buttons = buttonData.reduce((acc, { id, url, note }) => {
-	acc[id] = {
-		id,
-		async execute(interaction) {
-			const message = {
-				content: url,
-				flags: MessageFlags.Ephemeral
-			};
-			if (note) message.embeds = [createMsg({ desc: note })];
-			await interaction.reply(message);
-		}
-	};
-	return acc;
-}, {});
+const buttons = {
+
+};
 
 export { buttons };
