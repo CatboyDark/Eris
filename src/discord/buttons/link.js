@@ -1,8 +1,6 @@
 import { MessageFlags } from 'discord.js';
 import { createMsg } from '../../helper.js';
 
-export { linkHelp };
-
 const linkHelp = {
 	id: 'linkHelp',
 
@@ -22,3 +20,5 @@ const linkHelp = {
 		});
 	}
 };
+
+export default [ linkHelp ];

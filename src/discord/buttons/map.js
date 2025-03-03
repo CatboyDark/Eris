@@ -1,7 +1,7 @@
 import { MessageFlags } from 'discord.js';
 import { createMsg } from '../../helper.js';
 
-const buttonData = [
+const links = [
 	// General
 	{ id: 'SkyblockZ', url: 'https://discord.gg/skyblock' },
 	{ id: 'SkyblockManiacs', url: 'https://discord.gg/aRmgGbU3SA' },
@@ -36,8 +36,20 @@ const buttonData = [
 	{ id: 'Apec', url: 'https://discord.gg/92qZHU3K5f' }
 ];
 
-const buttons = {
+const buttons = links.map(data => ({
+    id: data.id,
+    execute: async (interaction) => {
+		const response = {
+			content: data.url,
+			flags: MessageFlags.Ephemeral
+		};
 
-};
+        if (data.note) {
+            response.embeds = [createMsg({ desc: data.note })];
+        }
 
-export { buttons };
+        interaction.reply(response);
+    }
+}));
+
+export default buttons;
