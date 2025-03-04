@@ -44,8 +44,13 @@ Assign new members a role:
 `welcome > role > role` Enter a role ID.  
 <br>
 
+### Discord Servers List
+Advertise useful Skyblock discords with their official server links.  
+Type `.setmap` in a channel to set it as the server list channel (Requires permission: `SetMapChannel`).  
+<br>
+
 ### Account Linking
-Link your Discord account to Hypixel to auto-assign custom roles.  
+Link your Discord account to Hypixel to auto-assign roles.  
 Type `.setlink` in a channel to set it as the linking channel (Requires permission: `SetLinkChannel`). Optional but recommended.  
 `link > role > enabled: true` Assign a role when a user links their account.  
 `link > role > role` Enter a role ID.
@@ -53,18 +58,13 @@ Type `.setlink` in a channel to set it as the linking channel (Requires permissi
 Roles with `DeleteMessages` permission can enter `clear` to clear messages in the linking channel.  
 <br>
 
-### Discord Servers List
-Advertise useful Skyblock discords with their official server links.  
-Type `.setmap` in a channel to set it as the server list channel (Requires permission: `SetMapChannel`).  
-<br>
-
 ### Guild Roles
-Assign guild members a role when they link their account.  
+Assign guild members a role.  
 `guild > name` Enter a guild name.  
 `guild > role > enabled: true`  
 `guild > role > role` Enter a role ID.  
 
-Assign guild members a role based on their guild rank when they link their account.  
+Assign guild members a role based on their guild rank.  
 `guild > rankRoles > enabled: true`  
 `guild > rankRoles > roles > rank:` Enter a guild rank name.  
 `guild > rankRoles > roles > role` Enter a role ID.  
