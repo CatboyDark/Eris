@@ -1,7 +1,7 @@
-import { createMsg, createRow, getPerms, readConfig, writeConfig } from '../../../helper.js';
+import { createMsg, createRow, getPerms } from '../../../helper.js';
 
 export default {
-	name: 'mapset',
+	name: 'setmap',
 	prefix: true,
 
 	async execute(message) {
@@ -47,18 +47,18 @@ export default {
 			{ id: 'Apec', label: 'Apec', color: 'Green' }
 		]);
 
-		const map_1 = await message.channel.send({ embeds: [createMsg({ desc: '**General**' })],
+		message.channel.send({ embeds: [createMsg({ desc: '**General**' })],
 			components: [
 				general_1,
 				general_2
 			]
 		});
-		const map_2 = await message.channel.send({ embeds: [createMsg({ desc: '**Skills**' })],
+		message.channel.send({ embeds: [createMsg({ desc: '**Skills**' })],
 			components: [
 				skills_1
 			]
 		});
-		const map_3 = await message.channel.send({ embeds: [createMsg({ desc: '**Mods**' })],
+		message.channel.send({ embeds: [createMsg({ desc: '**Mods**' })],
 			components: [
 				mods_1,
 				mods_2,
@@ -67,10 +67,5 @@ export default {
 		});
 
 		message.delete();
-
-		const config = readConfig();
-		config.map.channel = message.channel.id;
-		config.map.messages.push(map_1.id, map_2.id, map_3.id);
-		writeConfig(config);
 	}
 };

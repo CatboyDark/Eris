@@ -9,23 +9,30 @@ export default {
 		const perms = getPerms(message.member);
 		if (!perms.includes('DeleteMessages')) return;
 
+		try {
+			await message.guild.channels.cache.get(config.link.channel).messages.fetch(config.link.infoMessage);
+		}
+		catch (e) {
+			if (e.message.includes('Unknown Message')) return;
+		}
+
 		message.delete();
 
 		const messages = await message.channel.messages.fetch({ limit: 100 });
 		const deleteMessages = [];
-		let infoMessage = false;
+		let atInfoMessage = false;
 
 		const ageLimit = Date.now() - 14 * 24 * 60 * 60 * 1000;
 
 		for (const msg of messages.values()) {
 			if (msg.id === config.link.infoMessage) {
-				infoMessage = true;
+				atInfoMessage = true;
 				break;
 			}
 			else if (msg.createdTimestamp > ageLimit) {
 				deleteMessages.push(msg);
 			}
-			if (deleteMessages.length >= 100 || infoMessage) {
+			if (deleteMessages.length >= 100 || atInfoMessage) {
 				break;
 			}
 		}

@@ -21,7 +21,8 @@
 		},
 		"role": {
 			"enabled": false,
-			"role": ""
+			"role": "",
+			"removeOnLink": false
 		}
 	},
 	"link": {
