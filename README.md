@@ -70,6 +70,11 @@ Assign guild members a role based on their guild rank when they link their accou
 `guild > rankRoles > roles > role` Enter a role ID.  
 <br>
 
+### Level Roles
+Assign members a role based on their Skyblock level.  
+`levelRoles > enabled: true`  
+`levelRoles > roles` Enter the corresponding role IDs. Leave empty for no role.
+
 ### Permissions 
 Custom bot permissions:  
 - `Owner`: Inherit all perms   
