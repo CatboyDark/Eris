@@ -1,0 +1,69 @@
+{
+	"color": "FF6EC7",
+	"prefix": ".",
+	"logs": {
+		"channel": "",
+		"bot": "",
+		"discord": "",
+		"console": ""
+	},
+	"permissions": [
+		{
+			"role": "",
+			"perms": []
+		}
+	],
+	"welcome": {
+		"message": {
+			"enabled": false,
+			"channel": "",
+			"message": ""
+		},
+		"role": {
+			"enabled": false,
+			"role": ""
+		}
+	},
+	"link": {
+		"channel": "",
+		"infoMessage": "",
+		"role": {
+			"enabled": false,
+			"role": ""
+		}
+	},
+	"guild": {
+		"name": "",
+		"role": {
+			"enabled": false,
+			"role": ""
+		},
+		"rankRoles": {
+			"enabled": false,
+			"roles": [
+				{
+					"rank": "",
+					"role": ""
+				}
+			]
+		}
+	},
+	"levelRoles": {
+		"enabled": false,
+		"roles": {
+			"0": "",
+			"40": "",
+			"80": "",
+			"120": "",
+			"160": "",
+			"200": "",
+			"240": "",
+			"280": "",
+			"320": "",
+			"360": "",
+			"400": "",
+			"440": "",
+			"480": ""
+		}
+	}
+}
