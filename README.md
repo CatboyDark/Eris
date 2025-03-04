@@ -2,38 +2,29 @@
 Eris
 </h1>
 
-A Discord bot for Hypixel Skyblock.
+A Discord/Hypixel bot. For Skyblock guilds.
 
-Built using:
+## Installation
 
-> [discord.js](https://github.com/discordjs/guide)
->
-> [mineflayer](https://github.com/PrismarineJS/mineflayer)
->
-> [hypixel-api-reborn](https://github.com/Hypixel-API-Reborn/hypixel-api-reborn)
+1. **Install MongoDB**
 
-## Setup
-
-1. **Install the necessary dependencies**
-
-```bash
-  npm install
 ```
-
-2. **Install MongoDB**
-
-```bash
   https://www.mongodb.com/docs/manual/administration/install-community/
 ```
 
-3. **Edit auth.json**
-`token` Discord bot token
-`hypixelAPI` Hypixel API token
+2. **Install dependencies**
 
-4. **Edit config.json**
-`color` Main bot color
-`prefix` Discord and Ingame command prefix
-`logsChannel` Bot logs channel
+```
+  npm install
+```
+
+3. **Edit auth.json**  
+`token` Discord bot token   
+`hypixelAPI` Hypixel API key
+
+4. **Edit config.json**  
+`color` Main bot HEX color  
+`logsChannel` Main bot channel ID
 
 5. **Run the bot**
 ```bash
@@ -42,51 +33,52 @@ Built using:
 
 ## Features
 
-- **Discord Welcome Message and Role**
+### Discord Welcome Message and Role
+Send a message when a new member joins the server:  
+`welcome > message > enabled: true`  
+`welcome > message > channel` Enter a channel ID to send the message.  
+`welcome > message > message` Customize the message. Leave empty for default. Type @member to ping the member. 
 
-	Send a message when a member joins the server:
-	- `welcome > message > enabled: true`
-	- `welcome > message > channel` Enter a channel ID to send the message.
-	- `welcome > message > message` Customize the message. Leave empty for default. Type @member to ping the member.
+Assign new members a role:  
+`welcome > role > enabled: true`  
+`welcome > role > role` Enter a role ID.  
+<br>
 
-	Assign new members a role:
-	- `welcome > role > enabled: true`
-	- `welcome > role > role` Enter a role ID.
+### Account Linking
+Link your Discord account to Hypixel to auto-assign custom roles.  
+Type `.setlink` in a channel to set it as the linking channel (Requires permission: `SetLinkChannel`). Optional but recommended.  
+`link > role > enabled: true` Assign a role when a user links their account.  
+`link > role > role` Enter a role ID.
 
-- **Account Linking**
+Roles with `DeleteMessages` permission can enter `clear` to clear messages in the linking channel.  
+<br>
 
-	Link your Discord account to Hypixel to auto-assign custom roles.
-	Type `.setlink` in a channel to set it as the linking channel. Also send the linking message. Optional but recommended.
-	- `link > role > enabled: true` Assign a role when a user links their account.
-	- `link > role > role` Enter a role ID.
+### Discord Servers List
+Advertise useful Skyblock discords with their official server links.  
+Type `.setmap` in a channel to set it as the server list channel (Requires permission: `SetMapChannel`).  
+<br>
 
-	Roles with `DeleteMessages` permission can enter `clear` to clear messages in the linking channel.
+### Guild Roles
+Assign guild members a role when they link their account.  
+`guild > name` Enter a guild name.  
+`guild > role > enabled: true`  
+`guild > role > role` Enter a role ID.  
 
-	**These features will not work if members aren't linked:**
-	- asdf
+Assign guild members a role based on their guild rank when they link their account.  
+`guild > rankRoles > enabled: true`  
+`guild > rankRoles > roles > rank:` Enter a guild rank name.  
+`guild > rankRoles > roles > role` Enter a role ID.  
+<br>
 
-- **Guild Roles**
-
-	Assign guild members a role when they link their account.
-	- `guild > name` Enter a guild name.
-	- `guild > role > enabled: true`
- 	- `guild > role > role` Enter a role ID.
-
-	Assign guild members a role based on their guild rank when they link their account.
-	- `guild > rankRoles > enabled: true`
-	- `guild > rankRoles > roles > rank:` Enter a guild rank name.
-	- `guild > rankRoles > roles > role` Enter a role ID.
-
- - **Permissions**
-
-   	Custom Bot Permissions:
-   	- `Owner`:
-   	- `Admin`: has all perms except Owner
-   	- `SetLinkChannel`
-	- `SetMapChannel`
-   	- `DeleteMessages`
-   	- `RestartBot`
-   	- `LinkOverride`
+### Permissions 
+Custom bot permissions:  
+- `Owner`: Inherit all perms   
+- `Admin`: Inherit all perms except Owner  
+- `SetLinkChannel`: Can set linking channel  
+- `SetMapChannel`: Can set discord server list channel
+- `DeleteMessages`: Can delete messages
+- `RestartBot`: Can restart the bot
+- `LinkOverride`: Can override the /link database
 
 ---
 
