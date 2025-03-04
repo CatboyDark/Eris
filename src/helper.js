@@ -213,7 +213,9 @@ const permissions = new Set([
 	'SetMapChannel',
 	'DeleteMessages',
 	'RestartBot',
-	'LinkOverride'
+	'LinkOverride',
+	'MuteMembers',
+	'BanMembers'
 ]);
 
 function getPerms(member) {

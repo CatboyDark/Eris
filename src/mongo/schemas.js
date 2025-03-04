@@ -22,7 +22,7 @@ const membersSchema = new Schema(
 
 const gxpSchema = new Schema(
 	{
-		date: { type: Number, required: true, unique: true },
+		date: { type: Number, required: true, unique: true, index: { type: -1 } },
 		entries: [
 			{
 				uuid: { type: String, required: true },

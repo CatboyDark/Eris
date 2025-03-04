@@ -4,7 +4,7 @@ import fs from 'fs';
 import { schedule } from 'node-cron';
 import display from '../../display.js';
 import { createMsg, createRow, getGuild, readConfig, writeConfig } from '../../helper.js';
-import { getMongo, membersSchema } from '../../mongo/schemas.js';
+import { getMongo, gxpSchema, membersSchema } from '../../mongo/schemas.js';
 
 export default
 {
@@ -133,7 +133,9 @@ async function logGXP(client, config) {
 			}
 		}
 
-		const bulk = [...data].map(([date, entries]) => ({
+		const sortedData = [...data].sort(([a], [b]) => b - a);
+
+		const bulk = sortedData.map(([date, entries]) => ({
 			updateOne: {
 				filter: { date },
 				update: { $set: { entries } },

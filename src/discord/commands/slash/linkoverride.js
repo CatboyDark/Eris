@@ -18,8 +18,8 @@ export default {
 			await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
 			const user = interaction.options.getUser('discord');
-			const player = await getPlayer(interaction.options.getString('ign'));
 			const member = interaction.guild.members.cache.get(user.id);
+			const player = await getPlayer(interaction.options.getString('ign'));
 
 			const check = await getEmoji('check');
 			const plus = await getEmoji('plus');
