@@ -2,8 +2,7 @@ import { MessageFlags } from 'discord.js';
 import { createMsg, getDiscord, getEmoji, getPlayer, updateRoles } from '../../../helper.js';
 import { getMongo, membersSchema } from '../../../mongo/schemas.js';
 
-export default
-{
+export default {
 	name: 'link',
 	desc: 'Link your account',
 	options: [
@@ -26,7 +25,7 @@ export default
 			if (interaction.user.username !== discord.toLowerCase()) return interaction.editReply({ embeds: [createMsg({ color: 'Red', desc: '**Discord does not match!**'  })] });
 
 			const members = getMongo('Eris', 'members', membersSchema);
-			members.findOneAndUpdate(
+			await members.findOneAndUpdate(
 				{ $or: [{ uuid: player.uuid }, { dcid: interaction.user.id }] },
 				{ uuid: player.uuid, dcid: interaction.user.id },
 				{ upsert: true, new: true }
@@ -36,7 +35,7 @@ export default
 			await interaction.member.setNickname(player.nickname).catch((e) => {
 				if (e.message.includes('Missing Permissions')) {
 					interaction.editReply({ embeds: [createMsg({ color: 'FFD800', desc: '**I don\'t have permission to change your nickname!**' })] });
-					nickError = true;
+					return nickError = true;
 				}
 			});
 

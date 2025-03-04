@@ -2,8 +2,7 @@ import { MessageFlags } from 'discord.js';
 import { createMsg, getEmoji, getPerms, getPlayer, updateRoles } from '../../../helper.js';
 import { getMongo, membersSchema } from '../../../mongo/schemas.js';
 
-export default
-{
+export default {
 	name: 'linkoverride',
 	desc: 'Link override',
 	options: [
@@ -39,16 +38,13 @@ export default
 				{ upsert: true, new: true }
 			);
 
-			try {
-				await member.setNickname(player.nickname);
-			}
-			catch (e) {
+			let nickError = false;
+			await interaction.member.setNickname(player.nickname).catch((e) => {
 				if (e.message.includes('Missing Permissions')) {
 					interaction.editReply({ embeds: [createMsg({ color: 'FFD800', desc: '**I don\'t have permission to change your nickname!**' })] });
-					nickError = true;
+					return nickError = true;
 				}
-				console.log(e);
-			}
+			});
 
 			let addedRoles = [], removedRoles = [];
 
@@ -74,7 +70,13 @@ export default
 			}
 
 			const desc = `${check} **Successfully linked ${user} to ${player.nickname}!**\n\n${roleDesc}`;
-			await interaction.editReply({ embeds: [createMsg({ desc })] });
+
+			if (nickError) {
+				interaction.followUp({ embeds: [createMsg({ desc: desc })], flags: MessageFlags.Ephemeral });
+			}
+			else {
+				interaction.editReply({ embeds: [createMsg({ desc: desc })] });
+			}
 		}
 		catch (e) {
 			if (e.message.includes('Player does not exist')) return interaction.editReply({ embeds: [createMsg({ color: 'Red', desc: '**Invalid Username!**' })] });

@@ -4,8 +4,7 @@ import display from '../../../display.js';
 import { createMsg, getPerms } from '../../../helper.js';
 import { client } from '../../Discord.js';
 
-export default
-{
+export default {
 	name: 'restart',
 	desc: 'Restarts and updates the bot',
 
