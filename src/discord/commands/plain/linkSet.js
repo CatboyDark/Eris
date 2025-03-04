@@ -1,7 +1,7 @@
 import { createMsg, createRow, getEmoji, getPerms, readConfig, writeConfig } from '../../../helper.js';
 
 export default {
-	name: 'setlink',
+	name: 'linksetup',
 	prefix: true,
 
 	async execute(message) {

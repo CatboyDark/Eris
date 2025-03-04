@@ -287,6 +287,13 @@ async function updateRoles(member, player) {
 		}
 	}
 
+	if (config.welcome.role.removeOnLink) {
+		if (member.roles.cache.has(config.welcome.role.role)) {
+			await member.roles.remove(config.welcome.role.role);
+			removedRoles.push(config.welcome.role.role);
+		}
+	}
+
 	if (config.guild.role.enabled) {
 		if (guild && guild.name === config.guild.name) {
 			if (!member.roles.cache.has(config.guild.role.role)) {

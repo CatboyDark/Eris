@@ -45,11 +45,15 @@ async function discord() { // Credits: Kathund
 	const config = readConfig();
     const prefix = config.prefix;
 	for (const plainFile of plainDir) {
-		const plainC = (await import(`./commands/plain/${plainFile}`)).default;
-		if (plainC.prefix) {
-			plainC.name = `${prefix}${plainC.name}`;
+		const plainCommand = (await import(`./commands/plain/${plainFile}`)).default;
+		if (!plainCommand) {
+			display.r(`Invalid command: ${plainFile}`);
+			continue;
 		}
-		client.plainCommands.set(plainC.name, plainC);
+		if (plainCommand.prefix) {
+			plainCommand.name = `${prefix}${plainCommand.name}`;
+		}
+		client.plainCommands.set(plainCommand.name, plainCommand);
 	};
 
 	// Buttons
