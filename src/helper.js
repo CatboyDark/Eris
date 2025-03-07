@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ModalBuilder, PermissionFlagsBits, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import fs from 'fs';
 import hypixel from './api/hypixel.js';
-import { client } from './discord/Discord.js';
+import { discord } from './discord/Discord.js';
 import display from './display.js';
 
 export {
@@ -199,7 +199,7 @@ function createSlash({ name, desc, options = [], permissions = [], execute }) {
 }
 
 async function getEmoji(name) {
-	const app = await client.application.emojis.fetch();
+	const app = await discord.application.emojis.fetch();
 	const emoji = app.find(e => e.name === name);
 	if (!emoji) display.r(`Invalid emoji: ${name}`);
 

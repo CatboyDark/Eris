@@ -4,12 +4,12 @@ import auth from '../../auth.json' with { type: 'json' };
 import display from '../display.js';
 import { createSlash, readConfig } from '../helper.js';
 
-export { client, discord };
+export { Discord, discord };
 
-let client;
+let discord;
 
-async function discord() { // Credits: Kathund
-	client = new Client({
+async function Discord() { // Credits: Kathund
+	discord = new Client({
 		intents: [
 			GatewayIntentBits.Guilds,
 			GatewayIntentBits.GuildMessages,
@@ -20,9 +20,9 @@ async function discord() { // Credits: Kathund
 		]
 	});
 
-	client.plainCommands = new Collection();
-	client.slashCommands = new Collection();
-	client.buttons = new Collection();
+	discord.plainCommands = new Collection();
+	discord.slashCommands = new Collection();
+	discord.buttons = new Collection();
 
 	// Commands
 	const slashDir = fs.readdirSync('./src/discord/commands/slash').filter((file) => file.endsWith('.js'));
@@ -34,7 +34,7 @@ async function discord() { // Credits: Kathund
 			continue;
 		}
 		const slashCmd = createSlash(slashCommand);
-		client.slashCommands.set(slashCmd.data.name, slashCmd);
+		discord.slashCommands.set(slashCmd.data.name, slashCmd);
 		slashCommands.push(slashCmd.data.toJSON());
 	}
 
@@ -53,7 +53,7 @@ async function discord() { // Credits: Kathund
 		if (plainCommand.prefix) {
 			plainCommand.name = `${prefix}${plainCommand.name}`;
 		}
-		client.plainCommands.set(plainCommand.name, plainCommand);
+		discord.plainCommands.set(plainCommand.name, plainCommand);
 	};
 
 	// Buttons
@@ -62,7 +62,7 @@ async function discord() { // Credits: Kathund
 		const button = await import(`./buttons/${buttonFile}`);
 		const buttons = button.default || [];
 		for (const b of buttons) {
-			client.buttons.set(b.id, b);
+			discord.buttons.set(b.id, b);
 		}
 	}
 
@@ -70,9 +70,9 @@ async function discord() { // Credits: Kathund
 	const eventDir = fs.readdirSync('./src/discord/events').filter(file => file.endsWith('.js'));
 	for (const eventFile of eventDir) {
 		const event = (await import(`./events/${eventFile}`)).default;
-		client.on(event.name, (...args) => event.execute(...args));
+		discord.on(event.name, (...args) => event.execute(...args));
 	};
 
 	// Login
-	await client.login(auth.token);
+	await discord.login(auth.token);
 }

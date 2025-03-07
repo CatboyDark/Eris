@@ -16,9 +16,9 @@ export default
 		let botLogs = logsChannel.threads.cache.find(x => x.name === 'Bot');
 		if (!botLogs) {
 			botLogs = await logsChannel.threads.create({ name: 'Bot' });
+			config.logs.bot = botLogs.id;
+			writeConfig(config);
 		}
-		config.logs.bot = botLogs.id;
-		writeConfig(config);
 
 		await botLogs.send({ embeds: [createMsg({ desc: `**${client.user.username} is online!**` })] });
 		client.user.setActivity(config.guild.name ?? logsChannel?.guild.name, { type: ActivityType.Watching });

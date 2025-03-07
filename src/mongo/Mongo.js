@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 import display from '../display.js';
 import auth from '../../auth.json' with { type: 'json' };
 
-export { mongo };
+export { Mongo };
 
-async function mongo() {
+async function Mongo() {
 	try {
 		await mongoose.connect(auth.mongoURI);
 		display.c('Database is online!');

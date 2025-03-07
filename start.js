@@ -1,9 +1,11 @@
-import { discord } from './src/discord/Discord.js';
-import { mongo } from './src/mongo/Mongo.js';
+import { Discord } from './src/discord/Discord.js';
+import { Minecraft } from './src/minecraft/Minecraft.js';
+import { Mongo } from './src/mongo/Mongo.js';
 
 export function start() {
-	mongo();
-	discord();
+	Mongo();
+	Discord();
+	setTimeout(Minecraft, 5000);
 }
 
 start();

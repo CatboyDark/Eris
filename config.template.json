@@ -1,6 +1,10 @@
 {
 	"color": "FF6EC7",
 	"prefix": ".",
+	"ign": "",
+	"bridge": {
+		"enabled": false
+	},
 	"logs": {
 		"channel": "",
 		"bot": "",

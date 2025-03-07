@@ -2,7 +2,7 @@ import { execSync } from 'child_process';
 import { start } from '../../../../start.js';
 import display from '../../../display.js';
 import { createMsg, getPerms } from '../../../helper.js';
-import { client } from '../../Discord.js';
+import { discord } from '../../Discord.js';
 
 export default {
 	name: 'restart',
@@ -25,7 +25,7 @@ async function restart() {
 		const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
 		execSync(`git pull origin ${branch}`);
-		await client.destroy();
+		await discord.destroy();
 		start();
 	}
 	catch (e) {
