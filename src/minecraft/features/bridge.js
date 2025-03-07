@@ -24,14 +24,14 @@ export default async () => {
 		consoleChannel.send(msg);
 
 		if (config.bridge.guild.enabled) {
-			if (msg.startsWith('Guild >') && !msg.startsWith('Guild > [VIP+] CatboyLight:')) {
+			if (msg.startsWith('Guild >') && !msg.startsWith('Guild > [VIP+] CatboyLight')) {
 				const newMsg = msg.replace(/^Guild >\s*/, '').replace(/([*_~`>\\])/g, '\\$1');
 				guildChannel.send(newMsg);
 			}
 		}
 
 		if (config.bridge.officer.enabled) {
-			if (msg.startsWith('Officer >') && !msg.startsWith('Officer > [VIP+] CatboyLight:')) {
+			if (msg.startsWith('Officer >') && !msg.startsWith('Officer > [VIP+] CatboyLight')) {
 				const newMsg = msg.replace(/^Officer >\s*/, '').replace(/([*_~`>\\])/g, '\\$1');
 				officerChannel.send(newMsg);
 			}
