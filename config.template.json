@@ -3,7 +3,14 @@
 	"prefix": ".",
 	"ign": "",
 	"bridge": {
-		"enabled": false
+		"guild": {
+			"enabled": false,
+			"channel": ""
+		},
+		"officer": {
+			"enabled": false,
+			"channel": ""
+		}
 	},
 	"logs": {
 		"channel": "",
