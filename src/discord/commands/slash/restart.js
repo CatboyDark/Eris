@@ -3,6 +3,7 @@ import { start } from '../../../../start.js';
 import display from '../../../display.js';
 import { createMsg, getPerms } from '../../../helper.js';
 import { discord } from '../../Discord.js';
+import { minecraft } from '../../../minecraft/Minecraft.js';
 
 export default {
 	name: 'restart',
@@ -26,6 +27,7 @@ async function restart() {
 
 		execSync(`git pull origin ${branch}`);
 		await discord.destroy();
+		await minecraft.end();
 		start();
 	}
 	catch (e) {

@@ -16,7 +16,6 @@ export default async () => {
 
 	minecraft.on('end', () => {
 		display.y(`${config.ign} has disconnected.`);
-		reconnect();
 	});
 
 	minecraft.on('error', (error) => {
