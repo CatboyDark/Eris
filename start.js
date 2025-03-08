@@ -4,8 +4,9 @@ import { Mongo } from './src/mongo/Mongo.js';
 
 export function start() {
 	Mongo();
-	Discord();
-	setTimeout(Minecraft, 5000);
+	Discord().then(() => {
+		Minecraft();
+	});
 }
 
 start();

@@ -1,7 +1,8 @@
 import mineflayer from 'mineflayer';
-import { readConfig } from '../helper.js';
+import { createMsg, readConfig } from '../helper.js';
 import fs from 'fs';
 import display from '../display.js';
+import { discord } from '../discord/Discord.js';
 
 export { Minecraft, minecraft };
 
@@ -33,4 +34,9 @@ async function Minecraft() {
 			display.r(`Invalid feature: ${f}`);
 		}
 	}
+
+	const logs = discord.channels.cache.get(config.logs.bot);
+
+	display.c(`${config.ign} has joined Hypixel.`);
+	logs.send({ embeds: [createMsg({ desc: `**${config.ign}** has joined Hypixel!` })] });
 }

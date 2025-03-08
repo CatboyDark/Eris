@@ -20,7 +20,7 @@ export default
 			writeConfig(config);
 		}
 
-		await botLogs.send({ embeds: [createMsg({ desc: `**${client.user.username} is online!**` })] });
+		await botLogs.send({ embeds: [createMsg({ desc: `**${client.user.username}** is online!` })] });
 		client.user.setActivity(config.guild.name ?? logsChannel?.guild.name, { type: ActivityType.Watching });
 		display.c(`${client.user.username} is online!`);
 
@@ -31,11 +31,14 @@ export default
 			async () => updateCheck(client)
 		);
 
-		schedule( '1 22 * * *', // 10:01 PST every day
+		schedule( '1 22 * * *', // 10:01 CST every day
 			async () => {
 				const config = readConfig();
 				await logGXP(client, config);
 				await syncRoles(client, config);
+			},
+			{
+				timezone: 'America/Chicago'
 			}
 		);
 	}
@@ -80,13 +83,12 @@ async function updateCheck(client) {
 	let branch;
     let localHash;
     let remoteHash;
-	let commitMessage;
 
 	try {
 		branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 		localHash = execSync('git rev-parse HEAD').toString().trim();
-		remoteHash = execSync(`git ls-remote origin ${branch}`).toString().split('\t')[0].trim();
-		commitMessage = execSync('git log -1 --pretty=%B').toString().trim();
+		execSync('git fetch origin');
+		remoteHash = execSync(`git rev-parse origin/${branch}`).toString().trim();
 	}
 	catch (e) {
 		display.r(`UpdateCheck > ${e}`);
@@ -97,6 +99,8 @@ async function updateCheck(client) {
 	}
 
 	if (localHash === remoteHash) return;
+
+	const commitMessage = execSync('git log -1 --pretty=%B').toString().trim();
 
 	display.y('Update Available! Run "git pull" to update!');
 	logs.send({

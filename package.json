@@ -13,7 +13,8 @@
         "hypixel-api-reborn": "^11.3.7",
         "mineflayer": "^4.23.0",
         "mongoose": "^8.10.1",
-        "node-cron": "^3.0.3"
+        "node-cron": "^3.0.3",
+        "node-emoji": "^2.2.0"
     },
     "devDependencies": {
         "eslint": "^9.17.0"

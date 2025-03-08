@@ -1,9 +1,12 @@
 import { discord } from '../../discord/Discord.js';
 import { readConfig, writeConfig } from '../../helper.js';
 import { minecraft } from '../Minecraft.js';
+import * as emoji from 'node-emoji';
+import fs from 'fs';
 
 export default async () => {
 	const config = readConfig();
+	const ignore = JSON.parse(fs.readFileSync('./assets/ignore.json', 'utf8'));
 
 	const logsChannel = discord.channels.cache.get(config.logs.channel);
 	let consoleChannel = logsChannel.threads.cache.find(x => x.name === 'Console');
@@ -46,6 +49,10 @@ export default async () => {
 		if (message.attachments.size > 0) {
 			msg = msg ? `[image] ${msg}` : '[image]';
 		}
+		if (message.stickers.size > 0) {
+			const sticker = message.stickers.first();
+			msg = `[${sticker.name}]`;
+		}
 
 		if (message.channel.id === consoleChannel.id) {
 			if (msg !== '/g disband' && !msg.includes('/g transfer') && !msg.includes('/g confirm')) {
@@ -63,17 +70,6 @@ export default async () => {
 	});
 };
 
-const ignore =
-[
-	'/limbo for more information.',
-	'The lobby you attempted to join was full or offline.',
-	'Because of this, you were routed to Limbo, a subset of your own imagination.',
-	'This place doesn\'t exist anywhere, and you can stay here as long as you\'d like.',
-	'To return to "reality", use /lobby GAME.',
-	'Examples: /lobby, /lobby skywars, /lobby arcade',
-	'Watch out, though, as there are things that live in Limbo.'
-];
-
 function filter(content) {
 	content = content
 	.replace('@everyone', '@everyone')
@@ -89,6 +85,8 @@ function filter(content) {
 		const channel = discord.channels.cache.get(channelId);
 		return channel ? `#${channel.name}` : `<#${channelId}>`;
 	});
+
+	content = emoji.unemojify(content);
 
 	return content;
 }

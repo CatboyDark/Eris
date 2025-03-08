@@ -75,4 +75,6 @@ async function Discord() { // Credits: Kathund
 
 	// Login
 	await discord.login(auth.token);
+
+	await new Promise(resolve => discord.once('ready', resolve));
 }

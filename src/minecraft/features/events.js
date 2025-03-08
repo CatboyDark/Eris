@@ -1,17 +1,11 @@
-import { discord } from '../../discord/Discord.js';
 import display from '../../display.js';
-import { createMsg, readConfig } from '../../helper.js';
+import { readConfig } from '../../helper.js';
 import { Minecraft, minecraft } from '../Minecraft.js';
 
 export default async () => {
 	const config = readConfig();
-	const logs = discord.channels.cache.get(config.logs.bot);
 
 	minecraft.on('login', () => {
-		const { server, _host } = minecraft._client.socket;
-		display.c(`${config.ign} has joined ${server || _host}.`);
-		logs.send({ embeds: [createMsg({ desc: `**${config.ign}** has joined **${server || _host}**.` })] });
-
 		minecraft.chat('/limbo');
 	});
 
