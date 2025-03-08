@@ -20,7 +20,7 @@ export default
 			writeConfig(config);
 		}
 
-		await botLogs.send({ embeds: [createMsg({ desc: `**${client.user.username}** is online!` })] });
+		await botLogs.send({ embeds: [createMsg({ desc: `**${client.user.username} is online!**` })] });
 		client.user.setActivity(config.guild.name ?? logsChannel?.guild.name, { type: ActivityType.Watching });
 		display.c(`${client.user.username} is online!`);
 

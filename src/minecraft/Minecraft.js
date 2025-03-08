@@ -38,5 +38,5 @@ async function Minecraft() {
 	const logs = discord.channels.cache.get(config.logs.bot);
 
 	display.c(`${config.ign} has joined Hypixel.`);
-	logs.send({ embeds: [createMsg({ desc: `**${config.ign}** has joined Hypixel!` })] });
+	logs.send({ embeds: [createMsg({ desc: `**${config.ign} has joined Hypixel!**` })] });
 }
