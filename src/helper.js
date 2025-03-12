@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ModalBuilder, PermissionFlagsBits, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import fs from 'fs';
 import hypixel from './api/hypixel.js';
@@ -14,11 +13,15 @@ export {
 	createSlash,
 	getEmoji,
 	getPerms,
-	getGuild,
 	getIGN,
 	getPlayer,
 	getDiscord,
-	updateRoles
+	getGuild,
+	getSBLevel,
+	getCata,
+	getTheAccurateFuckingCataLevel,
+	updateRoles,
+	getMsg
 };
 
 function readConfig() {
@@ -211,6 +214,7 @@ const permissions = new Set([
 	'Admin',
 	'SetLinkChannel',
 	'SetMapChannel',
+	'SetEventsChannel',
 	'DeleteMessages',
 	'RestartBot',
 	'LinkOverride',
@@ -243,7 +247,8 @@ function getPerms(member) {
 
 async function getIGN(uuid) {
 	try {
-		const { data } = await axios.get(`https://mowojang.matdoes.dev/${uuid}`);
+		const response = await fetch(`https://mowojang.matdoes.dev/${uuid}`);
+		const data = await response.json();
 		return data.name;
 	}
 	catch (e) {
@@ -273,6 +278,64 @@ async function getGuild(type, value) {
 		guild = await hypixel.getGuild('name', value);
 	}
 	return guild;
+}
+
+const getSBLevel = {
+	highest: async function (player) {
+		let level = 0;
+
+		const profiles = await hypixel.getSkyblockMember(player.uuid);
+		if (!profiles) return 0;
+		// eslint-disable-next-line no-unused-vars
+		for (const [profileName, profileData] of profiles.entries()) {
+			if (level < profileData.level) {
+				level = profileData.level;
+			}
+		}
+		return level;
+	},
+
+	current: async function (player) {
+		const profiles = await hypixel.getSkyblockMember(player.uuid);
+		if (!profiles) return 0;
+
+		const profile = [...profiles.values()].find((profile) => profile.selected);
+		return profile?.level || 0;
+	}
+};
+
+const getCata = {
+	highest: async function (player) {
+		let highestProfile = null;
+		let cata = 0;
+
+		const profiles = await hypixel.getSkyblockProfiles(player.uuid);
+		if (!profiles) return null;
+
+		profiles.forEach((profile) => {
+			const currentCata = profile.me?.dungeons.experience.level || 0;
+			if (currentCata > cata) {
+				cata = currentCata;
+				highestProfile = profile.me.dungeons;
+			}
+			fs.appendFileSync('log.txt', JSON.stringify(profile.me?.dungeons, null, 2) + '\n\n');
+		});
+		return highestProfile;
+	}
+};
+
+function getTheAccurateFuckingCataLevel(level, xp) {
+	if (level > 50) {
+		xp -= 569809640;
+	}
+
+	const extraLevels = xp / 200000000;
+	if (level <= 50) {
+		return parseFloat(level.toFixed(2));
+	}
+
+	const accurateLevel = 50 + extraLevels;
+	return parseFloat(accurateLevel.toFixed(2));
 }
 
 async function updateRoles(member, player) {
@@ -336,26 +399,45 @@ async function updateRoles(member, player) {
 	return { addedRoles, removedRoles };
 }
 
-const getSBLevel = {
-	highest: async function (player) {
-		let level = 0;
+function getMsg(message) {
+	const parts = message.split(' ');
 
-		const profiles = await hypixel.getSkyblockMember(player.uuid).catch(() => null);
-		if (!profiles) return 0;
-		// eslint-disable-next-line no-unused-vars
-		for (const [profileName, profileData] of profiles.entries()) {
-			if (level < profileData.level) {
-				level = profileData.level;
-			}
-		}
-		return level;
-	},
-
-	current: async function (player) {
-		const profiles = await hypixel.getSkyblockMember(player.uuid).catch(() => null);
-		if (!profiles) return 0;
-
-		const profile = [...profiles.values()].find((profile) => profile.selected);
-		return profile?.level || 0;
+	let channel;
+	switch (true) {
+		case message.startsWith('Guild >'):
+			channel = 'guild';
+			break;
+		case message.startsWith('Officer >'):
+			channel = 'officer';
+			break;
+		case message.startsWith('Party >'):
+			channel = 'party';
+			break;
+		case message.startsWith('From'):
+			channel = 'dm';
+			break;
+		default:
+			return;
 	}
-};
+
+	let index = 0;
+	index = channel === 'dm' ? 1 : 2;
+
+	const rank = parts[index] && parts[index].startsWith('[') && parts[index].endsWith(']')
+		? parts[index].slice(1, -1)
+		: null;
+	index++;
+
+	const sender = parts[index] && parts[index].endsWith(':')
+		? parts[index].slice(0, -1)
+		: parts[index];
+	index++;
+
+	const guildRank = channel === 'guild' && parts[index] && parts[index].startsWith('[')
+		? parts[index].substring(1, parts[index].indexOf(']'))
+		: null;
+
+	const content = message.slice(message.indexOf(':') + 1).trim() ?? null;
+
+	return { channel, rank, sender, guildRank, content };
+}

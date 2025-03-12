@@ -72,6 +72,7 @@ export default async () => {
 
 function filter(content) {
 	content = content
+	.replace(/\n/g, ' ')
 	.replace('@everyone', '@everyone')
 	.replace('@here', '@here')
 	.replace(/<@!?(\d+)>/g, (_, id) => {

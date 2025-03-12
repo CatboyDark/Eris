@@ -39,7 +39,7 @@ async function error(interaction, e) {
 		embeds: [createMsg({
 			color: 'Red',
 			title: 'A Silly Has Occured!',
-			desc: `\`${e.message}\`\n\n-# If you believe this is a bug, please contact @CatboyDark.`
+			desc: `\`\`\`${e.message}\`\`\`\n\n-# If you believe this is a bug, please contact @CatboyDark.`
 		})]
 	});
 

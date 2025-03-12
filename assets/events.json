@@ -1,0 +1,86 @@
+[
+	{
+		"name": "Dark Auction",
+		"instance": 1741456500,
+		"interval": 3600,
+		"duration": 0,
+		"notify": 0
+	},
+	{
+		"name": "Jacob's Contest",
+		"instance": 1741464900,
+		"interval": 3600,
+		"duration": 1200,
+		"notify": 0
+	},
+	{
+		"name": "Traveling Zoo",
+		"instance": 1741622100,
+		"interval": 223200,
+		"duration": 3600,
+		"notify": 0
+	},
+	{
+		"name": "Hoppity's Hunt",
+		"instance": 1741514100,
+		"interval": 446400,
+		"duration": 111600,
+		"notify": 0
+	},
+	{
+		"name": "New Years",
+		"instance": 1741956900,
+		"interval": 446400,
+		"duration": 3600,
+		"notify": 0
+	},
+	{
+		"name": "Spooky Event",
+		"instance": 1741804500,
+		"interval": 446400,
+		"duration": 10800,
+		"notify": 0
+	},
+	{
+		"name": "Spooky Festival",
+		"instance": 1741808100,
+		"interval": 446400,
+		"duration": 3600,
+		"notify": 0
+	},
+	{
+		"name": "Jerry Island Opens",
+		"instance": 1741918500,
+		"interval": 446400,
+		"duration": 36000,
+		"notify": 0
+	},
+	{
+		"name": "Save The Presents",
+		"instance": 1741950900,
+		"interval": 446400,
+		"duration": 3600,
+		"notify": 0
+	},
+	{
+		"name": "Election Opens",
+		"instance": 1741731300,
+		"interval": 446400,
+		"duration": 111600,
+		"notify": 0
+	},
+	{
+		"name": "New Mayor",
+		"instance": 1741720500,
+		"interval": 446400,
+		"duration": 0,
+		"notify": 0
+	},
+	{
+		"name": "Year Of The Pig",
+		"instance": 1741514100,
+		"interval": 5356800,
+		"duration": 0,
+		"notify": 0
+	}
+]
