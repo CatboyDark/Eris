@@ -2,47 +2,11 @@
 	"color": "FF6EC7",
 	"prefix": ".",
 	"ign": "",
-	"bridge": {
-		"guild": {
-			"enabled": false,
-			"channel": ""
-		},
-		"officer": {
-			"enabled": false,
-			"channel": ""
-		}
-	},
 	"logs": {
 		"channel": "",
 		"bot": "",
 		"discord": "",
 		"console": ""
-	},
-	"permissions": [
-		{
-			"role": "",
-			"perms": []
-		}
-	],
-	"welcome": {
-		"message": {
-			"enabled": false,
-			"channel": "",
-			"message": ""
-		},
-		"role": {
-			"enabled": false,
-			"role": "",
-			"removeOnLink": false
-		}
-	},
-	"link": {
-		"channel": "",
-		"infoMessage": "",
-		"role": {
-			"enabled": false,
-			"role": ""
-		}
 	},
 	"guild": {
 		"name": "",
@@ -77,5 +41,112 @@
 			"440": "",
 			"480": ""
 		}
+	},
+	"permissions": [
+		{
+			"role": "",
+			"perms": []
+		}
+	],
+	"welcome": {
+		"message": {
+			"enabled": false,
+			"channel": "",
+			"message": ""
+		},
+		"role": {
+			"enabled": false,
+			"role": "",
+			"removeOnLink": false
+		}
+	},
+	"link": {
+		"channel": "",
+		"infoMessage": "",
+		"role": {
+			"enabled": false,
+			"role": ""
+		}
+	},
+	"bridge": {
+		"guild": {
+			"enabled": false,
+			"channel": ""
+		},
+		"officer": {
+			"enabled": false,
+			"channel": ""
+		}
+	},
+	"statsChannels": {
+		"level": "",
+		"members": ""
+	},
+	"skyblockEvents": {
+		"enabled": false,
+		"channel": "",
+		"message": "",
+		"events": [
+			{
+				"name": "Dark Auction",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "Jacob's Contest",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "Traveling Zoo",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "Hoppity's Hunt",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "New Years",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "Spooky Event",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "Spooky Festival",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "Jerry Island Opens",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "Save The Presents",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "Election Opens",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "New Mayor",
+				"updateMessage": true,
+				"sendNotif": true
+			},
+			{
+				"name": "Year Of The Pig",
+				"updateMessage": true,
+				"sendNotif": true
+			}
+		]
 	}
 }
