@@ -3,7 +3,7 @@ import fs from 'fs';
 import hypixel from './api/hypixel.js';
 import { discord } from './discord/Discord.js';
 import display from './display.js';
-import Canvas from 'canvas';
+// import Canvas from 'canvas';
 
 export {
 	readConfig,
@@ -22,8 +22,8 @@ export {
 	getCata,
 	getTheAccurateFuckingCataLevel,
 	updateRoles,
-	getMsg,
-	createImage
+	getMsg
+	// createImage
 };
 
 function readConfig() {
@@ -450,38 +450,38 @@ function getMsg(message) {
 	return { channel, rank, sender, guildRank, content };
 }
 
-async function createImage(text) {
-	const fg = 'black';
-	const size = 40;
-	const padding = 1;
+// async function createImage(text) {
+// 	const fg = 'black';
+// 	const size = 40;
+// 	const padding = 1;
 
-	Canvas.deregisterAllFonts();
-	Canvas.registerFont('./assets/MinecraftRegular-Bmg3.ttf', {
-		family: 'Minecraft'
-	});
+// 	Canvas.deregisterAllFonts();
+// 	Canvas.registerFont('./assets/MinecraftRegular-Bmg3.ttf', {
+// 		family: 'Minecraft'
+// 	});
 
-	const blank = Canvas.createCanvas(1, 1);
-	const blankCTX = blank.getContext('2d');
-	blankCTX.font = `${size}px Minecraft`;
+// 	const blank = Canvas.createCanvas(1, 1);
+// 	const blankCTX = blank.getContext('2d');
+// 	blankCTX.font = `${size}px Minecraft`;
 
-	const metrics = blankCTX.measureText(text);
-	const textHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+// 	const metrics = blankCTX.measureText(text);
+// 	const textHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
 
-	const canvasWidth = Math.ceil(metrics.width + padding * 2);
-	const canvasHeight = Math.ceil(textHeight + padding * 2);
+// 	const canvasWidth = Math.ceil(metrics.width + padding * 2);
+// 	const canvasHeight = Math.ceil(textHeight + padding * 2);
 
-	const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
-	const ctx = canvas.getContext('2d');
+// 	const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
+// 	const ctx = canvas.getContext('2d');
 
-	ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-	ctx.font = `${size}px Minecraft`;
-	ctx.fillStyle = fg;
-	ctx.textBaseline = 'top';
+// 	ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+// 	ctx.font = `${size}px Minecraft`;
+// 	ctx.fillStyle = fg;
+// 	ctx.textBaseline = 'top';
 
-	const textY = padding + (canvasHeight - textHeight - padding * 2) / 2;
-	ctx.fillText(text, padding, textY);
+// 	const textY = padding + (canvasHeight - textHeight - padding * 2) / 2;
+// 	ctx.fillText(text, padding, textY);
 
-	const buffer = canvas.toBuffer('image/png');
+// 	const buffer = canvas.toBuffer('image/png');
 
-	return new AttachmentBuilder(buffer, { name: 'image.png' });
-}
+// 	return new AttachmentBuilder(buffer, { name: 'image.png' });
+// }
