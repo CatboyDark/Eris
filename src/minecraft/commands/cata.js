@@ -21,7 +21,7 @@ export default {
 
 		if (!player) return;
 
-		const cata = await getCata.highest(player).catch((e) => {
+		const cata = await getCata.current(player).catch((e) => {
 			if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
 			console.log(e);
 		});
@@ -38,7 +38,7 @@ export default {
 		const classAvg = (healer + mage + berserk + archer + tank) / 5;
 
 		const secrets = cata.secrets.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-		const spr = parseFloat((cata.secrets / (cata.completions.catacombs.total + cata.completions.masterCatacombs.total)).toFixed(2));
+		const spr = Number((cata.secrets / (cata.completions.catacombs.total + cata.completions.masterCatacombs.total)).toFixed(2));
 
 		await message.reply(`${player.nickname}: Cata ${accurateCata} | Class Avg ${classAvg} (A${archer}, M${mage}, B${berserk}, T${tank}, H${healer}) | Secrets ${secrets} (${spr} S/R)`);
 	}

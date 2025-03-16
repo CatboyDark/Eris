@@ -91,3 +91,22 @@ function filter(content) {
 
 	return content;
 }
+
+const colors = JSON.parse(fs.readFileSync('./assets/colors.json', 'utf8'));
+
+function getFullString(message) {
+    let fullString = '';
+	const colorMap = Object.fromEntries(Object.entries(colors).map(([code, name]) => [name, code]));
+
+    const baseColorCode = message.json.color ? colorMap[message.json.color] : '';
+    fullString += baseColorCode + message.text;
+
+    if (message.extra && Array.isArray(message.extra)) {
+        message.extra.forEach((part) => {
+            const partColorCode = part.color ? colorMap[part.color] : '';
+            fullString += partColorCode + part.text;
+        });
+    }
+
+    return fullString;
+}

@@ -20,7 +20,7 @@ export default
 			writeConfig(config);
 		}
 
-		await botLogs.send({ embeds: [createMsg({ desc: `**${client.user.username} is online!**` })] });
+		await client.channels.cache.get(config.logs.bot).send({ embeds: [createMsg({ desc: `**${client.user.username} is online!**` })] });
 		client.user.setActivity(config.guild.name ?? logsChannel?.guild.name, { type: ActivityType.Watching });
 		display.c(`${client.user.username} is online!`);
 
@@ -31,14 +31,17 @@ export default
 			async () => updateCheck(client)
 		);
 
-		schedule( '1 22 * * *', // 10:01 CST every day
+		schedule( '1 22 * * *', // 12:01 CST every day
 			async () => {
 				const config = readConfig();
-				await logGXP(client, config);
-				await syncRoles(client, config);
+				const guild = await getGuild.name(config.guild.name);
+
+				await logGXP(client, config, guild);
+				await syncRoles(client, config, guild);
+				await updateStatsChannels(client, config, guild);
 			},
 			{
-				timezone: 'America/Chicago'
+				timezone: 'America/Los_Angeles'
 			}
 		);
 	}
@@ -110,9 +113,8 @@ async function updateCheck(client) {
 	});
 }
 
-async function logGXP(client, config) {
+async function logGXP(client, config, guild) {
 	try {
-		const guild = await getGuild('guild', config.guild.name);
 		const db = getMongo('gxp', config.guild.name, gxpSchema);
 
 		const data = new Map();
@@ -158,11 +160,10 @@ async function logGXP(client, config) {
 	await logs.send({ embeds: [createMsg({ desc: `### ${config.guild.name ?? logs.guild.name}\n**GXP has been logged!**` })] });
 }
 
-async function syncRoles(client, config) {
+async function syncRoles(client, config, guild) {
 	const plus = await getEmoji('plus');
 	const minus = await getEmoji('minus');
 
-	const guild = await getGuild('guild', config.guild.name);
 	const guildMembers = guild.members;
 	const discord = client.channels.cache.get(config.logs.channel).guild;
 	const guildRole = discord.roles.cache.get(config.guild.role.role);
@@ -207,4 +208,11 @@ async function syncRoles(client, config) {
 	const logs = client.channels.cache.get(config.logs.bot);
 	logs.send({ embeds: [createMsg({ desc: desc })]
 	});
+}
+
+async function updateStatsChannels(client, config, guild) {
+	await client.channels.cache.get(config.statsChannels.level)
+		.setname(`⭐ Level: ${Number(Math.floor(guild.level.toFixed(1)))}`);
+	await client.channels.cache.get(config.statsChannels.members)
+		.setName(`😋 Members: ${guild.members.length}/125`);
 }

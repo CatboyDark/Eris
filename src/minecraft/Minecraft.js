@@ -1,8 +1,7 @@
 import mineflayer from 'mineflayer';
-import { createMsg, getMsg, readConfig } from '../helper.js';
+import { getMsg, readConfig } from '../helper.js';
 import fs from 'fs';
 import display from '../display.js';
-import { discord } from '../discord/Discord.js';
 
 export { Minecraft, minecraft };
 
@@ -98,9 +97,4 @@ async function Minecraft() {
 			console.log(e);
 		}
 	});
-
-	const logs = discord.channels.cache.get(config.logs.bot);
-
-	display.c(`${config.ign} has joined Hypixel.`);
-	logs.send({ embeds: [createMsg({ desc: `**${config.ign} has joined Hypixel!**` })] });
 }

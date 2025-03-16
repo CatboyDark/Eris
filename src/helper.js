@@ -1,8 +1,9 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ModalBuilder, PermissionFlagsBits, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ModalBuilder, PermissionFlagsBits, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import fs from 'fs';
 import hypixel from './api/hypixel.js';
 import { discord } from './discord/Discord.js';
 import display from './display.js';
+import Canvas from 'canvas';
 
 export {
 	readConfig,
@@ -21,7 +22,8 @@ export {
 	getCata,
 	getTheAccurateFuckingCataLevel,
 	updateRoles,
-	getMsg
+	getMsg,
+	createImage
 };
 
 function readConfig() {
@@ -215,6 +217,7 @@ const permissions = new Set([
 	'SetLinkChannel',
 	'SetMapChannel',
 	'SetEventsChannel',
+	'SetStatsChannels',
 	'DeleteMessages',
 	'RestartBot',
 	'LinkOverride',
@@ -268,17 +271,15 @@ async function getDiscord(ign) {
 	return discord ? discord.link.toLowerCase() : null;
 }
 
-async function getGuild(type, value) {
-	let guild;
+const getGuild = {
+	name: async function (value) {
+		return await hypixel.getGuild('name', value);
+	},
 
-	if (type === 'player') {
-		guild = await hypixel.getGuild('player', value);
+	player: async function (value) {
+		return await hypixel.getGuild('player', value);
 	}
-	else if (type === 'guild') {
-		guild = await hypixel.getGuild('name', value);
-	}
-	return guild;
-}
+};
 
 const getSBLevel = {
 	highest: async function (player) {
@@ -318,9 +319,16 @@ const getCata = {
 				cata = currentCata;
 				highestProfile = profile.me.dungeons;
 			}
-			fs.appendFileSync('log.txt', JSON.stringify(profile.me?.dungeons, null, 2) + '\n\n');
 		});
 		return highestProfile;
+	},
+
+	current: async function (player) {
+		const profiles = await hypixel.getSkyblockProfiles(player.uuid);
+		if (!profiles) return null;
+
+		const selectedProfile = profiles.find(profile => profile.selected);
+		return selectedProfile.me.dungeons;
 	}
 };
 
@@ -331,16 +339,16 @@ function getTheAccurateFuckingCataLevel(level, xp) {
 
 	const extraLevels = xp / 200000000;
 	if (level <= 50) {
-		return parseFloat(level.toFixed(2));
+		return Number(level.toFixed(2));
 	}
 
 	const accurateLevel = 50 + extraLevels;
-	return parseFloat(accurateLevel.toFixed(2));
+	return Number(accurateLevel.toFixed(2));
 }
 
 async function updateRoles(member, player) {
 	const config = readConfig();
-	const guild = await getGuild('player', player.uuid);
+	const guild = await getGuild.player(player.uuid);
 
 	const addedRoles = [];
 	const removedRoles = [];
@@ -440,4 +448,40 @@ function getMsg(message) {
 	const content = message.slice(message.indexOf(':') + 1).trim() ?? null;
 
 	return { channel, rank, sender, guildRank, content };
+}
+
+async function createImage(text) {
+	const fg = 'black';
+	const size = 40;
+	const padding = 1;
+
+	Canvas.deregisterAllFonts();
+	Canvas.registerFont('./assets/MinecraftRegular-Bmg3.ttf', {
+		family: 'Minecraft'
+	});
+
+	const blank = Canvas.createCanvas(1, 1);
+	const blankCTX = blank.getContext('2d');
+	blankCTX.font = `${size}px Minecraft`;
+
+	const metrics = blankCTX.measureText(text);
+	const textHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+
+	const canvasWidth = Math.ceil(metrics.width + padding * 2);
+	const canvasHeight = Math.ceil(textHeight + padding * 2);
+
+	const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
+	const ctx = canvas.getContext('2d');
+
+	ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+	ctx.font = `${size}px Minecraft`;
+	ctx.fillStyle = fg;
+	ctx.textBaseline = 'top';
+
+	const textY = padding + (canvasHeight - textHeight - padding * 2) / 2;
+	ctx.fillText(text, padding, textY);
+
+	const buffer = canvas.toBuffer('image/png');
+
+	return new AttachmentBuilder(buffer, { name: 'image.png' });
 }

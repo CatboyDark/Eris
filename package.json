@@ -1,13 +1,14 @@
 {
     "name": "eris",
     "description": "A Hypixel-Discord bot template.",
-    "version": "0.6.1",
+    "version": "0.8.0",
     "author": "CatboyDark",
     "license": "MIT",
     "homepage": "https://github.com/CatboyDark/Eris",
     "main": "start.js",
     "type": "module",
     "dependencies": {
+        "canvas": "^3.1.0",
         "discord.js": "^14.17.2",
         "hypixel-api-reborn": "^11.3.7",
         "mineflayer": "^4.23.0",

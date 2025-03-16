@@ -1,7 +1,8 @@
-import { getPlayer, getSBLevel } from '../../helper.js';
+import { getCata, getPlayer } from '../../helper.js';
+import { getPB } from './cata_f0.js';
 
 export default {
-	name: 'level',
+	name: 'f1',
 	prefix: true,
 	channel: ['guild', 'officer', 'party', 'dm'],
 	options: ['ign'],
@@ -21,12 +22,25 @@ export default {
 
 		if (!player) return;
 
-		const level = await getSBLevel.current(player).catch((e) => {
+		const cata = await getCata.current(player).catch((e) => {
 			if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
+			console.log(e);
 		});
 
-		if (!level) return;
+		if (!cata) return;
 
-		message.reply(`${player.nickname}: Level ${level}`);
+		const runs = cata.completions.catacombs.Floor_1;
+		if (!runs) {
+			return message.reply(`${player.nickname} hasn't played F1!`);
+		}
+
+		const pb = getPB(cata, 'floor1');
+		if (!pb) {
+			return message.reply(`${player.nickname} hasn't played F1!`);
+		}
+
+		const collection = cata.completions.catacombs.Floor_1 + (cata.completions.masterCatacombs.Floor_1 * 2);
+
+		await message.reply(`${player.nickname}'s F1: ${runs} Runs | PB ${pb.score}: ${pb.time} | Total Collection: ${collection}`);
 	}
 };
