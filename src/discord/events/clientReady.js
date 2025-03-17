@@ -20,9 +20,9 @@ export default
 			writeConfig(config);
 		}
 
-		await client.channels.cache.get(config.logs.bot).send({ embeds: [createMsg({ desc: `**${client.user.username} is online!**` })] });
+		await client.channels.cache.get(config.logs.bot).send({ embeds: [createMsg({ desc: `**${client.user.displayName} is online!**` })] });
 		client.user.setActivity(config.guild.name ?? logsChannel?.guild.name, { type: ActivityType.Watching });
-		display.c(`${client.user.username} is online!`);
+		display.c(`${client.user.displayName} is online!`);
 
 		await initEmojis(client);
 
@@ -108,7 +108,7 @@ async function updateCheck(client) {
 	display.y('Update Available! Run "git pull" to update!');
 	logs.send({
 		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
-		embeds: [createMsg({ desc: `**Update Available!**\n\n\`${commitMessage}\`` })],
+		embeds: [createMsg({ desc: `**Update Available!**\n\`\`\`${commitMessage}\`\`\`` })],
 		components: [createRow([{ id: 'restart', label: 'Update', color: 'Green' }])]
 	});
 }

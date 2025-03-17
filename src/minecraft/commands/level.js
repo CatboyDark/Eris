@@ -4,7 +4,7 @@ export default {
 	name: 'level',
 	prefix: true,
 	channel: ['guild', 'officer', 'party', 'dm'],
-	options: ['ign'],
+	options: ['ign', 'profile'],
 
 	async execute(message) {
 		let player;
@@ -21,9 +21,17 @@ export default {
 
 		if (!player) return;
 
-		const level = await getSBLevel.current(player).catch((e) => {
-			if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
-		});
+		let level;
+		if (message.options.profile === '-h') {
+			level = await getSBLevel.highest(player).catch((e) => {
+				if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
+			});
+		}
+		else {
+			level = await getSBLevel.current(player).catch((e) => {
+				if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
+			});
+		}
 
 		if (!level) return;
 

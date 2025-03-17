@@ -39,7 +39,7 @@ export default {
 			);
 
 			let nickError = false;
-			await interaction.member.setNickname(player.nickname).catch((e) => {
+			await member.setNickname(player.nickname).catch((e) => {
 				if (e.message.includes('Missing Permissions')) {
 					interaction.editReply({ embeds: [createMsg({ color: 'FFD800', desc: '**I don\'t have permission to change your nickname!**' })] });
 					nickError = true;

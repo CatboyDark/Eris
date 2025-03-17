@@ -1,24 +1,104 @@
-{
-	"§0": "black",
-	"§1": "dark_blue",
-	"§2": "dark_green",
-	"§3": "dark_aqua",
-	"§4": "dark_red",
-	"§5": "dark_purple",
-	"§6": "gold",
-	"§7": "gray",
-	"§8": "dark_gray",
-	"§9": "blue",
-	"§a": "green",
-	"§b": "aqua",
-	"§c": "red",
-	"§d": "light_purple",
-	"§e": "yellow",
-	"§f": "white",
-	"§k": "obfuscated",
-	"§l": "bold",
-	"§m": "strikethrough",
-	"§n": "underline",
-	"§o": "italic",
-	"§r": "reset"
-}
+[
+	{
+		"color": "black",
+		"code": "§0",
+		"hex": "#000000",
+		"shadow": "#000000"
+	},
+	{
+		"color": "dark_blue",
+		"code": "§1",
+		"hex": "#0000AA",
+		"shadow": "#00002A"
+	},
+	{
+		"color": "dark_green",
+		"code": "§2",
+		"hex": "#00AA00",
+		"shadow": "#002A00"
+	},
+	{
+		"color": "dark_aqua",
+		"code": "§3",
+		"hex": "#00AAAA",
+		"shadow": "#002A2A"
+	},
+	{
+		"color": "dark_red",
+		"code": "§4",
+		"hex": "#AA0000",
+		"shadow": "#2A0000"
+	},
+	{
+		"color": "dark_purple",
+		"code": "§5",
+		"hex": "#AA00AA",
+		"shadow": "#2A002A"
+	},
+	{
+		"color": "gold",
+		"code": "§6",
+		"hex": "#FFAA00",
+		"shadow": "#2A2A00"
+	},
+	{
+		"color": "gray",
+		"code": "§7",
+		"hex": "#AAAAAA",
+		"shadow": "#2A2A2A"
+	},
+	{
+		"color": "dark_gray",
+		"code": "§8",
+		"hex": "#555555",
+		"shadow": "#151515"
+	},
+	{
+		"color": "blue",
+		"code": "§9",
+		"hex": "#5555FF",
+		"shadow": "#15153F"
+	},
+	{
+		"color": "green",
+		"code": "§a",
+		"hex": "#55FF55",
+		"shadow": "#153F15"
+	},
+	{
+		"color": "aqua",
+		"code": "§b",
+		"hex": "#55FFFF",
+		"shadow": "#153F3F"
+	},
+	{
+		"color": "red",
+		"code": "§c",
+		"hex": "#FF5555",
+		"shadow": "#3F1515"
+	},
+	{
+		"color": "light_purple",
+		"code": "§d",
+		"hex": "#FF55FF",
+		"shadow": "#3F153F"
+	},
+	{
+		"color": "yellow",
+		"code": "§e",
+		"hex": "#FFFF55",
+		"shadow": "#3F3F15"
+	},
+	{
+		"color": "white",
+		"code": "§f",
+		"hex": "#FFFFFF",
+		"shadow": "#3F3F3F"
+	},
+	{
+		"color": "reset",
+		"code": "§r",
+		"hex": "#FFFFFF",
+		"shadow": "#3F3F3F"
+	}
+]

@@ -3,7 +3,7 @@ import fs from 'fs';
 import hypixel from './api/hypixel.js';
 import { discord } from './discord/Discord.js';
 import display from './display.js';
-// import Canvas from 'canvas';
+import Canvas from 'canvas';
 
 export {
 	readConfig,
@@ -22,8 +22,8 @@ export {
 	getCata,
 	getTheAccurateFuckingCataLevel,
 	updateRoles,
-	getMsg
-	// createImage
+	getMsg,
+	createImage
 };
 
 function readConfig() {
@@ -34,8 +34,9 @@ function writeConfig(config) {
 	fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'), 'utf8');
 }
 
+const config = readConfig();
+
 function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon }) {
-	const config = readConfig();
 	const embed = new EmbedBuilder();
 
 	embed.setColor(color ?? config.color);
@@ -226,7 +227,6 @@ const permissions = new Set([
 ]);
 
 function getPerms(member) {
-	const config = readConfig();
 	const roles = member.roles.cache.map(role => role.id);
 	const perms = new Set();
 
@@ -347,7 +347,6 @@ function getTheAccurateFuckingCataLevel(level, xp) {
 }
 
 async function updateRoles(member, player) {
-	const config = readConfig();
 	const guild = await getGuild.player(player.uuid);
 
 	const addedRoles = [];
@@ -450,38 +449,103 @@ function getMsg(message) {
 	return { channel, rank, sender, guildRank, content };
 }
 
-// async function createImage(text) {
-// 	const fg = 'black';
-// 	const size = 40;
-// 	const padding = 1;
+const colors = JSON.parse(fs.readFileSync('./assets/colors.json', 'utf8'));
 
-// 	Canvas.deregisterAllFonts();
-// 	Canvas.registerFont('./assets/MinecraftRegular-Bmg3.ttf', {
-// 		family: 'Minecraft'
-// 	});
+async function createImage(text) {
+	const canvasWidth = 1100;
+	const fontSize = config.bridge.font.size;
+	const fontName = config.bridge.font.name;
+	const lineHeight = 40;
+	const blank = Canvas.createCanvas(1, 1);
+	const blankCTX = blank.getContext('2d');
+	blankCTX.font = `${fontSize}px ${fontName}`;
 
-// 	const blank = Canvas.createCanvas(1, 1);
-// 	const blankCTX = blank.getContext('2d');
-// 	blankCTX.font = `${size}px Minecraft`;
+	const colorMap = {};
+	colors.forEach(color => {
+		colorMap[color.code] = color;
+	});
 
-// 	const metrics = blankCTX.measureText(text);
-// 	const textHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+	const parts = [];
+	let index = 0;
+	while (index < text.length) {
+		if (text[index] === '§' && index + 1 < text.length) {
+			const code = `§${text[index + 1]}`;
+			index += 2;
+			let message = '';
+			while (index < text.length && text[index] !== '§') {
+				message += text[index];
+				index++;
+			}
+			parts.push({ code, message });
+		}
+		else {
+			let message = '';
+			while (index < text.length && text[index] !== '§') {
+				message += text[index];
+				index++;
+			}
+			if (message.length > 0) {
+				parts.push({ code: '§f', message });
+			}
+		}
+	}
 
-// 	const canvasWidth = Math.ceil(metrics.width + padding * 2);
-// 	const canvasHeight = Math.ceil(textHeight + padding * 2);
+	const lines = [];
+	let currentLine = [];
+	let currentLineWidth = 0;
 
-// 	const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
-// 	const ctx = canvas.getContext('2d');
+	for (const part of parts) {
+		const { code, message } = part;
+		const words = message.split(' ');
 
-// 	ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-// 	ctx.font = `${size}px Minecraft`;
-// 	ctx.fillStyle = fg;
-// 	ctx.textBaseline = 'top';
+		for (let i = 0; i < words.length; i++) {
+			const word = words[i];
+			const wordWidth = blankCTX.measureText(word).width;
+			const spaceWidth = i > 0 ? blankCTX.measureText(' ').width : 0;
 
-// 	const textY = padding + (canvasHeight - textHeight - padding * 2) / 2;
-// 	ctx.fillText(text, padding, textY);
+			if (currentLineWidth + wordWidth + spaceWidth > canvasWidth - 20) {
+				lines.push(currentLine);
+				currentLine = [];
+				currentLineWidth = 0;
+				currentLine.push({ code, text: word });
+				currentLineWidth = wordWidth;
+			}
+			else {
+				const textToAdd = currentLineWidth > 0 && i > 0 ? ` ${word}` : word;
+				currentLine.push({ code, text: textToAdd });
+				currentLineWidth += wordWidth + spaceWidth;
+			}
+		}
+	}
 
-// 	const buffer = canvas.toBuffer('image/png');
+	if (currentLine.length > 0) {
+		lines.push(currentLine);
+	}
 
-// 	return new AttachmentBuilder(buffer, { name: 'image.png' });
-// }
+	const canvasHeight = lines.length * lineHeight;
+	const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
+	const ctx = canvas.getContext('2d');
+	ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+	ctx.font = `${fontSize}px ${fontName}`;
+
+	for (let i = 0; i < lines.length; i++) {
+		const line = lines[i];
+		let xOffset = 20;
+		const textYPosition = (i * lineHeight) + 28;
+
+		for (const part of line) {
+			const colorData = colorMap[part.code] || colorMap['§f'];
+
+			ctx.fillStyle = colorData.shadow;
+			ctx.fillText(part.text, xOffset + 4, textYPosition + 4);
+
+			ctx.fillStyle = colorData.hex;
+			ctx.fillText(part.text, xOffset, textYPosition);
+
+			xOffset += ctx.measureText(part.text).width;
+		}
+	}
+
+	const buffer = canvas.toBuffer('image/png');
+	return new AttachmentBuilder(buffer, { name: 'image.png' });
+}

@@ -4,7 +4,7 @@ export default {
 	name: 'cata',
 	prefix: true,
 	channel: ['guild', 'officer', 'party', 'dm'],
-	options: ['ign'],
+	options: ['ign', 'profile'],
 
 	async execute(message) {
 		let player;
@@ -21,10 +21,19 @@ export default {
 
 		if (!player) return;
 
-		const cata = await getCata.current(player).catch((e) => {
-			if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
-			console.log(e);
-		});
+		let cata;
+		if (message.options.profile === '-h') {
+			cata = await getCata.highest(player).catch((e) => {
+				if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
+				console.log(e);
+			});
+		}
+		else {
+			cata = await getCata.current(player).catch((e) => {
+				if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
+				console.log(e);
+			});
+		}
 
 		if (!cata) return;
 

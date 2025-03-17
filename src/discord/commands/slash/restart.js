@@ -15,7 +15,7 @@ export default {
 
 		await interaction.deferReply();
 		await restart();
-		await interaction.followUp({ embeds: [createMsg({ desc: `**Successfully restarted ${interaction.client.user.username}!**` })] });
+		await interaction.followUp({ embeds: [createMsg({ desc: `**Successfully restarted ${interaction.client.user.displayName}!**` })] });
 	}
 };
 

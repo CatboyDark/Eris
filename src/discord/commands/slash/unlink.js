@@ -22,7 +22,6 @@ export default {
 			if (config.welcome.role.enabled) {
 				await interaction.member.roles.add(config.welcome.role.role);
 			}
-
 		}
 		else {
 			await interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**You are not linked!**' })], flags: MessageFlags.Ephemeral });

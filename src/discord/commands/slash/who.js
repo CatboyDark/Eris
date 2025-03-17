@@ -31,6 +31,6 @@ export default {
 
 		const roleTitle = roles ? '### Roles' : '**This user has no roles!**';
 		const permissionsTitle = permissions ? '### Permissions' : '';
-		interaction.reply({ embeds: [createMsg({ title: member.nickname || user.username, desc: `${roleTitle}\n${roles}\n${permissionsTitle}\n${permissions}`, icon: user.displayAvatarURL() })] });
+		interaction.reply({ embeds: [createMsg({ title: member.nickname || user.displayName, desc: `${roleTitle}\n${roles}\n${permissionsTitle}\n${permissions}`, icon: user.displayAvatarURL() })] });
 	}
 };
