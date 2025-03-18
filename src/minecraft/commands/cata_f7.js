@@ -1,6 +1,5 @@
 import { getCata, getPlayer } from '../../helper.js';
 import { getPB } from './cata_f0.js';
-import fs from 'fs';
 
 export default {
 	name: 'f7',
@@ -29,8 +28,6 @@ export default {
 		});
 
 		if (!cata) return;
-
-		fs.writeFileSync('log.txt', JSON.stringify(cata, null, 4));
 
 		const runs = cata.completions.catacombs.Floor_7;
 		if (!runs) {

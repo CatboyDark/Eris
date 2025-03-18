@@ -1,4 +1,4 @@
-import { getCata, getPlayer, getTheAccurateFuckingCataLevel } from '../../helper.js';
+import { getCata, getPlayer } from '../../helper.js';
 
 export default {
 	name: 'cata',
@@ -35,20 +35,6 @@ export default {
 			});
 		}
 
-		if (!cata) return;
-
-		const accurateCata = getTheAccurateFuckingCataLevel(cata.experience.level, cata.experience.xp);
-
-		const healer = cata.classes.healer.level;
-		const mage = cata.classes.mage.level;
-		const berserk = cata.classes.berserk.level;
-		const archer = cata.classes.archer.level;
-		const tank = cata.classes.tank.level;
-		const classAvg = (healer + mage + berserk + archer + tank) / 5;
-
-		const secrets = cata.secrets.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-		const spr = Number((cata.secrets / (cata.completions.catacombs.total + cata.completions.masterCatacombs.total)).toFixed(2));
-
-		await message.reply(`${player.nickname}: Cata ${accurateCata} | Class Avg ${classAvg} (A${archer}, M${mage}, B${berserk}, T${tank}, H${healer}) | Secrets ${secrets} (${spr} S/R)`);
+		await message.reply(`${player.nickname}: Cata ${cata.level} | Class Avg ${cata.classAvg} (A${cata.archer}, M${cata.mage}, B${cata.berserk}, T${cata.tank}, H${cata.healer}) | Secrets ${cata.secrets} (${cata.spr} S/R)`);
 	}
 };

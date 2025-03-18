@@ -1,7 +1,7 @@
-import { getPlayer, getSBLevel } from '../../helper.js';
+import { getNw, getPlayer } from '../../helper.js';
 
 export default {
-	name: 'level',
+	name: 'nw',
 	prefix: true,
 	channel: ['guild', 'officer', 'party', 'dm'],
 	options: ['ign', 'profile'],
@@ -21,18 +21,20 @@ export default {
 
 		if (!player) return;
 
-		let level;
+		let nw;
 		if (message.options.profile === '-h') {
-			level = await getSBLevel.highest(player).catch((e) => {
+			nw = await getNw.highest(player).catch((e) => {
 				if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
 			});
 		}
 		else {
-			level = await getSBLevel.current(player).catch((e) => {
+			nw = await getNw.current(player).catch((e) => {
 				if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
 			});
 		}
 
-		message.reply(`${player.nickname}: Level ${level}`);
+		if (!nw) return;
+
+		message.reply(`${player.nickname}'s Networth: ${nw.networth} | Purse: ${nw.purse} | Bank: ${nw.bank}`);
 	}
 };

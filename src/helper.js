@@ -20,7 +20,7 @@ export {
 	getGuild,
 	getSBLevel,
 	getCata,
-	getTheAccurateFuckingCataLevel,
+	getNw,
 	updateRoles,
 	getMsg,
 	createImage
@@ -287,10 +287,10 @@ const getSBLevel = {
 
 		const profiles = await hypixel.getSkyblockMember(player.uuid);
 		if (!profiles) return 0;
-		// eslint-disable-next-line no-unused-vars
-		for (const [profileName, profileData] of profiles.entries()) {
-			if (level < profileData.level) {
-				level = profileData.level;
+
+		for (const profile of profiles.values()) {
+			if (level < profile.level) {
+				level = profile.level;
 			}
 		}
 		return level;
@@ -301,50 +301,114 @@ const getSBLevel = {
 		if (!profiles) return 0;
 
 		const profile = [...profiles.values()].find((profile) => profile.selected);
-		return profile?.level || 0;
+		return profile.level;
 	}
 };
 
+const cataXP = JSON.parse(fs.readFileSync('./assets/cata.json', 'utf8'));
+
 const getCata = {
 	highest: async function (player) {
-		let highestProfile = null;
-		let cata = 0;
+		let cata;
 
 		const profiles = await hypixel.getSkyblockProfiles(player.uuid);
 		if (!profiles) return null;
 
-		profiles.forEach((profile) => {
-			const currentCata = profile.me?.dungeons.experience.level || 0;
-			if (currentCata > cata) {
-				cata = currentCata;
-				highestProfile = profile.me.dungeons;
+		let thisCata = 0;
+		for (const profile of profiles.values()) {
+			if (profile.me.dungeons.experience.level > thisCata) {
+				thisCata = profile.me.dungeons.experience.level;
+				cata = profile.me.dungeons;
 			}
-		});
-		return highestProfile;
+		}
+
+		return this.cataF(cata);
 	},
 
 	current: async function (player) {
 		const profiles = await hypixel.getSkyblockProfiles(player.uuid);
 		if (!profiles) return null;
 
-		const selectedProfile = profiles.find(profile => profile.selected);
-		return selectedProfile.me.dungeons;
+		const profile = [...profiles.values()].find((profile) => profile.selected);
+		const cata = profile.me.dungeons;
+
+		return this.cataF(cata);
+	},
+
+	getTheAccurateFuckingCataLevel(xp) {
+		let requiredXP = 0;
+
+		for (let i = 1; i <= 50; i++) {
+			const levelXp = cataXP[i];
+			if (xp < requiredXP + levelXp) {
+				return Number((i - 1 + (xp - requiredXP) / levelXp).toFixed(2));
+			}
+			requiredXP += levelXp;
+		}
+
+		return Number((50 + (xp - requiredXP) / 200000000).toFixed(1));
+	},
+
+	cataF(cata) {
+		return {
+			level: this.getTheAccurateFuckingCataLevel(cata.experience.xp),
+			healer: cata.classes.healer.level,
+			mage: cata.classes.mage.level,
+			berserk: cata.classes.berserk.level,
+			archer: cata.classes.archer.level,
+			tank: cata.classes.tank.level,
+			classAvg: (cata.classes.healer.level + cata.classes.mage.level + cata.classes.berserk.level + cata.classes.archer.level + cata.classes.tank.level) / 5,
+			secrets: cata.secrets.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+			spr: Number((cata.secrets / (cata.completions.catacombs.total + cata.completions.masterCatacombs.total)).toFixed(2))
+		};
 	}
 };
 
-function getTheAccurateFuckingCataLevel(level, xp) {
-	if (level > 50) {
-		xp -= 569809640;
-	}
+const getNw = {
+	highest: async function (player) {
+		let nw;
 
-	const extraLevels = xp / 200000000;
-	if (level <= 50) {
-		return Number(level.toFixed(2));
-	}
+		const profiles = await hypixel.getSkyblockMember(player.uuid);
+		if (!profiles) return null;
 
-	const accurateLevel = 50 + extraLevels;
-	return Number(accurateLevel.toFixed(2));
-}
+		let thisNw = 0;
+		for (const profile of profiles.values()) {
+			const networth = await profile.getNetworth();
+			if (networth.networth > thisNw) {
+				thisNw = networth.networth;
+				nw = networth;
+			}
+		}
+
+		return {
+			networth: this.nwF(nw.networth),
+			purse: this.nwF(nw.purse),
+			bank: this.nwF(nw.bank)
+		};
+	},
+
+	current: async function (player) {
+		const profiles = await hypixel.getSkyblockMember(player.uuid);
+		if (!profiles) return null;
+
+		const profile = [...profiles.values()].find((profile) => profile.selected);
+		const nw = await profile.getNetworth();
+
+		return {
+			networth: this.nwF(nw.networth),
+			purse: this.nwF(nw.purse),
+			bank: this.nwF(nw.bank)
+		};
+	},
+
+	nwF(value) {
+		if (value >= 1e12) return (Math.floor(value / 1e10) / 100).toFixed(2) + 'T';
+		if (value >= 1e9) return (Math.floor(value / 1e8) / 10).toFixed(1) + 'B';
+		if (value >= 1e6) return Math.floor(value / 1e6) + 'M';
+		if (value >= 1e3) return Math.floor(value / 1e3) + 'k';
+		return value.toString();
+	}
+};
 
 async function updateRoles(member, player) {
 	const guild = await getGuild.player(player.uuid);

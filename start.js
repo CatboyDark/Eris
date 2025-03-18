@@ -4,10 +4,9 @@ import { Mongo } from './src/mongo/Mongo.js';
 
 export function start() {
 	Mongo();
-	Discord()
-		.then(() => {
-			Minecraft();
-		});
+	Discord().then(() => {
+		Minecraft();
+	});
 }
 
 start();
