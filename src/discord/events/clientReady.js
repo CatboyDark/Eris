@@ -38,8 +38,8 @@ export default
 				const logs = client.channels.cache.get(config.logs.bot);
 
 				await logGXP(config, logs, guild);
-				await syncRoles(client, config, guild);
-				await updateStatsChannels(client, config, guild);
+				await syncRoles(client, config, logs, guild);
+				await updateStatsChannels(client, config, logs, guild);
 			},
 			{
 				timezone: 'America/Los_Angeles'
