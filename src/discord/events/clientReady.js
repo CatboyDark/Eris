@@ -35,8 +35,9 @@ export default
 			async () => {
 				const config = readConfig();
 				const guild = await getGuild.name(config.guild.name);
+				const logs = client.channels.cache.get(config.logs.bot);
 
-				await logGXP(client, config, guild);
+				await logGXP(config, logs, guild);
 				await syncRoles(client, config, guild);
 				await updateStatsChannels(client, config, guild);
 			},
@@ -113,7 +114,7 @@ async function updateCheck(client) {
 	});
 }
 
-async function logGXP(client, config, guild) {
+async function logGXP(config, logs, guild) {
 	try {
 		const db = getMongo('gxp', config.guild.name, gxpSchema);
 
@@ -156,11 +157,10 @@ async function logGXP(client, config, guild) {
 		display.r('GXP Logger >', e);
 	}
 
-	const logs = client.channels.cache.get(config.logs.bot);
-	await logs.send({ embeds: [createMsg({ desc: `### ${config.guild.name ?? logs.guild.name}\n**GXP has been logged!**` })] });
+	await logs.send({ embeds: [createMsg({ desc: '**GXP has been logged!**' })] });
 }
 
-async function syncRoles(client, config, guild) {
+async function syncRoles(client, config, logs, guild) {
 	const plus = await getEmoji('plus');
 	const minus = await getEmoji('minus');
 
@@ -205,14 +205,15 @@ async function syncRoles(client, config, guild) {
 		desc += `\n_ _\n${removedRoles.map((user) => `${minus} <@${user}>`).join('\n')}\n_ _`;
 	}
 
-	const logs = client.channels.cache.get(config.logs.bot);
-	logs.send({ embeds: [createMsg({ desc: desc })]
+	await logs.send({ embeds: [createMsg({ desc: desc })]
 	});
 }
 
-async function updateStatsChannels(client, config, guild) {
+async function updateStatsChannels(client, config, logs, guild) {
 	await client.channels.cache.get(config.statsChannels.level)
-		.setname(`⭐ Level: ${Number(Math.floor(guild.level.toFixed(1)))}`);
+		.setName(`⭐ Level: ${Number(Math.floor(guild.level.toFixed(1)))}`);
 	await client.channels.cache.get(config.statsChannels.members)
 		.setName(`😋 Members: ${guild.members.length}/125`);
+
+	await logs.send({ embeds: [createMsg({ desc: '**Stats channels have been updated!**' })] });
 }
