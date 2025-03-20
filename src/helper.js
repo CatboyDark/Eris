@@ -306,9 +306,10 @@ const getSBLevel = {
 };
 
 const cataXP = JSON.parse(fs.readFileSync('./assets/cata.json', 'utf8'));
+const floors = JSON.parse(fs.readFileSync('./assets/dungeon_floors.json', 'utf8'));
 
 const getCata = {
-	highest: async function (player) {
+	highest: async function (player, floor = null) {
 		let cata;
 
 		const profiles = await hypixel.getSkyblockProfiles(player.uuid);
@@ -322,17 +323,17 @@ const getCata = {
 			}
 		}
 
-		return this.cataF(cata);
+		return this.cataF(cata, floor);
 	},
 
-	current: async function (player) {
+	current: async function (player, floor = null) {
 		const profiles = await hypixel.getSkyblockProfiles(player.uuid);
 		if (!profiles) return null;
 
 		const profile = [...profiles.values()].find((profile) => profile.selected);
 		const cata = profile.me.dungeons;
 
-		return this.cataF(cata);
+		return this.cataF(cata, floor);
 	},
 
 	getTheAccurateFuckingCataLevel(xp) {
@@ -349,8 +350,62 @@ const getCata = {
 		return Number((50 + (xp - requiredXP) / 200000000).toFixed(1));
 	},
 
-	cataF(cata) {
+	getFloor(cata, floor) {
+		const floorInfo = floors.find(f => f.id === floor);
+		if (!floorInfo) return null;
+
+		const { name, path } = floorInfo;
+		const floorData = cata.floors[name];
+		if (!floorData) return null;
+
+		const getRuns = [
+			floorData.fastestSPlusRun,
+			floorData.fastestSRun,
+			floorData.fastestRun
+		].filter(Boolean);
+
+		if (getRuns.length === 0) return null;
+
+		function getScore(run) {
+			return run.score_exploration + run.score_speed + run.score_skill + run.score_bonus;
+		}
+
+		const highestRun = getRuns.reduce((best, run) => {
+			return getScore(run) > getScore(best) ? run : best;
+		}, getRuns[0]);
+
+		let rank;
+		const score = getScore(highestRun);
+		if (score >= 300) rank = 'S+';
+		else if (score >= 269.5) rank = 'S';
+		else if (score >= 230) rank = 'A';
+		else if (score >= 160) rank = 'B';
+		else if (score >= 100) rank = 'C';
+		else rank = 'D';
+
+		const totalSeconds = Math.floor(highestRun.elapsed_time / 1000);
+		const minutes = Math.floor(totalSeconds / 60);
+		const seconds = totalSeconds % 60;
+		const time = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+		const runs = floor.startsWith('m')
+			? cata.completions.masterCatacombs?.[path]
+			: cata.completions.catacombs?.[path];
+
+		const normalRuns = cata.completions.catacombs?.[path];
+		const masterRuns = cata.completions.masterCatacombs?.[path];
+		const collection = normalRuns + (masterRuns * 2);
+
 		return {
+			score: rank,
+			time,
+			runs,
+			collection
+		};
+	},
+
+	cataF(cata, floor) {
+		const data = {
 			level: this.getTheAccurateFuckingCataLevel(cata.experience.xp),
 			healer: cata.classes.healer.level,
 			mage: cata.classes.mage.level,
@@ -361,6 +416,20 @@ const getCata = {
 			secrets: cata.secrets.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
 			spr: Number((cata.secrets / (cata.completions.catacombs.total + cata.completions.masterCatacombs.total)).toFixed(2))
 		};
+
+		if (floor) {
+			const run = this.getFloor(cata, floor);
+
+			return {
+				...data,
+				score: run.score,
+				time: run.time,
+				runs: run.runs,
+				collection: run.collection
+			};
+		}
+
+		return data;
 	}
 };
 

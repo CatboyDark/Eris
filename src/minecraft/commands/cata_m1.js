@@ -1,5 +1,4 @@
 import { getCata, getPlayer } from '../../helper.js';
-import { getPB } from './cata_f0.js';
 
 export default {
 	name: 'm1',
@@ -22,25 +21,12 @@ export default {
 
 		if (!player) return;
 
-		const cata = await getCata.current(player).catch((e) => {
+		const cata = await getCata.current(player, 'm1')
+		.catch((e) => {
 			if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
 			console.log(e);
 		});
 
-		if (!cata) return;
-
-		const runs = cata.completions.masterCatacombs.Floor_1;
-		if (!runs) {
-			return message.reply(`${player.nickname} hasn't played M1!`);
-		}
-
-		const pb = getPB(cata, 'masterCatacombs1');
-		if (!pb) {
-			return message.reply(`${player.nickname} hasn't played M1!`);
-		}
-
-		const collection = cata.completions.catacombs.Floor_1 + (cata.completions.masterCatacombs.Floor_1 * 2);
-
-		await message.reply(`${player.nickname}'s M1: ${runs} Runs | PB ${pb.score}: ${pb.time} | Total Collection: ${collection}`);
+		await message.reply(`${player.nickname}'s M1: ${cata.runs} Runs | Total Collection: ${cata.collection}`);
 	}
 };
