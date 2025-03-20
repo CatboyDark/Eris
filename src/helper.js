@@ -392,8 +392,8 @@ const getCata = {
 			? cata.completions.masterCatacombs?.[path]
 			: cata.completions.catacombs?.[path];
 
-		const normalRuns = cata.completions.catacombs?.[path];
-		const masterRuns = cata.completions.masterCatacombs?.[path];
+		const normalRuns = cata.completions.catacombs?.[path] ?? 0;
+		const masterRuns = cata.completions.masterCatacombs?.[path] ?? 0;
 		const collection = normalRuns + (masterRuns * 2);
 
 		return {

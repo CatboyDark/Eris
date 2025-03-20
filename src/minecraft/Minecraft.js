@@ -80,14 +80,15 @@ async function Minecraft() {
 					break;
 			}
 
-			const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-			let rString = '';
+			// const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+			// let rString = '';
 
-			for (let i = 0; i < 5; i++) {
-				const rIndex = Math.floor(Math.random() * chars.length);
-				rString += chars[rIndex];
-			}
-			await minecraft.chat(`${prefix} ${content} -${rString}-`);
+			// for (let i = 0; i < 5; i++) {
+			// 	const rIndex = Math.floor(Math.random() * chars.length);
+			// 	rString += chars[rIndex];
+			// }
+			await minecraft.chat(`${prefix} ${content}`);
+			// await minecraft.chat(`${prefix} ${content} -${rString}-`);
 		};
 
 		try {
