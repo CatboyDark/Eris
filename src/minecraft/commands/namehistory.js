@@ -18,7 +18,7 @@ export default {
 		const uniqueIGNsFiltered = uniqueIGNs.filter(ign => ign !== currentIGN);
 
 		if (uniqueIGNsFiltered.length === 0) {
-			message.reply(`${currentIGN} has no other aliases!`);
+			message.reply(`${currentIGN} has no aliases!`);
 		}
 		else {
 			message.reply(`${currentIGN}'s aliases: ${uniqueIGNsFiltered.join(', ')}`);
