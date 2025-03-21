@@ -1,16 +1,27 @@
-// export default {
-// 	name: 'nh',
-// 	prefix: true,
-// 	channel: ['guild', 'officer', 'party', 'dm'],
-// 	options: ['player'],
+export default {
+	name: 'nh',
+	prefix: true,
+	channel: ['guild', 'officer', 'party', 'dm'],
+	options: ['player'],
 
-// 	async execute(message) {
+	async execute(message) {
+		if (!message.options.player) return message.reply('Enter a player!');
 
-// 		if (!message.options.player) return message.reply('Enter a player!');
+		const response = await fetch(`https://laby.net/api/v3/user/${message.options.player}/profile`);
+		if (!response.ok) message.reply('Invalid IGN!');
 
-// 		const player = getUUID
+		const data = await response.json();
 
+		const igns = data.name_history.map(entry => entry.name).reverse();
+		const uniqueIGNs = [...new Set(igns)];
+		const currentIGN = uniqueIGNs[0];
+		const uniqueIGNsFiltered = uniqueIGNs.filter(ign => ign !== currentIGN);
 
-// 		message.reply(`${player.nickname}:  `);
-// 	}
-// };
+		if (uniqueIGNsFiltered.length === 0) {
+			message.reply(`${currentIGN} has no other aliases!`);
+		}
+		else {
+			message.reply(`${currentIGN}'s aliases: ${uniqueIGNsFiltered.join(', ')}`);
+		}
+	}
+};
