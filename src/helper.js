@@ -266,8 +266,7 @@ async function getPlayer(user) {
 	return player;
 }
 
-async function getDiscord(ign) {
-	const player = await hypixel.getPlayer(ign);
+async function getDiscord(player) {
 	const discord = player.socialMedia.find((media) => media.id === 'DISCORD');
 	return discord ? discord.link.toLowerCase() : null;
 }

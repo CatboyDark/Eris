@@ -1,9 +1,9 @@
-import { getPlayer, getGuild } from '../../helper.js';
+import { getDiscord, getPlayer } from '../../helper.js';
 
 export default {
-	name: 'guild',
+	name: 'discord',
 	prefix: true,
-	aliases: ['g'],
+	aliases: ['d'],
 	channel: ['guild', 'officer', 'party', 'dm'],
 	options: ['ign'],
 
@@ -15,12 +15,11 @@ export default {
 			if (e.message.includes('Player has never logged into Hypixel.')) return message.reply(`${message.options.ign} doesn't play Hypixel!`);
 		});
 
-		const guild = await getGuild.player(player.nickname);
-		if (!guild) return message.reply(`${player.nickname} is not in a guild.`);
+		if (!player) return;
 
-		const member = guild.members.find(member => member.uuid === player.uuid);
-		const playerWeeklyGXP = member.weeklyExperience > 1000 ? `${member.weeklyExperience / 1000}k` : member.weeklyExperience;
+		const discord = await getDiscord(player);
+		if (!discord) return message.reply(`${player.nickname}: No Discord found!`);
 
-		message.reply(`${player.nickname}: ${guild.name} | Weekly GXP: ${playerWeeklyGXP}`);
+		message.reply(`@${discord}`);
 	}
 };

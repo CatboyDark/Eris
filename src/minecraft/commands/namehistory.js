@@ -3,13 +3,13 @@ export default {
 	prefix: true,
 	aliases: ['nh'],
 	channel: ['guild', 'officer', 'party', 'dm'],
-	options: ['player'],
+	options: ['ign'],
 
 	async execute(message) {
-		if (!message.options.player) return message.reply('Enter a player!');
+		if (!message.options.ign) return message.reply('Enter a player!');
 
-		const response = await fetch(`https://laby.net/api/v3/user/${message.options.player}/profile`);
-		if (!response.ok) message.reply('Invalid IGN!');
+		const response = await fetch(`https://laby.net/api/v3/user/${message.options.ign}/profile`);
+		if (!response.ok) message.reply('Invalid player!');
 
 		const data = await response.json();
 

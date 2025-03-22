@@ -15,7 +15,7 @@ export default {
 		}
 		else {
 			player = await getPlayer(message.options.ign).catch((e) => {
-				if (e.message.includes('Player does not exist.')) return message.reply('Invalid IGN!');
+				if (e.message.includes('Player does not exist.')) return message.reply('Invalid player!');
 				if (e.message.includes('Player has never logged into Hypixel.')) return message.reply(`${message.options.ign} doesn't play Hypixel!`);
 			});
 		}

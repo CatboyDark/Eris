@@ -79,7 +79,7 @@ export default {
 			}
 		}
 		catch (e) {
-			if (e.message.includes('Player does not exist')) return interaction.editReply({ embeds: [createMsg({ color: 'Red', desc: '**Invalid Username!**' })] });
+			if (e.message.includes('Player does not exist')) return interaction.editReply({ embeds: [createMsg({ color: 'Red', desc: '**Invalid player!**' })] });
 			if (e.message.includes('Missing Permissions')) return interaction.editReply({ embeds: [createMsg({ color: 'FFD800', desc: '**I don\'t have permission to assign their roles!**\n\n-# I must have a role higher than the ones I\'m assigning.' })] });
 			console.log(e);
 		}

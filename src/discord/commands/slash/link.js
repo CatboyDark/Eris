@@ -14,8 +14,12 @@ export default {
 			await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
 			const ign = interaction.options.getString('ign');
-			const player = await getPlayer(ign);
-			const discord = await getDiscord(ign);
+			const player = await getPlayer(ign).catch((e) => {
+				if (e.message.includes('Player does not exist.')) return message.reply('Invalid player!');
+				if (e.message.includes('Player has never logged into Hypixel.')) return message.reply(`${message.options.ign} doesn't play Hypixel!`);
+			});
+			
+			const discord = await getDiscord(player);
 
 			const check = await getEmoji('check');
 			const plus = await getEmoji('plus');
@@ -61,7 +65,7 @@ export default {
 			}
 		}
 		catch (e) {
-			if (e.message.includes('Player does not exist')) return interaction.editReply({ embeds: [createMsg({ color: 'Red', desc: '**Invalid Username!**' })] });
+			if (e.message.includes('Player does not exist')) return interaction.editReply({ embeds: [createMsg({ color: 'Red', desc: '**Invalid player!**' })] });
 			if (e.message.includes('Missing Permissions')) return interaction.editReply({ embeds: [createMsg({ color: 'FFD800', desc: '**I don\'t have permission to assign your roles!**\n\n-# I must have a role higher than the ones I\'m assigning.' })] });
 			console.log(e);
 		}
