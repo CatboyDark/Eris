@@ -31,7 +31,7 @@ export default async () => {
 		consoleChannel.send(msg);
 
 		if (config.bridge.guild.enabled) {
-			if (msg.startsWith('Guild >')) {
+			if (msg.startsWith('Guild >') && !msg.startsWith('Guild > [VIP+] CatboyLight')) {
 				const fullMessage = getFullString(message).replace('§2Guild > ', '');
 				const messageImage = await createImage(fullMessage);
 				guildChannel.send({ files: [messageImage] });
@@ -39,7 +39,7 @@ export default async () => {
 		}
 
 		if (config.bridge.officer.enabled) {
-			if (msg.startsWith('Officer >')) {
+			if (msg.startsWith('Officer >') && !msg.startsWith('Officer > [VIP+] CatboyLight')) {
 				const fullMessage = getFullString(message).replace('§3Officer > ', '');
 				const messageImage = await createImage(fullMessage);
 				officerChannel.send({ files: [messageImage] });
