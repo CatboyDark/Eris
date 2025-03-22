@@ -3,16 +3,17 @@ import { getPlayer, getGuild } from '../../helper.js';
 export default {
 	name: 'guild',
 	prefix: true,
+	aliases: ['g'],
 	channel: ['guild', 'officer', 'party', 'dm'],
-	options: ['arg'],
+	options: ['player'],
 
 	async execute(message) {
-		const player = await getPlayer(message.options.arg).catch((e) => {
+		if (!message.options.player) return message.reply('Enter a player!');
+
+		const player = await getPlayer(message.options.player).catch((e) => {
 			if (e.message.includes('Player does not exist.')) return message.reply('Invalid IGN!');
 			if (e.message.includes('Player has never logged into Hypixel.')) return message.reply(`${message.options.ign} doesn't play Hypixel!`);
 		});
-
-		if (!player) return;
 
 		const guild = await getGuild.player(player.nickname);
 		if (!guild) return message.reply(`${player.nickname} is not in a guild.`);

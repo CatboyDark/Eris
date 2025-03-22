@@ -3,6 +3,7 @@ import { getPlayer, getSBLevel } from '../../helper.js';
 export default {
 	name: 'level',
 	prefix: true,
+	aliases: ['lv'],
 	channel: ['guild', 'officer', 'party', 'dm'],
 	options: ['ign', 'profile'],
 

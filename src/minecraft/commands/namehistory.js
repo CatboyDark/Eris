@@ -1,6 +1,7 @@
 export default {
-	name: 'nh',
+	name: 'namehistory',
 	prefix: true,
+	aliases: ['nh'],
 	channel: ['guild', 'officer', 'party', 'dm'],
 	options: ['player'],
 

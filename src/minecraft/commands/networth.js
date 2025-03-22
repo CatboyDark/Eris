@@ -1,8 +1,9 @@
 import { getNw, getPlayer } from '../../helper.js';
 
 export default {
-	name: 'nw',
+	name: 'networth',
 	prefix: true,
+	aliases: ['nw'],
 	channel: ['guild', 'officer', 'party', 'dm'],
 	options: ['ign', 'profile'],
 

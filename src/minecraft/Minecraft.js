@@ -39,17 +39,23 @@ async function Minecraft() {
 			display.r(`Invalid command: ${commandFile}`);
 			continue;
 		}
-		if (command.prefix) {
-			command.name = `${config.prefix}${command.name}`;
-		}
+
+		command.name = command.prefix ? `${config.prefix}${command.name}` : command.name;
 		commands.set(command.name, command);
+
+		if (command.aliases) {
+			for (const alias of command.aliases) {
+				const aliasName = command.prefix ? `${config.prefix}${alias}` : alias;
+				commands.set(aliasName, command);
+			}
+		}
 	}
 
 	minecraft.on('message', (message) => {
 		const msg = getMsg(message.toString());
 		if (!msg || !msg.channel) return;
 
-		const args = msg.content.trim().split(/ +/);
+		const args = msg.content.match(/"([^"]+)"|'([^']+)'|\S+/g)?.map(arg => arg.replace(/^["']|["']$/g, '')) || [];
 		const commandName = args.shift().toLowerCase();
 		const command = commands.get(commandName);
 

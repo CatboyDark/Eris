@@ -19,8 +19,6 @@ export default {
 			});
 		}
 
-		if (!player) return;
-
 		let cata;
 		if (message.options.profile === '-h') {
 			cata = await getCata.highest(player).catch((e) => {

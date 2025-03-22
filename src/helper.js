@@ -21,6 +21,7 @@ export {
 	getSBLevel,
 	getCata,
 	getNw,
+	nFormat,
 	updateRoles,
 	getMsg,
 	createImage
@@ -450,9 +451,9 @@ const getNw = {
 		}
 
 		return {
-			networth: this.nwF(nw.networth),
-			purse: this.nwF(nw.purse),
-			bank: this.nwF(nw.bank)
+			networth: nFormat(nw.networth),
+			purse: nFormat(nw.purse),
+			bank: nFormat(nw.bank)
 		};
 	},
 
@@ -464,20 +465,20 @@ const getNw = {
 		const nw = await profile.getNetworth();
 
 		return {
-			networth: this.nwF(nw.networth),
-			purse: this.nwF(nw.purse),
-			bank: this.nwF(nw.bank)
+			networth: nFormat(nw.networth),
+			purse: nFormat(nw.purse),
+			bank: nFormat(nw.bank)
 		};
-	},
-
-	nwF(value) {
-		if (value >= 1e12) return (Math.floor(value / 1e10) / 100).toFixed(2) + 'T';
-		if (value >= 1e9) return (Math.floor(value / 1e8) / 10).toFixed(1) + 'B';
-		if (value >= 1e6) return Math.floor(value / 1e6) + 'M';
-		if (value >= 1e3) return Math.floor(value / 1e3) + 'k';
-		return value.toString();
 	}
 };
+
+function nFormat(value) {
+	if (value >= 1e12) return (Math.floor(value / 1e10) / 100).toFixed(2) + 'T';
+	if (value >= 1e9) return (Math.floor(value / 1e8) / 10).toFixed(1) + 'B';
+	if (value >= 1e6) return Math.floor(value / 1e6) + 'M';
+	if (value >= 1e3) return Math.floor(value / 1e3) + 'k';
+	return Math.floor(value.toString());
+}
 
 async function updateRoles(member, player) {
 	const guild = await getGuild.player(player.uuid);
@@ -589,6 +590,7 @@ async function createImage(text) {
 	const fontSize = config.bridge.font.size;
 	const fontName = config.bridge.font.name;
 	const lineHeight = 40;
+
 	const blank = Canvas.createCanvas(1, 1);
 	const blankCTX = blank.getContext('2d');
 	blankCTX.font = `${fontSize}px ${fontName}`;

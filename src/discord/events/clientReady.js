@@ -3,7 +3,7 @@ import { ActivityType, Events, Team } from 'discord.js';
 import fs from 'fs';
 import { schedule } from 'node-cron';
 import display from '../../display.js';
-import { createMsg, createRow, getGuild, readConfig, writeConfig } from '../../helper.js';
+import { createMsg, createRow, getEmoji, getGuild, readConfig, writeConfig } from '../../helper.js';
 import { getMongo, gxpSchema, membersSchema } from '../../mongo/schemas.js';
 
 export default
