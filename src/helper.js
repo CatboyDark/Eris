@@ -14,7 +14,7 @@ export {
 	createSlash,
 	getEmoji,
 	getPerms,
-	getIGN,
+	getUser,
 	getPlayer,
 	getDiscord,
 	getGuild,
@@ -249,15 +249,14 @@ function getPerms(member) {
 	return [...perms];
 }
 
-async function getIGN(uuid) {
+async function getUser(user) { // Returns user.id, user.name
 	try {
-		const response = await fetch(`https://mowojang.matdoes.dev/${uuid}`);
-		const data = await response.json();
-		return data.name;
+		const response = await fetch(`https://mowojang.matdoes.dev/${user}`);
+		return await response.json();
 	}
 	catch (e) {
 		console.error(e);
-		if (e.response?.data === 'Not found') return 'Invalid UUID.';
+		if (e.response?.data === 'Not found') return null;
 	}
 }
 
