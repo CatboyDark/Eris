@@ -26,14 +26,13 @@ export default
 
 		await initEmojis(client);
 
-		updateCheck(client);
+		updateCheck(client, config);
 		schedule('0 */6 * * *', // Once every 6 hours
-			async () => updateCheck(client)
+			async () => updateCheck(client, config)
 		);
 
 		schedule( '1 22 * * *', // 12:01 CST every day
 			async () => {
-				const config = readConfig();
 				const guild = await getGuild.name(config.guild.name);
 				const logs = client.channels.cache.get(config.logs.bot);
 
@@ -79,30 +78,34 @@ async function initEmojis(client) {
 	}
 }
 
-async function updateCheck(client) {
-	const config = readConfig();
+async function updateCheck(client, config) {
 	const app = await client.application.fetch();
 	const logs = client.channels.cache.get(config.logs.bot);
 
-	let branch;
     let localHash;
-    let remoteHash;
+    let latestHash;
 
 	try {
-		branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 		localHash = execSync('git rev-parse HEAD').toString().trim();
+
 		execSync('git fetch origin');
-		remoteHash = execSync(`git rev-parse origin/${branch}`).toString().trim();
+		const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+		latestHash = execSync(`git rev-parse origin/${branch}`).toString().trim();
 	}
 	catch (e) {
 		display.r(`UpdateCheck > ${e}`);
-		logs.send({
+		return logs.send({
 			content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
 			embeds: [createMsg({ title: config.guild.name ?? logs.guild.name, color: 'Red', desc: '**Error checking for updates!**' })]
 		});
 	}
 
-	if (localHash === remoteHash) return;
+	if (!config.hash) {
+		config.hash = localHash;
+		writeConfig(config);
+	}
+
+	if (config.hash === latestHash) return;
 
 	const commitMessage = execSync('git log -1 --pretty=%B').toString().trim();
 
@@ -112,6 +115,10 @@ async function updateCheck(client) {
 		embeds: [createMsg({ desc: `**Update Available!**\n\`\`\`${commitMessage}\`\`\`` })],
 		components: [createRow([{ id: 'restart', label: 'Update', color: 'Green' }])]
 	});
+
+	config.hash = latestHash;
+	writeConfig(config);
+
 }
 
 async function logGXP(config, logs, guild) {
