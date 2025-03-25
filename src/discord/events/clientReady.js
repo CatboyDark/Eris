@@ -82,8 +82,8 @@ async function updateCheck(client, config) {
 	const app = await client.application.fetch();
 	const logs = client.channels.cache.get(config.logs.bot);
 
-    let localHash;
-    let latestHash;
+	let localHash;
+	let latestHash;
 
 	try {
 		localHash = execSync('git rev-parse HEAD').toString().trim();
@@ -118,7 +118,6 @@ async function updateCheck(client, config) {
 
 	config.hash = latestHash;
 	writeConfig(config);
-
 }
 
 async function logGXP(config, logs, guild) {

@@ -3,15 +3,16 @@ import auth from '../../../auth.json' with { type: 'json' };
 import fs from 'fs';
 
 export default {
-	name: 'forge', // Credit: DuckySoLucky
+	name: 'forge',
 	prefix: true,
 	channel: ['guild', 'officer', 'party', 'dm'],
 	options: ['ign'],
 
 	async execute(message) {
 		const user = message.options.ign ? message.options.ign : message.sender;
-		const { id, name } = await getUser(user);
-		if (!id || !name) return message.reply('Invalid player!');
+		const userData = await getUser(user);
+		if (!userData) return message.reply('Invalid player!');
+		const { id, name } = userData;
 
 		const response = await fetch(`https://api.hypixel.net/v2/skyblock/profiles?key=${auth.hypixelAPI}&uuid=${id}`);
 		const data = await response.json();
@@ -31,7 +32,7 @@ export default {
 			timeStart: process.startTime
 		}));
 
-		const forgeMap = JSON.parse(fs.readFileSync('./assets/forge.json', 'utf8'));
+		const forgeMap = JSON.parse(fs.readFileSync('./assets/forge.json', 'utf8')); // Credit: https://github.com/DuckySoLucky/hypixel-discord-chat-bridge
 		const list = [];
 
 		for (const item of items) {

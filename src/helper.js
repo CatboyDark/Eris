@@ -252,6 +252,10 @@ function getPerms(member) {
 async function getUser(user) { // Returns user.id, user.name
 	try {
 		const response = await fetch(`https://mowojang.matdoes.dev/${user}`);
+		if (!response) {
+			return null;
+		}
+
 		return await response.json();
 	}
 	catch (e) {

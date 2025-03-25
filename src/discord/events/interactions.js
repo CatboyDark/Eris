@@ -17,6 +17,11 @@ export default {
 			}
 		}
 		if (interaction.isButton()) {
+			const ignoredButtons = ['quizJoin', 'toggle', 'quizLength', 'quizJoin', 'quizStart', 'questionNext', 'region'];
+			for (const button of ignoredButtons) {
+				if (interaction.customId.startsWith(button)) return;
+			}
+
 			try {
 				const button = interaction.client.buttons.get(interaction.customId);
 				await button.execute(interaction);
