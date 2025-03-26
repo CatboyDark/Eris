@@ -50,12 +50,16 @@ export default {
 				const now = Date.now();
 				const timeRemaining = Math.max(0, timeFinish - now);
 
-				const remainingHours = Math.floor(timeRemaining / (60 * 60 * 1000));
+				const remainingDays = Math.floor(timeRemaining / (24 * 60 * 60 * 1000));
+				const remainingHours = Math.floor((timeRemaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
 				const remainingMinutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
 
 				let time;
 				if (timeRemaining <= 0) {
 					time = 'Ready!';
+				}
+				else if (remainingDays > 0) {
+					time = `${remainingDays}d${remainingHours}h${remainingMinutes}m`;
 				}
 				else if (remainingHours > 0) {
 					time = `${remainingHours}h${remainingMinutes}m`;

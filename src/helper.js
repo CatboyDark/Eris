@@ -308,7 +308,7 @@ const getSBLevel = {
 	}
 };
 
-const cataXP = JSON.parse(fs.readFileSync('./assets/cata.json', 'utf8'));
+const cataXP = JSON.parse(fs.readFileSync('./assets/cata.json', 'utf8')); // Credits: https://github.com/Hypixel-API-Reborn/hypixel-api-reborn
 const floors = JSON.parse(fs.readFileSync('./assets/dungeon_floors.json', 'utf8'));
 
 const getCata = {
