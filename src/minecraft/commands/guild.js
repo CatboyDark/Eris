@@ -1,16 +1,22 @@
-import { getPlayer, getGuild } from '../../helper.js';
+import { getPlayer, getGuild, getUser, nFormat } from '../../helper.js';
 
 export default {
 	name: 'guild',
 	prefix: true,
 	aliases: ['g'],
 	channel: ['guild', 'officer', 'party', 'dm'],
-	options: ['ign'],
+	options: ['entry', 'args'],
 
 	async execute(message) {
-		if (!message.options.ign) return message.reply('Enter a player!');
 
-		const player = await getPlayer(message.options.ign).catch((e) => {
+		if (message.options.args === '-g') {
+			const guild = await getGuild.name(message.options.entry);
+
+			const guildMaster = await getUser(guild.members.find(member => member.rank === 'Guild Master').uuid);
+			return message.reply(`${guild.name}: Level: ${Number(Math.floor(guild.level.toFixed(1)))} | GM: ${guildMaster.name} | Members: ${guild.members.length}/125 | Weekly GXP: ${nFormat(guild.totalWeeklyGexp.toFixed(1))} `);
+		}
+
+		const player = await getPlayer(message.options.entry ? message.options.entry : message.sender).catch((e) => {
 			if (e.message.includes('Player does not exist.')) return message.reply('Invalid player!');
 			if (e.message.includes('Player has never logged into Hypixel.')) return message.reply(`${message.options.ign} doesn't play Hypixel!`);
 		});
@@ -22,5 +28,10 @@ export default {
 		const playerWeeklyGXP = member.weeklyExperience > 1000 ? `${member.weeklyExperience / 1000}k` : member.weeklyExperience;
 
 		message.reply(`${player.nickname}: ${guild.name} | Weekly GXP: ${playerWeeklyGXP}`);
+
+		if (message.options.args === '-e') {
+			const guildMaster = await getUser(guild.members.find(member => member.rank === 'Guild Master').uuid);
+			message.reply(`${guild.name}: Level: ${Number(Math.floor(guild.level.toFixed(1)))} | GM: ${guildMaster.name} | Members: ${guild.members.length}/125 | Weekly GXP: ${nFormat(guild.totalWeeklyGexp.toFixed(1))} `);
+		}
 	}
 };

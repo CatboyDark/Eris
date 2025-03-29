@@ -1,2 +1,3 @@
 **dont put staff ranks in guild rank roles**
 list of things that will break if user is not linked: (anything that uses the db)
+pm2 restart eris

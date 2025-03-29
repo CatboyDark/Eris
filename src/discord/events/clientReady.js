@@ -86,10 +86,10 @@ async function updateCheck(client, config) {
 	let latestHash;
 
 	try {
-		localHash = execSync('git rev-parse HEAD').toString().trim();
-
 		execSync('git fetch origin');
+
 		const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+		localHash = execSync('git rev-parse HEAD').toString().trim();
 		latestHash = execSync(`git rev-parse origin/${branch}`).toString().trim();
 	}
 	catch (e) {
