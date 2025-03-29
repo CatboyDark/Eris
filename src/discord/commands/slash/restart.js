@@ -26,9 +26,10 @@ async function restart() {
 		const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 
 		execSync(`git pull origin ${branch}`);
-		await discord.destroy();
-		await minecraft.end();
-		start();
+		// await discord.destroy();
+		// await minecraft.end();
+		// start();
+		execSync('pm2 restart Eris');
 	}
 	catch (e) {
 		display.r(`Restart > ${e}`);
