@@ -22,7 +22,6 @@ export default {
 		const member = await server.members.fetch(match.dcid);
 		const perms = getPerms(member);
 
-		console.log(perms);
 		if (!perms.includes('RestartBot')) return;
 
 		await message.reply('Restarting...');
