@@ -1,9 +1,7 @@
 import { execSync } from 'child_process';
-import { start } from '../../../../start.js';
 import display from '../../../display.js';
 import { createMsg, getPerms } from '../../../helper.js';
-import { discord } from '../../Discord.js';
-import { minecraft } from '../../../minecraft/Minecraft.js';
+import { MessageFlags } from 'discord.js';
 
 export default {
 	name: 'restart',
@@ -14,7 +12,7 @@ export default {
 		if (!perms.includes('RestartBot')) return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**You don\'t have permission to use this command!**' })] });
 
 		// await interaction.deferReply();
-		await interaction.reply({ embeds: [createMsg({ desc: 'Restarting...' })] });
+		await interaction.reply({ embeds: [createMsg({ desc: '**Restarting...**' })], flags: MessageFlags.Ephemeral });
 		await restart();
 		// await interaction.followUp({ embeds: [createMsg({ desc: `**Successfully restarted ${interaction.client.user.displayName}!**` })] });
 	}
