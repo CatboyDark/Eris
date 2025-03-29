@@ -19,7 +19,7 @@ export default {
 		const config = readConfig();
 
 		const server = discord.channels.cache.get(config.logs.channel).guild;
-		const member = await server.fetch(match.dcid);
+		const member = await server.members.fetch(match.dcid);
 		const perms = getPerms(member);
 
 		if (!perms.includes('RestartBot')) return;
