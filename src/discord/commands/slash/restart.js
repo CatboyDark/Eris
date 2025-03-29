@@ -14,7 +14,7 @@ export default {
 		if (!perms.includes('RestartBot')) return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**You don\'t have permission to use this command!**' })] });
 
 		// await interaction.deferReply();
-		interaction.reply({ embeds: [createMsg({ desc: 'Restarting...' })] });
+		await interaction.reply({ embeds: [createMsg({ desc: 'Restarting...' })] });
 		await restart();
 		// await interaction.followUp({ embeds: [createMsg({ desc: `**Successfully restarted ${interaction.client.user.displayName}!**` })] });
 	}
