@@ -163,7 +163,7 @@ async function logGXP(config, logs, guild) {
 		display.r('GXP Logger >', e);
 	}
 
-	await logs.send({ embeds: [createMsg({ desc: '**GXP has been logged!**' })] });
+	await logs.send({ embeds: [createMsg({ desc: '**GXP logged!**' })] });
 }
 
 async function syncRoles(client, config, logs, guild) {
@@ -199,7 +199,7 @@ async function syncRoles(client, config, logs, guild) {
 		}
 	}
 
-	let desc = '**Guild members have been synced!**';
+	let desc = '**Guild members synced!**';
 	if (addedRoles.length > 0 && removedRoles.length > 0) {
 		desc += `\n_ _\n${addedRoles.map((user) => `${plus} <@${user}>`).join('\n')}`;
 		desc += `\n_ _\n${removedRoles.map((user) => `${minus} <@${user}>`).join('\n')}`;
@@ -221,5 +221,5 @@ async function updateStatsChannels(client, config, logs, guild) {
 	await client.channels.cache.get(config.statsChannels.members)
 		.setName(`😋 Members: ${guild.members.length}/125`);
 
-	await logs.send({ embeds: [createMsg({ desc: '**Stats channels have been updated!**' })] });
+	await logs.send({ embeds: [createMsg({ desc: '**Stats channels updated!**' })] });
 }

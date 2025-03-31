@@ -18,13 +18,14 @@ export default async () => {
 		const level = await getSBLevel.highest(player).catch((e) => {
 			if (e.message.includes('The player has no skyblock profiles.')) {
 				minecraft.chat(`/oc ${player} does not meet our reqs!`);
-				logs.send({ embeds: [createMsg({ desc: `${player} does not meet our reqs!` })] });
+				logs.send({ embeds: [createMsg({ desc: `**${player} does not meet our reqs!**` })] });
 				return;
 			};
 		});
 
 		if (config.guild.autoAccept.enabled && level >= config.guild.autoAccept.requirement) {
 			minecraft.chat(`/oc ${player} meets our reqs!`);
+			logs.send({ embeds: [createMsg({ desc: `**${player} meets our reqs! Accepted!**` })] });
 
 			setTimeout(() => {
 				minecraft.chat(`/g accept ${ign}`);
