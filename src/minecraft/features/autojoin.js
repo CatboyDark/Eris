@@ -9,11 +9,10 @@ export default async () => {
 	minecraft.on('message', async (message) => {
 		const msg = message.toString().trim();
 
-		if (!msg.startsWith('-') && !msg.includes('Click here to accept or type /guild accept')) return;
+		if (!msg.startsWith('-') || !msg.includes('Click here to accept or type /guild accept')) return;
 
 		const match = msg.match(/\/guild accept (\w+)/);
 		const ign = match[1];
-		console.log(ign);
 
 		const player = await getPlayer(ign);
 		const level = await getSBLevel.highest(player).catch((e) => {
@@ -33,7 +32,7 @@ export default async () => {
 			}, 500);
 
 			setTimeout(() => {
-				minecraft.chat(`/gc Welcome ${ign}! Remember to join our discord! (/g discord)`);
+				minecraft.chat(`/gc Welcome ${ign}! Be sure to join our discord! (/g discord)`);
 			}, 1000);
 		}
 	});
