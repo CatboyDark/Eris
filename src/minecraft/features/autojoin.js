@@ -8,12 +8,10 @@ export default async () => {
 
 	minecraft.on('message', async (message) => {
 		const msg = message.toString().trim();
-		console.log(msg);
 
 		if (!msg.startsWith('-') && !msg.includes('Click here to accept or type /guild accept')) return;
-		console.log('a');
 
-		const match = msg.match(/^Click here to accept or type \/guild accept (\w+)!$/);
+		const match = msg.match(/\/guild accept (\w+)/);
 		const ign = match[1];
 		console.log(ign);
 
