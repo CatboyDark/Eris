@@ -10,14 +10,10 @@ export default async () => {
 		const msg = message.toString().trim();
 		console.log(msg);
 
-		if (!msg.startsWith('Click here to accept or type /guild accept')) return;
+		if (!msg.startsWith('-') && !msg.includes('Click here to accept or type /guild accept')) return;
 		console.log('a');
 
 		const match = msg.match(/^Click here to accept or type \/guild accept (\w+)!$/);
-		if (!match) {
-			console.log('Regex did not match message:', msg);
-			return;
-		}
 		const ign = match[1];
 		console.log(ign);
 
