@@ -1,7 +1,7 @@
 {
 	"name": "eris",
 	"description": "A Hypixel-Discord bot template.",
-	"version": "0.14.4",
+	"version": "0.15.0",
 	"author": "CatboyDark",
 	"license": "MIT",
 	"homepage": "https://github.com/CatboyDark/Eris",
