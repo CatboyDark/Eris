@@ -5,8 +5,6 @@ import * as emoji from 'node-emoji';
 import fs from 'fs';
 import Canvas from 'canvas';
 
-export { filter };
-
 export default async () => {
 	const config = readConfig();
 	const ignore = JSON.parse(fs.readFileSync('./assets/ignore.json', 'utf8'));

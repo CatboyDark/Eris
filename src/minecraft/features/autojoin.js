@@ -1,19 +1,22 @@
 import { discord } from '../../discord/Discord.js';
 import { createMsg, getPlayer, getSBLevel, readConfig } from '../../helper.js';
 import { minecraft } from '../Minecraft.js';
-import { filter } from './bridge.js';
 
 export default async () => {
 	const config = readConfig();
 	const logs = discord.channels.cache.get(config.logs.bot);
 
 	minecraft.on('message', async (message) => {
-		const msg = filter(message.toString().trim());
+		const msg = message.toString().trim();
 
 		if (!msg.startsWith('Click here to accept or type /guild accept')) return;
 		console.log('a');
 
 		const match = msg.match(/^Click here to accept or type \/guild accept (\[.*?\] )?(\w+)!$/);
+		if (!match) {
+			console.log('Regex did not match message:', msg);
+			return;
+		}
 		const ign = match[2];
 		console.log(ign);
 
