@@ -22,6 +22,10 @@
 					"role": ""
 				}
 			]
+		},
+		"autoAccept": {
+			"enabled": false,
+			"requirement": 0
 		}
 	},
 	"levelRoles": {

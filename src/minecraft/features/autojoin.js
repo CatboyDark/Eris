@@ -22,7 +22,6 @@ export default async () => {
 				return;
 			};
 		});
-		console.log(`${config.guild.autoAccept.requirement} : ${level}`);
 
 		if (config.guild.autoAccept.enabled && level >= config.guild.autoAccept.requirement) {
 			minecraft.chat(`/oc ${player} meets our reqs!`);
