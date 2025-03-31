@@ -3,11 +3,13 @@ import { createMsg, getPlayer, getSBLevel, readConfig } from '../../helper.js';
 import { minecraft } from '../Minecraft.js';
 
 export default async () => {
+	console.log('e');
 	const config = readConfig();
 	const logs = discord.channels.cache.get(config.logs.bot);
 
 	minecraft.on('message', async (message) => {
 		const msg = message.toString().trim();
+		console.log(msg);
 
 		if (!msg.startsWith('Click here to accept or type /guild accept')) return;
 		console.log('a');
