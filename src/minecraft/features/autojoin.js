@@ -14,7 +14,7 @@ export default async () => {
 		if (!msg.startsWith('Click here to accept or type /guild accept')) return;
 		console.log('a');
 
-		const match = msg.match(/^Click here to accept or type \/guild accept (\[.*?\] )?(\w+)!$/);
+		const match = msg.match(/^Click here to accept or type \/guild accept (\w+)!$/);
 		if (!match) {
 			console.log('Regex did not match message:', msg);
 			return;
@@ -34,7 +34,14 @@ export default async () => {
 
 		if (config.guild.autoAccept.enabled && level >= config.guild.autoAccept.requirement) {
 			minecraft.chat(`/oc ${player} meets our reqs!`);
-			minecraft.chat(`/g accept ${ign}`);
+
+			setTimeout(() => {
+				minecraft.chat(`/g accept ${ign}`);
+			}, 500);
+
+			setTimeout(() => {
+				minecraft.chat(`/gc Welcome ${ign}! Remember to join our discord! (/g discord)`);
+			}, 1000);
 		}
 	});
 };
