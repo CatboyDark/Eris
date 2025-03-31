@@ -1,6 +1,7 @@
 import { discord } from '../../discord/Discord.js';
 import { createMsg, getPlayer, getSBLevel, readConfig } from '../../helper.js';
 import { minecraft } from '../Minecraft.js';
+import { filter } from './bridge.js';
 
 export default async () => {
 	const config = readConfig();
