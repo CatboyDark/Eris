@@ -3,7 +3,6 @@ import { createMsg, getPlayer, getSBLevel, readConfig } from '../../helper.js';
 import { minecraft } from '../Minecraft.js';
 
 export default async () => {
-	console.log('e');
 	const config = readConfig();
 	const logs = discord.channels.cache.get(config.logs.bot);
 
@@ -19,7 +18,7 @@ export default async () => {
 			console.log('Regex did not match message:', msg);
 			return;
 		}
-		const ign = match[2];
+		const ign = match[1];
 		console.log(ign);
 
 		const player = await getPlayer(ign);
