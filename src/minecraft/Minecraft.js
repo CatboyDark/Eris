@@ -86,13 +86,6 @@ async function Minecraft() {
 					break;
 			}
 
-			// const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-			// let rString = '';
-
-			// for (let i = 0; i < 5; i++) {
-			// 	const rIndex = Math.floor(Math.random() * chars.length);
-			// 	rString += chars[rIndex];
-			// }
 			await minecraft.chat(`${prefix} ${content}`);
 			// await minecraft.chat(`${prefix} ${content} -${rString}-`);
 		};
@@ -104,4 +97,16 @@ async function Minecraft() {
 			console.log(e);
 		}
 	});
+}
+
+function rString (length) {
+	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+	let rString = '';
+
+	for (let i = 0; i < length; i++) {
+		const rIndex = Math.floor(Math.random() * chars.length);
+		rString += chars[rIndex];
+	}
+
+	return rString;
 }

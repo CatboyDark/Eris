@@ -4,6 +4,8 @@ import { minecraft } from '../Minecraft.js';
 
 export default async () => {
 	const config = readConfig();
+	if (!config.guild.autoAccept.enabled) return;
+
 	const logs = discord.channels.cache.get(config.logs.bot);
 
 	minecraft.on('message', async (message) => {
@@ -23,17 +25,17 @@ export default async () => {
 			};
 		});
 
-		if (config.guild.autoAccept.enabled && level >= config.guild.autoAccept.requirement) {
+		if (level >= config.guild.autoAccept.requirement) {
 			minecraft.chat(`/oc ${player} meets our reqs!`);
 			logs.send({ embeds: [createMsg({ desc: `**${player} meets our reqs! Accepted!**` })] });
 
 			setTimeout(() => {
 				minecraft.chat(`/g accept ${ign}`);
-			}, 500);
+			}, 1000);
 
 			setTimeout(() => {
 				minecraft.chat(`/gc Welcome ${ign}! Be sure to join our discord! (/g discord)`);
-			}, 1000);
+			}, 2000);
 		}
 	});
 };
