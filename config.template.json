@@ -24,7 +24,8 @@
 			]
 		},
 		"joinMessage": {
-			"enabled": true
+			"enabled": true,
+			"message": "Welcome @ign!"
 		},
 		"autoAccept": {
 			"enabled": false,
