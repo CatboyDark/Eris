@@ -35,19 +35,23 @@ async function Minecraft() {
 	const commands = new Map();
 	const commandDir = fs.readdirSync('./src/minecraft/commands').filter((file) => file.endsWith('.js'));
 	for (const commandFile of commandDir) {
-		const command = (await import(`./commands/${commandFile}`)).default;
-		if (!command) {
-			display.r(`Invalid command: ${commandFile}`);
-			continue;
-		}
+		const commandModule = (await import(`./commands/${commandFile}`)).default;
+		const commandList = Array.isArray(commandModule) ? commandModule : [commandModule];
 
-		command.name = command.prefix ? `${config.prefix}${command.name}` : command.name;
-		commands.set(command.name, command);
+		for (const command of commandList) {
+			if (!command) {
+				display.r(`Invalid command: ${commandFile}`);
+				continue;
+			}
 
-		if (command.aliases) {
-			for (const alias of command.aliases) {
-				const aliasName = command.prefix ? `${config.prefix}${alias}` : alias;
-				commands.set(aliasName, command);
+			command.name = command.prefix ? `${config.prefix}${command.name}` : command.name;
+			commands.set(command.name, command);
+
+			if (command.aliases) {
+				for (const alias of command.aliases) {
+					const aliasName = command.prefix ? `${config.prefix}${alias}` : alias;
+					commands.set(aliasName, command);
+				}
 			}
 		}
 	}
@@ -55,6 +59,7 @@ async function Minecraft() {
 	minecraft.on('message', (message) => {
 		const msg = getMessage(message.toString());
 		if (!msg || !msg.channel) return;
+		if (msg.sender === minecraft.username) return;
 
 		const args = msg.content.match(/"([^"]+)"|'([^']+)'|\S+/g)?.map(arg => arg.replace(/^["']|["']$/g, '')) || [];
 		const commandName = args.length > 0 ? args[0].toLowerCase() : null;
