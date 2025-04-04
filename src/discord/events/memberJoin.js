@@ -22,12 +22,11 @@ async function welcomeMessage(member, config) {
 
 	if (welcomeChannel.guild.id !== member.guild.id) return;
 
-	let welcomeMsg = config.welcome.message.message ||
-		`### Welcome to the ${config.guild.name ?? client.channels.cache.get(config.logs.channel)?.guild.name} server!\n### @member`;
-
-	welcomeMsg = welcomeMsg.replace(/@member/g, member.toString());
+	const welcomeMsg = config.welcome.message.message ||
+		`### Welcome to the ${config.guild.name ?? client.channels.cache.get(config.logs.channel)?.guild.name} server!`;
 
 	await welcomeChannel.send({
+		content: member.toString(),
 		embeds: [createMsg({
 			desc: welcomeMsg,
 			icon: member.user.displayAvatarURL()

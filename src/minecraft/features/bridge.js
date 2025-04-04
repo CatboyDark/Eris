@@ -1,5 +1,5 @@
 import { discord } from '../../discord/Discord.js';
-import { createImage, readConfig, sendMessage, writeConfig } from '../../helper.js';
+import { createImage, getMessage, readConfig, sendMessage, writeConfig } from '../../helper.js';
 import { messages, minecraft } from '../Minecraft.js';
 import * as emoji from 'node-emoji';
 import fs from 'fs';
@@ -23,15 +23,16 @@ export default async () => {
 	const officerChannel = discord.channels.cache.get(config.bridge.officer.channel);
 
 	minecraft.on('message', async (message) => {
-		const msg = filter(message.toString().trim());
+		const msg = getMessage(message.toString().trim());
+		const msgF = filter(message.toString().trim());
 
-		if (msg.length < 1 || ignore.some((ignored) => msg.startsWith(ignored))) return;
+		if (msgF.length < 1 || ignore.some((ignored) => msgF.startsWith(ignored))) return;
 
-		consoleChannel.send(msg);
+		consoleChannel.send(msgF);
 
 		let isBridge = false;
 		for (const [bridgeMsg, type] of messages.entries()) {
-			if (type === 'bridge' && msg.includes(bridgeMsg.substring(4))) {
+			if (type === 'bridge' && msgF.includes(bridgeMsg.substring(4))) {
 				isBridge = true;
 				break;
 			}
@@ -39,20 +40,18 @@ export default async () => {
 
 		if (isBridge) return;
 
-		if (config.bridge.guild.enabled) {
-			if (msg.startsWith('Guild >')) {
-				const fullMessage = getFullString(message).replace('§2Guild > ', '');
-				const messageImage = await createImage(fullMessage);
-				guildChannel.send({ files: [messageImage] });
-			}
+		if (config.bridge.guild.enabled && msgF.startsWith('Guild >')) {
+			const fullMessage = getFullMessage(message).replace('§2Guild > ', '');
+			const image = await createImage(fullMessage);
+			const imageName = `${msg.sender}.png`;
+			guildChannel.send({ files: [image.setName(imageName)] });
 		}
 
-		if (config.bridge.officer.enabled) {
-			if (msg.startsWith('Officer >')) {
-				const fullMessage = getFullString(message).replace('§3Officer > ', '');
-				const messageImage = await createImage(fullMessage);
-				officerChannel.send({ files: [messageImage] });
-			}
+		if (config.bridge.officer.enabled && msgF.startsWith('Officer >')) {
+			const fullMessage = getFullMessage(message).replace('§3Officer > ', '');
+			const image = await createImage(fullMessage);
+			const imageName = `${msg.sender}.png`;
+			officerChannel.send({ files: [image.setName(imageName)] });
 		}
 	});
 
@@ -71,37 +70,40 @@ export default async () => {
 
 		// Guild Chat
 		if (config.bridge.guild.enabled && message.channel.id === guildChannel.id) {
+			let messageToSend;
 			if (message.reference) {
 				const repliedTo = await message.channel.messages.fetch(message.reference.messageId);
-				const targetUser = repliedTo.member?.nickname ?? repliedTo.author.displayName;
-				const messageToSend = `/gc ${user} -> ${targetUser}: ${msg}`;
-				messages.set(messageToSend, 'bridge');
-				await sendMessage(messageToSend);
+				const attachment = repliedTo.attachments.first();
+				const targetUser = attachment?.name?.replace('.png', '') ?? repliedTo.member?.nickname ?? repliedTo.author.displayName;
+
+				messageToSend = `/gc ${user} -> ${targetUser}: ${msg}`;
 			}
-			else {
-				const messageToSend = `/gc ${user} > ${msg}`;
-				messages.set(messageToSend, 'bridge');
-				await sendMessage(messageToSend);
+ else {
+				messageToSend = `/gc ${user} > ${msg}`;
 			}
+			messages.set(messageToSend, 'bridge');
+			await sendMessage(messageToSend);
 		}
 
 		// Officer Chat
 		if (config.bridge.officer.enabled && message.channel.id === officerChannel.id) {
+			let messageToSend;
 			if (message.reference) {
 				const repliedTo = await message.channel.messages.fetch(message.reference.messageId);
-				const targetUser = repliedTo.member?.nickname ?? repliedTo.author.displayName;
-				const messageToSend = `/oc ${user} -> ${targetUser}: ${msg}`;
-				messages.set(messageToSend, 'bridge');
-				await sendMessage(messageToSend);
+
+				// Extract the sender's name from the image filename
+				const attachment = repliedTo.attachments.first();
+				const targetUser = attachment?.name?.replace('.png', '') ?? repliedTo.member?.nickname ?? repliedTo.author.displayName;
+
+				messageToSend = `/oc ${user} -> ${targetUser}: ${msg}`;
 			}
-			else {
-				const messageToSend = `/oc ${user} > ${msg}`;
-				messages.set(messageToSend, 'bridge');
-				await sendMessage(messageToSend);
+ else {
+				messageToSend = `/oc ${user} > ${msg}`;
 			}
+			messages.set(messageToSend, 'bridge');
+			await sendMessage(messageToSend);
 		}
 	});
-
 };
 
 function filter(message) {
@@ -142,7 +144,7 @@ function filter(message) {
 
 const colors = JSON.parse(fs.readFileSync('./assets/colors.json', 'utf8'));
 
-function getFullString(message) {
+function getFullMessage(message) {
 	let fullString = '';
 
 	const colorNameToCode = {};

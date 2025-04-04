@@ -589,7 +589,7 @@ function getMessage(message) {
 
 function parseCommand(message) {
 	const parts = message.trim().split(' ');
-	const command = `/${parts[0].toLowerCase()}`; // Prepend '/' to the command
+	const command = `/${parts[0].toLowerCase()}`;
 	const params = parts.slice(1).join(' ');
 
 	return { command, params };

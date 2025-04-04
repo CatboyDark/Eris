@@ -23,6 +23,9 @@
 				}
 			]
 		},
+		"joinMessage": {
+			"enabled": true
+		},
 		"autoAccept": {
 			"enabled": false,
 			"requirement": 0

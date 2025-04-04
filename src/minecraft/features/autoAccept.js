@@ -21,9 +21,11 @@ export default async () => {
 			if (e.message.includes('The player has no skyblock profiles.')) {
 				minecraft.chat(`/oc ${player} does not meet our reqs!`);
 				logs.send({ embeds: [createMsg({ desc: `**${player} does not meet our reqs!**` })] });
-				return;
-			};
+				return null;
+			}
 		});
+
+		if (level === null) return;
 
 		if (level >= config.guild.autoAccept.requirement) {
 			minecraft.chat(`/oc ${player} meets our reqs!`);
@@ -32,10 +34,6 @@ export default async () => {
 			setTimeout(() => {
 				minecraft.chat(`/g accept ${ign}`);
 			}, 1000);
-
-			setTimeout(() => {
-				minecraft.chat(`/gc Welcome ${ign}! Be sure to join our discord! (/g discord)`);
-			}, 2000);
 		}
 	});
 };
