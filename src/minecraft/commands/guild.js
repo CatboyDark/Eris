@@ -21,6 +21,8 @@ export default {
 			if (e.message.includes('Player has never logged into Hypixel.')) return message.reply(`${message.options.ign} doesn't play Hypixel!`);
 		});
 
+		if (!player) return;
+
 		const guild = await getGuild.player(player.nickname);
 		if (!guild) return message.reply(`${player.nickname} is not in a guild.`);
 

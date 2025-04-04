@@ -1,11 +1,12 @@
 import mineflayer from 'mineflayer';
-import { getMsg, readConfig } from '../helper.js';
+import { getMessage, readConfig, sendMessage } from '../helper.js';
 import fs from 'fs';
 import display from '../display.js';
 
-export { Minecraft, minecraft };
+export { Minecraft, minecraft, messages };
 
 let minecraft;
+const messages = new Map();
 
 async function Minecraft() {
 	const config = readConfig();
@@ -52,61 +53,45 @@ async function Minecraft() {
 	}
 
 	minecraft.on('message', (message) => {
-		const msg = getMsg(message.toString());
+		const msg = getMessage(message.toString());
 		if (!msg || !msg.channel) return;
 
 		const args = msg.content.match(/"([^"]+)"|'([^']+)'|\S+/g)?.map(arg => arg.replace(/^["']|["']$/g, '')) || [];
-		const commandName = args.shift().toLowerCase();
-		const command = commands.get(commandName);
+		const commandName = args.length > 0 ? args[0].toLowerCase() : null;
 
-		if (!command || !msg.content.startsWith(commandName) || !command.channel.includes(msg.channel)) return;
+		if (!commandName || !commands.has(commandName)) return;
+
+		const command = commands.get(commandName);
+		if (!msg.content.startsWith(commandName) || !command.channel.includes(msg.channel)) return;
 
 		const options = {};
 		if (command.options) {
 			command.options.forEach((option, index) => {
-				options[option] = args[index];
+				options[option] = args[index + 1];
 			});
 		}
 
 		msg.options = options;
 		msg.reply = async (content) => {
-			let prefix;
-			switch (msg.channel) {
-				case 'guild':
-					prefix = '/gc';
-					break;
-				case 'officer':
-					prefix = '/oc';
-					break;
-				case 'party':
-					prefix = '/pc';
-					break;
-				case 'dm':
-					prefix = `/w ${msg.sender}`;
-					break;
-			}
+			const prefixMap = {
+				guild: 'gc',
+				officer: 'oc',
+				party: 'pc',
+				dm: `w ${msg.sender}`
+			};
 
-			await minecraft.chat(`${prefix} ${content}`);
-			// await minecraft.chat(`${prefix} ${content} -${rString}-`);
+			const prefix = `/${prefixMap[msg.channel]}`;
+			const message = `${prefix} ${content}`;
+			messages.set(message, 'command');
+
+			await sendMessage(message);
 		};
 
 		try {
 			command.execute(msg);
 		}
 		catch (e) {
-			console.log(e);
+			console.error(e);
 		}
 	});
-}
-
-function rString (length) {
-	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-	let rString = '';
-
-	for (let i = 0; i < length; i++) {
-		const rIndex = Math.floor(Math.random() * chars.length);
-		rString += chars[rIndex];
-	}
-
-	return rString;
 }

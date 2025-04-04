@@ -1,6 +1,6 @@
 import { discord } from '../../discord/Discord.js';
-import { createImage, readConfig, writeConfig } from '../../helper.js';
-import { minecraft } from '../Minecraft.js';
+import { createImage, readConfig, sendMessage, writeConfig } from '../../helper.js';
+import { messages, minecraft } from '../Minecraft.js';
 import * as emoji from 'node-emoji';
 import fs from 'fs';
 import Canvas from 'canvas';
@@ -25,13 +25,22 @@ export default async () => {
 	minecraft.on('message', async (message) => {
 		const msg = filter(message.toString().trim());
 
-		const isIgnored = ignore.some((ignored) => msg.startsWith(ignored));
-		if (msg.length < 1 || isIgnored) return;
+		if (msg.length < 1 || ignore.some((ignored) => msg.startsWith(ignored))) return;
 
 		consoleChannel.send(msg);
 
+		let isBridge = false;
+		for (const [bridgeMsg, type] of messages.entries()) {
+			if (type === 'bridge' && msg.includes(bridgeMsg.substring(4))) {
+				isBridge = true;
+				break;
+			}
+		}
+
+		if (isBridge) return;
+
 		if (config.bridge.guild.enabled) {
-			if (msg.startsWith('Guild >') && !msg.startsWith('Guild > [VIP+] CatboyLight')) {
+			if (msg.startsWith('Guild >')) {
 				const fullMessage = getFullString(message).replace('§2Guild > ', '');
 				const messageImage = await createImage(fullMessage);
 				guildChannel.send({ files: [messageImage] });
@@ -39,7 +48,7 @@ export default async () => {
 		}
 
 		if (config.bridge.officer.enabled) {
-			if (msg.startsWith('Officer >') && !msg.startsWith('Officer > [VIP+] CatboyLight')) {
+			if (msg.startsWith('Officer >')) {
 				const fullMessage = getFullString(message).replace('§3Officer > ', '');
 				const messageImage = await createImage(fullMessage);
 				officerChannel.send({ files: [messageImage] });
@@ -47,48 +56,52 @@ export default async () => {
 		}
 	});
 
-	discord.on('messageCreate', (message) => {
+	discord.on('messageCreate', async (message) => {
 		if (message.author.bot) return;
 
-		const user = message.member.nickname ?? message.author.displayName;
+		const user = message.member?.nickname ?? message.author.displayName;
 		const msg = filter(message);
 
+		// Console
 		if (message.channel.id === consoleChannel.id) {
 			if (msg !== '/g disband' && !msg.includes('/g transfer') && !msg.includes('/g confirm')) {
 				minecraft.chat(msg);
 			}
 		}
 
+		// Guild Chat
 		if (config.bridge.guild.enabled && message.channel.id === guildChannel.id) {
 			if (message.reference) {
-				message.channel.messages.fetch(message.reference.messageId).then(repliedTo => {
-					const targetUser = repliedTo.member.nickname ?? repliedTo.author.displayName;
-					minecraft.chat(`/gc ${user} -> ${targetUser}: ${msg}`);
-				})
-				.catch(() => {
-					minecraft.chat(`/gc ${user} > ${msg}`);
-				});
+				const repliedTo = await message.channel.messages.fetch(message.reference.messageId);
+				const targetUser = repliedTo.member?.nickname ?? repliedTo.author.displayName;
+				const messageToSend = `/gc ${user} -> ${targetUser}: ${msg}`;
+				messages.set(messageToSend, 'bridge');
+				await sendMessage(messageToSend);
 			}
 			else {
-				minecraft.chat(`/gc ${user} > ${msg}`);
+				const messageToSend = `/gc ${user} > ${msg}`;
+				messages.set(messageToSend, 'bridge');
+				await sendMessage(messageToSend);
 			}
 		}
 
+		// Officer Chat
 		if (config.bridge.officer.enabled && message.channel.id === officerChannel.id) {
 			if (message.reference) {
-				message.channel.messages.fetch(message.reference.messageId).then(repliedTo => {
-					const targetUser = repliedTo.member.nickname ?? repliedTo.author.displayName;
-					minecraft.chat(`/oc ${user} -> ${targetUser}: ${msg}`);
-				})
-				.catch(() => {
-					minecraft.chat(`/oc ${user} > ${msg}`);
-				});
+				const repliedTo = await message.channel.messages.fetch(message.reference.messageId);
+				const targetUser = repliedTo.member?.nickname ?? repliedTo.author.displayName;
+				const messageToSend = `/oc ${user} -> ${targetUser}: ${msg}`;
+				messages.set(messageToSend, 'bridge');
+				await sendMessage(messageToSend);
 			}
 			else {
-				minecraft.chat(`/oc ${user} > ${msg}`);
+				const messageToSend = `/oc ${user} > ${msg}`;
+				messages.set(messageToSend, 'bridge');
+				await sendMessage(messageToSend);
 			}
 		}
 	});
+
 };
 
 function filter(message) {

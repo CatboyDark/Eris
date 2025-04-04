@@ -4,6 +4,7 @@ import hypixel from './api/hypixel.js';
 import { discord } from './discord/Discord.js';
 import display from './display.js';
 import Canvas from 'canvas';
+import { messages, minecraft } from './minecraft/Minecraft.js';
 
 export {
 	readConfig,
@@ -23,7 +24,8 @@ export {
 	getNw,
 	nFormat,
 	updateRoles,
-	getMsg,
+	getMessage,
+	sendMessage,
 	createImage
 };
 
@@ -53,7 +55,8 @@ function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon
 				value: field.desc,
 				inline: field.inline || false
 			});
-		});
+		}
+		);
 	}
 	return embed;
 };
@@ -210,7 +213,7 @@ async function getEmoji(name) {
 	const emoji = app.find(e => e.name === name);
 	if (!emoji) display.r(`Invalid emoji: ${name}`);
 
- 	return emoji;
+	return emoji;
 }
 
 const permissions = new Set([
@@ -542,7 +545,7 @@ async function updateRoles(member, player) {
 	return { addedRoles, removedRoles };
 }
 
-function getMsg(message) {
+function getMessage(message) {
 	const parts = message.split(' ');
 
 	let channel;
@@ -560,11 +563,10 @@ function getMsg(message) {
 			channel = 'dm';
 			break;
 		default:
-			return;
+			return null;
 	}
 
-	let index = 0;
-	index = channel === 'dm' ? 1 : 2;
+	let index = channel === 'dm' ? 1 : 2;
 
 	const rank = parts[index] && parts[index].startsWith('[') && parts[index].endsWith(']')
 		? parts[index].slice(1, -1)
@@ -583,6 +585,106 @@ function getMsg(message) {
 	const content = message.slice(message.indexOf(':') + 1).trim() ?? null;
 
 	return { channel, rank, sender, guildRank, content };
+}
+
+function parseCommand(message) {
+	const parts = message.trim().split(' ');
+	const command = `/${parts[0].toLowerCase()}`; // Prepend '/' to the command
+	const params = parts.slice(1).join(' ');
+
+	return { command, params };
+}
+
+const messageQ = [];
+let sending = false;
+
+async function sendMessage(message) {
+	return new Promise((resolve) => {
+		messageQ.push({
+			originalMessage: message,
+			currentMessage: message,
+			resolve
+		});
+
+		if (!sending) {
+			processQ();
+		}
+	});
+}
+
+function rString(length = 3) {
+	const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+	let rString = '';
+
+	for (let i = 0; i < length; i++) {
+		const rIndex = Math.floor(Math.random() * chars.length);
+		rString += chars[rIndex];
+	}
+
+	return rString;
+}
+
+async function processQ() {
+	if (messageQ.length === 0) {
+		sending = false;
+		return;
+	}
+
+	sending = true;
+	const { originalMessage, currentMessage, resolve, retryCount = 0 } = messageQ[0];
+
+	let messageConfirmed = false;
+	let messageError = false;
+
+	try {
+		minecraft.chat(currentMessage);
+	}
+	catch {
+		messageError = true;
+	}
+
+	const messageListener = (response) => {
+		const responseString = response.toString().trim();
+
+		const parsed = parseCommand(currentMessage);
+
+		if (responseString === currentMessage ||
+			(parsed && responseString.includes(parsed.params))) {
+			messageConfirmed = true;
+			minecraft.removeListener('message', messageListener);
+			messages.delete(originalMessage);
+
+			messageQ.shift();
+			resolve(true);
+			setTimeout(processQ, 500);
+		}
+	};
+
+	minecraft.on('message', messageListener);
+
+	setTimeout(() => {
+		if (!messageConfirmed && !messageError) {
+			minecraft.removeListener('message', messageListener);
+
+			if (retryCount >= 2) {
+				messages.delete(originalMessage);
+
+				messageQ.shift();
+				resolve(false);
+			}
+			else {
+				const newMessage = `${originalMessage} -${rString(retryCount + 3)}-`;
+				messageQ[0] = {
+					originalMessage,
+					currentMessage: newMessage,
+					resolve,
+					retryCount: retryCount + 1
+				};
+			}
+
+			setTimeout(processQ, 500);
+		}
+	}, 1000);
 }
 
 const colors = JSON.parse(fs.readFileSync('./assets/colors.json', 'utf8'));
