@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import display from '../display.js';
+import { display } from '../utils/utils.js';
 import auth from '../../auth.json' with { type: 'json' };
 
 export { Mongo };

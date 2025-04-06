@@ -1,8 +1,7 @@
 import { Client, Collection, GatewayIntentBits, REST, Routes } from 'discord.js';
 import fs from 'fs';
 import auth from '../../auth.json' with { type: 'json' };
-import display from '../display.js';
-import { createSlash, readConfig } from '../helper.js';
+import { createSlash, readConfig, display } from '../utils/utils.js';
 
 export { Discord, discord };
 

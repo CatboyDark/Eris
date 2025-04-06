@@ -1,5 +1,5 @@
 import { discord } from '../../discord/Discord.js';
-import { createMsg, getPlayer, getSBLevel, readConfig } from '../../helper.js';
+import { createMsg, getPlayer, getSBLevel, readConfig } from '../../utils/utils.js';
 import { minecraft } from '../Minecraft.js';
 
 export default async () => {

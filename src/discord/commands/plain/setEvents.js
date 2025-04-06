@@ -1,4 +1,4 @@
-// import { createMsg, getPerms, readConfig, writeConfig } from '../../../helper.js';
+// import { createMsg, getPerms, readConfig, writeConfig } from '../../../utils/utils.js';
 // import { getEvents } from '../../../minecraft/features/skyblockEvents.js';
 
 // export default {

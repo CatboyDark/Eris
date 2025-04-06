@@ -1,4 +1,4 @@
-import { getNw, getPlayer } from '../../helper.js';
+import { getNw, getPlayer } from '../../utils/utils.js';
 
 export default {
 	name: 'networth',

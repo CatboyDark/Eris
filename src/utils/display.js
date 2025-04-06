@@ -1,4 +1,6 @@
-export default display;
+export {
+	display
+};
 
 function display(str) {
 	if (typeof str !== 'string') {

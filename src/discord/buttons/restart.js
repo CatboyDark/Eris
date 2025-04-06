@@ -1,4 +1,4 @@
-import { createMsg, getPerms } from '../../helper.js';
+import { createMsg, getPerms } from '../../utils/utils.js';
 import { restart } from '../commands/slash/restart.js';
 
 const restartButton = {

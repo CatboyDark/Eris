@@ -1,4 +1,4 @@
-import { createMsg, createRow, getPerms } from '../../../helper.js';
+import { createMsg, createRow, getPerms } from '../../../utils/utils.js';
 
 export default {
 	name: 'setmap',

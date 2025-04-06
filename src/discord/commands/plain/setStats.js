@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from 'discord.js';
-import { getGuild, getPerms, readConfig, writeConfig } from '../../../helper.js';
+import { getGuild, getPerms, readConfig, writeConfig } from '../../../utils/utils.js';
 
 export default {
 	name: 'setstats',

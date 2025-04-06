@@ -16,13 +16,13 @@ export default {
 		const igns = data.name_history.map(entry => entry.name).reverse();
 		const uniqueIGNs = [...new Set(igns)];
 		const currentIGN = uniqueIGNs[0];
-		const uniqueIGNsFiltered = uniqueIGNs.filter(ign => ign !== currentIGN);
+		const uniqueIGNsF = uniqueIGNs.filter(ign => ign !== currentIGN);
 
-		if (uniqueIGNsFiltered.length === 0) {
+		if (uniqueIGNsF.length === 0) {
 			message.reply(`${currentIGN} has no aliases!`);
 		}
 		else {
-			message.reply(`${currentIGN}'s aliases: ${uniqueIGNsFiltered.join(', ')}`);
+			message.reply(`${currentIGN}'s aliases: ${uniqueIGNsF.join(', ')}`);
 		}
 	}
 };

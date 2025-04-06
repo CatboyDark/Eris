@@ -1,4 +1,4 @@
-import { createMsg } from '../../../helper.js';
+import { createMsg } from '../../../utils/utils.js';
 
 export default {
 	name: 'who',

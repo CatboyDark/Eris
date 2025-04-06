@@ -1,4 +1,4 @@
-// import { createMsg, readConfig } from '../../helper.js';
+// import { createMsg, readConfig } from '../../utils/utils.js';
 // import fs from 'fs';
 // import schedule from 'node-schedule';
 // import { discord } from '../../discord/Discord.js';

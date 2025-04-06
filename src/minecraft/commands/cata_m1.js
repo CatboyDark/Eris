@@ -1,4 +1,4 @@
-import { getCata, getPlayer } from '../../helper.js';
+import { getPlayer } from '../../utils/utils.js';
 
 export default {
 	name: 'm1',

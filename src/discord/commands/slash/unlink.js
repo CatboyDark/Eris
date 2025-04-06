@@ -1,5 +1,5 @@
 import { MessageFlags } from 'discord.js';
-import { createMsg, readConfig } from '../../../helper.js';
+import { createMsg, readConfig } from '../../../utils/utils.js';
 import { getMongo, membersSchema } from '../../../mongo/schemas.js';
 
 export default {

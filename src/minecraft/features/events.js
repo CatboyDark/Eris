@@ -1,5 +1,4 @@
-import display from '../../display.js';
-import { readConfig } from '../../helper.js';
+import { readConfig, display } from '../../utils/utils.js';
 import { Minecraft, minecraft } from '../Minecraft.js';
 
 export default async () => {

@@ -1,4 +1,4 @@
-import { readConfig } from '../../helper.js';
+import { readConfig } from '../../utils/utils.js';
 import { minecraft } from '../Minecraft.js';
 
 const config = readConfig();

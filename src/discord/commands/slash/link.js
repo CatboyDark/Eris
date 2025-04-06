@@ -1,5 +1,5 @@
 import { MessageFlags } from 'discord.js';
-import { createMsg, getDiscord, getEmoji, getPlayer, updateRoles } from '../../../helper.js';
+import { createMsg, getDiscord, getEmoji, getPlayer, updateRoles } from '../../../utils/utils.js';
 import { getMongo, membersSchema } from '../../../mongo/schemas.js';
 
 export default {
@@ -18,7 +18,7 @@ export default {
 				if (e.message.includes('Player does not exist.')) return message.reply('Invalid player!');
 				if (e.message.includes('Player has never logged into Hypixel.')) return message.reply(`${message.options.ign} doesn't play Hypixel!`);
 			});
-			
+
 			const discord = await getDiscord(player);
 
 			const check = await getEmoji('check');

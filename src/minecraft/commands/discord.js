@@ -1,4 +1,4 @@
-import { getDiscord, getPlayer } from '../../helper.js';
+import { getDiscord, getPlayer } from '../../utils/utils.js';
 
 export default {
 	name: 'discord',

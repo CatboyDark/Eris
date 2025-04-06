@@ -1,4 +1,4 @@
-import { getUser } from '../../helper.js';
+import { getUser } from '../../utils/utils.js';
 import auth from '../../../auth.json' with { type: 'json' };
 import fs from 'fs';
 

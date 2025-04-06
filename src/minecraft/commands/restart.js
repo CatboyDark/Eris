@@ -1,4 +1,4 @@
-import { getPerms, getUser, readConfig } from '../../helper.js';
+import { getPerms, getUser, readConfig } from '../../utils/utils.js';
 import { getMongo, membersSchema } from '../../mongo/schemas.js';
 import { discord } from '../../discord/Discord.js';
 import { restart } from '../../discord/commands/slash/restart.js';

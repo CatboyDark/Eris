@@ -1,6 +1,5 @@
 import { execSync } from 'child_process';
-import display from '../../../display.js';
-import { createMsg, getPerms } from '../../../helper.js';
+import { createMsg, display, getPerms } from '../../../utils/utils.js';
 import { MessageFlags } from 'discord.js';
 
 export default {

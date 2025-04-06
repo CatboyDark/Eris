@@ -1,5 +1,5 @@
 import { MessageFlags } from 'discord.js';
-import { createMsg, getPerms } from '../../../helper.js';
+import { createMsg, getPerms } from '../../../utils/utils.js';
 
 export default {
 	name: 'mute',

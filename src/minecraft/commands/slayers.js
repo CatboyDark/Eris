@@ -1,9 +1,9 @@
-import { getPlayer, getSBLevel } from '../../utils/utils.js';
+import { getSlayers, getPlayer } from '../../utils/utils.js';
 
 export default {
-	name: 'level',
+	name: 'slayers',
 	prefix: true,
-	aliases: ['lv'],
+	aliases: ['slayer'],
 	channel: ['guild', 'officer', 'party', 'dm'],
 	options: ['ign', 'profile'],
 
@@ -22,18 +22,20 @@ export default {
 
 		if (!player) return;
 
-		let level;
+		let slayers;
 		if (message.options.profile === '-h') {
-			level = await getSBLevel.highest(player).catch((e) => {
+			cata = await getSlayers.highest(player).catch((e) => {
 				if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
+				console.log(e);
 			});
 		}
 		else {
-			level = await getSBLevel.current(player).catch((e) => {
+			cata = await getSlayers.current(player).catch((e) => {
 				if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
+				console.log(e);
 			});
 		}
 
-		message.reply(`${player.nickname}: Level ${level}`);
+		await message.reply(`${player.nickname}'s Slayers: ௐ${slayers.levelRevs} ੭${slayers.levelTarans} ❂${slayers.levelWolves} ᛃ${slayers.levelEnders} 〣${slayers.levelBlazes} ჶ${slayers.levelVamps} Total Slayer XP:${slayers.totalXP}`);
 	}
 };

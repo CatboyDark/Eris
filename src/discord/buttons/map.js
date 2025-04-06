@@ -1,5 +1,5 @@
 import { MessageFlags } from 'discord.js';
-import { createMsg } from '../../helper.js';
+import { createMsg } from '../../utils/utils.js';
 import fs from 'fs';
 
 const links = JSON.parse(fs.readFileSync('./assets/links.json', 'utf8'));

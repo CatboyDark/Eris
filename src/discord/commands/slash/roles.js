@@ -1,4 +1,4 @@
-import { createMsg, getEmoji, getPlayer, updateRoles } from '../../../helper.js';
+import { createMsg, getEmoji, getPlayer, updateRoles } from '../../../utils/utils.js';
 import { getMongo, membersSchema } from '../../../mongo/schemas.js';
 
 export default {

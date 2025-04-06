@@ -1,5 +1,5 @@
 import { discord } from '../../discord/Discord.js';
-import { createImage, getMessage, readConfig, sendMessage, writeConfig } from '../../helper.js';
+import { createImage, getMessage, readConfig, sendMessage, writeConfig } from '../../utils/utils.js';
 import { messages, minecraft } from '../Minecraft.js';
 import * as emoji from 'node-emoji';
 import fs from 'fs';
@@ -78,7 +78,7 @@ export default async () => {
 
 				messageToSend = `/gc ${user} -> ${targetUser}: ${msg}`;
 			}
- else {
+		else {
 				messageToSend = `/gc ${user} > ${msg}`;
 			}
 			messages.set(messageToSend, 'bridge');
@@ -97,7 +97,7 @@ export default async () => {
 
 				messageToSend = `/oc ${user} -> ${targetUser}: ${msg}`;
 			}
- else {
+		else {
 				messageToSend = `/oc ${user} > ${msg}`;
 			}
 			messages.set(messageToSend, 'bridge');

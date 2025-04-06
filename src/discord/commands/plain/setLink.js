@@ -1,4 +1,4 @@
-import { createMsg, createRow, getEmoji, getPerms, readConfig, writeConfig } from '../../../helper.js';
+import { createMsg, createRow, getEmoji, getPerms, readConfig, writeConfig } from '../../../utils/utils.js';
 
 export default {
 	name: 'setlink',

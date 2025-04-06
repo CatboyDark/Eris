@@ -1,5 +1,5 @@
 // import display from '../../../display.js';
-// import { createMsg, createRow } from '../../../helper.js';
+// import { createMsg, createRow } from '../../../utils/utils.js';
 // import { ComponentType, MessageFlags } from 'discord.js';
 
 // const activeGames = new Map();

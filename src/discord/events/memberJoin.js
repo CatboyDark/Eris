@@ -1,6 +1,5 @@
 import { Events } from 'discord.js';
-import display from '../../display.js';
-import { createMsg, readConfig } from '../../helper.js';
+import { createMsg, readConfig, display } from '../../utils/utils.js';
 
 export default {
 	name: Events.GuildMemberAdd,

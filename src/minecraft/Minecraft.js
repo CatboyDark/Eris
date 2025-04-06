@@ -1,7 +1,6 @@
 import mineflayer from 'mineflayer';
-import { getMessage, readConfig, sendMessage } from '../helper.js';
+import { getMessage, readConfig, sendMessage, display } from '../utils/utils.js';
 import fs from 'fs';
-import display from '../display.js';
 
 export { Minecraft, minecraft, messages };
 

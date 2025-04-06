@@ -1,4 +1,4 @@
-import { getCata, getPlayer } from '../../helper.js';
+import { getCata, getPlayer } from '../../utils/utils.js';
 
 export default {
 	name: 'cata',
@@ -35,6 +35,6 @@ export default {
 			});
 		}
 
-		await message.reply(`${player.nickname}: Cata ${cata.level} | Class Avg ${cata.classAvg} (A${cata.archer}, M${cata.mage}, B${cata.berserk}, T${cata.tank}, H${cata.healer}) | Secrets ${cata.secrets} (${cata.spr} S/R)`);
+		await message.reply(`${player.nickname}'s Cata: ${cata.level} | Class Avg ${cata.classAvg} (A${cata.archer}, M${cata.mage}, B${cata.berserk}, T${cata.tank}, H${cata.healer}) | Secrets ${cata.secrets} (${cata.spr} S/R)`);
 	}
 };

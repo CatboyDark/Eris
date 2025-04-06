@@ -1,4 +1,4 @@
-import { createMsg, getEmoji } from '../../../helper.js';
+import { createMsg, getEmoji } from '../../../utils/utils.js';
 
 export default
 {

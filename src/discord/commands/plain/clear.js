@@ -1,4 +1,4 @@
-import { getPerms, readConfig } from '../../../helper.js';
+import { getPerms, readConfig } from '../../../utils/utils.js';
 
 export default {
 	name: 'clear',

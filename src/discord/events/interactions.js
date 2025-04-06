@@ -1,6 +1,5 @@
 import { Events, Team } from 'discord.js';
-import display from '../../display.js';
-import { createMsg, readConfig } from '../../helper.js';
+import { display, createMsg, readConfig } from '../../utils/utils.js';
 
 export default {
 	name: Events.InteractionCreate,
