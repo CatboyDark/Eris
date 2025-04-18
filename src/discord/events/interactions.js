@@ -1,5 +1,5 @@
 import { Events, Team } from 'discord.js';
-import { createMsg, discordLog, display, getChannel, readConfig } from '../../utils/utils.js';
+import { createMsg, display, getChannel, readConfig } from '../../utils/utils.js';
 
 const config = readConfig();
 
@@ -7,14 +7,19 @@ export default {
 	name: Events.InteractionCreate,
 
 	async execute(interaction) {
+		let log = null;
 		if (config.logs.bot.enabled) {
-			await discordLog(interaction);
+			log = await discordLog(interaction);
 		}
 
 		if (interaction.isChatInputCommand()) {
 			try {
 				const command = interaction.client.slashCommands.get(interaction.commandName);
 				await command.execute(interaction);
+
+				if (config.logs.bot.enabled) {
+					await discordLog(interaction, log);
+				}
 			}
 			catch (e) {
 				await error(interaction, e);
@@ -36,6 +41,54 @@ export default {
 		}
 	}
 };
+
+async function discordLog(interaction, log = null) {
+	const discordLogs = await getChannel(config.logs.bot.channel);
+
+	let desc;
+
+	if (interaction.isChatInputCommand() && config.logs.bot.commands) {
+		const options = interaction.options.data.map((option) =>
+			option.type === 6 ? ` <@${option.value}> ` :
+			option.type === 8 ? ` <@&${option.value}> ` :
+			` ${option.value} `
+		);
+		const optionsString = options.length > 0 ? `**[**${options.join('**,** ')}**]**` : '';
+
+		let url = `https://discord.com/channels/${interaction.guildId}/${interaction.channelId}`;
+		if (log) {
+			const messageID = await interaction.fetchReply().then(reply => reply.id);
+			url += `/${messageID}`;
+		}
+
+		desc = `<@${interaction.user.id}> ran: **/${interaction.commandName}** ${optionsString}\n\n${url}`;
+	}
+	else if (interaction.isButton() && config.logs.bot.buttons) {
+		desc = `<@${interaction.user.id}> clicked: **${interaction.component.label}**\n\n${interaction.message.url}`;
+	}
+	else if (interaction.isStringSelectMenu() && config.logs.bot.selectMenus) {
+		const labels = interaction.values.map((value) => {
+			const option = interaction.component.options.find(
+				(option) => option.value === value
+			);
+			return option ? option.label : value;
+		});
+		desc = `<@${interaction.user.id}> selected **${labels.join(', ')}** from **${interaction.component.placeholder}**\n\n${interaction.message.url}`;
+	}
+	else if (interaction.isModalSubmit() && config.logs.bot.forms) {
+		desc = `<@${interaction.user.id}> submitted **${interaction.customId}**\n\n${interaction.message.url}`;
+	}
+	else {
+		desc = 'Unknown Interaction!';
+	}
+
+	if (log) {
+		return log.edit({ embeds: [createMsg({ desc, timestamp: true })] });
+	}
+
+	return await discordLogs.send({ embeds: [createMsg({ desc, timestamp: true })] });
+}
+
 
 async function error(interaction, e) {
 	display.r(interaction.isChatInputCommand() ? 'Slash Command >' :
