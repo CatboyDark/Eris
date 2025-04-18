@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { display } from '../utils/utils.js';
 import auth from '../../auth.json' with { type: 'json' };
+import { display } from '../utils/utils.js';
 
 export { Mongo };
 
@@ -10,7 +10,7 @@ async function Mongo() {
 		display.c('Database is online!');
 	}
 	catch (e) {
-		display.r(`Database > ${e}`);
+		display.r('Database >', e);
 		process.exit(1);
 	}
 }

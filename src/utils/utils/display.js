@@ -88,8 +88,11 @@ function display(str) {
 	return console.log(result);
 }
 
-display.r = function (str) {
+display.r = function (str, e) {
 	display(`^+FF0000${str}`);
+	if (e) {
+		console.error(e);
+	}
 };
 
 display.g = function (str) {

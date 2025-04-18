@@ -1,17 +1,22 @@
 import { Events, Team } from 'discord.js';
-import { display, createMsg, readConfig } from '../../utils/utils.js';
+import { createMsg, discordLog, display, getChannel, readConfig } from '../../utils/utils.js';
+
+const config = readConfig();
 
 export default {
 	name: Events.InteractionCreate,
 
 	async execute(interaction) {
+		if (config.logs.bot.enabled) {
+			await discordLog(interaction);
+		}
+
 		if (interaction.isChatInputCommand()) {
 			try {
 				const command = interaction.client.slashCommands.get(interaction.commandName);
 				await command.execute(interaction);
 			}
 			catch (e) {
-				display.r(`Slash Command > ${e}`);
 				await error(interaction, e);
 			}
 		}
@@ -26,7 +31,6 @@ export default {
 				await button.execute(interaction);
 			}
 			catch (e) {
-				display.r(`Button > ${e}`);
 				await error(interaction, e);
 			}
 		}
@@ -34,8 +38,13 @@ export default {
 };
 
 async function error(interaction, e) {
-	const config = readConfig();
-	const logs = interaction.client.channels.cache.get(config.logs.bot);
+	display.r(interaction.isChatInputCommand() ? 'Slash Command >' :
+		interaction.isButton() ? 'Button >' :
+		interaction.isStringSelectMenu() ? 'Select Menu >' :
+		interaction.isModalSubmit() ? 'Form >' : 'Unknown Interaction >',
+	e);
+
+	const logs = await getChannel(config.logs.bot.channel);
 	const app = await interaction.client.application.fetch();
 
 	await logs.send({
@@ -43,7 +52,8 @@ async function error(interaction, e) {
 		embeds: [createMsg({
 			color: 'Red',
 			title: 'A Silly Has Occured!',
-			desc: `\`\`\`${e.message}\`\`\`\n-# If you believe this is a bug, please contact @CatboyDark.`
+			desc: `\`\`\`${e.message}\`\`\`\n-# If you believe this is a bug, please contact @catboydark.`,
+			timestamp: true
 		})]
 	});
 

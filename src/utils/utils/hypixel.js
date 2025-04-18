@@ -1,5 +1,5 @@
 import fs from 'fs';
-import hypixel from '../utils/api/hypixel.js';
+import hypixel from '../api/hypixel.js';
 
 export {
 	getUser,

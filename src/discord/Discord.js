@@ -1,7 +1,7 @@
 import { Client, Collection, GatewayIntentBits, REST, Routes } from 'discord.js';
 import fs from 'fs';
 import auth from '../../auth.json' with { type: 'json' };
-import { createSlash, readConfig, display } from '../utils/utils.js';
+import { createSlash, display, readConfig } from '../utils/utils.js';
 
 export { Discord, discord };
 
@@ -72,8 +72,5 @@ async function Discord() { // Credits: Kathund
 		discord.on(event.name, (...args) => event.execute(...args));
 	};
 
-	// Login
 	await discord.login(auth.token);
-
-	await new Promise(resolve => discord.once('ready', resolve));
 }

@@ -1,6 +1,6 @@
-export * from './display.js';
-export * from './config.js';
-export * from './discord.js';
-export * from './permissions.js';
-export * from './hypixel.js';
-export * from './minecraft.js';
+export * from './utils/config.js';
+export * from './utils/discord.js';
+export * from './utils/display.js';
+export * from './utils/permissions.js';
+export * from './utils/hypixel.js';
+// export * from './minecraft.js';

@@ -2,42 +2,41 @@ import { execSync } from 'child_process';
 import { ActivityType, Events, Team } from 'discord.js';
 import fs from 'fs';
 import { schedule } from 'node-cron';
-import { createMsg, createRow, display, getEmoji, getGuild, readConfig, writeConfig } from '../../utils/utils.js';
 import { getMongo, gxpSchema, membersSchema } from '../../mongo/schemas.js';
+import { createMsg, createRow, display, getChannel, getEmoji, getGuild, readConfig, writeConfig } from '../../utils/utils.js';
 
-export default
-{
+const config = readConfig();
+const guild = await getGuild.name(config.guild.name);
+let botLog;
+
+export default {
 	name: Events.ClientReady,
 
 	async execute(client) {
-		const config = readConfig();
-		const logsChannel = client.channels.cache.get(config.logs.channel);
-		let botLogs = logsChannel.threads.cache.find(x => x.name === 'Bot');
-		if (!botLogs) {
-			botLogs = await logsChannel.threads.create({ name: 'Bot' });
-			config.logs.bot = botLogs.id;
+		const logsChannel = await getChannel(config.logs.channel);
+		botLog = logsChannel.threads.cache.find(x => x.name === 'Bot');
+		if (!botLog) {
+			botLog = await logsChannel.threads.create({ name: 'Bot' });
+			config.logs.bot.channel = botLog.id;
 			writeConfig(config);
 		}
 
-		await client.channels.cache.get(config.logs.bot).send({ embeds: [createMsg({ desc: `**${client.user.displayName} is online!**` })] });
-		client.user.setActivity(config.guild.name ?? logsChannel?.guild.name, { type: ActivityType.Watching });
+		await botLog.send({ embeds: [createMsg({ desc: `**${client.user.displayName} is online!**` })] });
+		client.user.setActivity(config.guild.name ?? logsChannel.guild.name, { type: ActivityType.Watching });
 		display.c(`${client.user.displayName} is online!`);
 
 		await initEmojis(client);
 
-		updateCheck(client, config);
-		schedule('0 */6 * * *', // Once every 6 hours
-			async () => updateCheck(client, config)
-		);
+		// updateCheck(client, config);
+		// schedule('0 */6 * * *', // Once every 6 hours
+		// 	async () => updateCheck(client, config)
+		// );
 
 		schedule( '1 22 * * *', // 12:01 CST every day
 			async () => {
-				const guild = await getGuild.name(config.guild.name);
-				const logs = client.channels.cache.get(config.logs.bot);
-
-				await logGXP(config, logs, guild);
-				await syncRoles(client, config, logs, guild);
-				await updateStatsChannels(client, config, logs, guild);
+				await logGXP();
+				await syncRoles();
+				await updateStatsChannels();
 			},
 			{
 				timezone: 'America/Los_Angeles'
@@ -79,7 +78,6 @@ async function initEmojis(client) {
 
 async function updateCheck(client, config) {
 	const app = await client.application.fetch();
-	const logs = client.channels.cache.get(config.logs.bot);
 
 	let localHash;
 	let latestHash;
@@ -92,11 +90,7 @@ async function updateCheck(client, config) {
 		latestHash = execSync(`git rev-parse origin/${branch}`).toString().trim();
 	}
 	catch (e) {
-		display.r(`UpdateCheck > ${e}`);
-		return logs.send({
-			content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
-			embeds: [createMsg({ title: config.guild.name ?? logs.guild.name, color: 'Red', desc: '**Error checking for updates!**' })]
-		});
+		display.r('UpdateCheck >', e);
 	}
 
 	if (!config.hash) {
@@ -109,7 +103,7 @@ async function updateCheck(client, config) {
 	const commitMessage = execSync('git log -1 --pretty=%B').toString().trim();
 
 	display.y('Update Available! Run "git pull" to update!');
-	logs.send({
+	botLog.send({
 		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
 		embeds: [createMsg({ desc: `**Update Available!**\n\`\`\`${commitMessage}\`\`\`` })],
 		components: [createRow([{ id: 'restart', label: 'Update', color: 'Green' }])]
@@ -119,7 +113,7 @@ async function updateCheck(client, config) {
 	writeConfig(config);
 }
 
-async function logGXP(config, logs, guild) {
+async function logGXP() {
 	try {
 		const db = getMongo('gxp', config.guild.name, gxpSchema);
 
@@ -162,15 +156,15 @@ async function logGXP(config, logs, guild) {
 		display.r('GXP Logger >', e);
 	}
 
-	await logs.send({ embeds: [createMsg({ desc: '**GXP logged!**' })] });
+	await botLog.send({ embeds: [createMsg({ desc: '**GXP logged!**' })] });
 }
 
-async function syncRoles(client, config, logs, guild) {
+async function syncRoles() {
 	const plus = await getEmoji('plus');
 	const minus = await getEmoji('minus');
 
 	const guildMembers = guild.members;
-	const discord = client.channels.cache.get(config.logs.channel).guild;
+	const discord = botLog.guild;
 	const guildRole = discord.roles.cache.get(config.guild.role.role);
 	const members = getMongo('Eris', 'members', membersSchema);
 
@@ -210,15 +204,13 @@ async function syncRoles(client, config, logs, guild) {
 		desc += `\n_ _\n${removedRoles.map((user) => `${minus} <@${user}>`).join('\n')}\n_ _`;
 	}
 
-	await logs.send({ embeds: [createMsg({ desc: desc })]
+	await botLog.send({ embeds: [createMsg({ desc: desc })]
 	});
 }
 
-async function updateStatsChannels(client, config, logs, guild) {
-	await client.channels.cache.get(config.statsChannels.level)
-		.setName(`⭐ Level: ${Number(Math.floor(guild.level.toFixed(1)))}`);
-	await client.channels.cache.get(config.statsChannels.members)
-		.setName(`😋 Members: ${guild.members.length}/125`);
+async function updateStatsChannels() {
+	await getChannel(config.statsChannels.level).setName(`⭐ Level: ${Number(Math.floor(guild.level.toFixed(1)))}`);
+	await getChannel(config.statsChannels.members).setName(`😋 Members: ${guild.members.length}/125`);
 
-	await logs.send({ embeds: [createMsg({ desc: '**Stats channels updated!**' })] });
+	await botLog.send({ embeds: [createMsg({ desc: '**Stats channels updated!**' })] });
 }

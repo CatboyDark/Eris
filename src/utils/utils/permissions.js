@@ -1,4 +1,4 @@
-import { readConfig } from './utils.js';
+import { readConfig } from '../utils.js';
 
 export {
 	getPerms
