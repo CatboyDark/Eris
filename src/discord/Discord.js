@@ -29,7 +29,7 @@ async function Discord() { // Credits: Kathund
 	for (const slashFile of slashDir) {
 		const slashCommand = (await import(`./commands/slash/${slashFile}`)).default;
 		if (!slashCommand) {
-			display.r(`Invalid command: ${slashFile}`);
+			display.y(`Invalid command: ${slashFile}`);
 			continue;
 		}
 		const slashCmd = createSlash(slashCommand);
@@ -46,7 +46,7 @@ async function Discord() { // Credits: Kathund
 	for (const plainFile of plainDir) {
 		const plainCommand = (await import(`./commands/plain/${plainFile}`)).default;
 		if (!plainCommand) {
-			display.r(`Invalid command: ${plainFile}`);
+			display.y(`Invalid command: ${plainFile}`);
 			continue;
 		}
 		if (plainCommand.prefix) {

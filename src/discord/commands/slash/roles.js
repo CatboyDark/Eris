@@ -1,5 +1,6 @@
-import { createMsg, getEmoji, getPlayer, updateRoles } from '../../../utils/utils.js';
+import { MessageFlags } from 'discord.js';
 import { getMongo, membersSchema } from '../../../mongo/schemas.js';
+import { createMsg, getEmoji, getPlayer, updateRoles } from '../../../utils/utils.js';
 
 export default {
 	name: 'roles',
@@ -15,7 +16,7 @@ export default {
 		const members = getMongo('Eris', 'members', membersSchema);
 		const data = await members.findOne({ dcid: interaction.user.id });
 		if (!data) {
-			return interaction.editReply({ embeds: [createMsg({ color: 'Red', desc: '**You are not linked! Please run /link to link your account!**' })], ephemeral: true });
+			return interaction.editReply({ embeds: [createMsg({ color: 'Red', desc: '**You are not linked! Please run /link to link your account!**' })], flags: MessageFlags.Ephemeral });
 		}
 		const uuid = data.uuid;
 		const player = await getPlayer(uuid);

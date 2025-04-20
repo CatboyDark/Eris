@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ModalBuilder, PermissionFlagsBits, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ModalBuilder, PermissionFlagsBits, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, Team, TextInputBuilder, TextInputStyle } from 'discord.js';
 import { discord } from '../../discord/Discord.js';
 import { display, getGuild, getSBLevel, readConfig } from '../utils.js';
 
@@ -7,6 +7,7 @@ export {
 	createMsg,
 	createRow,
 	createSlash,
+	Error,
 	getChannel,
 	getEmoji,
 	updateRoles
@@ -182,6 +183,25 @@ function createSlash({ name, desc, options = [], permissions = [], execute }) {
 		data: command,
 		execute
 	};
+}
+
+async function Error(name, e) {
+	display.r(name, e);
+
+	const logs = await getChannel(config.logs.bot.channel);
+	const app = await discord.application.fetch();
+
+	const eMessage = typeof e === 'string' ? e : e.message;
+
+	await logs.send({
+		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
+		embeds: [createMsg({
+			color: 'Red',
+			title: 'A Silly Has Occured!',
+			desc: `\`\`\`${eMessage}\`\`\`\n-# If you believe this is a bug, please contact @catboydark.`,
+			timestamp: true
+		})]
+	});
 }
 
 async function getEmoji(name) {

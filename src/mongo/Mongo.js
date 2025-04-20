@@ -10,7 +10,7 @@ async function Mongo() {
 		display.c('Database is online!');
 	}
 	catch (e) {
-		display.r('Database >', e);
+		4('Database >', e);
 		process.exit(1);
 	}
 }

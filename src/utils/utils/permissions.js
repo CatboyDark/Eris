@@ -9,6 +9,7 @@ const config = readConfig();
 const permissions = new Set([
 	'Owner',
 	'Admin',
+	'KillBot',
 	'SetLinkChannel',
 	'SetMapChannel',
 	'SetEventsChannel',

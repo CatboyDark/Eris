@@ -1,7 +1,13 @@
-import { Events, Team } from 'discord.js';
-import { createMsg, display, getChannel, readConfig } from '../../utils/utils.js';
+import { Events } from 'discord.js';
+import { createMsg, Error, getChannel, readConfig } from '../../utils/utils.js';
 
 const config = readConfig();
+
+const userError = createMsg({ embeds: [createMsg({
+	color: 'Red',
+	title: 'Oops!',
+	desc: 'That wasn\'t supposed to happen. Staff has been notified.'
+})] });
 
 export default {
 	name: Events.InteractionCreate,
@@ -9,7 +15,7 @@ export default {
 	async execute(interaction) {
 		let log = null;
 		if (config.logs.bot.enabled) {
-			log = await discordLog(interaction);
+			log = await interactionLog(interaction);
 		}
 
 		if (interaction.isChatInputCommand()) {
@@ -18,11 +24,16 @@ export default {
 				await command.execute(interaction);
 
 				if (config.logs.bot.enabled) {
-					await discordLog(interaction, log);
+					await interactionLog(interaction, log);
 				}
 			}
 			catch (e) {
-				await error(interaction, e);
+				await Error('! Slash Command !', e);
+
+				if (interaction.replied || interaction.deferred) {
+					return interaction.followUp({ embeds: [userError] });
+				}
+				return interaction.reply({ embeds: [userError] });
 			}
 		}
 		if (interaction.isButton()) {
@@ -36,13 +47,18 @@ export default {
 				await button.execute(interaction);
 			}
 			catch (e) {
-				await error(interaction, e);
+				await Error('! Button !', e);
+
+				if (interaction.replied || interaction.deferred) {
+					return interaction.followUp({ embeds: [userError] });
+				}
+				return interaction.reply({ embeds: [userError] });
 			}
 		}
 	}
 };
 
-async function discordLog(interaction, log = null) {
+async function interactionLog(interaction, log = null) {
 	const discordLogs = await getChannel(config.logs.bot.channel);
 
 	let desc;
@@ -57,8 +73,8 @@ async function discordLog(interaction, log = null) {
 
 		let url = `https://discord.com/channels/${interaction.guildId}/${interaction.channelId}`;
 		if (log) {
-			const messageID = await interaction.fetchReply().then(reply => reply.id);
-			url += `/${messageID}`;
+			const message = await interaction.fetchReply();
+			url = message.url;
 		}
 
 		desc = `<@${interaction.user.id}> ran: **/${interaction.commandName}** ${optionsString}\n\n${url}`;
@@ -85,39 +101,7 @@ async function discordLog(interaction, log = null) {
 	if (log) {
 		return log.edit({ embeds: [createMsg({ desc, timestamp: true })] });
 	}
-
-	return await discordLogs.send({ embeds: [createMsg({ desc, timestamp: true })] });
-}
-
-
-async function error(interaction, e) {
-	display.r(interaction.isChatInputCommand() ? 'Slash Command >' :
-		interaction.isButton() ? 'Button >' :
-		interaction.isStringSelectMenu() ? 'Select Menu >' :
-		interaction.isModalSubmit() ? 'Form >' : 'Unknown Interaction >',
-	e);
-
-	const logs = await getChannel(config.logs.bot.channel);
-	const app = await interaction.client.application.fetch();
-
-	await logs.send({
-		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
-		embeds: [createMsg({
-			color: 'Red',
-			title: 'A Silly Has Occured!',
-			desc: `\`\`\`${e.message}\`\`\`\n-# If you believe this is a bug, please contact @catboydark.`,
-			timestamp: true
-		})]
-	});
-
-	const userError = createMsg({ embeds: [createMsg({
-		color: 'Red',
-		title: 'Oops!',
-		desc: 'That wasn\'t supposed to happen. Staff has been notified.'
-	})] });
-
-	if (interaction.replied || interaction.deferred) {
-		return interaction.followUp({ embeds: [userError] });
+	else {
+		return discordLogs.send({ embeds: [createMsg({ desc, timestamp: true })] });
 	}
-	return interaction.reply({ embeds: [userError] });
 }

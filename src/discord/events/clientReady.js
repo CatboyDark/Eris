@@ -3,7 +3,7 @@ import { ActivityType, Events, Team } from 'discord.js';
 import fs from 'fs';
 import { schedule } from 'node-cron';
 import { getMongo, gxpSchema, membersSchema } from '../../mongo/schemas.js';
-import { createMsg, createRow, display, getChannel, getEmoji, getGuild, readConfig, writeConfig } from '../../utils/utils.js';
+import { createMsg, createRow, display, Error, getChannel, getEmoji, getGuild, readConfig, writeConfig } from '../../utils/utils.js';
 
 const config = readConfig();
 const guild = await getGuild.name(config.guild.name);
@@ -72,46 +72,46 @@ async function initEmojis(client) {
 		}
 	}
 	catch (e) {
-		console.log(e);
+		await Error('! Emojis !', e);
 	}
 }
 
-async function updateCheck(client, config) {
-	const app = await client.application.fetch();
+// async function updateCheck(client, config) {
+// 	const app = await client.application.fetch();
 
-	let localHash;
-	let latestHash;
+// 	let localHash;
+// 	let latestHash;
 
-	try {
-		execSync('git fetch origin');
+// 	try {
+// 		execSync('git fetch origin');
 
-		const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
-		localHash = execSync('git rev-parse HEAD').toString().trim();
-		latestHash = execSync(`git rev-parse origin/${branch}`).toString().trim();
-	}
-	catch (e) {
-		display.r('UpdateCheck >', e);
-	}
+// 		const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+// 		localHash = execSync('git rev-parse HEAD').toString().trim();
+// 		latestHash = execSync(`git rev-parse origin/${branch}`).toString().trim();
+// 	}
+// 	catch (e) {
+// 		await Error('UpdateCheck >', e)
+// 	}
 
-	if (!config.hash) {
-		config.hash = localHash;
-		writeConfig(config);
-	}
+// 	if (!config.hash) {
+// 		config.hash = localHash;
+// 		writeConfig(config);
+// 	}
 
-	if (config.hash === latestHash) return;
+// 	if (config.hash === latestHash) return;
 
-	const commitMessage = execSync('git log -1 --pretty=%B').toString().trim();
+// 	const commitMessage = execSync('git log -1 --pretty=%B').toString().trim();
 
-	display.y('Update Available! Run "git pull" to update!');
-	botLog.send({
-		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
-		embeds: [createMsg({ desc: `**Update Available!**\n\`\`\`${commitMessage}\`\`\`` })],
-		components: [createRow([{ id: 'restart', label: 'Update', color: 'Green' }])]
-	});
+// 	display.y('Update Available! Run "git pull" to update!');
+// 	botLog.send({
+// 		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
+// 		embeds: [createMsg({ desc: `**Update Available!**\n\`\`\`${commitMessage}\`\`\`` })],
+// 		components: [createRow([{ id: 'restart', label: 'Update', color: 'Green' }])]
+// 	});
 
-	config.hash = latestHash;
-	writeConfig(config);
-}
+// 	config.hash = latestHash;
+// 	writeConfig(config);
+// }
 
 async function logGXP() {
 	try {
@@ -153,7 +153,7 @@ async function logGXP() {
 
 	}
 	catch (e) {
-		display.r('GXP Logger >', e);
+		await Error('! GXP Logger !', e);
 	}
 
 	await botLog.send({ embeds: [createMsg({ desc: '**GXP logged!**' })] });
@@ -173,22 +173,32 @@ async function syncRoles() {
 	const addedRoles = [];
 	const removedRoles = [];
 
-	for (const [discordId, discordMember] of guildRole.members) {
-		const linked = await members.findOne({ dcid: discordId });
-		if (!linked || !guildMemberUUIDs.has(linked.uuid)) {
-			discordMember.roles.remove(guildRole);
-			removedRoles.push(discordMember.user.id);
+	try {
+		for (const [discordId, discordMember] of guildRole.members) {
+			const linked = await members.findOne({ dcid: discordId });
+			if (!linked || !guildMemberUUIDs.has(linked.uuid)) {
+				discordMember.roles.remove(guildRole);
+				removedRoles.push(discordMember.user.id);
+			}
+		}
+
+		for (const guildMember of guildMembers) {
+			const linked = await members.findOne({ uuid: guildMember.uuid });
+			if (linked) {
+				const discordMember = discord.members.cache.get(linked.dcid);
+				if (discordMember && !discordMember.roles.cache.has(guildRole.id)) {
+					discordMember.roles.add(guildRole);
+					addedRoles.push(discordMember.user.id);
+				}
+			}
 		}
 	}
-
-	for (const guildMember of guildMembers) {
-		const linked = await members.findOne({ uuid: guildMember.uuid });
-		if (linked) {
-			const discordMember = discord.members.cache.get(linked.dcid);
-			if (discordMember && !discordMember.roles.cache.has(guildRole.id)) {
-				discordMember.roles.add(guildRole);
-				addedRoles.push(discordMember.user.id);
-			}
+	catch (e) {
+		if (e.message.includes('Missing Permissions')) {
+			await Error('! Sync Roles !', 'I don\'t have permission to assign the Guild Member role!');
+		}
+		else {
+			await Error('! Sync Roles !', e);
 		}
 	}
 
@@ -204,8 +214,7 @@ async function syncRoles() {
 		desc += `\n_ _\n${removedRoles.map((user) => `${minus} <@${user}>`).join('\n')}\n_ _`;
 	}
 
-	await botLog.send({ embeds: [createMsg({ desc: desc })]
-	});
+	await botLog.send({ embeds: [createMsg({ desc: desc })] });
 }
 
 async function updateStatsChannels() {
