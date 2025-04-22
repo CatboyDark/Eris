@@ -1,27 +1,32 @@
-import { execSync } from 'child_process';
-import { ActivityType, Events, Team } from 'discord.js';
+import { ActivityType, Events } from 'discord.js';
 import fs from 'fs';
 import { schedule } from 'node-cron';
 import { getMongo, gxpSchema, membersSchema } from '../../mongo/schemas.js';
-import { createMsg, createRow, display, Error, getChannel, getEmoji, getGuild, readConfig, writeConfig } from '../../utils/utils.js';
+import { createMsg, display, Error, getChannel, getEmoji, getGuild, readConfig, writeConfig } from '../../utils/utils.js';
 
 const config = readConfig();
 const guild = await getGuild.name(config.guild.name);
-let botLog;
+let botChannel;
 
 export default {
 	name: Events.ClientReady,
 
 	async execute(client) {
 		const logsChannel = await getChannel(config.logs.channel);
-		botLog = logsChannel.threads.cache.find(x => x.name === 'Bot');
-		if (!botLog) {
-			botLog = await logsChannel.threads.create({ name: 'Bot' });
-			config.logs.bot.channel = botLog.id;
+		botChannel = logsChannel.threads.cache.find(x => x.name === 'Bot');
+		if (!botChannel) {
+			botChannel = await logsChannel.threads.create({ name: 'Bot' });
+			config.logs.bot.channel = botChannel.id;
+			writeConfig(config);
+		}
+		let consoleChannel = logsChannel.threads.cache.find(x => x.name === 'Console');
+		if (!consoleChannel) {
+			consoleChannel = await logsChannel.threads.create({ name: 'Console' });
+			config.logs.bot.channel = consoleChannel.id;
 			writeConfig(config);
 		}
 
-		await botLog.send({ embeds: [createMsg({ desc: `**${client.user.displayName} is online!**` })] });
+		await botChannel.send({ embeds: [createMsg({ desc: `**${client.user.displayName} is online!**` })] });
 		client.user.setActivity(config.guild.name ?? logsChannel.guild.name, { type: ActivityType.Watching });
 		display.c(`${client.user.displayName} is online!`);
 
@@ -156,7 +161,7 @@ async function logGXP() {
 		await Error('! GXP Logger !', e);
 	}
 
-	await botLog.send({ embeds: [createMsg({ desc: '**GXP logged!**' })] });
+	await botChannel.send({ embeds: [createMsg({ desc: '**GXP logged!**' })] });
 }
 
 async function syncRoles() {
@@ -164,7 +169,7 @@ async function syncRoles() {
 	const minus = await getEmoji('minus');
 
 	const guildMembers = guild.members;
-	const discord = botLog.guild;
+	const discord = botChannel.guild;
 	const guildRole = discord.roles.cache.get(config.guild.role.role);
 	const members = getMongo('Eris', 'members', membersSchema);
 
@@ -214,12 +219,12 @@ async function syncRoles() {
 		desc += `\n_ _\n${removedRoles.map((user) => `${minus} <@${user}>`).join('\n')}\n_ _`;
 	}
 
-	await botLog.send({ embeds: [createMsg({ desc: desc })] });
+	await botChannel.send({ embeds: [createMsg({ desc: desc })] });
 }
 
 async function updateStatsChannels() {
-	await getChannel(config.statsChannels.level).setName(`⭐ Level: ${Number(Math.floor(guild.level.toFixed(1)))}`);
-	await getChannel(config.statsChannels.members).setName(`😋 Members: ${guild.members.length}/125`);
+	getChannel(config.statsChannels.level).setName(`⭐ Level: ${Number(Math.floor(guild.level.toFixed(1)))}`);
+	getChannel(config.statsChannels.members).setName(`😋 Members: ${guild.members.length}/125`);
 
-	await botLog.send({ embeds: [createMsg({ desc: '**Stats channels updated!**' })] });
+	await botChannel.send({ embeds: [createMsg({ desc: '**Stats channels updated!**' })] });
 }

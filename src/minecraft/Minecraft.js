@@ -1,8 +1,10 @@
-import mineflayer from 'mineflayer';
-import { readConfig, display } from '../utils/utils.js';
 import fs from 'fs';
+import mineflayer from 'mineflayer';
+import { display, readConfig } from '../utils/utils.js';
+import { ChatManager } from './ChatManager.js';
+import { mcEvents } from './modules/events.js';
 
-export { Minecraft, minecraft, messages, mcCommands };
+export { mcCommands, messages, Minecraft, minecraft };
 
 let minecraft;
 const messages = new Map();
@@ -45,4 +47,7 @@ async function Minecraft() {
 			}
 		}
 	}
+
+	await mcEvents();
+	await ChatManager();
 }

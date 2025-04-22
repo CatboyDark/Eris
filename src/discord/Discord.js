@@ -42,7 +42,7 @@ async function Discord() { // Credits: Kathund
 
 	const plainDir = fs.readdirSync('./src/discord/commands/plain').filter(file => file.endsWith('.js'));
 	const config = readConfig();
-    const prefix = config.prefix;
+	const prefix = config.prefix;
 	for (const plainFile of plainDir) {
 		const plainCommand = (await import(`./commands/plain/${plainFile}`)).default;
 		if (!plainCommand) {
@@ -73,4 +73,10 @@ async function Discord() { // Credits: Kathund
 	};
 
 	await discord.login(auth.token);
+
+	return new Promise(async (resolve) => {
+		discord.once('ready', async () => {
+			resolve();
+		});
+	});
 }

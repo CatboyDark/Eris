@@ -23,7 +23,7 @@ class Quiz {
 	async start(interaction) {
 		this.players.push({
 			user: interaction.user.username,
-			nick: interaction.member.nickname ?? interaction.user.username,
+			nick: interaction.member.displayName,
 			isReady: false,
 			isCorrect: null,
 			numCorrect: 0,
@@ -236,7 +236,7 @@ class Quiz {
 						if (!this.players.find(player => player.user === interaction.user.username)) {
 							this.players.push({
 								user: interaction.user.username,
-								nick: interaction.member?.nickname || interaction.user.username,
+								nick: interaction.member.displayName,
 								isReady: false,
 								isCorrect: null,
 								numCorrect: 0,

@@ -59,7 +59,7 @@ export default {
 };
 
 async function interactionLog(interaction, log = null) {
-	const discordLogs = await getChannel(config.logs.bot.channel);
+	const discordLogs = getChannel(config.logs.bot.channel);
 
 	let desc;
 

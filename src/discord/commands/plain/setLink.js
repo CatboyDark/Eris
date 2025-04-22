@@ -16,7 +16,7 @@ export default {
 					`### ${check} Link your Account!\n` +
 					'Run `/link` to link your account.\n' +
 					'Ex. \`/link Technoblade\`\n\n' +
-					'-# Please contact a staff member if the bot is down or if you require further assistance.'
+					'-# Please ping a staff member if the bot is down or if you require further assistance.'
 			})],
 			components: [createRow([{ id: 'linkHelp', label: 'How To Link', color: 'Gray' }])]
 		});

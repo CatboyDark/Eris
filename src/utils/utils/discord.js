@@ -15,12 +15,17 @@ export {
 
 const config = readConfig();
 
-function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon, timestamp }) {
+function createMsg({ color, title, desc, fields, header, icon, image, footer, footerIcon, timestamp }) {
 	const embed = new EmbedBuilder();
 
 	embed.setColor(color ?? config.color);
 	if (title) embed.setTitle(title);
 	if (desc) embed.setDescription(desc);
+	if (header) embed.setAuthor({
+		name: header.name,
+		iconURL: header.icon,
+		url: header.url
+	});
 	if (icon) embed.setThumbnail(icon);
 	if (image) embed.setImage(image);
 	if (footer) embed.setFooter({ text: footer, iconURL: footerIcon });
@@ -188,12 +193,11 @@ function createSlash({ name, desc, options = [], permissions = [], execute }) {
 async function Error(name, e) {
 	display.r(name, e);
 
-	const logs = await getChannel(config.logs.bot.channel);
 	const app = await discord.application.fetch();
 
 	const eMessage = typeof e === 'string' ? e : e.message;
 
-	await logs.send({
+	await getChannel(config.logs.bot.channel).send({
 		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
 		embeds: [createMsg({
 			color: 'Red',
@@ -212,7 +216,7 @@ async function getEmoji(name) {
 	return emoji;
 }
 
-async function getChannel(channel) {
+function getChannel(channel) {
 	return discord.channels.cache.get(channel);
 }
 
