@@ -14,11 +14,12 @@ async function mcEvents() {
 	});
 
 	minecraft.on('end', () => {
-		display.y(`${config.ign} has disconnected.`);
+		display.y(`${minecraft.username} has disconnected.`);
+		reconnect();
 	});
 
 	minecraft.on('error', (error) => {
-		display.r(`Error: ${error.message}`);
+		display.r(`Minecraft > ${error.message}`);
 	});
 
 	function reconnect() {

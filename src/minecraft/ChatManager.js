@@ -1,3 +1,4 @@
+import Canvas from 'canvas';
 import fs from 'fs';
 import { getChannel, readConfig } from '../utils/utils.js';
 import { minecraft } from './Minecraft.js';
@@ -7,14 +8,17 @@ export { ChatManager };
 
 async function ChatManager() {
 	const config = readConfig();
+	const ignore = JSON.parse(fs.readFileSync('./assets/ignore.json', 'utf8'));
+
+	Canvas.registerFont(config.guild.bridge.font.path, { family: config.guild.bridge.font.name });
+
 	const consoleChannel = getChannel(config.logs.console.channel);
 	const guildChannel = getChannel(config.guild.bridge.guild.channel);
 	const officerChannel = getChannel(config.guild.bridge.officer.channel);
-	const ignore = JSON.parse(fs.readFileSync('./assets/ignore.json', 'utf8'));
 
-	if (config.logs.console.enabled) {
-		setInterval(() => { consoleChannel.sendTyping(); }, 5000);
-	}
+	if (config.logs.console.enabled) setInterval(() => { consoleChannel.sendTyping(); }, 5000);
+	if (config.guild.bridge.guild.enabled) setInterval(() => { guildChannel.sendTyping(); }, 5000);
+	if (config.guild.bridge.officer.enabled) setInterval(() => { officerChannel.sendTyping(); }, 5000);
 
 	minecraft.on('message', async (message) => {
 		let msg = message.toString().trim();
@@ -25,13 +29,13 @@ async function ChatManager() {
 		}
 
 		msg = getMessage(msg);
-		console.log(msg);
+		const rawMsg = getRawMessage(message);
 
 		if (config.guild.bridge.guild.enabled && msg.channel === 'guild') {
-			await bridge(msg, guildChannel, config.guild.bridge.guild.fancy);
+			await bridge(msg, rawMsg, guildChannel, config.guild.bridge.guild.fancy);
 		}
 		if (config.guild.bridge.officer.enabled && msg.channel === 'officer') {
-			await bridge(msg, officerChannel, config.guild.bridge.officer.fancy);
+			await bridge(msg, rawMsg, officerChannel, config.guild.bridge.guild.fancy);
 		}
 	});
 }
@@ -89,7 +93,7 @@ function getMessage(message) {
 		? parts[index].substring(1, parts[index].indexOf(']'))
 		: null;
 
-	const content = message.slice(message.indexOf(':') + 1).trim() ?? null;
+	const content = message.slice(message.indexOf(':') + 1).trim();
 
 	return { channel, rank, sender, guildRank, content };
 }

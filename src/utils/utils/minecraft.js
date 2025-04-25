@@ -1,15 +1,19 @@
+import Canvas from 'canvas';
+import { AttachmentBuilder } from 'discord.js';
 import fs from 'fs';
 import hypixel from '../api/hypixel.js';
+import { readConfig } from '../utils.js';
 
 export {
-	getUser,
-	getPlayer,
+	createImage,
+	getCata,
 	getDiscord,
 	getGuild,
-	getSBLevel,
-	getCata,
 	getNw,
+	getPlayer,
+	getSBLevel,
 	getSlayers,
+	getUser,
 	nFormat
 };
 
@@ -273,3 +277,106 @@ const getSlayers = {
 		return slayer;
 	}
 };
+
+const config = readConfig();
+const colors = JSON.parse(fs.readFileSync('./assets/colors.json', 'utf8'));
+
+async function createImage(text) {
+	const canvasWidth = 1100;
+	const fontSize = config.guild.bridge.font.size;
+	const fontName = config.guild.bridge.font.name;
+	const lineHeight = 40;
+
+	const blank = Canvas.createCanvas(1, 1);
+	const blankCTX = blank.getContext('2d');
+	blankCTX.font = `${fontSize}px ${fontName}`;
+
+	const colorMap = {};
+	colors.forEach(color => {
+		colorMap[color.code] = color;
+	});
+
+	const parts = [];
+	let index = 0;
+	while (index < text.length) {
+		if (text[index] === '§' && index + 1 < text.length) {
+			const code = `§${text[index + 1]}`;
+			index += 2;
+			let message = '';
+			while (index < text.length && text[index] !== '§') {
+				message += text[index];
+				index++;
+			}
+			parts.push({ code, message });
+		}
+		else {
+			let message = '';
+			while (index < text.length && text[index] !== '§') {
+				message += text[index];
+				index++;
+			}
+			if (message.length > 0) {
+				parts.push({ code: '§f', message });
+			}
+		}
+	}
+
+	const lines = [];
+	let currentLine = [];
+	let currentLineWidth = 0;
+
+	for (const part of parts) {
+		const { code, message } = part;
+		const words = message.split(' ');
+
+		for (let i = 0; i < words.length; i++) {
+			const word = words[i];
+			const wordWidth = blankCTX.measureText(word).width;
+			const spaceWidth = i > 0 ? blankCTX.measureText(' ').width : 0;
+
+			if (currentLineWidth + wordWidth + spaceWidth > canvasWidth - 20) {
+				lines.push(currentLine);
+				currentLine = [];
+				currentLineWidth = 0;
+				currentLine.push({ code, text: word });
+				currentLineWidth = wordWidth;
+			}
+			else {
+				const textToAdd = currentLineWidth > 0 && i > 0 ? ` ${word}` : word;
+				currentLine.push({ code, text: textToAdd });
+				currentLineWidth += wordWidth + spaceWidth;
+			}
+		}
+	}
+
+	if (currentLine.length > 0) {
+		lines.push(currentLine);
+	}
+
+	const canvasHeight = lines.length * lineHeight;
+	const canvas = Canvas.createCanvas(canvasWidth, canvasHeight);
+	const ctx = canvas.getContext('2d');
+	ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+	ctx.font = `${fontSize}px ${fontName}`;
+
+	for (let i = 0; i < lines.length; i++) {
+		const line = lines[i];
+		let xOffset = 20;
+		const textYPosition = (i * lineHeight) + 28;
+
+		for (const part of line) {
+			const colorData = colorMap[part.code] || colorMap['§f'];
+
+			ctx.fillStyle = colorData.shadow;
+			ctx.fillText(part.text, xOffset + 4, textYPosition + 4);
+
+			ctx.fillStyle = colorData.hex;
+			ctx.fillText(part.text, xOffset, textYPosition);
+
+			xOffset += ctx.measureText(part.text).width;
+		}
+	}
+
+	const buffer = canvas.toBuffer('image/png');
+	return new AttachmentBuilder(buffer, { name: 'image.png' });
+}
