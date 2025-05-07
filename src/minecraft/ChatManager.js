@@ -20,10 +20,6 @@ async function ChatManager() {
 	const guildChannel = getChannel(config.bridge.guild.channel);
 	const officerChannel = getChannel(config.bridge.officer.channel);
 
-	if (config.logs.console.enabled) setInterval(() => { consoleChannel.sendTyping(); }, 5000);
-	if (config.bridge.guild.enabled) setInterval(() => { guildChannel.sendTyping(); }, 5000);
-	if (config.bridge.officer.enabled) setInterval(() => { officerChannel.sendTyping(); }, 5000);
-
 	minecraft.on('message', async (message) => {
 		let msg = message.toString().trim();
 		if (!msg || ignore.some((ignored) => msg.startsWith(ignored))) return;
