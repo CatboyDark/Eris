@@ -19,7 +19,8 @@ async function Minecraft() {
 		auth: 'microsoft',
 		version: '1.8.9',
 		viewDistance: 'tiny',
-		chatLengthLimit: 256
+		chatLengthLimit: 256,
+		profilesFolder: './cache'
 	};
 
 	minecraft = mineflayer.createBot(bot);
@@ -29,6 +30,11 @@ async function Minecraft() {
 	for (const cFile of cDir) {
 		const cModule = (await import(`./commands/${cFile}`)).default;
 		const cList = Array.isArray(cModule) ? cModule : [cModule];
+
+		if (!config.commands[cFile.replace('.js', '')]) {
+			display.y(`Disabling command: ${cFile.replace('.js', '')}`);
+			continue;
+		}
 
 		for (const command of cList) {
 			if (!command) {

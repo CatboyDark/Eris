@@ -1,6 +1,7 @@
 import Canvas from 'canvas';
 import { AttachmentBuilder } from 'discord.js';
 import fs from 'fs';
+import auth from '../../../auth.json' with { type: 'json' };
 import hypixel from '../api/hypixel.js';
 import { readConfig } from '../utils.js';
 
@@ -14,21 +15,27 @@ export {
 	getSBLevel,
 	getSlayers,
 	getUser,
-	nFormat
+	messageQ,
+	nFormat,
+	send
 };
 
-async function getUser(user) { // Returns user.id, user.name
+async function getUser(user) {
 	try {
 		const response = await fetch(`https://mowojang.matdoes.dev/${user}`);
 		if (!response) {
 			return null;
 		}
 
-		return await response.json();
+		const data = await response.json();
+		return {
+			id: data.id,
+			ign: data.name
+		};
 	}
 	catch (e) {
-		console.error(e);
 		if (e.response?.data === 'Not found') return null;
+		console.log(e);
 	}
 }
 
@@ -77,130 +84,292 @@ const getSBLevel = {
 };
 
 const cataXP = JSON.parse(fs.readFileSync('./assets/cata.json', 'utf8')); // Credits: https://github.com/Hypixel-API-Reborn/hypixel-api-reborn
-const floors = JSON.parse(fs.readFileSync('./assets/dungeon_floors.json', 'utf8'));
+// const floors = JSON.parse(fs.readFileSync('./assets/dungeon_floors.json', 'utf8'));
 
 const getCata = {
-	highest: async function (player, floor = null) {
-		let cata;
+	highest: async function (uuid, floor = null) {
+		const response = await fetch(`https://api.hypixel.net/v2/skyblock/profiles?key=${auth.hypixelAPI}&uuid=${uuid}`);
+		const data = await response.json();
+		const profile = data.profiles.find(profile => profile.selected);
+		const dungeons = profile.members[uuid].dungeons;
 
-		const profiles = await hypixel.getSkyblockProfiles(player.uuid);
-		if (!profiles) return null;
-
-		let thisCata = 0;
-		for (const profile of profiles.values()) {
-			if (profile.me.dungeons.experience.level > thisCata) {
-				thisCata = profile.me.dungeons.experience.level;
-				cata = profile.me.dungeons;
-			}
-		}
-
-		return this.cataF(cata, floor);
-	},
-
-	current: async function (player, floor = null) {
-		const profiles = await hypixel.getSkyblockProfiles(player.uuid);
-		if (!profiles) return null;
-
-		const profile = [...profiles.values()].find((profile) => profile.selected);
-		const cata = profile.me.dungeons;
-
-		return this.cataF(cata, floor);
-	},
-
-	getTheAccurateFuckingCataLevel(xp) {
-		let requiredXP = 0;
-
-		for (let i = 1; i <= 50; i++) {
-			const levelXp = cataXP[i];
-			if (xp < requiredXP + levelXp) {
-				return Number((i - 1 + (xp - requiredXP) / levelXp).toFixed(2));
-			}
-			requiredXP += levelXp;
-		}
-
-		return Number((50 + (xp - requiredXP) / 200000000).toFixed(1));
-	},
-
-	getFloor(cata, floor) {
-		const floorInfo = floors.find(f => f.id === floor);
-		if (!floorInfo) return null;
-
-		const { name, path } = floorInfo;
-		const floorData = cata.floors[name];
-		if (!floorData) return null;
-
-		const getRuns = [
-			floorData.fastestSPlusRun,
-			floorData.fastestSRun,
-			floorData.fastestRun
-		].filter(Boolean);
-
-		if (getRuns.length === 0) return null;
-
-		function getScore(run) {
-			return run.score_exploration + run.score_speed + run.score_skill + run.score_bonus;
-		}
-
-		const highestRun = getRuns.reduce((best, run) => {
-			return getScore(run) > getScore(best) ? run : best;
-		}, getRuns[0]);
-
-		let rank;
-		const score = getScore(highestRun);
-		if (score >= 300) rank = 'S+';
-		else if (score >= 269.5) rank = 'S';
-		else if (score >= 230) rank = 'A';
-		else if (score >= 160) rank = 'B';
-		else if (score >= 100) rank = 'C';
-		else rank = 'D';
-
-		const totalSeconds = Math.floor(highestRun.elapsed_time / 1000);
-		const minutes = Math.floor(totalSeconds / 60);
-		const seconds = totalSeconds % 60;
-		const time = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-		const runs = floor.startsWith('m')
-			? cata.completions.masterCatacombs?.[path]
-			: cata.completions.catacombs?.[path];
-
-		const normalRuns = cata.completions.catacombs?.[path] ?? 0;
-		const masterRuns = cata.completions.masterCatacombs?.[path] ?? 0;
-		const collection = normalRuns + (masterRuns * 2);
-
-		return {
-			score: rank,
-			time,
-			runs,
-			collection
-		};
-	},
-
-	cataF(cata, floor) {
-		const data = {
-			level: this.getTheAccurateFuckingCataLevel(cata.experience.xp),
-			healer: cata.classes.healer.level,
-			mage: cata.classes.mage.level,
-			berserk: cata.classes.berserk.level,
-			archer: cata.classes.archer.level,
-			tank: cata.classes.tank.level,
-			classAvg: (cata.classes.healer.level + cata.classes.mage.level + cata.classes.berserk.level + cata.classes.archer.level + cata.classes.tank.level) / 5,
-			secrets: cata.secrets.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-			spr: Number((cata.secrets / (cata.completions.catacombs.total + cata.completions.masterCatacombs.total)).toFixed(2))
+		const cataData = {
+			level: getCataLevels.overflow(dungeons.dungeon_types.catacombs.experience).toFixed(1),
+			healer: Math.floor(getCataLevels.overflow(dungeons.player_classes.healer.experience)),
+			mage: Math.floor(getCataLevels.overflow(dungeons.player_classes.mage.experience)),
+			berserk: Math.floor(getCataLevels.overflow(dungeons.player_classes.berserk.experience)),
+			archer: Math.floor(getCataLevels.overflow(dungeons.player_classes.archer.experience)),
+			tank: Math.floor(getCataLevels.overflow(dungeons.player_classes.tank.experience)),
+			classAvg: (function() {
+				const levels = [
+				  dungeons.player_classes.healer.experience,
+				  dungeons.player_classes.mage.experience,
+				  dungeons.player_classes.berserk.experience,
+				  dungeons.player_classes.archer.experience,
+				  dungeons.player_classes.tank.experience
+				];
+				if (levels.some(xp => getCataLevels.overflow(xp) < 50)) {
+				  return (
+					getCataLevels.capped(dungeons.player_classes.healer.experience) +
+					getCataLevels.capped(dungeons.player_classes.mage.experience) +
+					getCataLevels.capped(dungeons.player_classes.berserk.experience) +
+					getCataLevels.capped(dungeons.player_classes.archer.experience) +
+					getCataLevels.capped(dungeons.player_classes.tank.experience)
+				  ) / 5;
+				}
+				else {
+				  return (
+					getCataLevels.overflow(dungeons.player_classes.healer.experience) +
+					getCataLevels.overflow(dungeons.player_classes.mage.experience) +
+					getCataLevels.overflow(dungeons.player_classes.berserk.experience) +
+					getCataLevels.overflow(dungeons.player_classes.archer.experience) +
+					getCataLevels.overflow(dungeons.player_classes.tank.experience)
+				  ) / 5;
+				}
+			  })().toFixed(1),
+			secrets: dungeons.secrets,
+			spr: Number((dungeons.secrets / (dungeons.dungeon_types.catacombs.times_played.total + dungeons.dungeon_types.catacombs.times_played.total)).toFixed(1))
 		};
 
 		if (floor) {
-			const run = this.getFloor(cata, floor);
-
+			const scoreData = this.getScore(dungeons, floor);
 			return {
-				...data,
-				score: run.score,
-				time: run.time,
-				runs: run.runs,
-				collection: run.collection
+				...cataData,
+				score: scoreData.rank ?? null,
+				time: scoreData ? this.formatMs(scoreData.time) : null,
+				runs: dungeons.dungeon_types[floor[0] === 'f' ? 'catacombs' : 'master_catacombs'].tier_completions[floor[1]],
+				collection: dungeons.dungeon_types.catacombs.times_played[floor[1]] + ((dungeons.dungeon_types.master_catacombs.tier_completions[floor[1]] * 2))
 			};
 		}
 
-		return data;
+		return cataData;
+	},
+
+	current: async function (uuid, floor = null) {
+		const response = await fetch(`https://api.hypixel.net/v2/skyblock/profiles?key=${auth.hypixelAPI}&uuid=${uuid}`);
+		const data = await response.json();
+		const profile = data.profiles.find(profile => profile.selected);
+		const dungeons = profile.members[uuid].dungeons;
+
+		const cataData = {
+			level: getCataLevels.overflow(dungeons.dungeon_types.catacombs.experience).toFixed(1),
+			healer: Math.floor(getCataLevels.overflow(dungeons.player_classes.healer.experience)),
+			mage: Math.floor(getCataLevels.overflow(dungeons.player_classes.mage.experience)),
+			berserk: Math.floor(getCataLevels.overflow(dungeons.player_classes.berserk.experience)),
+			archer: Math.floor(getCataLevels.overflow(dungeons.player_classes.archer.experience)),
+			tank: Math.floor(getCataLevels.overflow(dungeons.player_classes.tank.experience)),
+			classAvg: (function() {
+				const levels = [
+				  dungeons.player_classes.healer.experience,
+				  dungeons.player_classes.mage.experience,
+				  dungeons.player_classes.berserk.experience,
+				  dungeons.player_classes.archer.experience,
+				  dungeons.player_classes.tank.experience
+				];
+				if (levels.some(xp => getCataLevels.overflow(xp) < 50)) {
+				  return (
+					getCataLevels.capped(dungeons.player_classes.healer.experience) +
+					getCataLevels.capped(dungeons.player_classes.mage.experience) +
+					getCataLevels.capped(dungeons.player_classes.berserk.experience) +
+					getCataLevels.capped(dungeons.player_classes.archer.experience) +
+					getCataLevels.capped(dungeons.player_classes.tank.experience)
+				  ) / 5;
+				}
+				else {
+				  return (
+					getCataLevels.overflow(dungeons.player_classes.healer.experience) +
+					getCataLevels.overflow(dungeons.player_classes.mage.experience) +
+					getCataLevels.overflow(dungeons.player_classes.berserk.experience) +
+					getCataLevels.overflow(dungeons.player_classes.archer.experience) +
+					getCataLevels.overflow(dungeons.player_classes.tank.experience)
+				  ) / 5;
+				}
+			  })().toFixed(1),
+			secrets: dungeons.secrets,
+			spr: Number((dungeons.secrets / (dungeons.dungeon_types.catacombs.times_played.total + dungeons.dungeon_types.catacombs.times_played.total)).toFixed(1))
+		};
+
+		if (floor) {
+			const scoreData = this.getScore(dungeons, floor);
+			return {
+				...cataData,
+				score: scoreData.rank ?? null,
+				time: scoreData ? this.formatMs(scoreData.time) : null,
+				runs: dungeons.dungeon_types[floor[0] === 'f' ? 'catacombs' : 'master_catacombs'].tier_completions[floor[1]],
+				collection: dungeons.dungeon_types.catacombs.times_played[floor[1]] + ((dungeons.dungeon_types.master_catacombs.tier_completions[floor[1]] * 2))
+			};
+		}
+
+		return cataData;
+	},
+
+	getScore(dungeons, floor) {
+		if (dungeons.dungeon_types[floor[0] === 'f' ? 'catacombs' : 'master_catacombs'].fastest_time_s_plus?.[floor[1]]) return { rank: 'S+', time: dungeons.dungeon_types[floor[0] === 'f' ? 'catacombs' : 'master_catacombs'].fastest_time_s_plus?.[floor[1]] };
+		else if (dungeons.dungeon_types[floor[0] === 'f' ? 'catacombs' : 'master_catacombs'].fastest_time_s?.[floor[1]]) return { rank: 'S', time: dungeons.dungeon_types[floor[0] === 'f' ? 'catacombs' : 'master_catacombs'].fastest_time_s?.[floor[1]] };
+		else if (dungeons.dungeon_types[floor[0] === 'f' ? 'catacombs' : 'master_catacombs'].fastest_time?.[floor[1]]) return { rank: 'No Score', time: dungeons.dungeon_types[floor[0] === 'f' ? 'catacombs' : 'master_catacombs'].fastest_time?.[floor[1]] };
+		else return null;
+	},
+
+	formatMs(ms) {
+		const totalSeconds = Math.floor(ms / 1000);
+		const minutes = Math.floor(totalSeconds / 60);
+		const seconds = totalSeconds % 60;
+		return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+	}
+
+	// highest: async function (player, floor = null) {
+	// 	let cata;
+
+	// 	const profiles = await hypixel.getSkyblockProfiles(player.uuid);
+	// 	if (!profiles) return null;
+
+	// 	let thisCata = 0;
+	// 	for (const profile of profiles.values()) {
+	// 		if (profile.me.dungeons.experience.level > thisCata) {
+	// 			thisCata = profile.me.dungeons.experience.level;
+	// 			cata = profile.me.dungeons;
+	// 		}
+	// 	}
+
+	// 	const data = {
+	// 		level: getOverflowLevel(cata.experience.xp),
+	// 		healer: cata.classes.healer.level,
+	// 		mage: cata.classes.mage.level,
+	// 		berserk: cata.classes.berserk.level,
+	// 		archer: cata.classes.archer.level,
+	// 		tank: cata.classes.tank.level,
+	// 		classAvg: (cata.classes.healer.level + cata.classes.mage.level + cata.classes.berserk.level + cata.classes.archer.level + cata.classes.tank.level) / 5,
+	// 		secrets: cata.secrets.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+	// 		spr: Number((cata.secrets / (cata.completions.catacombs.total + cata.completions.masterCatacombs.total)).toFixed(2))
+	// 	};
+
+	// 	if (floor) {
+	// 		const run = this.getFloor(cata, floor);
+
+	// 		return {
+	// 			...data,
+	// 			score: run.score,
+	// 			time: run.time,
+	// 			runs: run.runs,
+	// 			collection: run.collection
+	// 		};
+	// 	}
+
+	// 	return data;
+	// },
+
+	// current: async function (player, floor = null) {
+	// 	const profiles = await hypixel.getSkyblockProfiles(player.uuid);
+	// 	if (!profiles) return null;
+
+	// 	const profile = [...profiles.values()].find((profile) => profile.selected);
+	// 	const cata = profile.me.dungeons;
+
+	// 	const data = {
+	// 		level: getOverflowLevel(cata.experience.xp),
+	// 		healer: cata.classes.healer.level,
+	// 		mage: cata.classes.mage.level,
+	// 		berserk: cata.classes.berserk.level,
+	// 		archer: cata.classes.archer.level,
+	// 		tank: cata.classes.tank.level,
+	// 		classAvg: (cata.classes.healer.level + cata.classes.mage.level + cata.classes.berserk.level + cata.classes.archer.level + cata.classes.tank.level) / 5,
+	// 		secrets: cata.secrets.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+	// 		spr: Number((cata.secrets / (cata.completions.catacombs.total + cata.completions.masterCatacombs.total)).toFixed(2))
+	// 	};
+
+	// 	if (floor) {
+	// 		const run = this.getFloor(cata, floor);
+
+	// 		return {
+	// 			...data,
+	// 			score: run.score,
+	// 			time: run.time,
+	// 			runs: run.runs,
+	// 			collection: run.collection
+	// 		};
+	// 	}
+
+	// 	return data;
+	// },
+
+	// getFloor(cata, floor) {
+	// 	const floorInfo = floors.find(f => f.id === floor);
+	// 	if (!floorInfo) return null;
+
+	// 	const { name, path } = floorInfo;
+	// 	const floorData = cata.floors[name];
+	// 	if (!floorData) return null;
+
+	// 	const getRuns = [
+	// 		floorData.fastestSPlusRun,
+	// 		floorData.fastestSRun,
+	// 		floorData.fastestRun
+	// 	].filter(Boolean);
+
+	// 	if (getRuns.length === 0) return null;
+
+		// function getScore(run) {
+		// 	return run.score_exploration + run.score_speed + run.score_skill + run.score_bonus;
+		// }
+
+	// 	const highestRun = getRuns.reduce((best, run) => {
+	// 		return getScore(run) > getScore(best) ? run : best;
+	// 	}, getRuns[0]);
+
+	// 	let rank;
+	// 	const score = getScore(highestRun);
+	// 	if (score >= 300) rank = 'S+';
+	// 	else if (score >= 269.5) rank = 'S';
+	// 	else if (score >= 230) rank = 'A';
+	// 	else if (score >= 160) rank = 'B';
+	// 	else if (score >= 100) rank = 'C';
+	// 	else rank = 'D';
+
+	// 	const totalSeconds = Math.floor(highestRun.elapsed_time / 1000);
+	// 	const minutes = Math.floor(totalSeconds / 60);
+	// 	const seconds = totalSeconds % 60;
+	// 	const time = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+	// 	const runs = floor.startsWith('m')
+	// 		? cata.completions.masterCatacombs?.[path]
+	// 		: cata.completions.catacombs?.[path];
+
+	// 	const normalRuns = cata.completions.catacombs?.[path] ?? 0;
+	// 	const masterRuns = cata.completions.masterCatacombs?.[path] ?? 0;
+	// 	const collection = normalRuns + (masterRuns * 2);
+
+	// 	return {
+	// 		score: rank,
+	// 		time,
+	// 		runs,
+	// 		collection
+	// 	};
+	// }
+};
+
+const getCataLevels = {
+	overflow(xp) {
+	  let requiredXP = 0;
+	  for (let i = 1; i <= 50; i++) {
+		const levelXp = cataXP[i];
+		if (xp < requiredXP + levelXp) {
+		  return i - 1 + (xp - requiredXP) / levelXp;
+		}
+		requiredXP += levelXp;
+	  }
+	  return 50 + (xp - requiredXP) / 200000000;
+	},
+
+	capped(xp) {
+	  let requiredXP = 0;
+	  for (let i = 1; i <= 50; i++) {
+		const levelXp = cataXP[i];
+		if (xp < requiredXP + levelXp) {
+		  return i - 1 + (xp - requiredXP) / levelXp;
+		}
+		requiredXP += levelXp;
+	  }
+	  return 50;
 	}
 };
 
@@ -283,8 +452,8 @@ const colors = JSON.parse(fs.readFileSync('./assets/colors.json', 'utf8'));
 
 async function createImage(text) {
 	const canvasWidth = 1100;
-	const fontSize = config.guild.bridge.font.size;
-	const fontName = config.guild.bridge.font.name;
+	const fontSize = config.bridge.font.size;
+	const fontName = config.bridge.font.name;
 	const lineHeight = 40;
 
 	const blank = Canvas.createCanvas(1, 1);
@@ -379,4 +548,10 @@ async function createImage(text) {
 
 	const buffer = canvas.toBuffer('image/png');
 	return new AttachmentBuilder(buffer, { name: 'image.png' });
+}
+
+const messageQ = [];
+
+function send(channel, user = null, content, discordMessage = null) {
+	messageQ.push({ channel, user, content, discordMessage });
 }

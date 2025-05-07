@@ -4,7 +4,7 @@ import { Minecraft, minecraft } from '../Minecraft.js';
 export { mcEvents };
 
 async function mcEvents() {
-	minecraft.on('login', () => {
+	minecraft.on('spawn', () => {
 		minecraft.chat('/limbo');
 	});
 
@@ -24,6 +24,6 @@ async function mcEvents() {
 
 	function reconnect() {
 		display.y('Attempting to reconnect...');
-		setTimeout(Minecraft, 5000);
+		setTimeout(Minecraft, 10000);
 	}
 }

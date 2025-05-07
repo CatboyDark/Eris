@@ -1,24 +1,28 @@
-import Canvas from 'canvas';
+// import Canvas from 'canvas';
 import fs from 'fs';
-import { getChannel, readConfig } from '../utils/utils.js';
+import { getChannel, messageQ, readConfig } from '../utils/utils.js';
 import { minecraft } from './Minecraft.js';
 import { bridge, consoleLog } from './modules/bridge.js';
+import { commands } from './modules/commands.js';
 
 export { ChatManager };
 
 async function ChatManager() {
+	await shipIt();
+
 	const config = readConfig();
 	const ignore = JSON.parse(fs.readFileSync('./assets/ignore.json', 'utf8'));
 
-	Canvas.registerFont(config.guild.bridge.font.path, { family: config.guild.bridge.font.name });
+	// Canvas is broken. Fucking hell.
+	// Canvas.registerFont(config.bridge.font.path, { family: config.bridge.font.name });
 
 	const consoleChannel = getChannel(config.logs.console.channel);
-	const guildChannel = getChannel(config.guild.bridge.guild.channel);
-	const officerChannel = getChannel(config.guild.bridge.officer.channel);
+	const guildChannel = getChannel(config.bridge.guild.channel);
+	const officerChannel = getChannel(config.bridge.officer.channel);
 
 	if (config.logs.console.enabled) setInterval(() => { consoleChannel.sendTyping(); }, 5000);
-	if (config.guild.bridge.guild.enabled) setInterval(() => { guildChannel.sendTyping(); }, 5000);
-	if (config.guild.bridge.officer.enabled) setInterval(() => { officerChannel.sendTyping(); }, 5000);
+	if (config.bridge.guild.enabled) setInterval(() => { guildChannel.sendTyping(); }, 5000);
+	if (config.bridge.officer.enabled) setInterval(() => { officerChannel.sendTyping(); }, 5000);
 
 	minecraft.on('message', async (message) => {
 		let msg = message.toString().trim();
@@ -31,11 +35,17 @@ async function ChatManager() {
 		msg = getMessage(msg);
 		const rawMsg = getRawMessage(message);
 
-		if (config.guild.bridge.guild.enabled && msg.channel === 'guild') {
-			await bridge(msg, rawMsg, guildChannel, config.guild.bridge.guild.fancy);
+		await commands(msg);
+
+		if (config.bridge.guild.enabled && msg.channel === 'guild') {
+			if (msg.sender === minecraft.username && isBridgeMessage(msg.content)) return;
+
+			await bridge(msg, rawMsg, guildChannel, config.bridge.guild.fancy);
 		}
-		if (config.guild.bridge.officer.enabled && msg.channel === 'officer') {
-			await bridge(msg, rawMsg, officerChannel, config.guild.bridge.guild.fancy);
+		if (config.bridge.officer.enabled && msg.channel === 'officer') {
+			if (msg.sender === minecraft.username && isBridgeMessage(msg.content)) return;
+
+			await bridge(msg, rawMsg, officerChannel, config.bridge.officer.fancy);
 		}
 	});
 }
@@ -53,7 +63,8 @@ function getMessage(message) {
 					return {
 						channel,
 						event: match[2] === 'joined' ? 'login' : 'logout',
-						ign: match[1]
+						ign: match[1],
+						content: null
 					};
 				}
 			}
@@ -129,4 +140,98 @@ function getRawMessage(message) {
 	}
 
 	return fullString;
+}
+
+function isBridgeMessage(message) {
+	const parts = message.split(' ');
+	if (parts[1] === '>' || parts[1] === '->') return true;
+}
+
+let shipping = false;
+
+const prefixes = {
+	guild: '/gc',
+	officer: '/oc',
+	party: '/pc',
+	dm: '/w'
+};
+
+async function shipIt() {
+	if (shipping) return;
+	shipping = true;
+
+	if (!messageQ.length) {
+		shipping = false;
+		setTimeout(shipIt, 500);
+		return;
+	}
+
+	const { channel, user, content, discordMessage } = messageQ.shift();
+	const prefix = prefixes[channel];
+
+	const parts = split(content, 256 - (channel.length + 1));
+
+	for (const part of parts) {
+		const messagePromise = new Promise((resolve) => {
+			const messageListener = (responseMessage) => {
+				const response = responseMessage.toString().trim();
+
+				if (response.includes(part)) {
+					minecraft.removeListener('message', messageListener);
+					resolve('success');
+				}
+				else if (response.includes('Advertising is against the rules.')) {
+					minecraft.removeListener('message', messageListener);
+					resolve('error_link');
+				}
+				else if (response === 'You cannot say the same message twice!') {
+					minecraft.removeListener('message', messageListener);
+					resolve('error_duplicate');
+				}
+			};
+
+			minecraft.on('message', messageListener);
+			minecraft.chat(channel === 'dm' ? `${prefix} ${user} ${part}` : `${prefix} ${part}`);
+
+			setTimeout(() => {
+				minecraft.removeListener('message', messageListener);
+				resolve('timeout');
+			}, 1000);
+		});
+
+		const result = await messagePromise;
+
+		if (result === 'error_link') {
+			if (discordMessage) {
+				await discordMessage.react('❌');
+			}
+		}
+		else if (result === 'error_duplicate') {
+			if (discordMessage) {
+				await discordMessage.react('❌');
+			}
+		}
+
+		await new Promise(res => setTimeout(res, 500));
+	}
+
+	shipping = false;
+	setTimeout(shipIt, 500);
+}
+
+function split(text, maxLength) {
+	const parts = [];
+	let index = '';
+
+	for (const word of text.split(' ')) {
+		if ((index + word).length + 1 > maxLength) {
+			parts.push(index.trim());
+			index = word + ' ';
+		}
+		else {
+			index += word + ' ';
+		}
+	}
+	if (index.trim()) parts.push(index.trim());
+	return parts;
 }

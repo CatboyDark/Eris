@@ -18,30 +18,31 @@ async function bridge(msg, rawMsg, channel, fancy) {
 		await channel.send({ files: [image.setName(`${msg.sender}.png`)] });
 	}
 	else {
-		msg.event
-		?
+		if (msg.event) {
 			channel.send({ embeds: [createMsg({
 				color: `${msg.event === 'login' ? 'Green' : 'Red'}`,
 				header: {
 					icon: `https://mc-heads.net/avatar/${msg.ign}`,
 					name: `${msg.ign} ${msg.event === 'login' ? 'joined.' : 'left.'}`
 				}
-			})] })
-		:
+			})] });
+		}
+		else {
 			channel.send({ embeds: [createMsg({
 				header: {
 					icon: `https://mc-heads.net/avatar/${msg.sender}`,
-					name: `${msg.rank ? `${msg.rank} ` : ''}${msg.sender} [${msg.guildRank}]`
+					name: `${msg.rank ? `[${msg.rank}] ` : ''}${msg.sender} [${msg.guildRank}]`
 				},
 				desc: filter(msg.content, channel)
 			})] });
+		}
 	}
 }
 
 function filter(message, channel) {
 	const msg = message
 		.replace(/\\/g, '\\\\')
-		.replace(/([*_~#\-\[\]`>|])/g, '\\$1')
+		.replace(/([*_~#\-\[\]`>q|])/g, '\\$1')
 		.replace('@everyone', '(everyone)')
 		.replace('@here', '(here)')
 		.replace(/<@!?(\d+)>/g, (_, userID) => {
