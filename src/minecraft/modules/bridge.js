@@ -31,7 +31,7 @@ async function bridge(msg, rawMsg, channel, fancy) {
 			channel.send({ embeds: [createMsg({
 				header: {
 					icon: `https://mc-heads.net/avatar/${msg.sender}`,
-					name: `${msg.rank ? `[${msg.rank}] ` : ''}${msg.sender} [${msg.guildRank}]`
+					name: `${msg.rank ? `[${msg.rank}] ` : ''}${msg.sender} ${msg.guildRank ? `[${msg.guildRank}]` : ''}`
 				},
 				desc: filter(msg.content, channel)
 			})] });
