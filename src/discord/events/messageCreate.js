@@ -74,7 +74,7 @@ async function bridge(message, consoleChannel, guildChannel, officerChannel) {
 	if (message.author.bot) return;
 
 	const user = message.member?.nickname ?? message.author.displayName;
-	const msg = filter(message);
+	const msg = filter(message, consoleChannel);
 
 	// Console
 	if (message.channel.id === consoleChannel.id) {
@@ -116,7 +116,7 @@ async function bridge(message, consoleChannel, guildChannel, officerChannel) {
 	}
 }
 
-function filter(message) {
+function filter(message, consoleChannel) {
 	let content = message.content;
 
 	content = content
