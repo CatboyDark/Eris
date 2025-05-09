@@ -21,7 +21,7 @@ async function welcomeMessage(member, config) {
 
 	if (welcomeChannel.guild.id !== member.guild.id) return;
 
-	const welcomeMsg = config.welcome.message.message ??
+	const welcomeMsg = config.welcome.message.message ||
 		`### Welcome to the ${config.guild.name ?? client.channels.cache.get(config.logs.channel)?.guild.name} server!`;
 
 	try {

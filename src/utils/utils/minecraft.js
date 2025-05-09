@@ -196,7 +196,7 @@ const getCata = {
 				score: scoreData.rank ?? null,
 				time: scoreData ? this.formatMs(scoreData.time) : null,
 				runs: dungeons.dungeon_types[floor[0] === 'f' ? 'catacombs' : 'master_catacombs'].tier_completions[floor[1]],
-				collection: dungeons.dungeon_types.catacombs.times_played[floor[1]] + ((dungeons.dungeon_types.master_catacombs.tier_completions[floor[1]] * 2))
+				collection: dungeons.dungeon_types.catacombs.tier_completions[floor[1]] + ((dungeons.dungeon_types.master_catacombs.tier_completions[floor[1]] * 2))
 			};
 		}
 
