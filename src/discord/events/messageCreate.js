@@ -90,7 +90,7 @@ async function bridge(message, consoleChannel, guildChannel, officerChannel) {
 		let content;
 		if (message.reference) {
 			const repliedTo = await message.channel.messages.fetch(message.reference.messageId);
-			const targetUser = repliedTo.attachments.first()?.name.replace('.png', '') ?? repliedTo.author.displayName;
+			const targetUser = repliedTo.attachments.first()?.name.replace('.png', '') ?? repliedTo.member.displayName;
 
 			content = `${user} -> ${targetUser}: ${msg}`;
 		}
@@ -105,7 +105,7 @@ async function bridge(message, consoleChannel, guildChannel, officerChannel) {
 		let content;
 		if (message.reference) {
 			const repliedTo = await message.channel.messages.fetch(message.reference.messageId);
-			const targetUser = repliedTo.attachments.first()?.name.replace('.png', '') ?? repliedTo.author.displayName;
+			const targetUser = repliedTo.attachments.first()?.name.replace('.png', '') ?? repliedTo.member.displayName;
 
 			content = `${user} -> ${targetUser}: ${msg}`;
 		}
