@@ -93,6 +93,23 @@ const getCata = {
 		const profile = data.profiles.find(profile => profile.selected);
 		const dungeons = profile.members[uuid].dungeons;
 
+		const totalRuns =
+			dungeons.dungeon_types.catacombs.times_played[0] +
+			dungeons.dungeon_types.catacombs.times_played[1] +
+			dungeons.dungeon_types.catacombs.times_played[2] +
+			dungeons.dungeon_types.catacombs.times_played[3] +
+			dungeons.dungeon_types.catacombs.times_played[4] +
+			dungeons.dungeon_types.catacombs.times_played[5] +
+			dungeons.dungeon_types.catacombs.times_played[6] +
+			dungeons.dungeon_types.catacombs.times_played[7] +
+			dungeons.dungeon_types.master_catacombs.times_played[1] +
+			dungeons.dungeon_types.master_catacombs.times_played[2] +
+			dungeons.dungeon_types.master_catacombs.times_played[3] +
+			dungeons.dungeon_types.master_catacombs.times_played[4] +
+			dungeons.dungeon_types.master_catacombs.times_played[5] +
+			dungeons.dungeon_types.master_catacombs.times_played[6] +
+			dungeons.dungeon_types.master_catacombs.times_played[7]
+
 		const cataData = {
 			level: getCataLevels.overflow(dungeons.dungeon_types.catacombs.experience).toFixed(1),
 			healer: Math.floor(getCataLevels.overflow(dungeons.player_classes.healer.experience)),
@@ -128,7 +145,7 @@ const getCata = {
 				}
 			  })().toFixed(1),
 			secrets: dungeons.secrets,
-			spr: Number((dungeons.secrets / (dungeons.dungeon_types.catacombs.times_played.total + dungeons.dungeon_types.catacombs.times_played.total)).toFixed(1))
+			spr: Number((dungeons.secrets / totalRuns).toFixed(1))
 		};
 
 		if (floor) {
@@ -138,7 +155,7 @@ const getCata = {
 				score: scoreData.rank ?? null,
 				time: scoreData ? this.formatMs(scoreData.time) : null,
 				runs: dungeons.dungeon_types[floor[0] === 'f' ? 'catacombs' : 'master_catacombs'].tier_completions[floor[1]],
-				collection: dungeons.dungeon_types.catacombs.times_played[floor[1]] + ((dungeons.dungeon_types.master_catacombs.tier_completions[floor[1]] * 2))
+				collection: dungeons.dungeon_types.catacombs.tier_completions[floor[1]] + ((dungeons.dungeon_types.master_catacombs.tier_completions[floor[1]] * 2))
 			};
 		}
 
@@ -151,6 +168,23 @@ const getCata = {
 		const profile = data.profiles.find(profile => profile.selected);
 		const dungeons = profile.members[uuid].dungeons;
 
+		const totalRuns =
+			dungeons.dungeon_types.catacombs.times_played[0] +
+			dungeons.dungeon_types.catacombs.times_played[1] +
+			dungeons.dungeon_types.catacombs.times_played[2] +
+			dungeons.dungeon_types.catacombs.times_played[3] +
+			dungeons.dungeon_types.catacombs.times_played[4] +
+			dungeons.dungeon_types.catacombs.times_played[5] +
+			dungeons.dungeon_types.catacombs.times_played[6] +
+			dungeons.dungeon_types.catacombs.times_played[7] +
+			dungeons.dungeon_types.master_catacombs.times_played[1] +
+			dungeons.dungeon_types.master_catacombs.times_played[2] +
+			dungeons.dungeon_types.master_catacombs.times_played[3] +
+			dungeons.dungeon_types.master_catacombs.times_played[4] +
+			dungeons.dungeon_types.master_catacombs.times_played[5] +
+			dungeons.dungeon_types.master_catacombs.times_played[6] +
+			dungeons.dungeon_types.master_catacombs.times_played[7]
+
 		const cataData = {
 			level: getCataLevels.overflow(dungeons.dungeon_types.catacombs.experience).toFixed(1),
 			healer: Math.floor(getCataLevels.overflow(dungeons.player_classes.healer.experience)),
@@ -186,7 +220,7 @@ const getCata = {
 				}
 			  })().toFixed(1),
 			secrets: dungeons.secrets,
-			spr: Number((dungeons.secrets / (dungeons.dungeon_types.catacombs.times_played.total + dungeons.dungeon_types.catacombs.times_played.total)).toFixed(1))
+			spr: Number((dungeons.secrets / totalRuns).toFixed(1))
 		};
 
 		if (floor) {

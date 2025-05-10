@@ -1,0 +1,5539 @@
+{
+	"uuid": "2700c8b565c74d8e9be5eb7a6ae19295",
+	"player": null,
+	"museum": null,
+	"garden": null,
+	"gameMode": null,
+	"selected": true,
+	"profileName": "Banana",
+	"profileId": "c2716206-23c0-4f73-a3a2-c43e04adb519",
+	"firstJoinTimestamp": 1653795025128,
+	"firstJoinAt": "2022-05-29T03:30:25.128Z",
+	"experience": 44913,
+	"level": 449.13,
+	"hotm": {
+		"experience": {
+			"xp": 1247000,
+			"level": 10,
+			"maxLevel": 10,
+			"xpCurrent": 0,
+			"xpForNext": 0,
+			"progress": null,
+			"cosmetic": false
+		},
+		"ability": "pickaxe_toss",
+		"powder": {
+			"mithril": {
+				"spent": 11061843,
+				"current": 2826415,
+				"total": 11061843
+			},
+			"gemstone": {
+				"spent": 22770594,
+				"current": 5483597,
+				"total": 22770594
+			},
+			"glacite": {
+				"spent": 7914935,
+				"current": 619351,
+				"total": 7914935
+			}
+		}
+	},
+	"highestMagicalPower": 1693,
+	"fairySouls": 252,
+	"fairyExchanges": 50,
+	"skills": {
+		"combat": {
+			"xp": 994889706.8112893,
+			"level": 60,
+			"maxLevel": 60,
+			"xpCurrent": 883217281,
+			"xpForNext": 0,
+			"progress": 100,
+			"cosmetic": false
+		},
+		"farming": {
+			"xp": 190012574.22877872,
+			"level": 60,
+			"maxLevel": 100,
+			"xpCurrent": 78340149,
+			"xpForNext": null,
+			"progress": null,
+			"cosmetic": false
+		},
+		"fishing": {
+			"xp": 83097546.1351908,
+			"level": 50,
+			"maxLevel": 50,
+			"xpCurrent": 27925121,
+			"xpForNext": 0,
+			"progress": 100,
+			"cosmetic": false
+		},
+		"mining": {
+			"xp": 646052083.4725568,
+			"level": 60,
+			"maxLevel": 60,
+			"xpCurrent": 534379658,
+			"xpForNext": 0,
+			"progress": 100,
+			"cosmetic": false
+		},
+		"foraging": {
+			"xp": 2043830.2913423758,
+			"level": 23,
+			"maxLevel": 50,
+			"xpCurrent": 321405,
+			"xpForNext": 600000,
+			"progress": 53.5,
+			"cosmetic": false
+		},
+		"enchanting": {
+			"xp": 195822286.20993733,
+			"level": 60,
+			"maxLevel": 60,
+			"xpCurrent": 84149861,
+			"xpForNext": 0,
+			"progress": 100,
+			"cosmetic": false
+		},
+		"alchemy": {
+			"xp": 55567977.755282484,
+			"level": 50,
+			"maxLevel": 50,
+			"xpCurrent": 395552,
+			"xpForNext": 0,
+			"progress": 100,
+			"cosmetic": false
+		},
+		"carpentry": {
+			"xp": 160764847.26307705,
+			"level": 50,
+			"maxLevel": 50,
+			"xpCurrent": 105592422,
+			"xpForNext": 0,
+			"progress": 100,
+			"cosmetic": false
+		},
+		"runecrafting": {
+			"xp": 2048003.1318699804,
+			"level": 25,
+			"maxLevel": 25,
+			"xpCurrent": 1953703,
+			"xpForNext": 0,
+			"progress": 100,
+			"cosmetic": true
+		},
+		"taming": {
+			"xp": 791801420.2261788,
+			"level": 60,
+			"maxLevel": 60,
+			"xpCurrent": 680128995,
+			"xpForNext": 0,
+			"progress": 100,
+			"cosmetic": false
+		},
+		"social": {
+			"xp": 119129.41524997912,
+			"level": 21,
+			"maxLevel": 25,
+			"xpCurrent": 1329,
+			"xpForNext": 30000,
+			"progress": 4.4,
+			"cosmetic": true
+		},
+		"average": 52.55555555555556
+	},
+	"bestiary": 288.8,
+	"slayer": {
+		"zombie": {
+			"xp": 1420435,
+			"tier1": 12,
+			"tier2": 1,
+			"tier3": 1,
+			"tier4": 196,
+			"tier5": 816,
+			"level": 9
+		},
+		"spider": {
+			"xp": 1519780,
+			"tier1": 1,
+			"tier2": 1,
+			"tier3": 1,
+			"tier4": 2644,
+			"tier5": 0,
+			"level": 9
+		},
+		"wolf": {
+			"xp": 1000755,
+			"tier1": 1,
+			"tier2": 1,
+			"tier3": 1,
+			"tier4": 1767,
+			"tier5": 0,
+			"level": 9
+		},
+		"enderman": {
+			"xp": 1005455,
+			"tier1": 6,
+			"tier2": 2,
+			"tier3": 10,
+			"tier4": 1892,
+			"tier5": 0,
+			"level": 9
+		},
+		"blaze": {
+			"xp": 1001489,
+			"tier1": 5,
+			"tier2": 48,
+			"tier3": 32,
+			"tier4": 1913,
+			"tier5": 0,
+			"level": 9
+		},
+		"vampire": {
+			"xp": 11800,
+			"tier1": 9,
+			"tier2": 4,
+			"tier3": 11,
+			"tier4": 90,
+			"tier5": 1,
+			"level": 5
+		}
+	},
+	"crimson": {
+		"faction": "barbarians",
+		"reputation": {
+			"barbarians": 2365,
+			"mages": 18025
+		},
+		"trophyFish": {
+			"rank": null,
+			"caught": {
+				"total": 35607,
+				"bronze": 18,
+				"silver": 18,
+				"gold": 18,
+				"diamond": 18
+			}
+		},
+		"dojo": {
+			"belt": "Black",
+			"force": {
+				"points": 860,
+				"rank": "A"
+			},
+			"stamina": {
+				"points": 945,
+				"rank": "A"
+			},
+			"mastery": {
+				"points": 1576,
+				"rank": "S"
+			},
+			"discipline": {
+				"points": 912,
+				"rank": "A"
+			},
+			"swiftness": {
+				"points": 888,
+				"rank": "A"
+			},
+			"control": {
+				"points": 900,
+				"rank": "A"
+			},
+			"tenacity": {
+				"points": 1070,
+				"rank": "S"
+			}
+		},
+		"kuudra": {
+			"none": 331,
+			"hot": 82,
+			"burning": 414,
+			"fiery": 30,
+			"highestWaveHot": 11,
+			"highestWaveFiery": 26,
+			"infernal": 729,
+			"highestWaveInfernal": 100,
+			"highestWaveBurning": 21
+		}
+	},
+	"dungeons": {
+		"experience": {
+			"xp": 2335980150.9981403,
+			"level": 55,
+			"maxLevel": 55,
+			"xpCurrent": 766170510,
+			"xpForNext": 0,
+			"progress": 100,
+			"cosmetic": false
+		},
+		"secrets": 147808,
+		"completions": {
+			"catacombs": {
+				"total": 3933,
+				"Floor_0": 19,
+				"Floor_1": 50,
+				"Floor_2": 20,
+				"Floor_3": 60,
+				"Floor_4": 43,
+				"Floor_5": 462,
+				"Floor_6": 1094,
+				"Floor_7": 2185
+			},
+			"masterCatacombs": {
+				"total": 11915,
+				"Floor_1": 502,
+				"Floor_2": 579,
+				"Floor_3": 734,
+				"Floor_4": 1361,
+				"Floor_5": 3704,
+				"Floor_6": 3695,
+				"Floor_7": 1340
+			}
+		},
+		"floors": {
+			"entrance": {
+				"fastestRun": {
+					"timestamp": 1722502890242,
+					"score_exploration": 27,
+					"score_speed": 70,
+					"score_skill": 26,
+					"score_bonus": 0,
+					"dungeon_class": "tank",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0"
+					],
+					"elapsed_time": 82104,
+					"damage_dealt": 308877.96204306907,
+					"deaths": 0,
+					"mobs_killed": 25,
+					"secrets_found": 0,
+					"damage_mitigated": 31108,
+					"ally_healing": 636
+				},
+				"fastestSRun": {
+					"timestamp": 1722502890242,
+					"score_exploration": 27,
+					"score_speed": 70,
+					"score_skill": 26,
+					"score_bonus": 0,
+					"dungeon_class": "tank",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0"
+					],
+					"elapsed_time": 82104,
+					"damage_dealt": 308877.96204306907,
+					"deaths": 0,
+					"mobs_killed": 25,
+					"secrets_found": 0,
+					"damage_mitigated": 31108,
+					"ally_healing": 636
+				},
+				"fastestSPlusRun": {
+					"timestamp": 1722502890242,
+					"score_exploration": 27,
+					"score_speed": 70,
+					"score_skill": 26,
+					"score_bonus": 0,
+					"dungeon_class": "tank",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0"
+					],
+					"elapsed_time": 82104,
+					"damage_dealt": 308877.96204306907,
+					"deaths": 0,
+					"mobs_killed": 25,
+					"secrets_found": 0,
+					"damage_mitigated": 31108,
+					"ally_healing": 636
+				},
+				"completions": 0
+			},
+			"floor1": {
+				"fastestRun": {
+					"timestamp": 1659740574175,
+					"score_exploration": 89,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 2,
+					"dungeon_class": "mage",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0",
+						"a567953f-386d-48d3-96fa-4e3f1ce662a8",
+						"bcb97601-2aba-45f4-ad12-01d9ee8e5652",
+						"0d514a0b-0654-4216-b323-791fddeb3750"
+					],
+					"elapsed_time": 136230,
+					"damage_dealt": 864688.55,
+					"deaths": 0,
+					"mobs_killed": 30,
+					"secrets_found": 3
+				},
+				"fastestSPlusRun": {
+					"timestamp": 1659740574175,
+					"score_exploration": 89,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 2,
+					"dungeon_class": "mage",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0",
+						"a567953f-386d-48d3-96fa-4e3f1ce662a8",
+						"bcb97601-2aba-45f4-ad12-01d9ee8e5652",
+						"0d514a0b-0654-4216-b323-791fddeb3750"
+					],
+					"elapsed_time": 136230,
+					"damage_dealt": 864688.55,
+					"deaths": 0,
+					"mobs_killed": 30,
+					"secrets_found": 3
+				},
+				"completions": 0
+			},
+			"floor2": {
+				"fastestRun": {
+					"timestamp": 1676134824142,
+					"score_exploration": 100,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 0,
+					"dungeon_class": "mage",
+					"teammates": [
+						"ea24b4a9-7f6c-41a5-a4f3-8ec3aa09497e",
+						"1baf97e1-4951-47d0-b32d-0c56aa748c79",
+						"331b8c9d-83ad-428f-a516-00c18a8c138a"
+					],
+					"elapsed_time": 193469,
+					"damage_dealt": 6686875.724244041,
+					"deaths": 0,
+					"mobs_killed": 84,
+					"secrets_found": 2,
+					"damage_mitigated": 35846.1271484375,
+					"ally_healing": 210
+				},
+				"fastestSRun": {
+					"timestamp": 1675498787494,
+					"score_exploration": 68,
+					"score_speed": 100,
+					"score_skill": 88,
+					"score_bonus": 0,
+					"dungeon_class": "tank",
+					"teammates": [
+						"cdaffd74-2375-4964-b110-7e94f10eef86"
+					],
+					"elapsed_time": 290941,
+					"damage_dealt": 13288465.758096313,
+					"deaths": 0,
+					"mobs_killed": 175,
+					"secrets_found": 2,
+					"damage_mitigated": 46455.00653458498,
+					"ally_healing": 714.3606689453125
+				},
+				"fastestSPlusRun": {
+					"timestamp": 1676134824142,
+					"score_exploration": 100,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 0,
+					"dungeon_class": "mage",
+					"teammates": [
+						"ea24b4a9-7f6c-41a5-a4f3-8ec3aa09497e",
+						"1baf97e1-4951-47d0-b32d-0c56aa748c79",
+						"331b8c9d-83ad-428f-a516-00c18a8c138a"
+					],
+					"elapsed_time": 193469,
+					"damage_dealt": 6686875.724244041,
+					"deaths": 0,
+					"mobs_killed": 84,
+					"secrets_found": 2,
+					"damage_mitigated": 35846.1271484375,
+					"ally_healing": 210
+				},
+				"completions": 0
+			},
+			"floor3": {
+				"fastestRun": {
+					"timestamp": 1673316926174,
+					"score_exploration": 100,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 3,
+					"dungeon_class": "mage",
+					"teammates": [
+						"48a11640-5ad4-47ab-903c-34c881e1c68c",
+						"555ba9ce-da44-48bd-be8c-5ec96e36d313",
+						"5af13b03-5e0c-41c8-bf06-9cc7c95983a2",
+						"4c29423f-4850-4d90-80f2-c3bf905ab14a"
+					],
+					"elapsed_time": 186942,
+					"damage_dealt": 8813092.002287436,
+					"deaths": 0,
+					"mobs_killed": 56,
+					"secrets_found": 3,
+					"damage_mitigated": 44130.781308555604
+				},
+				"fastestSPlusRun": {
+					"timestamp": 1682774181527,
+					"score_exploration": 93,
+					"score_speed": 100,
+					"score_skill": 86,
+					"score_bonus": 0,
+					"dungeon_class": "mage",
+					"teammates": [
+						"add71246-c46e-455c-8345-c129ea6f146c"
+					],
+					"elapsed_time": 361044,
+					"damage_dealt": 24954922.19593361,
+					"deaths": 0,
+					"mobs_killed": 124,
+					"secrets_found": 10,
+					"damage_mitigated": 139068.83319010492,
+					"ally_healing": 31.599999999999994
+				},
+				"completions": 0
+			},
+			"floor4": {
+				"fastestRun": {
+					"timestamp": 1698210394168,
+					"score_exploration": 100,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 3,
+					"dungeon_class": "mage",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0",
+						"1dd8c4af-8783-47d1-8cf7-6f4e7da859d9",
+						"c96a4e7c-217e-420f-8b39-748a335e9540",
+						"42deb8b0-382f-4ee2-a100-26d43f16f24e"
+					],
+					"elapsed_time": 220946,
+					"damage_dealt": 43493711.320287466,
+					"deaths": 0,
+					"mobs_killed": 119,
+					"secrets_found": 4,
+					"damage_mitigated": 185326.65515625002,
+					"ally_healing": 149.60000000000002
+				},
+				"fastestSPlusRun": {
+					"timestamp": 1706309731287,
+					"score_exploration": 77,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 5,
+					"dungeon_class": "mage",
+					"teammates": [
+						"25e8bca0-7816-4f61-a5e4-b614110e5b2e"
+					],
+					"elapsed_time": 270288,
+					"damage_dealt": 170812467.06538704,
+					"deaths": 0,
+					"mobs_killed": 371,
+					"secrets_found": 2,
+					"damage_mitigated": 212396.8528677545,
+					"ally_healing": 109.125
+				},
+				"completions": 0
+			},
+			"floor5": {
+				"fastestRun": {
+					"timestamp": 1661301316936,
+					"score_exploration": 100,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 5,
+					"dungeon_class": "mage",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0",
+						"45516b2a-6390-4c61-a01a-2cdba31c2852",
+						"be67ca16-9e9d-4491-a63c-1311d3d92986",
+						"9ae184d3-5a92-4fd8-96c4-b169ff840fe4"
+					],
+					"elapsed_time": 241363,
+					"damage_dealt": 11590601.90461873,
+					"deaths": 0,
+					"mobs_killed": 34,
+					"secrets_found": 15,
+					"damage_mitigated": 150458.38089253422
+				},
+				"completions": 0
+			},
+			"floor6": {
+				"fastestRun": {
+					"timestamp": 1682397075858,
+					"score_exploration": 100,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 17,
+					"dungeon_class": "mage",
+					"teammates": [
+						"2b5b302c-ee22-40d5-a52b-5d9f4a75a403",
+						"29ea83cc-c4ad-4a4d-ad02-9e6a494acd1c",
+						"3943ff83-6ea0-44dc-ab37-340d31957222",
+						"1ee1d2a0-1b13-4510-bc18-0d0f1dc0f07b"
+					],
+					"elapsed_time": 241422,
+					"damage_dealt": 83147361.06960234,
+					"deaths": 0,
+					"mobs_killed": 129,
+					"secrets_found": 12,
+					"damage_mitigated": 176672.19566702444,
+					"ally_healing": 27.200000000000003
+				},
+				"completions": 0
+			},
+			"floor7": {
+				"fastestRun": {
+					"timestamp": 1687926782561,
+					"score_exploration": 97,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 17,
+					"dungeon_class": "mage",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0",
+						"7802195f-7ce5-44a1-ab43-7fd11115e151",
+						"2474ee5d-081d-44ce-90ec-d5286971b8d3",
+						"29ea83cc-c4ad-4a4d-ad02-9e6a494acd1c"
+					],
+					"elapsed_time": 389202,
+					"damage_dealt": 383573920.06475043,
+					"deaths": 0,
+					"mobs_killed": 106,
+					"secrets_found": 8,
+					"damage_mitigated": 1079099.248035048,
+					"ally_healing": 637.3203125000001
+				},
+				"completions": 0
+			},
+			"masterCatacombs1": {
+				"fastestRun": {
+					"timestamp": 1721714817381,
+					"score_exploration": 100,
+					"score_speed": 100,
+					"score_skill": 99,
+					"score_bonus": 5,
+					"dungeon_class": "tank",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0",
+						"50bf08b3-9c7c-4fdb-8f85-17afd407113a",
+						"35936d5f-38b8-4cb3-8349-42a8a0bb122c",
+						"ac98ca10-6c94-47cf-984d-5302a18f0fd5"
+					],
+					"elapsed_time": 108472,
+					"damage_dealt": 39433148.64440754,
+					"deaths": 0,
+					"mobs_killed": 24,
+					"secrets_found": 0,
+					"damage_mitigated": 195951.6330078125
+				},
+				"completions": 0
+			},
+			"masterCatacombs2": {
+				"fastestRun": {
+					"timestamp": 1732165657081,
+					"score_exploration": 96,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 4,
+					"dungeon_class": "healer",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0",
+						"781d2732-098f-47a3-b837-3e48edbcd767",
+						"95c9e002-52e1-446c-88e4-06d55c4f217d",
+						"1a8e31c4-f470-4c04-9be7-8d8fbe417eb8"
+					],
+					"elapsed_time": 124829,
+					"damage_dealt": 113613494.81431313,
+					"deaths": 0,
+					"mobs_killed": 107,
+					"secrets_found": 2,
+					"damage_mitigated": 132945.011328125
+				},
+				"fastestSPlusRun": {
+					"timestamp": 1732165657081,
+					"score_exploration": 96,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 4,
+					"dungeon_class": "healer",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0",
+						"781d2732-098f-47a3-b837-3e48edbcd767",
+						"95c9e002-52e1-446c-88e4-06d55c4f217d",
+						"1a8e31c4-f470-4c04-9be7-8d8fbe417eb8"
+					],
+					"elapsed_time": 124829,
+					"damage_dealt": 113613494.81431313,
+					"deaths": 0,
+					"mobs_killed": 107,
+					"secrets_found": 2,
+					"damage_mitigated": 132945.011328125
+				},
+				"completions": 0
+			},
+			"masterCatacombs3": {
+				"fastestRun": {
+					"timestamp": 1737661561735,
+					"score_exploration": 98,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 5,
+					"dungeon_class": "mage",
+					"teammates": [
+						"63357706-a736-4f22-878c-495d9c00b17f",
+						"d269b708-8219-44e5-977a-5e66ece95242",
+						"3a8bb680-6e42-41f0-93ce-dc0220f67ace",
+						"7949c3bf-ad31-448a-8d0d-ebc6b11a84c8"
+					],
+					"elapsed_time": 158099,
+					"damage_dealt": 803137113.2953726,
+					"deaths": 0,
+					"mobs_killed": 107,
+					"secrets_found": 1,
+					"damage_mitigated": 71850.948828125
+				},
+				"completions": 0
+			},
+			"masterCatacombs4": {
+				"fastestRun": {
+					"timestamp": 1742429785789,
+					"score_exploration": 98,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 15,
+					"dungeon_class": "healer",
+					"teammates": [
+						"a5d07c1d-1530-4b05-805a-6778ac4851dc",
+						"b8deaf82-84d0-4772-aa6b-30e69b99c64f",
+						"e9477c0b-c28e-4a74-a5e2-3079ed50c85e",
+						"eb134e21-9c72-4f23-bda3-21595b18bd61"
+					],
+					"elapsed_time": 180250,
+					"damage_dealt": 86980494.18927452,
+					"deaths": 0,
+					"mobs_killed": 9,
+					"secrets_found": 5,
+					"damage_mitigated": 1247512.0400390625,
+					"ally_healing": 13957.0893484375
+				},
+				"completions": 0
+			},
+			"masterCatacombs5": {
+				"fastestRun": {
+					"timestamp": 1738059882582,
+					"score_exploration": 100,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 15,
+					"dungeon_class": "tank",
+					"teammates": [
+						"4ab26461-b865-4a7e-a11f-ffd2f3b3f59f",
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0",
+						"3a8bb680-6e42-41f0-93ce-dc0220f67ace",
+						"e9477c0b-c28e-4a74-a5e2-3079ed50c85e"
+					],
+					"elapsed_time": 150184,
+					"damage_dealt": 488144525.93000436,
+					"deaths": 0,
+					"mobs_killed": 28,
+					"secrets_found": 5,
+					"damage_mitigated": 6683608.1853495985
+				},
+				"completions": 0
+			},
+			"masterCatacombs6": {
+				"fastestRun": {
+					"timestamp": 1741581859066,
+					"score_exploration": 98,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 17,
+					"dungeon_class": "healer",
+					"teammates": [
+						"e5fcd7ca-6948-46be-82ee-2f4961f54ed0",
+						"bd91cd53-4d2b-46bc-907c-03ca34c62c34",
+						"e9477c0b-c28e-4a74-a5e2-3079ed50c85e",
+						"f23855c9-65f0-40ed-9676-373520af1874"
+					],
+					"elapsed_time": 161396,
+					"damage_dealt": 288488.6197237144,
+					"deaths": 0,
+					"mobs_killed": 1,
+					"secrets_found": 4,
+					"damage_mitigated": 1963827.8580859376,
+					"ally_healing": 3386.7157085937497
+				},
+				"completions": 0
+			},
+			"masterCatacombs7": {
+				"fastestRun": {
+					"timestamp": 1705021636099,
+					"score_exploration": 96,
+					"score_speed": 100,
+					"score_skill": 100,
+					"score_bonus": 17,
+					"dungeon_class": "mage",
+					"teammates": [
+						"8bd24740-25ac-4fa2-b991-4232ad5f0b04",
+						"01dfdba9-4fbf-44ae-8adb-26a7a49d37f6",
+						"29ea83cc-c4ad-4a4d-ad02-9e6a494acd1c",
+						"628c9945-7a6e-4a8c-88ee-5d75038acdca"
+					],
+					"elapsed_time": 444362,
+					"damage_dealt": 27500945875.984188,
+					"deaths": 0,
+					"mobs_killed": 117,
+					"secrets_found": 3,
+					"damage_mitigated": 6871955.410765673,
+					"ally_healing": 2223.0861328125
+				},
+				"completions": 0
+			}
+		},
+		"classes": {
+			"healer": {
+				"xp": 591964353.4483764,
+				"level": 50,
+				"maxLevel": 55,
+				"xpCurrent": 22154713,
+				"xpForNext": null,
+				"progress": null,
+				"cosmetic": false
+			},
+			"mage": {
+				"xp": 830343761.453904,
+				"level": 50,
+				"maxLevel": 55,
+				"xpCurrent": 260534121,
+				"xpForNext": null,
+				"progress": null,
+				"cosmetic": false
+			},
+			"berserk": {
+				"xp": 477618746.68025625,
+				"level": 49,
+				"maxLevel": 55,
+				"xpCurrent": 24059106,
+				"xpForNext": 116250000,
+				"progress": 20.6,
+				"cosmetic": false
+			},
+			"archer": {
+				"xp": 550058536.6472515,
+				"level": 49,
+				"maxLevel": 55,
+				"xpCurrent": 96498896,
+				"xpForNext": 116250000,
+				"progress": 83,
+				"cosmetic": false
+			},
+			"tank": {
+				"xp": 651425924.0786501,
+				"level": 50,
+				"maxLevel": 55,
+				"xpCurrent": 81616284,
+				"xpForNext": null,
+				"progress": null,
+				"cosmetic": false
+			},
+			"selected": "tank"
+		},
+		"essence": {
+			"diamond": 6807,
+			"dragon": 4126,
+			"spider": 5576,
+			"wither": 39434,
+			"undead": 49759,
+			"gold": 9121,
+			"ice": 6301,
+			"crimson": 0
+		}
+	},
+	"collections": {
+		"WHEAT": 13343752,
+		"SEEDS": 7865689,
+		"COBBLESTONE": 4249054,
+		"COAL": 6947174,
+		"LOG": 41283,
+		"LOG_2:1": 26630,
+		"MUSHROOM_COLLECTION": 44818542,
+		"ROTTEN_FLESH": 16165995,
+		"CARROT_ITEM": 16899740,
+		"POTATO_ITEM": 17874910,
+		"REDSTONE": 4446052,
+		"SLIME_BALL": 209610,
+		"BONE": 3034883,
+		"MITHRIL_ORE": 12184907,
+		"GOLD_INGOT": 100170483,
+		"IRON_INGOT": 19870375,
+		"LOG:2": 52142,
+		"STRING": 272643521,
+		"SPIDER_EYE": 88198978,
+		"LOG:1": 50034,
+		"LOG_2": 25021,
+		"LOG:3": 32421,
+		"MELON": 144612799,
+		"PUMPKIN": 7877874,
+		"LEATHER": 106611,
+		"FEATHER": 165274,
+		"RAW_CHICKEN": 109130,
+		"PORK": 60649,
+		"INK_SACK:3": 12851842,
+		"SUGAR_CANE": 45601634,
+		"RABBIT": 71127,
+		"MUTTON": 112313,
+		"SAND": 6045,
+		"CACTUS": 8852043,
+		"SULPHUR": 95390,
+		"INK_SACK:4": 1022292,
+		"EMERALD": 886806,
+		"DIAMOND": 2077265,
+		"OBSIDIAN": 151174,
+		"GRAVEL": 54518,
+		"ENDER_PEARL": 1445130,
+		"ENDER_STONE": 127251,
+		"REDSTONE_BLOCK": 66,
+		"GEMSTONE_COLLECTION": 4681816731,
+		"HARD_STONE": 39800580,
+		"BLAZE_ROD": 2065504,
+		"CLAY_BALL": 20939,
+		"SNOW_BALL": 636,
+		"WATER_LILY": 68098,
+		"NETHER_STALK": 13912111,
+		"RAW_FISH:3": 120225,
+		"INK_SACK": 16295,
+		"RAW_FISH": 523049,
+		"RAW_FISH:2": 42593,
+		"RAW_FISH:1": 229310,
+		"PRISMARINE_CRYSTALS": 54141,
+		"PRISMARINE_SHARD": 59512,
+		"SPONGE": 29944,
+		"SULPHUR_ORE": 133518,
+		"ICE": 1071773,
+		"POISONOUS_POTATO": 188,
+		"ENCHANTED_CLAY_BALL": 44,
+		"ENCHANTED_SPIDER_EYE": 661,
+		"ENCHANTED_STRING": 389,
+		"ENCHANTED_GUNPOWDER": 5,
+		"MAGMA_CREAM": 1163000,
+		"NETHERRACK": 1025937,
+		"MYCEL": 381132,
+		"SAND:1": 10359854,
+		"QUARTZ": 291945,
+		"GLOWSTONE_DUST": 498760,
+		"GHAST_TEAR": 39645,
+		"ENCHANTED_FEATHER": 11,
+		"ENCHANTED_RAW_CHICKEN": 11,
+		"ENCHANTED_RAW_BEEF": 34,
+		"ENCHANTED_LEATHER": 2,
+		"RAW_BEEF": 85,
+		"RABBIT_FOOT": 6,
+		"RABBIT_HIDE": 9,
+		"ENCHANTED_MUTTON": 31,
+		"ENCHANTED_WOOL": 31,
+		"WOOL": 178,
+		"ENCHANTED_MAGMA_CREAM": 119,
+		"MAGMA_FISH": 1554446,
+		"ENCHANTED_GOLD": 16,
+		"ENCHANTED_ROTTEN_FLESH": 5,
+		"ENCHANTED_SULPHUR": 199,
+		"CORRUPTED_FRAGMENT": 2546,
+		"ABSOLUTE_ENDER_PEARL": 13,
+		"ENCHANTED_ENDER_PEARL": 61,
+		"ENCHANTED_SLIME_BLOCK": 1,
+		"ENCHANTED_SLIME_BALL": 91,
+		"ENCHANTED_RED_SAND": 370,
+		"ENCHANTED_MYCELIUM": 14,
+		"CADUCOUS_STEM": 500,
+		"AGARICUS_CAP": 200,
+		"WILTED_BERBERIS": 2137,
+		"METAL_HEART": 261,
+		"HALF_EATEN_CARROT": 4052,
+		"HEMOVIBE": 404806,
+		"ENCHANTED_IRON": 106,
+		"ENCHANTED_EGG": 11,
+		"EGG": 143,
+		"CHILI_PEPPER": 2698,
+		"GLACITE": 3241643,
+		"UMBER": 1174352,
+		"TUNGSTEN": 1222057,
+		"TIMITE": 752
+	},
+	"purse": 18514128,
+	"stats": {
+		"kills": {
+			"total": {
+				"total": 2321087,
+				"zombie": 4633,
+				"zombie_villager": 1041,
+				"unburried_zombie": 29900,
+				"lapis_zombie": 299,
+				"redstone_pigman": 225,
+				"emerald_slime": 199,
+				"diamond_skeleton": 444,
+				"diamond_zombie": 855,
+				"ice_walker": 403,
+				"goblin": 506,
+				"crystal_sentry": 17,
+				"ruin_wolf": 43981,
+				"splitter_spider": 8676,
+				"splitter_spider_silverfish": 12547,
+				"weaver_spider": 8066,
+				"dasher_spider": 8672,
+				"cow": 51,
+				"chicken": 86,
+				"pig": 78,
+				"rabbit": 68,
+				"sheep": 98,
+				"mushroom_cow": 212,
+				"voracious_spider": 12286,
+				"jockey_skeleton": 1922,
+				"spider_jockey": 1828,
+				"invisible_creeper": 303,
+				"respawning_skeleton": 243,
+				"phantom_spirit": 20,
+				"bat_pinata": 12,
+				"enderman": 10577,
+				"goblin_knife_thrower": 539,
+				"goblin_weakling_melee": 845,
+				"goblin_weakling_bow": 685,
+				"treasure_hoarder": 19,
+				"zealot_enderman": 988,
+				"obsidian_wither": 345,
+				"watcher": 454,
+				"endermite": 103,
+				"dungeon_respawning_skeleton": 24437,
+				"zombie_grunt": 1196,
+				"crypt_lurker": 41352,
+				"scared_skeleton": 450,
+				"sniper_skeleton": 2174,
+				"lost_adventurer": 2868,
+				"crypt_dreadlord": 33429,
+				"crypt_tank_zombie": 1184,
+				"skeleton_grunt": 1038,
+				"crypt_souleater": 21992,
+				"dungeon_secret_bat": 5794,
+				"skeleton_soldier": 27231,
+				"watcher_summon_undead": 13352,
+				"bonzo_summon_undead": 71,
+				"skeleton_master": 27762,
+				"zombie_soldier": 35566,
+				"parasite": 1960,
+				"skeletor": 2069,
+				"zombie_knight": 19347,
+				"cellar_spider": 1166,
+				"lonely_spider": 10665,
+				"goblin_creepertamer": 60,
+				"goblin_battler": 78,
+				"goblin_creeper": 22,
+				"jockey_shot_silverfish": 166,
+				"crypt_undead": 1171,
+				"team_treasurite_wendy": 205,
+				"vittomite": 32,
+				"team_treasurite_sebastian": 257,
+				"team_treasurite_viper": 263,
+				"automaton": 2018,
+				"yog": 2928,
+				"sludge": 1797,
+				"blaze": 1218,
+				"thyst": 741,
+				"smog": 88,
+				"team_treasurite_grunt": 635,
+				"silvo": 73,
+				"team_treasurite_corleone": 30,
+				"key_guardian": 38,
+				"goblin_murderlover": 36,
+				"butterfly": 1008,
+				"cavitak": 26,
+				"goblin_flamethrower": 24,
+				"belle": 37,
+				"trapped_sludge": 4,
+				"scatha": 32,
+				"crypt_undead_christian": 50,
+				"fire_bat": 635,
+				"kalhuiki_tribe_woman": 2,
+				"pond_squid": 2333,
+				"shadow_assassin": 2513,
+				"diamond_guy": 962,
+				"professor_guardian_summon": 74,
+				"bonzo": 32,
+				"professor_mage_guardian": 27,
+				"professor_archer_guardian": 28,
+				"professor": 26,
+				"professor_priest_guardian": 21,
+				"super_tank_zombie": 20357,
+				"super_archer": 12453,
+				"tentaclees": 21192,
+				"crypt_undead_alexander": 49,
+				"crypt_witherskeleton": 35870,
+				"crypt_undead_marius": 60,
+				"watcher_scarf": 273,
+				"professor_warrior_guardian": 25,
+				"zombie_commander": 9986,
+				"watcher_livid": 274,
+				"crypt_undead_pieter": 52,
+				"skeletor_prime": 6996,
+				"crypt_undead_valentin": 67,
+				"mimic": 663,
+				"sadan_statue": 17793,
+				"blaze_higher_or_lower": 20254,
+				"watcher_bonzo": 347,
+				"master_zombie_grunt": 8932,
+				"master_crypt_dreadlord": 61265,
+				"master_crypt_tank_zombie": 9921,
+				"master_skeleton_soldier": 72707,
+				"master_scared_skeleton": 2841,
+				"master_dungeon_respawning_skeleton": 49606,
+				"master_crypt_lurker": 96330,
+				"master_crypt_souleater": 34778,
+				"master_skeleton_grunt": 7822,
+				"master_sniper_skeleton": 3884,
+				"sadan_golem": 1645,
+				"sadan_giant": 1058,
+				"sadan": 221,
+				"master_watcher_summon_undead": 39670,
+				"wither_miner": 59911,
+				"spider": 3733,
+				"generator_slime": 1178,
+				"slime": 717,
+				"creeper": 3540,
+				"pack_spirit": 1893,
+				"howling_spirit": 2080,
+				"soul_of_the_alpha": 661,
+				"old_wolf": 6890,
+				"fireball_magma_cube": 6428,
+				"matcho": 34,
+				"dive_ghast": 324,
+				"intro_blaze": 11,
+				"dojo_knockback_zombie": 1019,
+				"wither_spectre": 2179,
+				"livid": 225,
+				"crypt_undead_nicholas": 49,
+				"master_crypt_undead": 6771,
+				"master_bonzo_summon_undead": 512,
+				"zombie_lord": 2922,
+				"wither_guard": 17906,
+				"skeleton_lord": 2580,
+				"king_midas": 116,
+				"crypt_undead_bernhard": 57,
+				"flaming_spider": 10594,
+				"magma_cube_rider": 10563,
+				"ghast": 292,
+				"generator_ghast": 16,
+				"crypt_undead_friedrich": 49,
+				"watcher_giant_laser": 77,
+				"livid_clone": 217,
+				"voidling_fanatic": 94695,
+				"voidling_extremist": 8610,
+				"generator_magma_cube": 311,
+				"magma_cube": 7126,
+				"minos_hunter": 2412,
+				"mage_skull": 628,
+				"mage_outlaw": 158,
+				"watcher_giant_diamond": 81,
+				"watcher_giant_boulder": 98,
+				"watcher_giant_bigfoot": 97,
+				"hellwisp": 29,
+				"bezal": 1157,
+				"mutated_blaze": 879,
+				"smoldering_blaze": 47371,
+				"charging_mushroom_cow": 2817,
+				"magma_glare": 2221,
+				"unstable_magma": 3934,
+				"vanquisher": 436,
+				"magma_boss": 73,
+				"sea_leech": 202,
+				"sea_guardian": 894,
+				"sea_walker": 1387,
+				"spirit_bat": 1055,
+				"spirit_wolf": 2283,
+				"spirit_rabbit": 2987,
+				"spirit_bull": 896,
+				"spirit_miniboss": 184,
+				"spirit_chicken": 1225,
+				"spirit_sheep": 939,
+				"thorn": 11,
+				"wither_skeleton": 423,
+				"bladesoul": 214,
+				"wither_defender_guard": 130,
+				"master_lost_adventurer": 5187,
+				"master_diamond_guy": 1713,
+				"fire_mage": 9,
+				"barbarian_duke_x": 134,
+				"ashfang_red_blaze": 454,
+				"ashfang": 10,
+				"kuudra": 3,
+				"magma_slug": 5593,
+				"moogma": 4068,
+				"lava_leech": 1924,
+				"baby_magma_slug": 16739,
+				"fire_eel": 765,
+				"pyroclastic_worm": 1304,
+				"lava_flame": 926,
+				"pig_rider": 410,
+				"thunder": 91,
+				"gaia_construct": 2126,
+				"minos_champion": 1618,
+				"siamese_lynx": 3264,
+				"minotaur": 2130,
+				"random_slime": 1009,
+				"mayor_jerry_green": 138,
+				"mayor_jerry_blue": 104,
+				"mayor_jerry_golden": 34,
+				"mayor_jerry_purple": 81,
+				"duelist_kaus": 7,
+				"sea_archer": 794,
+				"sea_witch": 956,
+				"minos_inquisitor": 92,
+				"brood_mother_spider": 16,
+				"arachne_brood": 2293,
+				"arachne": 75,
+				"master_skeleton_master": 44483,
+				"arachne_keeper": 141,
+				"brood_mother_cave_spider": 16,
+				"caverns_ghost": 101950,
+				"master_bonzo": 133,
+				"master_zombie_soldier": 90248,
+				"master_skeletor": 7214,
+				"master_watcher_bonzo": 915,
+				"scarf_priest": 16,
+				"scarf_warrior": 14,
+				"scarf_mage": 15,
+				"scarf_archer": 15,
+				"scarf": 13,
+				"chicken_deep": 538,
+				"forest_island_bat": 202,
+				"master_zombie_knight": 21335,
+				"master_professor_guardian_summon": 741,
+				"master_professor_archer_guardian": 234,
+				"master_professor_warrior_guardian": 272,
+				"master_spirit_rabbit": 19192,
+				"master_spirit_wolf": 14950,
+				"master_spirit_bat": 8386,
+				"master_super_tank_zombie": 36892,
+				"master_super_archer": 10514,
+				"frozen_steve": 301,
+				"frosty_the_snowman": 240,
+				"catfish": 375,
+				"guardian_defender": 168,
+				"grinch": 8,
+				"deep_sea_protector": 122,
+				"krondor_necromancer": 2,
+				"night_squid": 125,
+				"guardian_emperor": 9,
+				"water_hydra": 33,
+				"kada_knight": 1587,
+				"pack_magma_cube": 1096,
+				"master_parasite": 6328,
+				"master_lonely_spider": 20549,
+				"master_cellar_spider": 1319,
+				"master_king_midas": 462,
+				"master_shadow_assassin": 5031,
+				"master_professor_mage_guardian": 214,
+				"master_professor_priest_guardian": 184,
+				"lava_pigman": 566,
+				"lava_blaze": 510,
+				"flaming_worm": 570,
+				"master_crypt_witherskeleton": 31978,
+				"master_tentaclees": 27569,
+				"blue_shark": 686,
+				"nurse_shark": 1703,
+				"great_white_shark": 82,
+				"tiger_shark": 261,
+				"scarecrow": 61,
+				"nightmare": 47,
+				"master_crypt_undead_nicholas": 92,
+				"flare": 99911,
+				"nest_endermite": 147,
+				"zealot_bruiser": 3973,
+				"master_skeletor_prime": 17278,
+				"corrupted_protector": 3,
+				"master_mimic": 931,
+				"wise_dragon": 8,
+				"superior_dragon": 3,
+				"old_dragon": 8,
+				"unstable_dragon": 9,
+				"mages_guard": 1,
+				"batty_witch": 27,
+				"wither_gourd": 20,
+				"scary_jerry": 13,
+				"wraith": 13,
+				"horseman_zombie": 205,
+				"horseman_bat": 34,
+				"headless_horseman": 20,
+				"horseman_horse": 18,
+				"trick_or_treater": 14,
+				"werewolf": 21,
+				"phantom_fisherman": 4,
+				"master_zombie_commander": 4439,
+				"master_spirit_chicken": 8538,
+				"skeleton": 3971,
+				"witch": 200,
+				"cave_spider": 504,
+				"yeti": 13,
+				"old_blaze": 5416,
+				"trapper_horse": 61,
+				"trapper_sheep": 46,
+				"trapper_cow": 38,
+				"trapper_pig": 38,
+				"trapper_rabbit": 39,
+				"trapper_chicken": 36,
+				"protector_dragon": 7,
+				"young_dragon": 4,
+				"master_professor": 197,
+				"master_crypt_undead_marius": 94,
+				"master_crypt_undead_christian": 97,
+				"master_crypt_undead_alexander": 93,
+				"master_spirit_bull": 5628,
+				"nutcracker": 8,
+				"master_livid": 695,
+				"lord_jawbus": 10,
+				"master_crypt_undead_pieter": 84,
+				"master_crypt_undead_bernhard": 99,
+				"zombie_deep": 1,
+				"master_watcher_scarf": 662,
+				"master_spirit_miniboss": 1587,
+				"master_spirit_sheep": 7044,
+				"master_livid_clone": 40,
+				"master_crypt_undead_friedrich": 100,
+				"master_sadan_giant": 1667,
+				"master_watcher_livid": 309,
+				"master_scarf_warrior": 374,
+				"master_scarf_priest": 369,
+				"master_scarf_archer": 197,
+				"master_scarf_mage": 713,
+				"master_scarf": 138,
+				"strong_dragon": 4,
+				"master_zombie_lord": 1004,
+				"master_skeleton_lord": 1021,
+				"master_sadan_statue": 16702,
+				"master_sadan_golem": 2286,
+				"worm": 52,
+				"master_wither_husk": 25936,
+				"master_wither_guard": 20548,
+				"master_wither_miner": 49313,
+				"master_necron_guard": 176,
+				"master_thorn": 11,
+				"inferno_blaze": 249,
+				"master_sadan": 355,
+				"master_crypt_undead_valentin": 85,
+				"rat": 18,
+				"master_watcher_giant_laser": 218,
+				"master_watcher_giant_bigfoot": 213,
+				"master_wither_king_dragon": 922,
+				"liquid_hot_magma": 70,
+				"night_respawning_skeleton": 16,
+				"barbarian": 96,
+				"cinder_bat": 128,
+				"player": 52,
+				"duelist_rollim": 7,
+				"goliath_barbarian": 6,
+				"barbarians_guard": 1,
+				"tarantula_spider": 4252,
+				"revenant_zombie": 562,
+				"crypt_undead_sfarnham": 1,
+				"crypt_undead_nitroholic_": 1,
+				"crypt_undead_codename_b": 1,
+				"crypt_undead_relenter": 1,
+				"crypt_undead_likaos": 1,
+				"master_crypt_undead_jayavarmen": 7,
+				"master_crypt_undead_apunch": 5,
+				"master_crypt_undead_minikloon": 5,
+				"crypt_undead_adamwho": 1,
+				"crypt_undead_plummel": 1,
+				"crypt_undead_blockskey": 1,
+				"ashfang_blue_blaze": 31,
+				"master_crypt_undead_nitroholic_": 3,
+				"master_crypt_undead_sfarnham": 5,
+				"shame": 194,
+				"barking_wolf": 19,
+				"lagoon_leech": 41,
+				"deadgehog": 19,
+				"leech_swarm": 267,
+				"leech_alpha": 56,
+				"leech_supreme": 19,
+				"shadow": 145,
+				"volt": 125,
+				"scribe": 104,
+				"autonull": 31,
+				"autoboots": 7,
+				"autochest": 8,
+				"autopants": 8,
+				"autocap": 8,
+				"frozille": 112,
+				"globowl": 96,
+				"blobbercyst": 110,
+				"vampire_thrall": 3742,
+				"splatter": 139,
+				"vampire_fledgling": 1821,
+				"clotgoyle": 890,
+				"oubliette_zombie": 666,
+				"chickzilla": 1,
+				"master_crypt_undead_connorlinfoot": 4,
+				"master_crypt_undead_dctr": 4,
+				"master_crypt_undead_relenter": 5,
+				"master_crypt_undead_codename_b": 3,
+				"farming_sheep": 224,
+				"farming_rabbit": 201,
+				"graveyard_zombie": 966,
+				"caverns_ghost_250": 17,
+				"wither_gourd_40": 3,
+				"phantom_spirit_35": 2,
+				"batty_witch_60": 2,
+				"master_dungeon_respawning_skeleton_120": 82,
+				"master_zombie_commander_120": 1404,
+				"master_zombie_lord_150": 472,
+				"master_skeletor_prime_120": 1280,
+				"master_tentaclees_110": 1504,
+				"kuudra_landmine_300": 3109,
+				"blight_300": 2921,
+				"inferno_magma_cube_300": 2813,
+				"kuudra_knocker_300": 2405,
+				"kuudra_follower_300": 5731,
+				"kuudra_berserker_300": 2073,
+				"explosive_imp_300": 1769,
+				"wandering_blaze_300": 277,
+				"blazing_golem_300": 2,
+				"wither_sentry_300": 8,
+				"kuudra_slasher_300": 2,
+				"pond_squid_1": 1948,
+				"sea_witch_15": 2034,
+				"oasis_sheep": 67,
+				"farming_chicken": 200,
+				"farming_pig": 206,
+				"farming_cow": 207,
+				"farming_pig_1": 1,
+				"watcher_summon_undead_8": 8,
+				"cellar_spider_125": 1,
+				"powder_ghast": 17,
+				"bal_boss_100": 91,
+				"agarimoo": 209,
+				"water_hydra_100": 183,
+				"oasis_rabbit": 25,
+				"flare_90": 116,
+				"vanquisher_100": 300,
+				"kuudra_landmine_100": 314,
+				"kuudra_follower_100": 481,
+				"kuudra_berserker_100": 206,
+				"blight_100": 306,
+				"wandering_blaze_100": 84,
+				"kuudra_knocker_100": 382,
+				"inferno_magma_cube_100": 500,
+				"dropship_100": 26,
+				"kuudra_slasher_100": 8,
+				"wither_sentry_100": 37,
+				"magma_follower_100": 14,
+				"blazing_golem_100": 16,
+				"explosive_imp_100": 179,
+				"chaosmite_100": 1,
+				"voidling_extremist_100": 340,
+				"voidling_fanatic_85": 150,
+				"inferno_magma_cube_500": 17321,
+				"blight_500": 10192,
+				"kuudra_knocker_500": 10014,
+				"kuudra_follower_500": 20404,
+				"kuudra_landmine_500": 9686,
+				"wither_sentry_500": 64,
+				"blazing_golem_500": 163,
+				"wandering_blaze_500": 1705,
+				"kuudra_slasher_500": 15,
+				"zombie_knight_126": 9,
+				"super_archer_120": 5,
+				"zombie_commander_120": 4,
+				"crypt_witherskeleton_120": 15,
+				"skeleton_master_128": 13,
+				"kuudra_berserker_500": 5211,
+				"skeletor_prime_120": 13,
+				"skeleton_soldier_126": 3,
+				"crypt_dreadlord_127": 12,
+				"tentaclees_110": 2,
+				"master_super_archer_110": 379,
+				"goblin_golem": 5,
+				"goblin_creepertamer_90": 6,
+				"goblin_golem_150": 7,
+				"goblin_knife_thrower_25": 1,
+				"goblin_weakling_melee_25": 1,
+				"goblin_battler_60": 11,
+				"goblin_murderlover_150": 3,
+				"crypt_souleater_125": 6,
+				"minos_inquisitor_750": 108,
+				"minotaur_210": 1,
+				"zombie_soldier_123": 5,
+				"master_crypt_lurker_101": 82,
+				"master_zombie_soldier_103": 261,
+				"master_skeleton_soldier_106": 185,
+				"master_super_archer_100": 124,
+				"master_tentaclees_90": 416,
+				"master_crypt_witherskeleton_100": 385,
+				"master_super_tank_zombie_100": 61,
+				"master_zombie_knight_106": 43,
+				"master_crypt_witherskeleton_120": 3720,
+				"master_crypt_souleater_125": 280,
+				"master_skeleton_master_128": 854,
+				"master_zombie_knight_126": 677,
+				"master_watcher_summon_undead_8": 37,
+				"master_super_archer_120": 1479,
+				"master_zombie_soldier_123": 592,
+				"master_crypt_lurker_121": 139,
+				"master_crypt_dreadlord_127": 369,
+				"master_skeleton_soldier_126": 310,
+				"master_super_tank_zombie_120": 303,
+				"master_skeleton_lord_150": 322,
+				"master_watcher_giant_boulder": 206,
+				"master_crypt_dreadlord_117": 202,
+				"master_tentaclees_100": 1149,
+				"master_zombie_soldier_113": 425,
+				"master_zombie_commander_110": 185,
+				"master_skeleton_soldier_116": 290,
+				"master_super_tank_zombie_110": 175,
+				"master_skeletor_prime_110": 35,
+				"smoldering_blaze_95": 1103,
+				"old_blaze_110": 278,
+				"master_dungeon_respawning_skeleton_100": 166,
+				"master_skeleton_master_108": 113,
+				"master_super_archer_90": 56,
+				"master_zombie_soldier_93": 158,
+				"master_skeleton_master_98": 63,
+				"master_skeleton_soldier_96": 109,
+				"master_dungeon_respawning_skeleton_80": 6,
+				"master_crypt_souleater_85": 1,
+				"master_zombie_soldier_83": 11,
+				"master_skeleton_soldier_86": 9,
+				"master_dungeon_respawning_skeleton_90": 72,
+				"master_super_tank_zombie_90": 41,
+				"master_crypt_witherskeleton_90": 116,
+				"master_sniper_skeleton_93": 2,
+				"master_crypt_lurker_91": 102,
+				"master_crypt_dreadlord_97": 63,
+				"master_crypt_lurker_111": 172,
+				"master_skeleton_master_118": 208,
+				"master_crypt_witherskeleton_110": 844,
+				"master_skeletor_110": 37,
+				"master_sadan_golem_1": 119,
+				"master_watcher_giant_diamond": 188,
+				"master_watcher_summon_undead_7": 54,
+				"master_crypt_souleater_115": 88,
+				"master_zombie_knight_116": 122,
+				"master_dungeon_respawning_skeleton_110": 213,
+				"master_lonely_spider_105": 17,
+				"kuudra_follower_200": 263,
+				"inferno_magma_cube_200": 126,
+				"kuudra_landmine_200": 121,
+				"blight_200": 63,
+				"kuudra_berserker_200": 88,
+				"kuudra_knocker_200": 110,
+				"wandering_blaze_200": 55,
+				"charging_mushroom_cow_80": 11,
+				"grinch_21": 4,
+				"frosty_the_snowman_13": 23,
+				"master_sniper_skeleton_113": 7,
+				"enderman_42": 3,
+				"vampire_scion": 248,
+				"minos_champion_310": 2,
+				"master_crypt_souleater_105": 42,
+				"wither_spectre_70": 13,
+				"graveyard_zombie_1": 4,
+				"siamese_lynx_155": 2,
+				"ruin_wolf_15": 1,
+				"flaming_spider_80": 125,
+				"zealot_enderman_55": 1,
+				"master_watcher_summon_undead_4": 5,
+				"super_tank_zombie_120": 4,
+				"dungeon_respawning_skeleton_120": 4,
+				"master_watcher_summon_undead_6": 39,
+				"crystal_sentry_50": 4,
+				"master_skeletor_90": 45,
+				"master_watcher_summon_undead_5": 14,
+				"master_crypt_souleater_95": 28,
+				"master_lonely_spider_85": 12,
+				"master_dungeon_respawning_skeleton_60": 40,
+				"master_crypt_tank_zombie_60": 13,
+				"master_crypt_lurker_61": 18,
+				"master_zombie_grunt_60": 20,
+				"master_watcher_summon_undead_2": 18,
+				"master_watcher_spirit_bear": 388,
+				"master_crypt_undead_vinny8ball666": 1,
+				"master_crypt_undead_districtgecko": 1,
+				"crypt_lurker_101": 5,
+				"matcho_100": 1,
+				"fireball_magma_cube_75": 31,
+				"magma_cube_rider_90": 61,
+				"master_lonely_spider_115": 3,
+				"fire_eel_240": 36,
+				"lava_flame_230": 23,
+				"magma_slug_200": 225,
+				"moogma_210": 153,
+				"thunder_400": 13,
+				"pyroclastic_worm_240": 54,
+				"lava_leech_220": 72,
+				"pig_rider_250": 14,
+				"lord_jawbus_600": 26,
+				"master_crypt_dreadlord_107": 98,
+				"master_crypt_dreadlord_87": 3,
+				"master_skeletor_80": 3,
+				"great_white_shark_180": 936,
+				"guardian_emperor_150": 44,
+				"catfish_23": 883,
+				"tiger_shark_50": 2037,
+				"nurse_shark_6": 4035,
+				"agarimoo_35": 715,
+				"sea_guardian_10": 1842,
+				"blue_shark_20": 2462,
+				"sea_walker_4": 1561,
+				"sea_leech_30": 721,
+				"sea_archer_15": 1574,
+				"chicken_deep_20": 1354,
+				"automaton_100": 14,
+				"master_cellar_spider_125": 8,
+				"guardian_defender_45": 589,
+				"yog_100": 28,
+				"watcher_spirit_bear": 18,
+				"sadan_golem_1": 11,
+				"blaze_70": 5,
+				"master_sniper_skeleton_123": 14,
+				"dasher_spider_45": 1,
+				"pack_magma_cube_90": 6,
+				"crypt_lurker_121": 3,
+				"kuudra_follower_400": 388,
+				"blight_400": 247,
+				"kuudra_landmine_400": 244,
+				"kuudra_slasher_400": 1,
+				"zombie_soldier_93": 1,
+				"inferno_magma_cube_400": 279,
+				"kuudra_berserker_400": 172,
+				"explosive_imp_400": 164,
+				"kuudra_knocker_400": 127,
+				"wandering_blaze_400": 16,
+				"skeletor_110": 1,
+				"primal_fear": 162,
+				"darkness_shade": 43,
+				"unburried_zombie_60": 8,
+				"voracious_spider_50": 18,
+				"splitter_spider_50": 1,
+				"dasher_spider_50": 11,
+				"splitter_spider_42": 1,
+				"dasher_spider_42": 1,
+				"splitter_spider_silverfish_42": 2,
+				"weaver_spider_42": 1,
+				"wraith_50": 3,
+				"deadline": 28,
+				"voracious_spider_45": 1,
+				"math_teacher": 32,
+				"unburried_zombie_30": 10,
+				"master_cellar_spider_95": 2,
+				"master_zombie_knight_96": 19,
+				"sludge_5": 88,
+				"master_skeletor_100": 50,
+				"pest_mosquito": 347,
+				"pest_rat": 313,
+				"pest_fly": 415,
+				"pest_slug": 266,
+				"pest_worm": 277,
+				"pest_beetle": 317,
+				"enderman_50": 22,
+				"pest_locust": 343,
+				"pest_mite": 290,
+				"pest_moth": 298,
+				"pest_cricket": 394,
+				"zombie_lord_150": 1,
+				"master_zombie_grunt_70": 36,
+				"hellwisp_100": 4,
+				"super_tank_zombie_100": 2,
+				"crypt_witherskeleton_100": 1,
+				"zombie_soldier_103": 4,
+				"dungeon_respawning_skeleton_100": 3,
+				"deep_sea_protector_60": 388,
+				"reindrake_100": 4,
+				"master_crypt_tank_zombie_80": 8,
+				"master_dungeon_respawning_skeleton_70": 33,
+				"master_skeleton_soldier_76": 24,
+				"master_skeleton_grunt_60": 12,
+				"master_sniper_skeleton_103": 6,
+				"master_lonely_spider_95": 10,
+				"master_crypt_undead__onah": 2,
+				"master_crypt_undead_agentk": 2,
+				"master_crypt_undead_bembo": 2,
+				"master_crypt_undead_bloozing": 2,
+				"master_crypt_undead_cecer": 2,
+				"master_crypt_undead_chilynn": 2,
+				"master_crypt_undead_donpireso": 3,
+				"master_crypt_undead_dueces": 2,
+				"master_crypt_undead_externalizable": 2,
+				"master_crypt_undead_flameboy101": 2,
+				"master_crypt_undead_hypixel": 3,
+				"master_crypt_undead_jamiethegeek": 2,
+				"master_crypt_undead_judg3": 2,
+				"master_crypt_undead_ladybleu": 2,
+				"master_crypt_undead_likaos": 2,
+				"master_crypt_undead_magicboys": 2,
+				"master_crypt_undead_orangemarshall": 2,
+				"master_crypt_undead_plancke": 2,
+				"master_crypt_undead_revengeee": 2,
+				"master_crypt_undead_rezzus": 2,
+				"master_crypt_undead_skyerzz": 2,
+				"master_crypt_undead_sylent": 2,
+				"master_crypt_undead_themgrf": 2,
+				"master_crypt_undead_thorlon": 2,
+				"master_crypt_undead_williamtiger": 2,
+				"master_crypt_lurker_71": 22,
+				"master_crypt_souleater_65": 5,
+				"master_scared_skeleton_62": 9,
+				"master_crypt_dreadlord_67": 5,
+				"unknown": 17298,
+				"master_crypt_tank_zombie_70": 18,
+				"master_watcher_summon_undead_3": 22,
+				"master_skeleton_master_78": 9,
+				"master_crypt_dreadlord_77": 11,
+				"master_crypt_souleater_75": 7,
+				"master_skeleton_grunt_70": 16,
+				"kada_knight_90": 1,
+				"master_skeleton_soldier_66": 14,
+				"crypt_souleater_95": 1,
+				"skeleton_master_98": 1,
+				"kalhuiki_youngling": 2,
+				"explosive_imp_500": 6019,
+				"zombie_deep_20": 4,
+				"night_squid_6": 133,
+				"arachne_brood_100": 104,
+				"arachne_brood_200": 1394,
+				"pack_spirit_30": 2,
+				"zealot_bruiser_100": 13,
+				"nightmare_24": 58,
+				"werewolf_50": 26,
+				"scarecrow_9": 63,
+				"grim_reaper_190": 3,
+				"scary_jerry_30": 2,
+				"master_deathmite": 6,
+				"spider_jockey_42": 1,
+				"weaver_spider_50": 3,
+				"master_scared_skeleton_72": 13,
+				"wither_skeleton_70": 1,
+				"lapis_zombie_7": 1,
+				"dropship_500": 34,
+				"chaosmite_500": 4,
+				"yeti_175": 12,
+				"frozen_steve_7": 24,
+				"nutcracker_50": 9,
+				"master_crypt_lurker_81": 2,
+				"flaming_worm_50": 1100,
+				"sludge_10": 52,
+				"glacite_caver": 903,
+				"glacite_mage": 724,
+				"glacite_mutt": 798,
+				"glacite_bowman": 716,
+				"glacite_bowman_165": 411,
+				"glacite_mutt_180": 448,
+				"glacite_caver_200": 436,
+				"glacite_mage_155": 426,
+				"brood_mother_spider_12": 5,
+				"master_cellar_spider_115": 2,
+				"master_sniper_skeleton_73": 1,
+				"mutated_blaze_70": 1,
+				"bezal_80": 1,
+				"obsidian_wither_55": 2,
+				"phantom_fisherman_160": 8,
+				"master_skeleton_master_88": 1,
+				"sniper_skeleton_123": 1,
+				"master_skeleton_grunt_80": 9,
+				"master_zombie_knight_86": 1,
+				"master_sniper_skeleton_83": 1,
+				"skeleton_soldier_86": 1,
+				"zombie_soldier_113": 1,
+				"crypt_lurker_111": 1,
+				"skeleton_master_118": 1,
+				"crypt_witherskeleton_110": 2,
+				"dungeon_respawning_skeleton_110": 1,
+				"dungeon_respawning_skeleton_40": 1,
+				"crypt_lurker_61": 1,
+				"crypt_tank_zombie_60": 1,
+				"zombie_grunt_60": 1,
+				"skeleton_grunt_60": 1,
+				"explosive_imp_200": 81,
+				"team_treasurite_grunt_50": 1,
+				"team_treasurite_corleone_200": 5,
+				"powder_ghast_1": 11,
+				"zealot_special_enderman": 1,
+				"ice_walker_45": 2,
+				"carrot_king_25": 11,
+				"mayor_jerry_green_1": 12,
+				"mayor_jerry_blue_2": 10,
+				"mayor_jerry_purple_3": 2,
+				"minos_hunter_15": 16,
+				"vegan_crawler": 1,
+				"sun_gecko": 18,
+				"puff": 237,
+				"wizardman_brawler": 4,
+				"skeleton_soldier_106": 3,
+				"pest_mouse": 4,
+				"small_mithril_grubber_15": 12,
+				"medium_mithril_grubber_15": 7,
+				"poisoned_water_worm_25": 625,
+				"water_worm_20": 627,
+				"poisoned_water_worm": 397,
+				"water_worm": 382,
+				"lava_blaze_100": 607,
+				"lava_pigman_100": 618,
+				"zombie_miner": 1,
+				"medium_mithril_grubber": 13,
+				"small_mithril_grubber": 22,
+				"large_mithril_grubber_15": 1,
+				"bloated_mithril_grubber_15": 1,
+				"bloated_mithril_grubber": 1,
+				"large_mithril_grubber": 2,
+				"oasis_sheep_10": 42,
+				"oasis_rabbit_10": 26,
+				"carrot_king": 15,
+				"zombie_miner_150": 64,
+				"trick_or_treater_30": 1,
+				"team_treasurite_wendy_100": 1,
+				"master_cellar_spider_105": 1,
+				"mayor_jerry_golden_5": 1,
+				"crypt_tank_zombie_70": 1,
+				"titanoboa": 2,
+				"dumpster_diver": 64,
+				"trash_gobbler": 88,
+				"wiki_tiki_400": 8,
+				"wiki_tiki_laser_totem": 3,
+				"titanoboa_240": 11,
+				"fiery_scuttler": 5,
+				"fiery_scuttler_475": 6,
+				"fried_chicken": 13,
+				"fried_chicken_30": 16,
+				"fireproof_witch": 6,
+				"fireproof_witch_75": 7,
+				"ragnarok": 1,
+				"banshee": 39,
+				"banshee_10": 38,
+				"dumpster_diver_15": 75,
+				"frog_man": 106,
+				"frog_man_10": 269,
+				"baby_bayou_sludge": 40,
+				"bayou_sludge": 11,
+				"snapping_turtle": 21,
+				"trash_gobbler_8": 135,
+				"blue_ringed_octopus": 1,
+				"bayou_sludge_25": 20,
+				"alligator_120": 12,
+				"snapping_turtle_30": 48,
+				"ragnarok_666": 2,
+				"blue_ringed_octopus_275": 2,
+				"sludge_100": 17
+			}
+		},
+		"deaths": {
+			"total": {
+				"total": 9515,
+				"unburried_zombie": 5,
+				"redstone_pigman": 2,
+				"diamond_zombie": 2,
+				"ice_walker": 4,
+				"fall": 14,
+				"crystal_sentry": 1,
+				"void": 316,
+				"spider_jockey": 2,
+				"diamond_skeleton": 3,
+				"fire": 343,
+				"dasher_spider": 7,
+				"old_wolf": 1,
+				"voracious_spider": 2,
+				"treasure_hoarder": 1,
+				"suffocation": 36,
+				"trap": 170,
+				"skeletor": 15,
+				"watcher_summon_undead": 15,
+				"crypt_souleater": 2,
+				"zombie_soldier": 3,
+				"crypt_dreadlord": 10,
+				"crypt_lurker": 10,
+				"lost_adventurer": 9,
+				"goblin_murderlover": 10,
+				"crypt_undead_marius": 1,
+				"yog": 30,
+				"kalhuiki_tribe_woman": 24,
+				"automaton": 21,
+				"arachne": 1,
+				"goblin_battler": 1,
+				"unknown": 324,
+				"kalhuiki_tribe_man": 14,
+				"spirit_chicken": 11,
+				"team_treasurite_corleone": 3,
+				"sludge": 4,
+				"skeleton_soldier": 1,
+				"shadow_assassin": 10,
+				"tentaclees": 25,
+				"livid_clone": 12,
+				"sniper_skeleton": 7,
+				"crypt_undead": 1,
+				"zombie": 414,
+				"skeleton_master": 5,
+				"skeletor_prime": 6,
+				"sadan_statue": 33,
+				"crypt_witherskeleton": 7,
+				"super_archer": 3,
+				"team_treasurite_grunt": 2,
+				"master_dungeon_respawning_skeleton": 18,
+				"master_lost_adventurer": 267,
+				"master_sniper_skeleton": 35,
+				"master_bonzo": 18,
+				"master_watcher_summon_undead": 46,
+				"master_crypt_lurker": 103,
+				"master_bonzo_summon_undead": 5,
+				"sadan_giant": 1,
+				"maxor": 15,
+				"matcho": 1,
+				"dive_ghast": 1,
+				"flare": 57,
+				"watcher_livid": 4,
+				"livid": 3,
+				"goldor": 110,
+				"necron": 23,
+				"sadan": 5,
+				"bladesoul": 135,
+				"arachne_keeper": 3,
+				"spider": 1,
+				"weaver_spider": 3,
+				"wolf": 2,
+				"soul_of_the_alpha": 1,
+				"enderman": 981,
+				"wither_miner": 62,
+				"fireball_magma_cube": 17,
+				"barbarian_duke_x": 46,
+				"watcher_giant_bigfoot": 1,
+				"watcher_giant_diamond": 2,
+				"watcher_guardian": 2,
+				"zombie_lord": 1,
+				"barbarians_guard": 9,
+				"pulverized": 1,
+				"mage_outlaw": 139,
+				"magma_boss": 56,
+				"magma_glare": 100,
+				"aranya": 16,
+				"kuudra_follower": 61,
+				"charging_mushroom_cow": 5,
+				"spirit_bat": 2,
+				"magma_cube": 14,
+				"giant": 216,
+				"wandering_blaze": 72,
+				"voidling_extremist": 5,
+				"hellwisp": 2,
+				"fire_mage": 9,
+				"unstable_magma": 31,
+				"spirit_rabbit": 3,
+				"master_crypt_dreadlord": 123,
+				"master_diamond_guy": 29,
+				"spirit_wolf": 1,
+				"kuudra_knocker": 23,
+				"wither_guard": 16,
+				"ashfang": 53,
+				"ashfang_blue_blaze": 3,
+				"magma_slug": 19,
+				"lord_jawbus": 76,
+				"thunder": 79,
+				"gaia_construct": 40,
+				"master_skeleton_grunt": 8,
+				"mages_guard": 12,
+				"crushed": 48,
+				"minos_champion": 11,
+				"master_scarf_warrior": 11,
+				"minos_inquisitor": 8,
+				"master_scarf": 12,
+				"master_skeletor": 85,
+				"master_professor_warrior_guardian": 4,
+				"kuudra_landmine": 19,
+				"king_midas": 1,
+				"master_shadow_assassin": 450,
+				"master_spirit_bat": 30,
+				"master_spirit_sheep": 41,
+				"pyroclastic_worm": 12,
+				"storm": 54,
+				"master_watcher_bonzo": 44,
+				"master_skeleton_soldier": 56,
+				"master_professor_guardian_summon": 11,
+				"master_professor_mage_guardian": 33,
+				"master_crypt_souleater": 42,
+				"lava_flame": 3,
+				"master_zombie_soldier": 14,
+				"master_skeleton_master": 38,
+				"blight": 105,
+				"master_tentaclees": 344,
+				"master_sadan_statue": 65,
+				"master_sadan_giant": 142,
+				"master_skeletor_prime": 90,
+				"master_sadan": 15,
+				"master_zombie_knight": 10,
+				"watcher_bonzo": 1,
+				"master_zombie_commander": 33,
+				"master_crypt_witherskeleton": 210,
+				"master_super_archer": 34,
+				"omegagma": 63,
+				"master_crypt_undead_apunch": 2,
+				"master_crypt_undead_jayavarmen": 2,
+				"master_professor": 17,
+				"ashfang_red_blaze": 3,
+				"wither_sentry": 17,
+				"smoldering_blaze": 121,
+				"blaze": 665,
+				"ashfang_gray_blaze": 4,
+				"wither_spectre": 1,
+				"zombie_grunt": 1,
+				"pig_rider": 3,
+				"goliath_barbarian": 1,
+				"kuudra_berserker": 7,
+				"moogma": 23,
+				"master_professor_archer_guardian": 3,
+				"master_livid_clone": 91,
+				"master_livid": 46,
+				"baby_magma_slug": 1,
+				"master_watcher_scarf": 32,
+				"caverns_ghost": 58,
+				"pig_zombie": 102,
+				"master_spirit_wolf": 11,
+				"master_spirit_miniboss": 4,
+				"master_spirit_rabbit": 41,
+				"master_spirit_chicken": 6,
+				"old_blaze": 12,
+				"magma_bacteria": 4,
+				"blazing_golem": 15,
+				"master_wither_miner": 98,
+				"entity": 3,
+				"master_storm": 120,
+				"master_goldor": 132,
+				"master_necron_guard": 1,
+				"master_wither_king_dragon": 6,
+				"master_wither_king": 39,
+				"master_maxor": 137,
+				"master_mimic": 3,
+				"master_wither_guard": 16,
+				"master_necron": 23,
+				"wither_skeleton": 1,
+				"armor_stand": 10,
+				"master_crypt_undead_connorlinfoot": 1,
+				"master_sadan_golem": 12,
+				"master_scarf_mage": 23,
+				"master_zombie_lord": 18,
+				"player": 52,
+				"skeleton_lord": 2,
+				"sadan_golem": 1,
+				"master_watcher_livid": 4,
+				"skeleton": 103,
+				"master_super_tank_zombie": 2,
+				"vampire_thrall": 2,
+				"master_crypt_undead": 1,
+				"clotgoyle": 1,
+				"taurus": 1,
+				"master_crypt_undead_dctr": 1,
+				"chaosmite": 12,
+				"slime": 2,
+				"splatter": 1,
+				"minotaur": 1,
+				"master_watcher_giant_bigfoot": 7,
+				"master_watcher_guardian": 2,
+				"master_watcher_giant_diamond": 21,
+				"master_crypt_undead_cecer": 1,
+				"vampire_scion": 1,
+				"voidling_fanatic": 2,
+				"spirit_bull": 1,
+				"explosive_imp": 9,
+				"master_parasite": 2,
+				"master_watcher_giant_laser": 1,
+				"freeze": 56,
+				"master_deathmite": 3,
+				"master_dungeon_respawning_skeleton_skull": 1,
+				"master_skeleton_lord": 1,
+				"ghast": 1,
+				"unstable_dragon": 1,
+				"wither_defender_guard": 1,
+				"glacite_caver": 2,
+				"ragnarok": 3,
+				"glacite_bowman": 3,
+				"phantom_spirit": 1
+			}
+		},
+		"candyCollected": {
+			"total": 19660,
+			"green_candy": 10118,
+			"spooky_festival_194": {
+				"total": 8,
+				"green_candy": 8
+			},
+			"spooky_festival_195": {
+				"total": 26,
+				"green_candy": 22,
+				"purple_candy": 4
+			},
+			"purple_candy": 9542,
+			"spooky_festival_196": {
+				"total": 51,
+				"green_candy": 34,
+				"purple_candy": 17
+			},
+			"spooky_festival_197": {
+				"total": 0,
+				"green_candy": 0,
+				"purple_candy": 0
+			},
+			"spooky_festival_200": {
+				"total": 3,
+				"green_candy": 3,
+				"purple_candy": 0
+			},
+			"spooky_festival_208": {
+				"total": 1,
+				"green_candy": 1
+			},
+			"spooky_festival_211": {
+				"total": 1,
+				"green_candy": 1
+			},
+			"spooky_festival_214": {
+				"total": 5,
+				"green_candy": 5
+			},
+			"spooky_festival_222": {
+				"total": 6,
+				"green_candy": 6
+			},
+			"spooky_festival_224": {
+				"total": 17,
+				"green_candy": 13,
+				"purple_candy": 4
+			},
+			"spooky_festival_225": {
+				"total": 324,
+				"green_candy": 257,
+				"purple_candy": 67
+			},
+			"spooky_festival_227": {
+				"total": 220,
+				"green_candy": 174,
+				"purple_candy": 46
+			},
+			"spooky_festival_229": {
+				"total": 4,
+				"green_candy": 4
+			},
+			"spooky_festival_230": {
+				"total": 8,
+				"green_candy": 8
+			},
+			"spooky_festival_231": {
+				"total": 2,
+				"green_candy": 2
+			},
+			"spooky_festival_232": {
+				"total": 7,
+				"green_candy": 7
+			},
+			"spooky_festival_236": {
+				"total": 2023,
+				"green_candy": 1600,
+				"purple_candy": 423
+			},
+			"spooky_festival_243": {
+				"total": 337,
+				"green_candy": 260,
+				"purple_candy": 77
+			},
+			"spooky_festival_244": {
+				"total": 1,
+				"green_candy": 1
+			},
+			"spooky_festival_245": {
+				"total": 13,
+				"green_candy": 12,
+				"purple_candy": 1
+			},
+			"spooky_festival_246": {
+				"total": 1544,
+				"purple_candy": 1029,
+				"green_candy": 515
+			},
+			"spooky_festival_247": {
+				"total": 1627,
+				"green_candy": 588,
+				"purple_candy": 1039
+			},
+			"spooky_festival_248": {
+				"total": 890,
+				"green_candy": 326,
+				"purple_candy": 564
+			},
+			"spooky_festival_253": {
+				"total": 6,
+				"green_candy": 5,
+				"purple_candy": 1
+			},
+			"spooky_festival_254": {
+				"total": 17,
+				"purple_candy": 8,
+				"green_candy": 9
+			},
+			"spooky_festival_255": {
+				"total": 9,
+				"green_candy": 6,
+				"purple_candy": 3
+			},
+			"spooky_festival_256": {
+				"total": 4,
+				"green_candy": 4
+			},
+			"spooky_festival_257": {
+				"total": 3,
+				"green_candy": 3
+			},
+			"spooky_festival_258": {
+				"total": 12,
+				"green_candy": 8,
+				"purple_candy": 4
+			},
+			"spooky_festival_265": {
+				"total": 1401,
+				"purple_candy": 909,
+				"green_candy": 492
+			},
+			"spooky_festival_266": {
+				"total": 1535,
+				"green_candy": 540,
+				"purple_candy": 995
+			},
+			"spooky_festival_269": {
+				"total": 1672,
+				"purple_candy": 1051,
+				"green_candy": 621
+			},
+			"spooky_festival_270": {
+				"total": 3,
+				"green_candy": 2,
+				"purple_candy": 1
+			},
+			"spooky_festival_271": {
+				"total": 1,
+				"green_candy": 1
+			},
+			"spooky_festival_280": {
+				"total": 1,
+				"green_candy": 1
+			},
+			"spooky_festival_281": {
+				"total": 1535,
+				"purple_candy": 1006,
+				"green_candy": 529
+			},
+			"spooky_festival_283": {
+				"total": 2,
+				"green_candy": 2
+			},
+			"spooky_festival_290": {
+				"total": 1,
+				"green_candy": 1
+			},
+			"spooky_festival_291": {
+				"total": 3,
+				"green_candy": 3
+			},
+			"spooky_festival_299": {
+				"total": 71,
+				"green_candy": 55,
+				"purple_candy": 16
+			},
+			"spooky_festival_302": {
+				"total": 10,
+				"purple_candy": 7,
+				"green_candy": 3
+			},
+			"spooky_festival_303": {
+				"total": 196,
+				"green_candy": 161,
+				"purple_candy": 35
+			},
+			"spooky_festival_307": {
+				"total": 27,
+				"purple_candy": 7,
+				"green_candy": 20
+			},
+			"spooky_festival_312": {
+				"green_candy": 4,
+				"total": 5,
+				"purple_candy": 1
+			},
+			"spooky_festival_319": {
+				"green_candy": 1,
+				"total": 1
+			},
+			"spooky_festival_320": {
+				"green_candy": 9,
+				"total": 10,
+				"purple_candy": 1
+			},
+			"spooky_festival_321": {
+				"green_candy": 83,
+				"purple_candy": 27,
+				"total": 110
+			},
+			"spooky_festival_328": {
+				"total": 3055,
+				"purple_candy": 877,
+				"green_candy": 2178
+			},
+			"spooky_festival_331": {
+				"total": 532,
+				"green_candy": 301,
+				"purple_candy": 231
+			},
+			"spooky_festival_335": {
+				"total": 2,
+				"green_candy": 2
+			},
+			"spooky_festival_336": {
+				"total": 8,
+				"green_candy": 8
+			},
+			"spooky_festival_344": {
+				"total": 3,
+				"green_candy": 3
+			},
+			"spooky_festival_350": {
+				"total": 2,
+				"green_candy": 2
+			},
+			"spooky_festival_362": {
+				"total": 94,
+				"purple_candy": 24,
+				"green_candy": 70
+			},
+			"spooky_festival_368": {
+				"total": 463,
+				"green_candy": 191,
+				"purple_candy": 272
+			},
+			"spooky_festival_369": {
+				"total": 1059,
+				"purple_candy": 595,
+				"green_candy": 464
+			},
+			"spooky_festival_374": {
+				"total": 1,
+				"green_candy": 1
+			},
+			"spooky_festival_386": {
+				"total": 1,
+				"green_candy": 1
+			},
+			"spooky_festival_393": {
+				"total": 125,
+				"green_candy": 96,
+				"purple_candy": 29
+			},
+			"spooky_festival_402": {
+				"total": 3,
+				"green_candy": 3
+			}
+		},
+		"pets": {
+			"total_exp_gained": 3911057006.8521605,
+			"milestone": {
+				"ores_mined": 4972905,
+				"sea_creatures_killed": 53477
+			}
+		},
+		"highestDamage": 5974696000.898141,
+		"highestCriticalDamage": 5974696000.898141,
+		"auctions": {
+			"bids": 2060,
+			"highest_bid": 3000000000,
+			"won": 1989,
+			"total_bought": {
+				"EPIC": 418,
+				"UNCOMMON": 140,
+				"RARE": 510,
+				"SPECIAL": 455,
+				"COMMON": 143,
+				"LEGENDARY": 251,
+				"MYTHIC": 29,
+				"total": 631,
+				"ULTIMATE": 43
+			},
+			"gold_spent": 30694369686,
+			"created": 2984,
+			"fees": 641267170,
+			"completed": 2549,
+			"total_sold": {
+				"EPIC": 468,
+				"COMMON": 158,
+				"LEGENDARY": 644,
+				"RARE": 619,
+				"SPECIAL": 454,
+				"UNCOMMON": 193,
+				"total": 1034,
+				"MYTHIC": 13
+			},
+			"gold_earned": 28874587748,
+			"no_bids": 376
+		},
+		"gifts": {
+			"total_received": 13679,
+			"total_given": 2128
+		},
+		"itemsFished": {
+			"total": 74638,
+			"normal": 33574,
+			"trophy_fish": 33720,
+			"treasure": 6619,
+			"large_treasure": 721,
+			"outstanding": 4
+		},
+		"races": {
+			"chicken_race_best_time_2": 100619,
+			"foraging_race_best_time": 10656,
+			"end_race_best_time": 15017,
+			"dungeon_hub": {
+				"crystal_core_nothing_no_return_best_time": 41856,
+				"crystal_core_no_abilities_no_return_best_time": 24164,
+				"crystal_core_no_pearls_no_return_best_time": 10355,
+				"crystal_core_anything_no_return_best_time": 5252,
+				"crystal_core_anything_with_return_best_time": 13665,
+				"crystal_core_no_pearls_with_return_best_time": 24643,
+				"crystal_core_no_abilities_with_return_best_time": 40511,
+				"crystal_core_nothing_with_return_best_time": 89318,
+				"giant_mushroom_anything_no_return_best_time": 1290,
+				"giant_mushroom_no_pearls_no_return_best_time": 11232,
+				"giant_mushroom_no_abilities_no_return_best_time": 19745,
+				"giant_mushroom_nothing_no_return_best_time": 32022,
+				"precursor_ruins_anything_no_return_best_time": 10186,
+				"precursor_ruins_no_pearls_no_return_best_time": 9941,
+				"precursor_ruins_no_abilities_no_return_best_time": 19432,
+				"precursor_ruins_nothing_no_return_best_time": 34942,
+				"giant_mushroom_nothing_with_return_best_time": 83026,
+				"giant_mushroom_anything_with_return_best_time": 32196,
+				"giant_mushroom_no_pearls_with_return_best_time": 30689,
+				"giant_mushroom_no_abilities_with_return_best_time": 59173,
+				"precursor_ruins_anything_with_return_best_time": 30211,
+				"precursor_ruins_no_pearls_with_return_best_time": 26097,
+				"precursor_ruins_no_abilities_with_return_best_time": 40485,
+				"precursor_ruins_nothing_with_return_best_time": 96025
+			},
+			"rift_race_best_time": 34865
+		},
+		"mythos": {
+			"kills": 11865,
+			"burrows_dug_next": {
+				"total": 15429,
+				"none": 634,
+				"LEGENDARY": 14795
+			},
+			"burrows_dug_combat": {
+				"total": 9285,
+				"none": 370,
+				"LEGENDARY": 8915
+			},
+			"burrows_dug_treasure": {
+				"total": 6065,
+				"none": 257,
+				"LEGENDARY": 5808
+			},
+			"burrows_chains_complete": {
+				"total": 5046,
+				"none": 206,
+				"LEGENDARY": 4840
+			}
+		},
+		"seaCreatureKills": 43912,
+		"glowingMushroomsBroken": 663,
+		"endIsland": {
+			"summoning_eyes_collected": 58,
+			"dragon_fight": {
+				"most_damage": {
+					"best": 15008032.33911018,
+					"protector": 13563131.17170356,
+					"young": 5872783.077538562,
+					"wise": 11822898.773076905,
+					"old": 15008032.33911018,
+					"superior": 6427430.418009516,
+					"unstable": 13797385.193910697,
+					"strong": 7918298.703817257
+				},
+				"highest_rank": {
+					"best": 1,
+					"protector": 1,
+					"young": 1,
+					"wise": 1,
+					"old": 1,
+					"superior": 1,
+					"unstable": 1,
+					"strong": 1
+				},
+				"fastest_kill": {
+					"best": 750,
+					"protector": 800,
+					"young": 1300,
+					"old": 1100,
+					"wise": 750,
+					"superior": 8250,
+					"unstable": 1750,
+					"strong": 1000
+				},
+				"ender_crystals_destroyed": 73,
+				"amount_summoned": {
+					"total": 96,
+					"unstable": 22,
+					"old": 21,
+					"strong": 11,
+					"young": 16,
+					"wise": 9,
+					"protector": 15,
+					"superior": 2
+				},
+				"summoning_eyes_contributed": {
+					"total": 373,
+					"unstable": 87,
+					"old": 81,
+					"strong": 43,
+					"young": 62,
+					"wise": 33,
+					"protector": 59,
+					"superior": 8
+				}
+			},
+			"special_zealot_loot_collected": 54
+		},
+		"winter": {
+			"most_damage_dealt": 854,
+			"most_snowballs_hit": 603,
+			"most_magma_damage_dealt": 551
+		},
+		"rift": {
+			"visits": 396,
+			"pass_consumed": 364,
+			"lifetime_motes_earned": 2298425,
+			"motes_orb_pickup": 94,
+			"woods_larva_killed": 76,
+			"woods_odonata_bottled": 17,
+			"lagoon_lil_pads_sold": 85,
+			"lagoon_mushroom_popped_out": 758,
+			"lagoon_leech_supreme_killed": 26,
+			"lagoon_rocks_game_complete": 1,
+			"west_vermin_vacuumed": {
+				"total": 136,
+				"silverfish": 62,
+				"mosquito": 32,
+				"spider": 42
+			},
+			"west_cake_part_eaten": 1027,
+			"west_hot_dogs_given": 328,
+			"odonata_repeatable_completed": 1,
+			"dreadfarm_caducous_harvested": 500,
+			"dreadfarm_agaricus_harvested": 199,
+			"dreadfarm_wilted_harvested": 2141,
+			"dreadfarm_chicken_killed": 40,
+			"plaza_red_light_deaths": 52,
+			"dreadfarm_bean_bulb_collected": 102,
+			"popped_balloons": 80,
+			"living_metal_spawnegg_used": 30,
+			"living_metal_piece_maxed": 4,
+			"living_cave_snake_collected": 261,
+			"plaza_horsezooka_shot": 6885,
+			"colosseum_blaster_shots": 3459,
+			"colosseum_bacte_defeated": 30,
+			"colosseum_globowls_at_tentacle": 441,
+			"plaza_pillar_deaths": 3,
+			"dreadfarm_riftwarts_harvested": 90,
+			"castle_sent_to_prison": 160,
+			"castle_effigy_broken": 49,
+			"plaza_hay_deaths": 5
+		},
+		"spooky": {
+			"bats_spawned": {
+				"209": 2,
+				"210": 1,
+				"211": 2,
+				"212": 1,
+				"214": 1,
+				"215": 2,
+				"223": 2,
+				"228": 1,
+				"237": 1,
+				"239": 1,
+				"240": 1,
+				"241": 2,
+				"242": 2,
+				"243": 2,
+				"244": 1,
+				"247": 1,
+				"255": 1,
+				"256": 2,
+				"258": 2,
+				"267": 1,
+				"268": 1,
+				"271": 1,
+				"277": 1,
+				"280": 1,
+				"282": 1,
+				"289": 1,
+				"291": 1,
+				"292": 1,
+				"294": 1,
+				"299": 2,
+				"315": 1,
+				"323": 1,
+				"324": 1,
+				"325": 2,
+				"326": 1,
+				"333": 1,
+				"336": 2,
+				"340": 1,
+				"341": 2,
+				"349": 1,
+				"354": 1,
+				"355": 1,
+				"356": 1,
+				"360": 1,
+				"361": 2,
+				"367": 1,
+				"373": 1,
+				"374": 1,
+				"379": 1,
+				"381": 1,
+				"391": 1,
+				"411": 1,
+				"415": 1,
+				"total": 27
+			}
+		}
+	},
+	"pets": [
+		{
+			"uuid": null,
+			"type": "GRANDMA_WOLF",
+			"xp": 100693983.86721438,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "b7bee653-62ef-4e79-b52c-2a28c63b9528",
+			"type": "ROCK",
+			"xp": 25428892.651749946,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "MINING_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "1ce8e990-b837-4795-b958-b3347cfb1541",
+			"type": "PARROT",
+			"xp": 25700981.049964517,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "ALL_SKILLS_BOOST_COMMON",
+			"candyUsed": 0,
+			"skin": "PARROT_GALAXY"
+		},
+		{
+			"uuid": "ad6eeea8-65e6-4960-b98a-05ecedea6a70",
+			"type": "HORSE",
+			"xp": 25701935.428839277,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "SADDLE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "1fe5274b-dd17-4f3a-9d9e-d6dc5e985af6",
+			"type": "WITHER_SKELETON",
+			"xp": 25353319.770560917,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "MINING_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "de20a9b5-a794-4e81-8021-be846fd97f94",
+			"type": "BAT",
+			"xp": 26885563.75341593,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "838a4d80-bd05-4f2b-b090-50a69feccb4e",
+			"type": "GOLEM",
+			"xp": 26026476.83183636,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "d95e727f-2586-43f8-9c61-e70bfb96a1be",
+			"type": "ZOMBIE",
+			"xp": 25671006.22505108,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "COMBAT_SKILL_BOOST_UNCOMMON",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "bd29fb30-c25f-4c7a-b7ad-b289de2dfe66",
+			"type": "PIGMAN",
+			"xp": 25446748.91513131,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "ca34cf7f-3b61-4a39-a9cd-b781f99ddb6a",
+			"type": "JERRY",
+			"xp": 25711897.233049627,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "7f551386-12bb-4b19-b32e-f5af01f61e3b",
+			"type": "MOOSHROOM_COW",
+			"xp": 87197808.37163214,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "GREEN_BANDANA",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "9958565b-db8c-442f-b554-60a5a1cc333e",
+			"type": "BAL",
+			"xp": 323672628.592174,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "QUICK_CLAW",
+			"candyUsed": 0,
+			"skin": "BAL_INFERNO"
+		},
+		{
+			"uuid": "c0f82960-2567-4fae-b6fb-0845942002f8",
+			"type": "SPIRIT",
+			"xp": 27635418.597363323,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "UNCOMMON_PARTY_HAT",
+			"candyUsed": 0,
+			"skin": "SNOWBALL_SPIRIT"
+		},
+		{
+			"uuid": "4349db9b-2d8a-4701-9c0c-b2bb37726e75",
+			"type": "RIFT_FERRET",
+			"xp": 25388162.794624828,
+			"active": false,
+			"rarity": "EPIC",
+			"petScore": 4,
+			"heldItem": "TIER_BOOST",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "913ef5d8-4747-468c-bc5e-ec1168205300",
+			"type": "SKELETON_HORSE",
+			"xp": 25507976.981958274,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "COMBAT_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "d3f93291-cae8-4f90-a470-0d0be676958b",
+			"type": "TARANTULA",
+			"xp": 25635897.087050512,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "MINING_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "e1ece6c7-90ee-4bce-b6b3-eac0ae4a2720",
+			"type": "BABY_YETI",
+			"xp": 29449752.086085763,
+			"active": true,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": "BABY_YETI_MIDNIGHT"
+		},
+		{
+			"uuid": "77ee0f1a-8782-4df2-bdf4-429fc3daa754",
+			"type": "SNAIL",
+			"xp": 31512951.453579195,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "SPOOKY_CUPCAKE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "f27483b4-eabb-46b5-9f5e-118b2135fcad",
+			"type": "MAGMA_CUBE",
+			"xp": 25353232.84212963,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "fdd15cc4-0cf4-45d1-b0ee-5a22726dc956",
+			"type": "EERIE",
+			"xp": 25441856.61852464,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "COMBAT_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "968422ed-7f2c-4e62-ac40-1b179af14cbd",
+			"type": "DOLPHIN",
+			"xp": 25353244.583333336,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "f952f78e-feee-4a0f-b57b-f9b6227442f8",
+			"type": "SILVERFISH",
+			"xp": 54189280.440925844,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "51788523-e42c-41dc-8e66-6d4cd47fe447",
+			"type": "MOLE",
+			"xp": 25389969.547533955,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "MINING_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "46435b5b-7173-4156-862a-f97d226e27a6",
+			"type": "TIGER",
+			"xp": 27647664.077171423,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "CROCHET_TIGER_PLUSHIE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "ef104d98-17df-4cc3-a678-f878cb75882c",
+			"type": "PHOENIX",
+			"xp": 25403828.631620027,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "COMBAT_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "67066a41-8b90-4c53-97b6-df6501b36b4a",
+			"type": "CHICKEN",
+			"xp": 25640901.842370335,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "b8595811-f28c-4355-a510-6f84e1aff754",
+			"type": "GOBLIN",
+			"xp": 97386659.18228592,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "MINING_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "26c5f9d7-05ed-4f60-9546-e420df9e6f87",
+			"type": "ANKYLOSAURUS",
+			"xp": 26447586.80703977,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "COMBAT_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "83266085-207f-4a82-9b57-4073006c0ad3",
+			"type": "PIG",
+			"xp": 25353235.624999996,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "FARMING_SKILL_BOOST_UNCOMMON",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "4886fc9b-5702-4099-b3ef-f452822be48c",
+			"type": "MAMMOTH",
+			"xp": 26328410.994562,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "COMBAT_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "478331b0-dc84-4eaa-b4ff-13aa5ac32916",
+			"type": "HOUND",
+			"xp": 25720448.854799893,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "COMBAT_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "0f86ef6c-7b29-47c5-a374-4502b5319869",
+			"type": "PENGUIN",
+			"xp": 25353233.333333332,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "1ef6754c-681a-4f1d-b3e3-89fb04ca8d89",
+			"type": "SPINOSAURUS",
+			"xp": 25353248.958333332,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "5ae52d69-d367-4259-a3c4-57f601d4da49",
+			"type": "BEE",
+			"xp": 25353232.51853996,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "FARMING_SKILL_BOOST_UNCOMMON",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "47224593-684a-4b24-b5c5-4ed663f1206c",
+			"type": "RABBIT",
+			"xp": 131515831.26715752,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "FARMING_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "2c2c6328-7946-4baa-ad61-f0ca5fccdcf2",
+			"type": "GHOUL",
+			"xp": 25493201.406758327,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "COMBAT_SKILL_BOOST_UNCOMMON",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "c9f90261-dd7a-45a9-9cfb-c8b5234d6427",
+			"type": "GIRAFFE",
+			"xp": 25353245.948499996,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "cc1b1173-8be1-4f99-85c2-de1b7c6cd492",
+			"type": "LION",
+			"xp": 25354430.51583756,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "COMBAT_SKILL_BOOST_UNCOMMON",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "5eba94a4-6f5f-4b19-8713-d655566907f5",
+			"type": "KUUDRA",
+			"xp": 25823752.50542989,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "df8aba6d-8c36-4b9a-8128-cebbb962071a",
+			"type": "TURTLE",
+			"xp": 25367345.794669602,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "UNCOMMON_PARTY_HAT",
+			"candyUsed": 0,
+			"skin": "TURTLE_ANCIENT"
+		},
+		{
+			"uuid": "b3bcd265-d3f2-45ec-a027-a229f8016a9e",
+			"type": "OCELOT",
+			"xp": 25355315.690989017,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": "OCELOT_PANTHER"
+		},
+		{
+			"uuid": "9b2155cf-c410-40ad-89ae-156a5c98a6a5",
+			"type": "SLUG",
+			"xp": 25471227.64629258,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "FARMING_SKILL_BOOST_UNCOMMON",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "c11dd2da-4730-47be-bf98-80a207199368",
+			"type": "ARMADILLO",
+			"xp": 178437911.8375809,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "9e5018c4-36cb-4455-95cb-9f5682d3e83d",
+			"type": "RAT",
+			"xp": 25355909.175413903,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "COMBAT_SKILL_BOOST_UNCOMMON",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "89139cdc-6d4a-41d7-9795-f726b38f641f",
+			"type": "TYRANNOSAURUS",
+			"xp": 25715481.408520438,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "eb74700f-c5fb-455a-80ba-2886bf847072",
+			"type": "MEGALODON",
+			"xp": 36687694.459495865,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": "MEGALODON_PINK_PLUSHIE"
+		},
+		{
+			"uuid": "b791bc0e-4f4d-4c05-a36a-064838d0c8b4",
+			"type": "FLYING_FISH",
+			"xp": 50805929.2025115,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "EDIBLE_SEAWEED",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "df219ea8-c5fe-463a-a909-38fca508c036",
+			"type": "OWL",
+			"xp": 30300389.553310182,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "9cd04f14-98dd-4210-bf6b-279d5ca6476e",
+			"type": "REINDEER",
+			"xp": 25453766.411735747,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "75f74a89-a37a-4d7f-bab6-00531d6c2103",
+			"type": "GOLDEN_DRAGON",
+			"xp": 782622395.5447375,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": "GOLDEN_DRAGON_ANCIENT"
+		},
+		{
+			"uuid": "63ba5545-d733-4403-a1fc-9424bb17a2e1",
+			"type": "ENDERMAN",
+			"xp": 34194278.48796458,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": "ENDERMAN_XENON"
+		},
+		{
+			"uuid": "c40239eb-6da0-4a66-8f05-bd5f6a8e937c",
+			"type": "BLUE_WHALE",
+			"xp": 25709274.750768505,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "f03da0bb-7d0a-4ff4-b86c-cd74dc1e1e11",
+			"type": "HERMIT_CRAB",
+			"xp": 14187851.25348463,
+			"active": false,
+			"rarity": "COMMON",
+			"petScore": 1,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "13dfe2ec-1f23-4305-839e-3395221dae39",
+			"type": "HEDGEHOG",
+			"xp": 25353243.055555556,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "9116810a-33b0-4794-9d2d-613419c27fff",
+			"type": "SNOWMAN",
+			"xp": 26333380.494012628,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "COMBAT_SKILL_BOOST_UNCOMMON",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "1de9ffe8-6391-451a-aa6f-dd5867ace404",
+			"type": "ENDERMITE",
+			"xp": 25359495.08349904,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "MINING_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "158dd938-ebda-47b3-b2dc-9a0463cc82a7",
+			"type": "SPIDER",
+			"xp": 25568532.847965803,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "COMBAT_SKILL_BOOST_RARE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "c7f82ad2-7b9d-46bf-8caf-9e5c2b11e1cb",
+			"type": "MONKEY",
+			"xp": 25366547.390866686,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "ac3ba776-2800-469d-9978-2e206bb74ec7",
+			"type": "JELLYFISH",
+			"xp": 26845131.315531794,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "ALL_SKILLS_BOOST_COMMON",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "3001e729-c13b-405a-a2c8-acb1db998236",
+			"type": "SHEEP",
+			"xp": 61431972.967709616,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "6d753a32-27f5-4851-bd22-aeb7522b7e93",
+			"type": "ENDER_DRAGON",
+			"xp": 187000484.17039326,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "CROCHET_TIGER_PLUSHIE",
+			"candyUsed": 0,
+			"skin": "DRAGON_NEON_PURPLE"
+		},
+		{
+			"uuid": "7c0d8758-f5ad-482f-b744-b024d3a180cb",
+			"type": "PHOENIX",
+			"xp": 0,
+			"active": false,
+			"rarity": "EPIC",
+			"petScore": 4,
+			"heldItem": null,
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "61250610-00aa-4b48-8087-e6b86be0308e",
+			"type": "SUBZERO_WISP",
+			"xp": 26424115.200000003,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "CROCHET_TIGER_PLUSHIE",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "b3857b02-612d-4177-9fed-ada0bc5abb08",
+			"type": "SQUID",
+			"xp": 221020123.99905407,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "10ce3c34-ffa4-4d8c-aeb6-dfa815184afa",
+			"type": "MITHRIL_GOLEM",
+			"xp": 106945133.67901729,
+			"active": false,
+			"rarity": "MYTHIC",
+			"petScore": 6,
+			"heldItem": "TITANIUM_MINECART",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "87e4ad02-30cb-480d-ae06-9f2854389653",
+			"type": "GRIFFIN",
+			"xp": 36318984.14926344,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": "FOUR_SEASONS_GRIFFIN"
+		},
+		{
+			"uuid": "80294eff-e537-4d32-b7c5-4477cdafb8ca",
+			"type": "BLAZE",
+			"xp": 31718350.89294056,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "6d4610a8-a0f5-4036-9751-360e3c7c6c33",
+			"type": "SKELETON",
+			"xp": 25402518.325726785,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "COMBAT_SKILL_BOOST_UNCOMMON",
+			"candyUsed": 0,
+			"skin": null
+		},
+		{
+			"uuid": "2e0c6950-63b1-4867-8051-f37f5aa1390a",
+			"type": "WOLF",
+			"xp": 26878466.577063322,
+			"active": false,
+			"rarity": "LEGENDARY",
+			"petScore": 5,
+			"heldItem": "DWARF_TURTLE_SHELMET",
+			"candyUsed": 0,
+			"skin": "WOLF_HUSKY"
+		}
+	],
+	"jacob": {
+		"medals": {
+			"bronze": 1,
+			"silver": 3,
+			"gold": 15
+		},
+		"perks": {
+			"doubleDrops": 15,
+			"farmingLevelCap": 10,
+			"personalBests": true
+		},
+		"contests": {
+			"209:7_2:MUSHROOM_COLLECTION": {
+				"collected": 1
+			},
+			"209:7_2:POTATO_ITEM": {
+				"collected": 1
+			},
+			"209:8_19:INK_SACK:3": {
+				"collected": 93
+			},
+			"209:8_19:MUSHROOM_COLLECTION": {
+				"collected": 305,
+				"claimed_rewards": true,
+				"claimed_position": 166,
+				"claimed_participants": 205
+			},
+			"209:8_31:MUSHROOM_COLLECTION": {
+				"collected": 1
+			},
+			"211:1_20:MUSHROOM_COLLECTION": {
+				"collected": 1
+			},
+			"211:6_24:MUSHROOM_COLLECTION": {
+				"collected": 2
+			},
+			"212:4_11:POTATO_ITEM": {
+				"collected": 12
+			},
+			"234:12_27:CARROT_ITEM": {
+				"collected": 5
+			},
+			"234:12_30:CARROT_ITEM": {
+				"collected": 9
+			},
+			"239:4_11:MUSHROOM_COLLECTION": {
+				"collected": 7
+			},
+			"240:3_27:MUSHROOM_COLLECTION": {
+				"collected": 2
+			},
+			"240:10_17:CARROT_ITEM": {
+				"collected": 2
+			},
+			"241:10_26:NETHER_STALK": {
+				"collected": 160,
+				"claimed_rewards": true,
+				"claimed_position": 264,
+				"claimed_participants": 287
+			},
+			"243:6_12:POTATO_ITEM": {
+				"collected": 1
+			},
+			"243:12_15:WHEAT": {
+				"collected": 7
+			},
+			"247:5_13:MUSHROOM_COLLECTION": {
+				"collected": 7
+			},
+			"248:4_29:WHEAT": {
+				"collected": 1
+			},
+			"249:7_2:CARROT_ITEM": {
+				"collected": 17
+			},
+			"256:10_14:MUSHROOM_COLLECTION": {
+				"collected": 65
+			},
+			"260:2_19:PUMPKIN": {
+				"collected": 12
+			},
+			"260:2_19:INK_SACK:3": {
+				"collected": 954,
+				"claimed_rewards": true,
+				"claimed_position": 243,
+				"claimed_participants": 314
+			},
+			"260:4_8:WHEAT": {
+				"collected": 18871,
+				"claimed_rewards": true,
+				"claimed_position": 2169,
+				"claimed_participants": 4849,
+				"claimed_medal": "bronze"
+			},
+			"260:7_5:MELON": {
+				"collected": 74488,
+				"claimed_rewards": true,
+				"claimed_position": 1511,
+				"claimed_participants": 2463
+			},
+			"262:10_2:PUMPKIN": {
+				"collected": 33563,
+				"claimed_rewards": true,
+				"claimed_position": 426,
+				"claimed_participants": 775,
+				"claimed_medal": "bronze"
+			},
+			"262:12_12:PUMPKIN": {
+				"collected": 80530,
+				"claimed_rewards": true,
+				"claimed_position": 177,
+				"claimed_participants": 573,
+				"claimed_medal": "bronze"
+			},
+			"263:1_8:PUMPKIN": {
+				"collected": 94022,
+				"claimed_rewards": true,
+				"claimed_position": 383,
+				"claimed_participants": 1540,
+				"claimed_medal": "silver"
+			},
+			"263:2_25:MUSHROOM_COLLECTION": {
+				"collected": 1240,
+				"claimed_rewards": true,
+				"claimed_position": 272,
+				"claimed_participants": 339
+			},
+			"263:2_31:MUSHROOM_COLLECTION": {
+				"collected": 12770,
+				"claimed_rewards": true,
+				"claimed_position": 254,
+				"claimed_participants": 460,
+				"claimed_medal": "bronze"
+			},
+			"263:3_3:PUMPKIN": {
+				"collected": 52072,
+				"claimed_rewards": true,
+				"claimed_position": 320,
+				"claimed_participants": 820,
+				"claimed_medal": "bronze"
+			},
+			"263:3_9:PUMPKIN": {
+				"collected": 121653,
+				"claimed_rewards": true,
+				"claimed_position": 162,
+				"claimed_participants": 1122,
+				"claimed_medal": "silver"
+			},
+			"263:5_10:PUMPKIN": {
+				"collected": 130378,
+				"claimed_rewards": true,
+				"claimed_position": 111,
+				"claimed_participants": 720,
+				"claimed_medal": "silver"
+			},
+			"263:12_12:MUSHROOM_COLLECTION": {
+				"collected": 248,
+				"claimed_rewards": true,
+				"claimed_position": 403,
+				"claimed_participants": 432
+			},
+			"264:1_5:MUSHROOM_COLLECTION": {
+				"collected": 80
+			},
+			"264:3_6:PUMPKIN": {
+				"collected": 114347,
+				"claimed_rewards": true,
+				"claimed_position": 265,
+				"claimed_participants": 1305,
+				"claimed_medal": "silver"
+			},
+			"264:8_1:NETHER_STALK": {
+				"collected": 28
+			},
+			"264:8_10:MUSHROOM_COLLECTION": {
+				"collected": 68
+			},
+			"266:11_16:PUMPKIN": {
+				"collected": 145997,
+				"claimed_rewards": true,
+				"claimed_position": 114,
+				"claimed_participants": 820,
+				"claimed_medal": "silver"
+			},
+			"268:5_4:INK_SACK:3": {
+				"collected": 10884,
+				"claimed_rewards": true,
+				"claimed_position": 451,
+				"claimed_participants": 526
+			},
+			"268:7_8:PUMPKIN": {
+				"collected": 119577,
+				"claimed_rewards": true,
+				"claimed_position": 322,
+				"claimed_participants": 1303,
+				"claimed_medal": "silver"
+			},
+			"268:8_25:SUGAR_CANE": {
+				"collected": 126973,
+				"claimed_rewards": true,
+				"claimed_position": 1504,
+				"claimed_participants": 2841,
+				"claimed_medal": "bronze"
+			},
+			"268:10_11:SUGAR_CANE": {
+				"collected": 410996,
+				"claimed_rewards": true,
+				"claimed_position": 275,
+				"claimed_participants": 1537,
+				"claimed_medal": "silver"
+			},
+			"268:10_26:SUGAR_CANE": {
+				"collected": 188733,
+				"claimed_rewards": true,
+				"claimed_position": 1049,
+				"claimed_participants": 2535,
+				"claimed_medal": "bronze"
+			},
+			"268:12_24:SUGAR_CANE": {
+				"collected": 365787,
+				"claimed_rewards": true,
+				"claimed_position": 510,
+				"claimed_participants": 1963,
+				"claimed_medal": "bronze"
+			},
+			"270:11_28:MUSHROOM_COLLECTION": {
+				"collected": 3
+			},
+			"271:2_16:SUGAR_CANE": {
+				"collected": 178797,
+				"claimed_rewards": true,
+				"claimed_position": 1050,
+				"claimed_participants": 2085,
+				"claimed_medal": "bronze"
+			},
+			"271:2_28:SUGAR_CANE": {
+				"collected": 131311,
+				"claimed_rewards": true,
+				"claimed_position": 1397,
+				"claimed_participants": 2450,
+				"claimed_medal": "bronze"
+			},
+			"271:9_21:SUGAR_CANE": {
+				"collected": 352543,
+				"claimed_rewards": true,
+				"claimed_position": 1210,
+				"claimed_participants": 3574,
+				"claimed_medal": "silver"
+			},
+			"273:2_25:SUGAR_CANE": {
+				"collected": 213495,
+				"claimed_rewards": true,
+				"claimed_position": 1032,
+				"claimed_participants": 2237,
+				"claimed_medal": "bronze"
+			},
+			"275:5_16:POTATO_ITEM": {
+				"collected": 1
+			},
+			"276:11_7:SUGAR_CANE": {
+				"collected": 13326,
+				"claimed_rewards": true,
+				"claimed_position": 1054,
+				"claimed_participants": 1276
+			},
+			"278:7_8:SUGAR_CANE": {
+				"collected": 84
+			},
+			"278:7_8:PUMPKIN": {
+				"collected": 30
+			},
+			"282:2_4:POTATO_ITEM": {
+				"collected": 1
+			},
+			"283:9_12:NETHER_STALK": {
+				"collected": 160,
+				"claimed_rewards": true,
+				"claimed_position": 1187,
+				"claimed_participants": 1216
+			},
+			"284:5_7:NETHER_STALK": {
+				"collected": 48
+			},
+			"284:10_2:INK_SACK:3": {
+				"collected": 379,
+				"claimed_rewards": true,
+				"claimed_position": 327,
+				"claimed_participants": 340
+			},
+			"284:10_5:MELON": {
+				"collected": 144,
+				"claimed_rewards": true,
+				"claimed_position": 554,
+				"claimed_participants": 565
+			},
+			"285:5_13:POTATO_ITEM": {
+				"collected": 409965,
+				"claimed_rewards": true,
+				"claimed_position": 149,
+				"claimed_participants": 702,
+				"claimed_medal": "silver"
+			},
+			"285:7_11:CARROT_ITEM": {
+				"collected": 550331,
+				"claimed_rewards": true,
+				"claimed_position": 118,
+				"claimed_participants": 838,
+				"claimed_medal": "silver"
+			},
+			"285:7_20:MUSHROOM_COLLECTION": {
+				"collected": 222102,
+				"claimed_rewards": true,
+				"claimed_position": 36,
+				"claimed_participants": 910,
+				"claimed_medal": "gold"
+			},
+			"285:7_23:SUGAR_CANE": {
+				"collected": 190020,
+				"claimed_rewards": true,
+				"claimed_position": 285,
+				"claimed_participants": 729,
+				"claimed_medal": "bronze"
+			},
+			"285:12_6:POTATO_ITEM": {
+				"collected": 533001,
+				"claimed_rewards": true,
+				"claimed_position": 92,
+				"claimed_participants": 590,
+				"claimed_medal": "silver"
+			},
+			"285:12_9:MUSHROOM_COLLECTION": {
+				"collected": 28917,
+				"claimed_rewards": true,
+				"claimed_position": 234,
+				"claimed_participants": 1137,
+				"claimed_medal": "silver"
+			},
+			"286:2_31:NETHER_STALK": {
+				"collected": 6
+			},
+			"286:9_18:MELON": {
+				"collected": 1138100,
+				"claimed_rewards": true,
+				"claimed_position": 32,
+				"claimed_participants": 558,
+				"claimed_medal": "silver"
+			},
+			"286:9_21:POTATO_ITEM": {
+				"collected": 521948,
+				"claimed_rewards": true,
+				"claimed_position": 104,
+				"claimed_participants": 652,
+				"claimed_medal": "silver"
+			},
+			"286:9_27:MUSHROOM_COLLECTION": {
+				"collected": 91806,
+				"claimed_rewards": true,
+				"claimed_position": 117,
+				"claimed_participants": 821,
+				"claimed_medal": "silver"
+			},
+			"286:9_27:INK_SACK:3": {
+				"collected": 72704
+			},
+			"287:3_18:MUSHROOM_COLLECTION": {
+				"collected": 166589,
+				"claimed_rewards": true,
+				"claimed_position": 148,
+				"claimed_participants": 1585,
+				"claimed_medal": "silver"
+			},
+			"287:5_10:MUSHROOM_COLLECTION": {
+				"collected": 194164,
+				"claimed_rewards": true,
+				"claimed_position": 138,
+				"claimed_participants": 1241,
+				"claimed_medal": "gold"
+			},
+			"287:5_22:MUSHROOM_COLLECTION": {
+				"collected": 123,
+				"claimed_rewards": true,
+				"claimed_position": 1559,
+				"claimed_participants": 1577
+			},
+			"287:8_4:MELON": {
+				"collected": 1091477,
+				"claimed_rewards": true,
+				"claimed_position": 168,
+				"claimed_participants": 1145,
+				"claimed_medal": "gold"
+			},
+			"287:8_4:MUSHROOM_COLLECTION": {
+				"collected": 20
+			},
+			"287:9_21:MUSHROOM_COLLECTION": {
+				"collected": 8755
+			},
+			"287:9_21:WHEAT": {
+				"collected": 230393,
+				"claimed_rewards": true,
+				"claimed_position": 225,
+				"claimed_participants": 1318,
+				"claimed_medal": "silver"
+			},
+			"288:1_8:MUSHROOM_COLLECTION": {
+				"collected": 187577,
+				"claimed_rewards": true,
+				"claimed_position": 197,
+				"claimed_participants": 1916,
+				"claimed_medal": "gold"
+			},
+			"288:6_3:MUSHROOM_COLLECTION": {
+				"collected": 64457,
+				"claimed_rewards": true,
+				"claimed_position": 320,
+				"claimed_participants": 1565,
+				"claimed_medal": "silver"
+			},
+			"288:7_23:MUSHROOM_COLLECTION": {
+				"collected": 51638,
+				"claimed_rewards": true,
+				"claimed_position": 363,
+				"claimed_participants": 1652,
+				"claimed_medal": "silver"
+			},
+			"288:8_4:MUSHROOM_COLLECTION": {
+				"collected": 123819,
+				"claimed_rewards": true,
+				"claimed_position": 247,
+				"claimed_participants": 1798,
+				"claimed_medal": "silver"
+			},
+			"288:10_14:MUSHROOM_COLLECTION": {
+				"collected": 60423,
+				"claimed_rewards": true,
+				"claimed_position": 412,
+				"claimed_participants": 1874,
+				"claimed_medal": "silver"
+			},
+			"288:10_20:POTATO_ITEM": {
+				"collected": 68191,
+				"claimed_rewards": true,
+				"claimed_position": 628,
+				"claimed_participants": 1004
+			},
+			"288:10_23:MUSHROOM_COLLECTION": {
+				"collected": 194906,
+				"claimed_rewards": true,
+				"claimed_position": 103,
+				"claimed_participants": 1461,
+				"claimed_medal": "silver"
+			},
+			"289:1_14:MUSHROOM_COLLECTION": {
+				"collected": 155522,
+				"claimed_rewards": true,
+				"claimed_position": 123,
+				"claimed_participants": 1238,
+				"claimed_medal": "silver"
+			},
+			"289:1_17:MUSHROOM_COLLECTION": {
+				"collected": 132197,
+				"claimed_rewards": true,
+				"claimed_position": 119,
+				"claimed_participants": 1123,
+				"claimed_medal": "silver"
+			},
+			"290:3_9:NETHER_STALK": {
+				"collected": 35
+			},
+			"290:3_12:MUSHROOM_COLLECTION": {
+				"collected": 48773,
+				"claimed_rewards": true,
+				"claimed_position": 251,
+				"claimed_participants": 1249,
+				"claimed_medal": "silver"
+			},
+			"290:3_18:MUSHROOM_COLLECTION": {
+				"collected": 133929,
+				"claimed_rewards": true,
+				"claimed_position": 112,
+				"claimed_participants": 1113,
+				"claimed_medal": "silver"
+			},
+			"290:3_27:MUSHROOM_COLLECTION": {
+				"collected": 144033,
+				"claimed_rewards": true,
+				"claimed_position": 94,
+				"claimed_participants": 1020,
+				"claimed_medal": "silver"
+			},
+			"290:10_14:MUSHROOM_COLLECTION": {
+				"collected": 46610,
+				"claimed_rewards": true,
+				"claimed_position": 249,
+				"claimed_participants": 1185,
+				"claimed_medal": "silver"
+			},
+			"290:10_26:MUSHROOM_COLLECTION": {
+				"collected": 116721,
+				"claimed_rewards": true,
+				"claimed_position": 111,
+				"claimed_participants": 1027,
+				"claimed_medal": "silver"
+			},
+			"290:11_7:MUSHROOM_COLLECTION": {
+				"collected": 115827,
+				"claimed_rewards": true,
+				"claimed_position": 175,
+				"claimed_participants": 1392,
+				"claimed_medal": "silver"
+			},
+			"290:11_13:MUSHROOM_COLLECTION": {
+				"collected": 45949,
+				"claimed_rewards": true,
+				"claimed_position": 367,
+				"claimed_participants": 1568,
+				"claimed_medal": "silver"
+			},
+			"291:1_8:MUSHROOM_COLLECTION": {
+				"collected": 103126,
+				"claimed_rewards": true,
+				"claimed_position": 141,
+				"claimed_participants": 1094,
+				"claimed_medal": "silver"
+			},
+			"291:1_11:CARROT_ITEM": {
+				"collected": 47777,
+				"claimed_rewards": true,
+				"claimed_position": 350,
+				"claimed_participants": 577
+			},
+			"291:1_11:POTATO_ITEM": {
+				"collected": 47762
+			},
+			"291:3_6:INK_SACK:3": {
+				"collected": 503770,
+				"claimed_rewards": true,
+				"claimed_position": 56,
+				"claimed_participants": 192,
+				"claimed_medal": "bronze"
+			},
+			"291:3_12:POTATO_ITEM": {
+				"collected": 384,
+				"claimed_rewards": true,
+				"claimed_position": 466,
+				"claimed_participants": 509
+			},
+			"291:3_15:SUGAR_CANE": {
+				"collected": 366,
+				"claimed_rewards": true,
+				"claimed_position": 576,
+				"claimed_participants": 615
+			},
+			"291:3_18:WHEAT": {
+				"collected": 272410,
+				"claimed_rewards": true,
+				"claimed_position": 117,
+				"claimed_participants": 1146,
+				"claimed_medal": "silver"
+			},
+			"292:8_16:MUSHROOM_COLLECTION": {
+				"collected": 60
+			},
+			"292:10_17:SUGAR_CANE": {
+				"collected": 12
+			},
+			"292:11_19:MUSHROOM_COLLECTION": {
+				"collected": 15
+			},
+			"294:4_11:CARROT_ITEM": {
+				"collected": 2
+			},
+			"294:4_11:POTATO_ITEM": {
+				"collected": 2
+			},
+			"294:6_21:MUSHROOM_COLLECTION": {
+				"collected": 236214,
+				"claimed_rewards": true,
+				"claimed_position": 38,
+				"claimed_participants": 1024,
+				"claimed_medal": "gold"
+			},
+			"294:9_6:PUMPKIN": {
+				"collected": 279415,
+				"claimed_rewards": true,
+				"claimed_position": 29,
+				"claimed_participants": 528,
+				"claimed_medal": "silver"
+			},
+			"294:9_9:INK_SACK:3": {
+				"collected": 780138,
+				"claimed_rewards": true,
+				"claimed_position": 21,
+				"claimed_participants": 209,
+				"claimed_medal": "silver"
+			},
+			"295:4_20:NETHER_STALK": {
+				"collected": 572058,
+				"claimed_rewards": true,
+				"claimed_position": 427,
+				"claimed_participants": 1091,
+				"claimed_medal": "bronze"
+			},
+			"295:9_9:CARROT_ITEM": {
+				"collected": 613929,
+				"claimed_rewards": true,
+				"claimed_position": 135,
+				"claimed_participants": 826,
+				"claimed_medal": "silver"
+			},
+			"295:9_12:INK_SACK:3": {
+				"collected": 177870,
+				"claimed_rewards": true,
+				"claimed_position": 180,
+				"claimed_participants": 304,
+				"claimed_medal": "bronze"
+			},
+			"295:9_15:PUMPKIN": {
+				"collected": 80184,
+				"claimed_rewards": true,
+				"claimed_position": 357,
+				"claimed_participants": 841,
+				"claimed_medal": "bronze"
+			},
+			"295:12_3:CACTUS": {
+				"collected": 132273,
+				"claimed_rewards": true,
+				"claimed_position": 80,
+				"claimed_participants": 196,
+				"claimed_medal": "bronze"
+			},
+			"295:12_9:MUSHROOM_COLLECTION": {
+				"collected": 209892,
+				"claimed_rewards": true,
+				"claimed_position": 135,
+				"claimed_participants": 2321,
+				"claimed_medal": "silver"
+			},
+			"295:12_12:CACTUS": {
+				"collected": 393942,
+				"claimed_rewards": true,
+				"claimed_position": 44,
+				"claimed_participants": 226,
+				"claimed_medal": "silver"
+			},
+			"296:2_1:POTATO_ITEM": {
+				"collected": 140114,
+				"claimed_rewards": true,
+				"claimed_position": 418,
+				"claimed_participants": 799,
+				"claimed_medal": "bronze"
+			},
+			"296:3_12:NETHER_STALK": {
+				"collected": 351171,
+				"claimed_rewards": true,
+				"claimed_position": 463,
+				"claimed_participants": 776,
+				"claimed_medal": "bronze"
+			},
+			"296:3_15:WHEAT": {
+				"collected": 41497,
+				"claimed_rewards": true,
+				"claimed_position": 529,
+				"claimed_participants": 1178,
+				"claimed_medal": "bronze"
+			},
+			"296:3_18:POTATO_ITEM": {
+				"collected": 440700,
+				"claimed_rewards": true,
+				"claimed_position": 167,
+				"claimed_participants": 672,
+				"claimed_medal": "silver"
+			},
+			"296:4_14:POTATO_ITEM": {
+				"collected": 182463,
+				"claimed_rewards": true,
+				"claimed_position": 559,
+				"claimed_participants": 1125,
+				"claimed_medal": "bronze"
+			},
+			"296:5_16:INK_SACK:3": {
+				"collected": 747690,
+				"claimed_rewards": true,
+				"claimed_position": 31,
+				"claimed_participants": 289,
+				"claimed_medal": "silver"
+			},
+			"296:5_19:CACTUS": {
+				"collected": 459606,
+				"claimed_rewards": true,
+				"claimed_position": 18,
+				"claimed_participants": 182,
+				"claimed_medal": "silver"
+			},
+			"296:5_22:PUMPKIN": {
+				"collected": 307221,
+				"claimed_rewards": true,
+				"claimed_position": 34,
+				"claimed_participants": 810,
+				"claimed_medal": "gold"
+			},
+			"296:5_28:WHEAT": {
+				"collected": 301896,
+				"claimed_rewards": true,
+				"claimed_position": 69,
+				"claimed_participants": 1017,
+				"claimed_medal": "silver"
+			},
+			"296:7_2:WHEAT": {
+				"collected": 309017,
+				"claimed_rewards": true,
+				"claimed_position": 84,
+				"claimed_participants": 1837,
+				"claimed_medal": "gold"
+			},
+			"296:7_5:CARROT_ITEM": {
+				"collected": 939490,
+				"claimed_rewards": true,
+				"claimed_position": 60,
+				"claimed_participants": 1190,
+				"claimed_medal": "silver"
+			},
+			"296:7_8:CACTUS": {
+				"collected": 485090,
+				"claimed_rewards": true,
+				"claimed_position": 27,
+				"claimed_participants": 295,
+				"claimed_medal": "silver"
+			},
+			"296:7_11:POTATO_ITEM": {
+				"collected": 935826,
+				"claimed_rewards": true,
+				"claimed_position": 59,
+				"claimed_participants": 1058,
+				"claimed_medal": "silver"
+			},
+			"296:7_14:CARROT_ITEM": {
+				"collected": 685369,
+				"claimed_rewards": true,
+				"claimed_position": 123,
+				"claimed_participants": 1121,
+				"claimed_medal": "silver"
+			},
+			"296:7_17:POTATO_ITEM": {
+				"collected": 928962,
+				"claimed_rewards": true,
+				"claimed_position": 37,
+				"claimed_participants": 999,
+				"claimed_medal": "gold"
+			},
+			"296:7_20:SUGAR_CANE": {
+				"collected": 616938,
+				"claimed_rewards": true,
+				"claimed_position": 65,
+				"claimed_participants": 1450,
+				"claimed_medal": "gold"
+			},
+			"296:7_23:CACTUS": {
+				"collected": 58539
+			},
+			"296:7_23:MUSHROOM_COLLECTION": {
+				"collected": 140939,
+				"claimed_rewards": true,
+				"claimed_position": 258,
+				"claimed_participants": 1630,
+				"claimed_medal": "silver"
+			},
+			"296:7_26:INK_SACK:3": {
+				"collected": 873411,
+				"claimed_rewards": true,
+				"claimed_position": 11,
+				"claimed_participants": 304,
+				"claimed_medal": "gold"
+			},
+			"296:8_1:CARROT_ITEM": {
+				"collected": 944887,
+				"claimed_rewards": true,
+				"claimed_position": 31,
+				"claimed_participants": 795,
+				"claimed_medal": "gold"
+			},
+			"296:8_4:CACTUS": {
+				"collected": 140545,
+				"claimed_rewards": true,
+				"claimed_position": 71,
+				"claimed_participants": 158,
+				"claimed_medal": "bronze"
+			},
+			"296:9_15:MELON": {
+				"collected": 1021958,
+				"claimed_rewards": true,
+				"claimed_position": 282,
+				"claimed_participants": 1316,
+				"claimed_medal": "silver"
+			},
+			"296:9_18:MELON": {
+				"collected": 1172537,
+				"claimed_rewards": true,
+				"claimed_position": 216,
+				"claimed_participants": 1331,
+				"claimed_medal": "silver"
+			},
+			"296:9_21:MUSHROOM_COLLECTION": {
+				"collected": 273810,
+				"claimed_rewards": true,
+				"claimed_position": 65,
+				"claimed_participants": 1984,
+				"claimed_medal": "gold"
+			},
+			"296:9_24:CACTUS": {
+				"collected": 317056,
+				"claimed_rewards": true,
+				"claimed_position": 96,
+				"claimed_participants": 338,
+				"claimed_medal": "bronze"
+			},
+			"296:10_2:WHEAT": {
+				"collected": 304523,
+				"claimed_rewards": true,
+				"claimed_position": 73,
+				"claimed_participants": 1398,
+				"claimed_medal": "silver"
+			},
+			"296:10_11:MUSHROOM_COLLECTION": {
+				"collected": 133795,
+				"claimed_rewards": true,
+				"claimed_position": 170,
+				"claimed_participants": 1174,
+				"claimed_medal": "silver"
+			},
+			"296:11_28:MUSHROOM_COLLECTION": {
+				"collected": 76442,
+				"claimed_rewards": true,
+				"claimed_position": 446,
+				"claimed_participants": 1771,
+				"claimed_medal": "bronze"
+			},
+			"296:12_30:MUSHROOM_COLLECTION": {
+				"collected": 243719,
+				"claimed_rewards": true,
+				"claimed_position": 49,
+				"claimed_participants": 1024,
+				"claimed_medal": "gold"
+			},
+			"297:2_16:MUSHROOM_COLLECTION": {
+				"collected": 83004,
+				"claimed_rewards": true,
+				"claimed_position": 434,
+				"claimed_participants": 1768,
+				"claimed_medal": "silver"
+			},
+			"297:2_31:MUSHROOM_COLLECTION": {
+				"collected": 116221,
+				"claimed_rewards": true,
+				"claimed_position": 244,
+				"claimed_participants": 1230,
+				"claimed_medal": "silver"
+			},
+			"297:3_12:MUSHROOM_COLLECTION": {
+				"collected": 266182,
+				"claimed_rewards": true,
+				"claimed_position": 36,
+				"claimed_participants": 983,
+				"claimed_medal": "gold"
+			},
+			"297:5_1:CACTUS": {
+				"collected": 545684,
+				"claimed_rewards": true,
+				"claimed_position": 34,
+				"claimed_participants": 468,
+				"claimed_medal": "gold"
+			},
+			"297:5_7:NETHER_STALK": {
+				"collected": 570318,
+				"claimed_rewards": true,
+				"claimed_position": 439,
+				"claimed_participants": 1148,
+				"claimed_medal": "bronze"
+			},
+			"297:5_13:NETHER_STALK": {
+				"collected": 833004,
+				"claimed_rewards": true,
+				"claimed_position": 164,
+				"claimed_participants": 1065,
+				"claimed_medal": "silver"
+			},
+			"297:5_25:NETHER_STALK": {
+				"collected": 872095,
+				"claimed_rewards": true,
+				"claimed_position": 67,
+				"claimed_participants": 1016,
+				"claimed_medal": "gold"
+			},
+			"297:7_5:WHEAT": {
+				"collected": 311513,
+				"claimed_rewards": true,
+				"claimed_position": 147,
+				"claimed_participants": 1954,
+				"claimed_medal": "gold"
+			},
+			"297:7_8:PUMPKIN": {
+				"collected": 374341,
+				"claimed_rewards": true,
+				"claimed_position": 11,
+				"claimed_participants": 1304,
+				"claimed_medal": "gold"
+			},
+			"297:7_14:NETHER_STALK": {
+				"collected": 764132,
+				"claimed_rewards": true,
+				"claimed_position": 272,
+				"claimed_participants": 1098,
+				"claimed_medal": "silver"
+			},
+			"297:7_17:CARROT_ITEM": {
+				"collected": 510811,
+				"claimed_rewards": true,
+				"claimed_position": 250,
+				"claimed_participants": 809,
+				"claimed_medal": "silver"
+			},
+			"297:12_18:CACTUS": {
+				"collected": 34985
+			},
+			"297:12_18:CARROT_ITEM": {
+				"collected": 85379,
+				"claimed_rewards": true,
+				"claimed_position": 309,
+				"claimed_participants": 458,
+				"claimed_medal": "bronze"
+			},
+			"298:4_26:MUSHROOM_COLLECTION": {
+				"collected": 137,
+				"claimed_rewards": true,
+				"claimed_position": 1090,
+				"claimed_participants": 1105
+			},
+			"298:4_29:POTATO_ITEM": {
+				"collected": 193109,
+				"claimed_rewards": true,
+				"claimed_position": 205,
+				"claimed_participants": 488,
+				"claimed_medal": "bronze"
+			},
+			"300:3_18:MUSHROOM_COLLECTION": {
+				"collected": 121960,
+				"claimed_rewards": true,
+				"claimed_position": 249,
+				"claimed_participants": 2093,
+				"claimed_medal": "silver"
+			},
+			"300:3_24:MUSHROOM_COLLECTION": {
+				"collected": 178566,
+				"claimed_rewards": true,
+				"claimed_position": 174,
+				"claimed_participants": 1801,
+				"claimed_medal": "silver"
+			},
+			"302:11_1:MUSHROOM_COLLECTION": {
+				"collected": 1295,
+				"claimed_rewards": true,
+				"claimed_position": 1417,
+				"claimed_participants": 3528,
+				"claimed_medal": "bronze"
+			},
+			"303:5_1:WHEAT": {
+				"collected": 4
+			},
+			"303:9_27:NETHER_STALK": {
+				"collected": 16
+			},
+			"304:2_16:POTATO_ITEM": {
+				"collected": 1
+			},
+			"304:2_25:POTATO_ITEM": {
+				"collected": 1
+			},
+			"308:12_6:MUSHROOM_COLLECTION": {
+				"collected": 118320,
+				"claimed_rewards": true,
+				"claimed_position": 184,
+				"claimed_participants": 1532,
+				"claimed_medal": "silver"
+			},
+			"312:12_30:MELON": {
+				"collected": 209375,
+				"claimed_rewards": true,
+				"claimed_position": 1315,
+				"claimed_participants": 2220,
+				"claimed_medal": "bronze"
+			},
+			"313:1_14:CACTUS": {
+				"collected": 562155,
+				"claimed_rewards": true,
+				"claimed_position": 72,
+				"claimed_participants": 793,
+				"claimed_medal": "gold"
+			},
+			"313:1_14:NETHER_STALK": {
+				"collected": 1920
+			},
+			"313:1_26:MELON": {
+				"collected": 1760,
+				"claimed_rewards": true,
+				"claimed_position": 848,
+				"claimed_participants": 996
+			},
+			"313:1_26:PUMPKIN": {
+				"collected": 1760
+			},
+			"313:3_18:MELON": {
+				"collected": 1768949,
+				"claimed_rewards": true,
+				"claimed_position": 111,
+				"claimed_participants": 1583,
+				"claimed_medal": "gold"
+			},
+			"313:3_21:NETHER_STALK": {
+				"collected": 885978,
+				"claimed_rewards": true,
+				"claimed_position": 122,
+				"claimed_participants": 942,
+				"claimed_medal": "silver"
+			},
+			"313:3_24:MUSHROOM_COLLECTION": {
+				"collected": 318040,
+				"claimed_rewards": true,
+				"claimed_position": 85,
+				"claimed_participants": 1793,
+				"claimed_medal": "platinum"
+			},
+			"313:3_27:MELON": {
+				"collected": 1688611,
+				"claimed_rewards": true,
+				"claimed_position": 116,
+				"claimed_participants": 1288,
+				"claimed_medal": "gold"
+			},
+			"313:6_21:MUSHROOM_COLLECTION": {
+				"collected": 316347,
+				"claimed_rewards": true,
+				"claimed_position": 56,
+				"claimed_participants": 1102,
+				"claimed_medal": "gold"
+			},
+			"313:8_4:MUSHROOM_COLLECTION": {
+				"collected": 28893,
+				"claimed_rewards": true,
+				"claimed_position": 791,
+				"claimed_participants": 2293,
+				"claimed_medal": "bronze"
+			},
+			"313:9_6:MUSHROOM_COLLECTION": {
+				"collected": 336494,
+				"claimed_rewards": true,
+				"claimed_position": 60,
+				"claimed_participants": 1927,
+				"claimed_medal": "platinum"
+			},
+			"313:10_26:CACTUS": {
+				"collected": 1440,
+				"claimed_participants": 745,
+				"claimed_position": 567,
+				"claimed_rewards": true
+			},
+			"314:11_1:MUSHROOM_COLLECTION": {
+				"collected": 820,
+				"claimed_participants": 1241,
+				"claimed_position": 1133,
+				"claimed_rewards": true
+			},
+			"314:11_4:CARROT_ITEM": {
+				"collected": 86621,
+				"claimed_medal": "bronze",
+				"claimed_participants": 791,
+				"claimed_position": 413,
+				"claimed_rewards": true
+			},
+			"314:11_7:CACTUS": {
+				"collected": 532127,
+				"claimed_medal": "platinum",
+				"claimed_participants": 582,
+				"claimed_position": 52,
+				"claimed_rewards": true
+			},
+			"314:11_10:MUSHROOM_COLLECTION": {
+				"collected": 340903,
+				"claimed_medal": "diamond",
+				"claimed_participants": 1587,
+				"claimed_position": 37,
+				"claimed_rewards": true
+			},
+			"314:11_19:MUSHROOM_COLLECTION": {
+				"collected": 332897,
+				"claimed_medal": "diamond",
+				"claimed_participants": 2375,
+				"claimed_position": 67,
+				"claimed_rewards": true
+			},
+			"315:1_23:WHEAT": {
+				"collected": 14256,
+				"claimed_participants": 2208,
+				"claimed_position": 1558,
+				"claimed_rewards": true
+			},
+			"315:1_23:CACTUS": {
+				"collected": 1760
+			},
+			"315:1_29:MUSHROOM_COLLECTION": {
+				"collected": 328687,
+				"claimed_medal": "diamond",
+				"claimed_participants": 2633,
+				"claimed_position": 99,
+				"claimed_rewards": true
+			},
+			"315:2_1:PUMPKIN": {
+				"collected": 332513,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1901,
+				"claimed_position": 133,
+				"claimed_rewards": true
+			},
+			"315:2_4:CACTUS": {
+				"collected": 665169,
+				"claimed_medal": "diamond",
+				"claimed_participants": 1152,
+				"claimed_position": 36,
+				"claimed_rewards": true
+			},
+			"315:2_7:MELON": {
+				"collected": 1584983,
+				"claimed_medal": "gold",
+				"claimed_participants": 2251,
+				"claimed_position": 258,
+				"claimed_rewards": true
+			},
+			"315:2_19:MUSHROOM_COLLECTION": {
+				"collected": 341033,
+				"claimed_medal": "diamond",
+				"claimed_participants": 2702,
+				"claimed_position": 72,
+				"claimed_rewards": true
+			},
+			"315:6_24:MUSHROOM_COLLECTION": {
+				"collected": 342882,
+				"claimed_medal": "platinum",
+				"claimed_participants": 2044,
+				"claimed_position": 42,
+				"claimed_rewards": true
+			},
+			"315:6_27:MUSHROOM_COLLECTION": {
+				"collected": 328638,
+				"claimed_medal": "platinum",
+				"claimed_participants": 2054,
+				"claimed_position": 57,
+				"claimed_rewards": true
+			},
+			"315:11_7:WHEAT": {
+				"collected": 1
+			},
+			"315:11_25:MUSHROOM_COLLECTION": {
+				"collected": 336507,
+				"claimed_medal": "diamond",
+				"claimed_participants": 1899,
+				"claimed_position": 31,
+				"claimed_rewards": true
+			},
+			"316:2_7:MUSHROOM_COLLECTION": {
+				"collected": 350350,
+				"claimed_medal": "diamond",
+				"claimed_participants": 1765,
+				"claimed_position": 32,
+				"claimed_rewards": true
+			},
+			"318:2_4:MUSHROOM_COLLECTION": {
+				"collected": 334025,
+				"claimed_medal": "diamond",
+				"claimed_participants": 906,
+				"claimed_position": 17,
+				"claimed_rewards": true
+			},
+			"318:2_7:MUSHROOM_COLLECTION": {
+				"collected": 333877,
+				"claimed_medal": "platinum",
+				"claimed_participants": 902,
+				"claimed_position": 20,
+				"claimed_rewards": true
+			},
+			"318:7_20:MUSHROOM_COLLECTION": {
+				"collected": 322746,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1400,
+				"claimed_position": 48,
+				"claimed_rewards": true
+			},
+			"319:2_28:MUSHROOM_COLLECTION": {
+				"collected": 334406,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1942,
+				"claimed_position": 44,
+				"claimed_rewards": true
+			},
+			"319:2_31:MUSHROOM_COLLECTION": {
+				"collected": 346572,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1964,
+				"claimed_position": 44,
+				"claimed_rewards": true
+			},
+			"319:7_5:CARROT_ITEM": {
+				"collected": 1015115,
+				"claimed_medal": "gold",
+				"claimed_participants": 806,
+				"claimed_position": 54,
+				"claimed_rewards": true
+			},
+			"319:7_11:MUSHROOM_COLLECTION": {
+				"collected": 326155,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1798,
+				"claimed_position": 50,
+				"claimed_rewards": true
+			},
+			"321:5_28:MUSHROOM_COLLECTION": {
+				"collected": 338801,
+				"claimed_medal": "platinum",
+				"claimed_participants": 964,
+				"claimed_position": 25,
+				"claimed_rewards": true
+			},
+			"321:10_2:MUSHROOM_COLLECTION": {
+				"collected": 308948,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1291,
+				"claimed_position": 56,
+				"claimed_rewards": true
+			},
+			"321:11_1:MUSHROOM_COLLECTION": {
+				"collected": 319481,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1538,
+				"claimed_position": 44,
+				"claimed_rewards": true
+			},
+			"322:3_27:MUSHROOM_COLLECTION": {
+				"collected": 270633,
+				"claimed_medal": "gold",
+				"claimed_participants": 1518,
+				"claimed_position": 84,
+				"claimed_rewards": true
+			},
+			"323:10_23:INK_SACK:3": {
+				"collected": 698749,
+				"claimed_medal": "gold",
+				"claimed_participants": 648,
+				"claimed_position": 62,
+				"claimed_rewards": true
+			},
+			"324:7_2:INK_SACK:3": {
+				"collected": 935505,
+				"claimed_medal": "platinum",
+				"claimed_participants": 353,
+				"claimed_position": 17,
+				"claimed_rewards": true
+			},
+			"324:11_16:SUGAR_CANE": {
+				"collected": 205886,
+				"claimed_medal": "bronze",
+				"claimed_participants": 578,
+				"claimed_position": 185,
+				"claimed_rewards": true
+			},
+			"325:1_26:WHEAT": {
+				"collected": 31104,
+				"claimed_medal": "bronze",
+				"claimed_participants": 808,
+				"claimed_position": 399,
+				"claimed_rewards": true
+			},
+			"325:1_26:MELON": {
+				"collected": 2080
+			},
+			"325:3_6:MELON": {
+				"collected": 1599945,
+				"claimed_medal": "silver",
+				"claimed_participants": 1454,
+				"claimed_position": 173,
+				"claimed_rewards": true
+			},
+			"325:3_9:MELON": {
+				"collected": 1735819,
+				"claimed_medal": "gold",
+				"claimed_participants": 1333,
+				"claimed_position": 114,
+				"claimed_rewards": true
+			},
+			"325:5_19:SUGAR_CANE": {
+				"collected": 570536,
+				"claimed_medal": "silver",
+				"claimed_participants": 1034,
+				"claimed_position": 105,
+				"claimed_rewards": true
+			},
+			"325:6_24:WHEAT": {
+				"collected": 332235,
+				"claimed_medal": "gold",
+				"claimed_participants": 716,
+				"claimed_position": 54,
+				"claimed_rewards": true
+			},
+			"325:10_20:MUSHROOM_COLLECTION": {
+				"collected": 488,
+				"claimed_participants": 1317,
+				"claimed_position": 1219,
+				"claimed_rewards": true
+			},
+			"325:11_4:MUSHROOM_COLLECTION": {
+				"collected": 309726,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1087,
+				"claimed_position": 29,
+				"claimed_rewards": true
+			},
+			"326:5_7:CARROT_ITEM": {
+				"collected": 1125056,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1074,
+				"claimed_position": 45,
+				"claimed_rewards": true
+			},
+			"326:5_10:MUSHROOM_COLLECTION": {
+				"collected": 333723,
+				"claimed_medal": "diamond",
+				"claimed_participants": 1578,
+				"claimed_position": 31,
+				"claimed_rewards": true
+			},
+			"326:6_6:MUSHROOM_COLLECTION": {
+				"collected": 282581,
+				"claimed_medal": "platinum",
+				"claimed_participants": 881,
+				"claimed_position": 37,
+				"claimed_rewards": true
+			},
+			"327:2_13:WHEAT": {
+				"collected": 69984,
+				"claimed_medal": "bronze",
+				"claimed_participants": 1756,
+				"claimed_position": 682,
+				"claimed_rewards": true
+			},
+			"327:5_1:PUMPKIN": {
+				"collected": 314870,
+				"claimed_medal": "gold",
+				"claimed_participants": 1053,
+				"claimed_position": 54,
+				"claimed_rewards": true
+			},
+			"327:5_7:CARROT_ITEM": {
+				"collected": 1131270,
+				"claimed_medal": "platinum",
+				"claimed_participants": 881,
+				"claimed_position": 28,
+				"claimed_rewards": true
+			},
+			"327:9_27:POTATO_ITEM": {
+				"collected": 14
+			},
+			"327:11_10:NETHER_STALK": {
+				"collected": 960,
+				"claimed_participants": 974,
+				"claimed_position": 853,
+				"claimed_rewards": true
+			},
+			"328:2_13:WHEAT": {
+				"collected": 24624,
+				"claimed_medal": "bronze",
+				"claimed_participants": 1142,
+				"claimed_position": 561,
+				"claimed_rewards": true
+			},
+			"328:5_4:MELON": {
+				"collected": 1673703,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1011,
+				"claimed_position": 89,
+				"claimed_rewards": true
+			},
+			"328:12_6:POTATO_ITEM": {
+				"collected": 1762
+			},
+			"328:12_6:SUGAR_CANE": {
+				"collected": 349971,
+				"claimed_medal": "silver",
+				"claimed_participants": 479,
+				"claimed_position": 92,
+				"claimed_rewards": true
+			},
+			"328:12_6:PUMPKIN": {
+				"collected": 2080
+			},
+			"328:12_12:MUSHROOM_COLLECTION": {
+				"collected": 279707,
+				"claimed_medal": "platinum",
+				"claimed_participants": 867,
+				"claimed_position": 28,
+				"claimed_rewards": true
+			},
+			"328:12_15:CARROT_ITEM": {
+				"collected": 7
+			},
+			"329:5_16:MUSHROOM_COLLECTION": {
+				"collected": 242611,
+				"claimed_medal": "gold",
+				"claimed_participants": 1105,
+				"claimed_position": 59,
+				"claimed_rewards": true
+			},
+			"329:5_16:SUGAR_CANE": {
+				"collected": 2080
+			},
+			"329:7_5:MUSHROOM_COLLECTION": {
+				"collected": 232782,
+				"claimed_medal": "gold",
+				"claimed_participants": 827,
+				"claimed_position": 49,
+				"claimed_rewards": true
+			},
+			"329:7_5:WHEAT": {
+				"collected": 33696
+			},
+			"329:7_11:MELON": {
+				"collected": 56359
+			},
+			"329:7_11:WHEAT": {
+				"collected": 124409,
+				"claimed_medal": "silver",
+				"claimed_participants": 703,
+				"claimed_position": 183,
+				"claimed_rewards": true
+			},
+			"329:7_14:POTATO_ITEM": {
+				"collected": 954727,
+				"claimed_medal": "gold",
+				"claimed_participants": 470,
+				"claimed_position": 36,
+				"claimed_rewards": true
+			},
+			"329:7_17:NETHER_STALK": {
+				"collected": 743087,
+				"claimed_medal": "silver",
+				"claimed_participants": 502,
+				"claimed_position": 106,
+				"claimed_rewards": true
+			},
+			"329:7_17:WHEAT": {
+				"collected": 69984
+			},
+			"329:7_20:POTATO_ITEM": {
+				"collected": 1085938,
+				"claimed_medal": "gold",
+				"claimed_participants": 525,
+				"claimed_position": 27,
+				"claimed_rewards": true
+			},
+			"329:9_30:POTATO_ITEM": {
+				"collected": 176,
+				"claimed_participants": 574,
+				"claimed_position": 562,
+				"claimed_rewards": true
+			},
+			"330:2_31:WHEAT": {
+				"collected": 35004,
+				"claimed_medal": "bronze",
+				"claimed_participants": 1621,
+				"claimed_position": 709,
+				"claimed_rewards": true
+			},
+			"330:2_31:INK_SACK:3": {
+				"collected": 3
+			},
+			"330:2_31:PUMPKIN": {
+				"collected": 13
+			},
+			"330:3_9:MUSHROOM_COLLECTION": {
+				"collected": 4901,
+				"claimed_participants": 2217,
+				"claimed_position": 1604,
+				"claimed_rewards": true
+			},
+			"330:4_17:INK_SACK:3": {
+				"collected": 32487,
+				"claimed_medal": "bronze",
+				"claimed_participants": 282,
+				"claimed_position": 105,
+				"claimed_rewards": true
+			},
+			"330:4_23:NETHER_STALK": {
+				"collected": 116,
+				"claimed_participants": 526,
+				"claimed_position": 525,
+				"claimed_rewards": true
+			},
+			"330:4_26:MUSHROOM_COLLECTION": {
+				"collected": 45
+			},
+			"330:4_29:MELON": {
+				"collected": 1393,
+				"claimed_participants": 853,
+				"claimed_position": 768,
+				"claimed_rewards": true
+			},
+			"330:5_10:NETHER_STALK": {
+				"collected": 22865
+			},
+			"330:5_10:WHEAT": {
+				"collected": 311656,
+				"claimed_medal": "gold",
+				"claimed_participants": 1300,
+				"claimed_position": 94,
+				"claimed_rewards": true
+			},
+			"330:5_13:PUMPKIN": {
+				"collected": 71866,
+				"claimed_medal": "bronze",
+				"claimed_participants": 1180,
+				"claimed_position": 414,
+				"claimed_rewards": true
+			},
+			"330:5_13:MUSHROOM_COLLECTION": {
+				"collected": 1407
+			},
+			"333:4_2:MELON": {
+				"collected": 732844,
+				"claimed_medal": "bronze",
+				"claimed_participants": 987,
+				"claimed_position": 349,
+				"claimed_rewards": true
+			},
+			"333:8_28:MUSHROOM_COLLECTION": {
+				"collected": 20
+			},
+			"334:8_22:WHEAT": {
+				"collected": 103680,
+				"claimed_medal": "silver",
+				"claimed_participants": 1849,
+				"claimed_position": 401,
+				"claimed_rewards": true
+			},
+			"337:2_19:WHEAT": {
+				"collected": 313632,
+				"claimed_medal": "gold",
+				"claimed_participants": 1962,
+				"claimed_position": 152,
+				"claimed_rewards": true
+			},
+			"337:2_22:MUSHROOM_COLLECTION": {
+				"collected": 36128,
+				"claimed_medal": "silver",
+				"claimed_participants": 2697,
+				"claimed_position": 505,
+				"claimed_rewards": true
+			},
+			"337:2_25:CACTUS": {
+				"collected": 2240,
+				"claimed_medal": "bronze",
+				"claimed_participants": 1639,
+				"claimed_position": 751,
+				"claimed_rewards": true
+			},
+			"337:3_6:POTATO_ITEM": {
+				"collected": 11
+			},
+			"337:4_8:WHEAT": {
+				"collected": 24624,
+				"claimed_medal": "bronze",
+				"claimed_participants": 970,
+				"claimed_position": 425,
+				"claimed_rewards": true
+			},
+			"337:4_8:CARROT_ITEM": {
+				"collected": 960
+			},
+			"337:5_16:PUMPKIN": {
+				"collected": 1920
+			},
+			"337:5_16:WHEAT": {
+				"collected": 128304,
+				"claimed_medal": "silver",
+				"claimed_participants": 2610,
+				"claimed_position": 522,
+				"claimed_rewards": true
+			},
+			"337:5_16:CACTUS": {
+				"collected": 2080
+			},
+			"338:5_4:NETHER_STALK": {
+				"collected": 160,
+				"claimed_participants": 2221,
+				"claimed_position": 2195,
+				"claimed_rewards": true
+			},
+			"338:12_12:CARROT_ITEM": {
+				"collected": 55
+			},
+			"343:12_3:NETHER_STALK": {
+				"collected": 5
+			},
+			"344:9_3:CARROT_ITEM": {
+				"collected": 22080,
+				"claimed_medal": "bronze",
+				"claimed_participants": 1698,
+				"claimed_position": 707,
+				"claimed_rewards": true
+			},
+			"344:9_3:SUGAR_CANE": {
+				"collected": 1600
+			},
+			"345:1_2:WHEAT": {
+				"collected": 5
+			},
+			"346:10_2:MUSHROOM_COLLECTION": {
+				"collected": 2
+			},
+			"346:10_2:INK_SACK:3": {
+				"collected": 960,
+				"claimed_participants": 638,
+				"claimed_position": 506,
+				"claimed_rewards": true
+			},
+			"348:6_24:CARROT_ITEM": {
+				"collected": 2240
+			},
+			"348:6_24:SUGAR_CANE": {
+				"collected": 8320,
+				"claimed_medal": "bronze",
+				"claimed_participants": 731,
+				"claimed_position": 293,
+				"claimed_rewards": true
+			},
+			"348:6_24:INK_SACK:3": {
+				"collected": 2080
+			},
+			"348:6_30:MUSHROOM_COLLECTION": {
+				"collected": 302698,
+				"claimed_medal": "platinum",
+				"claimed_participants": 1182,
+				"claimed_position": 30,
+				"claimed_rewards": true
+			},
+			"350:3_30:CACTUS": {
+				"collected": 27296,
+				"claimed_medal": "silver",
+				"claimed_participants": 1194,
+				"claimed_position": 313,
+				"claimed_rewards": true
+			},
+			"350:3_30:MUSHROOM_COLLECTION": {
+				"collected": 9356
+			},
+			"350:4_2:MUSHROOM_COLLECTION": {
+				"collected": 9274,
+				"claimed_medal": "bronze",
+				"claimed_participants": 2589,
+				"claimed_position": 1509,
+				"claimed_rewards": true
+			},
+			"350:6_12:WHEAT": {
+				"collected": 419775,
+				"claimed_medal": "diamond",
+				"claimed_participants": 2206,
+				"claimed_position": 74,
+				"claimed_rewards": true
+			},
+			"350:6_15:POTATO_ITEM": {
+				"collected": 1137313,
+				"claimed_medal": "diamond",
+				"claimed_participants": 1936,
+				"claimed_position": 76,
+				"claimed_rewards": true
+			},
+			"350:6_18:MUSHROOM_COLLECTION": {
+				"collected": 23168
+			},
+			"350:6_18:NETHER_STALK": {
+				"collected": 1137104,
+				"claimed_medal": "diamond",
+				"claimed_participants": 2043,
+				"claimed_position": 24,
+				"claimed_rewards": true
+			},
+			"350:6_21:MELON": {
+				"collected": 2285575,
+				"claimed_medal": "diamond",
+				"claimed_participants": 2655,
+				"claimed_position": 28,
+				"claimed_rewards": true
+			},
+			"350:6_27:SUGAR_CANE": {
+				"collected": 768710,
+				"claimed_medal": "diamond",
+				"claimed_participants": 2376,
+				"claimed_position": 81,
+				"claimed_rewards": true
+			},
+			"350:7_5:CARROT_ITEM": {
+				"collected": 1067081,
+				"claimed_medal": "platinum",
+				"claimed_participants": 2502,
+				"claimed_position": 152,
+				"claimed_rewards": true
+			},
+			"350:8_16:MUSHROOM_COLLECTION": {
+				"collected": 739,
+				"claimed_participants": 1635,
+				"claimed_position": 1479,
+				"claimed_rewards": true
+			},
+			"350:8_22:CACTUS": {
+				"collected": 2720
+			},
+			"350:8_22:CARROT_ITEM": {
+				"collected": 1239138,
+				"claimed_medal": "diamond",
+				"claimed_participants": 1412,
+				"claimed_position": 30,
+				"claimed_rewards": true
+			},
+			"350:8_25:MUSHROOM_COLLECTION": {
+				"collected": 23104
+			},
+			"350:8_25:PUMPKIN": {
+				"collected": 406576,
+				"claimed_medal": "diamond",
+				"claimed_participants": 1431,
+				"claimed_position": 23,
+				"claimed_rewards": true
+			},
+			"350:9_3:INK_SACK:3": {
+				"collected": 1135646,
+				"claimed_medal": "diamond",
+				"claimed_participants": 1431,
+				"claimed_position": 15,
+				"claimed_rewards": true
+			},
+			"351:2_10:WHEAT": {
+				"collected": 27216
+			},
+			"351:4_29:CACTUS": {
+				"collected": 2240
+			},
+			"353:5_13:POTATO_ITEM": {
+				"collected": 11
+			},
+			"355:6_12:NETHER_STALK": {
+				"collected": 160
+			},
+			"358:2_25:NETHER_STALK": {
+				"collected": 160
+			},
+			"358:10_8:NETHER_STALK": {
+				"collected": 160
+			},
+			"358:12_27:NETHER_STALK": {
+				"collected": 320
+			},
+			"359:2_10:MUSHROOM_COLLECTION": {
+				"collected": 960
+			},
+			"359:2_10:PUMPKIN": {
+				"collected": 800
+			},
+			"359:2_19:CARROT_ITEM": {
+				"collected": 38
+			},
+			"360:4_8:WHEAT": {
+				"collected": 45360
+			},
+			"360:9_3:NETHER_STALK": {
+				"collected": 160
+			},
+			"361:6_15:MELON": {
+				"collected": 1788985
+			},
+			"366:4_20:MUSHROOM_COLLECTION": {
+				"collected": 8
+			},
+			"366:7_20:CARROT_ITEM": {
+				"collected": 28000
+			},
+			"366:11_16:WHEAT": {
+				"collected": 16848
+			},
+			"366:11_22:MELON": {
+				"collected": 2755
+			},
+			"366:11_25:MUSHROOM_COLLECTION": {
+				"collected": 13525
+			},
+			"366:11_28:MELON": {
+				"collected": 57053
+			},
+			"367:1_29:MUSHROOM_COLLECTION": {
+				"collected": 8570
+			},
+			"367:1_29:WHEAT": {
+				"collected": 31104
+			},
+			"367:2_1:SUGAR_CANE": {
+				"collected": 2080
+			},
+			"367:2_4:INK_SACK:3": {
+				"collected": 2080
+			},
+			"367:2_16:MUSHROOM_COLLECTION": {
+				"collected": 5727
+			},
+			"367:2_16:CARROT_ITEM": {
+				"collected": 1760
+			},
+			"367:3_21:MELON": {
+				"collected": 391296
+			},
+			"367:3_21:POTATO_ITEM": {
+				"collected": 1920
+			},
+			"367:4_2:MELON": {
+				"collected": 1218888
+			},
+			"367:6_9:MELON": {
+				"collected": 475028
+			},
+			"367:6_9:MUSHROOM_COLLECTION": {
+				"collected": 4979
+			},
+			"367:7_8:POTATO_ITEM": {
+				"collected": 640
+			},
+			"367:8_16:CACTUS": {
+				"collected": 1440
+			},
+			"367:8_22:MUSHROOM_COLLECTION": {
+				"collected": 9924
+			},
+			"369:12_15:MUSHROOM_COLLECTION": {
+				"collected": 9215
+			},
+			"369:12_15:CACTUS": {
+				"collected": 2400
+			},
+			"369:12_21:MUSHROOM_COLLECTION": {
+				"collected": 9811
+			},
+			"370:8_4:CACTUS": {
+				"collected": 1920
+			},
+			"370:8_4:CARROT_ITEM": {
+				"collected": 3840
+			},
+			"370:8_4:SUGAR_CANE": {
+				"collected": 1120
+			},
+			"371:5_7:SUGAR_CANE": {
+				"collected": 960
+			},
+			"371:5_7:WHEAT": {
+				"collected": 9072
+			},
+			"374:11_22:PUMPKIN": {
+				"collected": 1120
+			},
+			"375:4_26:SUGAR_CANE": {
+				"collected": 87094
+			},
+			"375:5_10:SUGAR_CANE": {
+				"collected": 55286
+			},
+			"375:5_19:MUSHROOM_COLLECTION": {
+				"collected": 7840
+			},
+			"375:5_19:CARROT_ITEM": {
+				"collected": 1120
+			},
+			"375:5_22:POTATO_ITEM": {
+				"collected": 11360
+			},
+			"375:5_22:NETHER_STALK": {
+				"collected": 1120
+			},
+			"375:5_22:WHEAT": {
+				"collected": 11664
+			},
+			"375:9_27:SUGAR_CANE": {
+				"collected": 105674
+			},
+			"375:9_27:MUSHROOM_COLLECTION": {
+				"collected": 7040
+			},
+			"375:9_30:CACTUS": {
+				"collected": 1440
+			},
+			"375:9_30:POTATO_ITEM": {
+				"collected": 40160
+			},
+			"375:10_2:INK_SACK:3": {
+				"collected": 1120
+			},
+			"375:10_2:MELON": {
+				"collected": 28480
+			},
+			"375:10_2:CACTUS": {
+				"collected": 1440
+			},
+			"375:12_9:MUSHROOM_COLLECTION": {
+				"collected": 3680
+			},
+			"375:12_9:NETHER_STALK": {
+				"collected": 1280
+			},
+			"375:12_12:MUSHROOM_COLLECTION": {
+				"collected": 24960
+			},
+			"375:12_15:CACTUS": {
+				"collected": 2240
+			},
+			"375:12_18:SUGAR_CANE": {
+				"collected": 56002
+			},
+			"376:1_29:CACTUS": {
+				"collected": 4160
+			},
+			"376:1_29:MELON": {
+				"collected": 800
+			},
+			"376:4_23:NETHER_STALK": {
+				"collected": 1440
+			},
+			"376:4_23:CACTUS": {
+				"collected": 4160
+			},
+			"376:4_26:WHEAT": {
+				"collected": 22032
+			},
+			"376:5_7:WHEAT": {
+				"collected": 11664
+			},
+			"376:7_14:NETHER_STALK": {
+				"collected": 2240
+			},
+			"376:7_14:MELON": {
+				"collected": 43200
+			},
+			"376:7_14:WHEAT": {
+				"collected": 11664
+			},
+			"376:7_17:SUGAR_CANE": {
+				"collected": 311691
+			},
+			"376:7_17:INK_SACK:3": {
+				"collected": 1440
+			},
+			"376:7_17:POTATO_ITEM": {
+				"collected": 800
+			},
+			"376:7_26:POTATO_ITEM": {
+				"collected": 1440
+			},
+			"376:7_29:POTATO_ITEM": {
+				"collected": 2720
+			},
+			"376:9_27:SUGAR_CANE": {
+				"collected": 286860
+			},
+			"376:9_27:POTATO_ITEM": {
+				"collected": 2240
+			},
+			"376:9_30:MELON": {
+				"collected": 40320
+			},
+			"376:9_30:POTATO_ITEM": {
+				"collected": 1440
+			},
+			"376:10_5:PUMPKIN": {
+				"collected": 1440
+			},
+			"376:10_8:SUGAR_CANE": {
+				"collected": 74184
+			},
+			"376:10_11:NETHER_STALK": {
+				"collected": 1440
+			},
+			"376:10_11:WHEAT": {
+				"collected": 32
+			},
+			"376:10_23:INK_SACK:3": {
+				"collected": 40480
+			},
+			"376:10_23:PUMPKIN": {
+				"collected": 2400
+			},
+			"377:2_19:CACTUS": {
+				"collected": 1600
+			},
+			"377:2_19:CARROT_ITEM": {
+				"collected": 4640
+			},
+			"377:2_19:SUGAR_CANE": {
+				"collected": 98657
+			},
+			"377:2_25:MUSHROOM_COLLECTION": {
+				"collected": 9120
+			},
+			"377:2_25:POTATO_ITEM": {
+				"collected": 60160
+			},
+			"377:2_28:MUSHROOM_COLLECTION": {
+				"collected": 7680
+			},
+			"377:3_3:SUGAR_CANE": {
+				"collected": 296038
+			},
+			"377:3_3:PUMPKIN": {
+				"collected": 1440
+			},
+			"377:3_6:MUSHROOM_COLLECTION": {
+				"collected": 2400
+			},
+			"377:3_6:CARROT_ITEM": {
+				"collected": 800
+			},
+			"377:3_24:SUGAR_CANE": {
+				"collected": 163663
+			},
+			"377:3_24:POTATO_ITEM": {
+				"collected": 28160
+			},
+			"377:4_23:SUGAR_CANE": {
+				"collected": 158053
+			},
+			"377:6_9:MUSHROOM_COLLECTION": {
+				"collected": 2
+			},
+			"378:6_15:MELON": {
+				"collected": 1563343
+			},
+			"378:6_15:MUSHROOM_COLLECTION": {
+				"collected": 16890
+			},
+			"378:6_18:MELON": {
+				"collected": 1186114
+			},
+			"378:6_18:MUSHROOM_COLLECTION": {
+				"collected": 15489
+			},
+			"378:7_29:NETHER_STALK": {
+				"collected": 11040
+			},
+			"378:8_1:SUGAR_CANE": {
+				"collected": 2080
+			},
+			"378:8_4:MELON": {
+				"collected": 1519710
+			},
+			"378:8_4:INK_SACK:3": {
+				"collected": 2240
+			},
+			"378:8_4:NETHER_STALK": {
+				"collected": 4320
+			},
+			"378:8_7:MUSHROOM_COLLECTION": {
+				"collected": 18232
+			},
+			"378:8_10:MELON": {
+				"collected": 1384224
+			},
+			"378:8_16:MUSHROOM_COLLECTION": {
+				"collected": 18511
+			},
+			"378:10_26:PUMPKIN": {
+				"collected": 2400
+			},
+			"378:10_26:MUSHROOM_COLLECTION": {
+				"collected": 2495
+			},
+			"378:11_1:MELON": {
+				"collected": 1262332
+			},
+			"378:11_1:MUSHROOM_COLLECTION": {
+				"collected": 14630
+			},
+			"378:11_7:MELON": {
+				"collected": 1504299
+			},
+			"385:1_5:MUSHROOM_COLLECTION": {
+				"collected": 3360
+			},
+			"386:8_16:NETHER_STALK": {
+				"collected": 27520
+			},
+			"388:11_4:INK_SACK:3": {
+				"collected": 10
+			},
+			"396:7_8:MUSHROOM_COLLECTION": {
+				"collected": 11357
+			},
+			"396:7_17:MELON": {
+				"collected": 503819
+			},
+			"396:7_17:MUSHROOM_COLLECTION": {
+				"collected": 5671
+			},
+			"396:7_20:PUMPKIN": {
+				"collected": 6880
+			},
+			"396:7_20:WHEAT": {
+				"collected": 7040
+			},
+			"396:7_29:MELON": {
+				"collected": 1763939
+			},
+			"396:7_29:NETHER_STALK": {
+				"collected": 20480
+			},
+			"398:1_23:MUSHROOM_COLLECTION": {
+				"collected": 100
+			},
+			"398:8_31:CARROT_ITEM": {
+				"collected": 33120
+			},
+			"398:8_31:MELON": {
+				"collected": 11360
+			},
+			"399:1_2:CARROT_ITEM": {
+				"collected": 1
+			},
+			"406:3_6:NETHER_STALK": {
+				"collected": 20480
+			}
+		}
+	},
+	"chocolate": {
+		"employees": {
+			"bro": 223,
+			"cousin": 223,
+			"sis": 223,
+			"father": 223,
+			"grandma": 223,
+			"dog": 223,
+			"uncle": 223
+		},
+		"chocolate": {
+			"current": 60000000000,
+			"total": 990866407565,
+			"sincePrestige": 942576975010
+		},
+		"timeTower": {
+			"charges": 3,
+			"level": 15
+		},
+		"upgrades": {
+			"click": 9,
+			"multiplier": 20,
+			"rabbitRarity": 20
+		},
+		"goldenClick": {
+			"amount": 1,
+			"year": 362
+		},
+		"barnCapacity": 245,
+		"prestige": 6
+	}
+}
