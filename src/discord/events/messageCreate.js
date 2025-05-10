@@ -89,8 +89,11 @@ async function bridge(message, consoleChannel, guildChannel, officerChannel) {
 	if (config.bridge.guild.enabled && message.channel.id === guildChannel.id) {
 		let content;
 		if (message.reference) {
-			const repliedTo = await message.channel.messages.fetch(message.reference.messageId);
-			const targetUser = repliedTo.attachments.first()?.name.replace('.png', '') ?? repliedTo.member.displayName;
+			const originalMessage = await message.channel.messages.fetch(message.reference.messageId);
+			const targetUser =
+				originalMessage.embeds?.[0].data.author.name.split(' ')?.[0] ??
+				originalMessage.attachments.first()?.name?.replace('.png', '') ??
+				originalMessage.member?.displayName
 
 			content = `${user} -> ${targetUser}: ${msg}`;
 		}
