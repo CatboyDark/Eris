@@ -3,3 +3,4 @@ node_modules
 auth.json
 config.json
 **/test.js
+/cache

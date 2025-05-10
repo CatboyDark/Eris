@@ -15,8 +15,8 @@ export default {
 
 			const ign = interaction.options.getString('ign');
 			const player = await getPlayer(ign).catch((e) => {
-				if (e.message.includes('Player does not exist.')) return message.reply('Invalid player!');
-				if (e.message.includes('Player has never logged into Hypixel.')) return message.reply(`${message.options.ign} doesn't play Hypixel!`);
+				if (e.message.includes('Player does not exist.')) return interaction.reply('Invalid player!');
+				if (e.message.includes('Player has never logged into Hypixel.')) return interaction.reply(`${ign} doesn't play Hypixel!`);
 			});
 
 			const discord = await getDiscord(player);

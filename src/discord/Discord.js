@@ -37,8 +37,8 @@ async function Discord() { // Credits: Kathund
 		slashCommands.push(slashCmd.data.toJSON());
 	}
 
-	const rest = new REST({ version: '10' }).setToken(auth.token);
-	await rest.put(Routes.applicationCommands(Buffer.from(auth.token.split('.')[0], 'base64').toString('ascii')), { body: slashCommands });
+	const rest = new REST({ version: '10' }).setToken(auth.discordToken);
+	await rest.put(Routes.applicationCommands(Buffer.from(auth.discordToken.split('.')[0], 'base64').toString('ascii')), { body: slashCommands });
 
 	const plainDir = fs.readdirSync('./src/discord/commands/plain').filter(file => file.endsWith('.js'));
 	const config = readConfig();
@@ -72,7 +72,7 @@ async function Discord() { // Credits: Kathund
 		discord.on(event.name, (...args) => event.execute(...args));
 	};
 
-	await discord.login(auth.token);
+	await discord.login(auth.discordToken);
 
 	return new Promise(async (resolve) => {
 		discord.once('ready', async () => {

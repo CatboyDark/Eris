@@ -39,6 +39,7 @@ async function ChatManager() {
 			await bridge(msg, rawMsg, guildChannel, config.bridge.guild.fancy);
 		}
 		if (config.bridge.officer.enabled && msg.channel === 'officer') {
+			console.log(msg)
 			if (msg.sender === minecraft.username && isBridgeMessage(msg.content)) return;
 
 			await bridge(msg, rawMsg, officerChannel, config.bridge.officer.fancy);
