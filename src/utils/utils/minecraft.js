@@ -102,13 +102,13 @@ const getCata = {
 			dungeons.dungeon_types.catacombs.times_played[5] +
 			dungeons.dungeon_types.catacombs.times_played[6] +
 			dungeons.dungeon_types.catacombs.times_played[7] +
+			dungeons.dungeon_types.master_catacombs.times_played[0] +
 			dungeons.dungeon_types.master_catacombs.times_played[1] +
 			dungeons.dungeon_types.master_catacombs.times_played[2] +
 			dungeons.dungeon_types.master_catacombs.times_played[3] +
 			dungeons.dungeon_types.master_catacombs.times_played[4] +
 			dungeons.dungeon_types.master_catacombs.times_played[5] +
-			dungeons.dungeon_types.master_catacombs.times_played[6] +
-			dungeons.dungeon_types.master_catacombs.times_played[7]
+			dungeons.dungeon_types.master_catacombs.times_played[6]
 
 		const cataData = {
 			level: getCataLevels.overflow(dungeons.dungeon_types.catacombs.experience).toFixed(1),
