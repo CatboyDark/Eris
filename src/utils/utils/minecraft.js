@@ -94,21 +94,21 @@ const getCata = {
 		const dungeons = profile.members[uuid].dungeons;
 
 		const totalRuns =
-			dungeons.dungeon_types.catacombs.times_played[0] +
-			dungeons.dungeon_types.catacombs.times_played[1] +
-			dungeons.dungeon_types.catacombs.times_played[2] +
-			dungeons.dungeon_types.catacombs.times_played[3] +
-			dungeons.dungeon_types.catacombs.times_played[4] +
-			dungeons.dungeon_types.catacombs.times_played[5] +
-			dungeons.dungeon_types.catacombs.times_played[6] +
-			dungeons.dungeon_types.catacombs.times_played[7] +
-			dungeons.dungeon_types.master_catacombs.times_played[0] +
-			dungeons.dungeon_types.master_catacombs.times_played[1] +
-			dungeons.dungeon_types.master_catacombs.times_played[2] +
-			dungeons.dungeon_types.master_catacombs.times_played[3] +
-			dungeons.dungeon_types.master_catacombs.times_played[4] +
-			dungeons.dungeon_types.master_catacombs.times_played[5] +
-			dungeons.dungeon_types.master_catacombs.times_played[6]
+			dungeons.dungeon_types.catacombs.tier_completions[0] +
+			dungeons.dungeon_types.catacombs.tier_completions[1] +
+			dungeons.dungeon_types.catacombs.tier_completions[2] +
+			dungeons.dungeon_types.catacombs.tier_completions[3] +
+			dungeons.dungeon_types.catacombs.tier_completions[4] +
+			dungeons.dungeon_types.catacombs.tier_completions[5] +
+			dungeons.dungeon_types.catacombs.tier_completions[6] +
+			dungeons.dungeon_types.catacombs.tier_completions[7] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[1] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[2] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[3] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[4] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[5] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[6] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[7]
 
 		const cataData = {
 			level: getCataLevels.overflow(dungeons.dungeon_types.catacombs.experience).toFixed(1),
@@ -169,21 +169,21 @@ const getCata = {
 		const dungeons = profile.members[uuid].dungeons;
 
 		const totalRuns =
-			dungeons.dungeon_types.catacombs.times_played[0] +
-			dungeons.dungeon_types.catacombs.times_played[1] +
-			dungeons.dungeon_types.catacombs.times_played[2] +
-			dungeons.dungeon_types.catacombs.times_played[3] +
-			dungeons.dungeon_types.catacombs.times_played[4] +
-			dungeons.dungeon_types.catacombs.times_played[5] +
-			dungeons.dungeon_types.catacombs.times_played[6] +
-			dungeons.dungeon_types.catacombs.times_played[7] +
-			dungeons.dungeon_types.master_catacombs.times_played[0] +
-			dungeons.dungeon_types.master_catacombs.times_played[1] +
-			dungeons.dungeon_types.master_catacombs.times_played[2] +
-			dungeons.dungeon_types.master_catacombs.times_played[3] +
-			dungeons.dungeon_types.master_catacombs.times_played[4] +
-			dungeons.dungeon_types.master_catacombs.times_played[5] +
-			dungeons.dungeon_types.master_catacombs.times_played[6]
+			dungeons.dungeon_types.catacombs.tier_completions[0] +
+			dungeons.dungeon_types.catacombs.tier_completions[1] +
+			dungeons.dungeon_types.catacombs.tier_completions[2] +
+			dungeons.dungeon_types.catacombs.tier_completions[3] +
+			dungeons.dungeon_types.catacombs.tier_completions[4] +
+			dungeons.dungeon_types.catacombs.tier_completions[5] +
+			dungeons.dungeon_types.catacombs.tier_completions[6] +
+			dungeons.dungeon_types.catacombs.tier_completions[7] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[1] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[2] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[3] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[4] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[5] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[6] +
+			dungeons.dungeon_types.master_catacombs.tier_completions[7]
 
 		const cataData = {
 			level: getCataLevels.overflow(dungeons.dungeon_types.catacombs.experience).toFixed(1),
