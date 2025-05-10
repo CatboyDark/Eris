@@ -42,7 +42,7 @@ async function bridge(msg, rawMsg, channel, fancy) {
 function filter(message, channel) {
 	const msg = message
 		.replace(/\\/g, '\\\\')
-		.replace(/([*_~#\-\[\]`>q|])/g, '\\$1')
+		.replace(/([*_~#\-\[\]`>|])/g, '\\$1')
 		.replace('@everyone', '(everyone)')
 		.replace('@here', '(here)')
 		.replace(/<@!?(\d+)>/g, (_, userID) => {
