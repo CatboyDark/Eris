@@ -37,7 +37,7 @@ async function bridgeCommands(message, guildChannel, officerChannel) {
 	if (message.channel.id !== guildChannel.id && message.channel.id !== officerChannel.id) return;
 
 	const args = message.content.match(/"([^"]+)"|'([^']+)'|\S+/g)?.map(arg => arg.replace(/^["']|["']$/g, '')) || [];
-	const isCommand = args[0].toLowerCase();
+	const isCommand = typeof args[0] === 'string' ? args[0].toLowerCase() : null;
 
 	if (!isCommand || !mcCommands.has(isCommand)) return;
 	const command = mcCommands.get(isCommand);
