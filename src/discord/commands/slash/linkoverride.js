@@ -43,7 +43,7 @@ export default {
 			}
 			catch (e) {
 				if (e.message.includes('Missing Permissions')) {
-					await Error('! Link Override !', 'I don\'t have permission to assign nicknames!\n\n(I am also unable to nick the server owner)');
+					await Error('! Link Override !', 'I don\'t have permission to assign nicknames!\n(I am also unable to nick the server owner.)');
 				}
 				else {
 					await Error('! Link Override !', e);

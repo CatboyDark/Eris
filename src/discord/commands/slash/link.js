@@ -40,7 +40,7 @@ export default {
 			}
 			catch (e) {
 				if (e.message.includes('Missing Permissions')) {
-					await Error('! Member Linking !', 'I don\'t have permission to assign nicknames!\n\n(I am also unable to nick the server owner)');
+					await Error('! Member Linking !', 'I don\'t have permission to assign nicknames!\n(I am also unable to nick the server owner)');
 				}
 				else {
 					await Error('! Member Linking !', e);

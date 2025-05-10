@@ -97,7 +97,7 @@ function getMessage(message) {
 		: parts[index];
 	index++;
 
-	const guildRank = channel === 'guild' && parts[index] && parts[index].startsWith('[')
+	const guildRank = (channel === 'guild' || channel === 'officer') && parts[index] && parts[index].startsWith('[')
 		? parts[index].substring(1, parts[index].indexOf(']'))
 		: null;
 
