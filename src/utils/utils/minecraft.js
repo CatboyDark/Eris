@@ -126,22 +126,22 @@ const getCata = {
 				  dungeons.player_classes.tank.experience
 				];
 				if (levels.some(xp => getCataLevels.overflow(xp) < 50)) {
-				  return (
-					getCataLevels.capped(dungeons.player_classes.healer.experience) +
-					getCataLevels.capped(dungeons.player_classes.mage.experience) +
-					getCataLevels.capped(dungeons.player_classes.berserk.experience) +
-					getCataLevels.capped(dungeons.player_classes.archer.experience) +
-					getCataLevels.capped(dungeons.player_classes.tank.experience)
-				  ) / 5;
+					return (
+						getCataLevels.capped(dungeons.player_classes.healer.experience) +
+						getCataLevels.capped(dungeons.player_classes.mage.experience) +
+						getCataLevels.capped(dungeons.player_classes.berserk.experience) +
+						getCataLevels.capped(dungeons.player_classes.archer.experience) +
+						getCataLevels.capped(dungeons.player_classes.tank.experience)
+					) / 5;
 				}
 				else {
 				  return (
-					getCataLevels.overflow(dungeons.player_classes.healer.experience) +
-					getCataLevels.overflow(dungeons.player_classes.mage.experience) +
-					getCataLevels.overflow(dungeons.player_classes.berserk.experience) +
-					getCataLevels.overflow(dungeons.player_classes.archer.experience) +
-					getCataLevels.overflow(dungeons.player_classes.tank.experience)
-				  ) / 5;
+						getCataLevels.overflow(dungeons.player_classes.healer.experience) +
+						getCataLevels.overflow(dungeons.player_classes.mage.experience) +
+						getCataLevels.overflow(dungeons.player_classes.berserk.experience) +
+						getCataLevels.overflow(dungeons.player_classes.archer.experience) +
+						getCataLevels.overflow(dungeons.player_classes.tank.experience)
+					) / 5;
 				}
 			  })().toFixed(1),
 			secrets: dungeons.secrets,
@@ -201,22 +201,22 @@ const getCata = {
 				  dungeons.player_classes.tank.experience
 				];
 				if (levels.some(xp => getCataLevels.overflow(xp) < 50)) {
-				  return (
-					getCataLevels.capped(dungeons.player_classes.healer.experience) +
-					getCataLevels.capped(dungeons.player_classes.mage.experience) +
-					getCataLevels.capped(dungeons.player_classes.berserk.experience) +
-					getCataLevels.capped(dungeons.player_classes.archer.experience) +
-					getCataLevels.capped(dungeons.player_classes.tank.experience)
-				  ) / 5;
+					return (
+						getCataLevels.capped(dungeons.player_classes.healer.experience) +
+						getCataLevels.capped(dungeons.player_classes.mage.experience) +
+						getCataLevels.capped(dungeons.player_classes.berserk.experience) +
+						getCataLevels.capped(dungeons.player_classes.archer.experience) +
+						getCataLevels.capped(dungeons.player_classes.tank.experience)
+					) / 5;
 				}
 				else {
-				  return (
-					getCataLevels.overflow(dungeons.player_classes.healer.experience) +
-					getCataLevels.overflow(dungeons.player_classes.mage.experience) +
-					getCataLevels.overflow(dungeons.player_classes.berserk.experience) +
-					getCataLevels.overflow(dungeons.player_classes.archer.experience) +
-					getCataLevels.overflow(dungeons.player_classes.tank.experience)
-				  ) / 5;
+					return (
+						getCataLevels.overflow(dungeons.player_classes.healer.experience) +
+						getCataLevels.overflow(dungeons.player_classes.mage.experience) +
+						getCataLevels.overflow(dungeons.player_classes.berserk.experience) +
+						getCataLevels.overflow(dungeons.player_classes.archer.experience) +
+						getCataLevels.overflow(dungeons.player_classes.tank.experience)
+					) / 5;
 				}
 			  })().toFixed(1),
 			secrets: dungeons.secrets,
