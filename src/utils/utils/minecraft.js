@@ -675,7 +675,6 @@ async function getOnlineMembers() {
 					}
 
 					resolve({ guildName, membersOnline, membersTotal, onlineList });
-					console.log(response);
 				}
 			}
 			else if (capturing) {
