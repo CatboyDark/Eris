@@ -13,7 +13,7 @@ export default
 		}));
 
 		await interaction.reply({ embeds: [createMsg({
-			desc: `### ${guildName}\nOnline Members: ${membersOnline}/${membersTotal}`,
+			desc: `### ${guildName}\n\nOnline Members: ${membersOnline}/${membersTotal}\n\u200B`,
 			fields
 		})] });
 	}
