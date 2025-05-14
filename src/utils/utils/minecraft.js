@@ -2,6 +2,7 @@ import Canvas from 'canvas';
 import { AttachmentBuilder } from 'discord.js';
 import fs from 'fs';
 import auth from '../../../auth.json' with { type: 'json' };
+import { minecraft } from '../../minecraft/Minecraft.js';
 import hypixel from '../api/hypixel.js';
 import { readConfig } from '../utils.js';
 
@@ -16,7 +17,8 @@ export {
 	getSlayers,
 	getUser,
 	messageQ,
-	send
+	send,
+	getOnlineMembers
 };
 
 async function getUser(user) {
@@ -629,4 +631,59 @@ const messageQ = [];
 
 function send(channel, user = null, content, discordMessage = null) {
 	messageQ.push({ channel, user, content, discordMessage });
+}
+
+async function getOnlineMembers() {
+	minecraft.chat('/g online');
+
+	return await new Promise((resolve) => {
+		let capturing = false;
+		const response = [];
+
+		const messageListener = (responseMessage) => {
+			const msg = responseMessage.toString().trim();
+
+			if (msg === '-----------------------------------------------------') {
+				if (!capturing) {
+					capturing = true;
+					return;
+				}
+				else {
+					minecraft.removeListener('message', messageListener);
+
+					const guildName = response.find(line => line.includes('Guild Name:')).split('Guild Name:')[1].trim();
+					const membersOnline = response.find(line => line.includes('Online Members:')).split('Online Members:')[1].trim();
+					const membersTotal = response.find(line => line.includes('Total Members:')).split('Total Members:')[1].trim();
+
+
+					const onlineList = [];
+					let currentRank = null;
+
+					for (const line of response) {
+						const trimmed = line.trim();
+
+						if (trimmed.startsWith('--') && trimmed.endsWith('--')) {
+							currentRank = trimmed.slice(2, -2).trim();
+							onlineList.push({ rank: currentRank, members: [] });
+						}
+						else if (trimmed.includes('●') && currentRank) {
+							const members = trimmed.split('●').map(member => {
+								return member.replace(/\[.*?\]/g, '').trim();
+							}).filter(Boolean);
+
+							const rankEntry = onlineList.find(entry => entry.rank === currentRank);
+							rankEntry.members.push(...members);
+						}
+					}
+
+					resolve({ guildName, membersOnline, membersTotal, onlineList });
+				}
+			}
+			else if (capturing) {
+				response.push(msg);
+			}
+		};
+
+		minecraft.on('message', messageListener);
+	});
 }
