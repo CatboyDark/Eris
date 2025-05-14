@@ -446,15 +446,42 @@ const getNw = {
 
 const getSlayers = {
 	highest: async function (player) {
-		let slayers = {};
+		let slayers;
 
 		const profiles = await hypixel.getSkyblockMember(player.uuid);
 		if (!profiles) return null;
 
+		let thisXP = 0;
 		for (const profile of profiles.values()) {
-			const slayer = profile.slayer.zombie.xp;
-			if (slayer) {
-				slayers = slayer;
+			const xp = profile.slayer.zombie.xp + profile.slayer.spider.xp + profile.slayer.wolf.xp + profile.slayer.enderman.xp + profile.slayer.vampire.xp + profile.slayer.blaze.xp;
+			if (xp > thisXP) {
+				thisXP = xp;
+				slayers = {
+					zombies: {
+						level: profile.slayer.zombie.level,
+						xp: profile.slayer.zombie.xp
+					},
+					spiders: {
+						level: profile.slayer.spider.level,
+						xp: profile.slayer.spider.xp
+					},
+					wolves: {
+						level: profile.slayer.wolf.level,
+						xp: profile.slayer.wolf.xp
+					},
+					enders: {
+						level: profile.slayer.enderman.level,
+						xp: profile.slayer.enderman.xp
+					},
+					vamps: {
+						level: profile.slayer.vampire.level,
+						xp: profile.slayer.vampire.xp
+					},
+					blazes: {
+						level: profile.slayer.blaze.level,
+						xp: profile.slayer.blaze.xp
+					}
+				};
 			}
 		}
 

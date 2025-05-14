@@ -41,7 +41,7 @@ export default {
 };
 
 function format(value) {
-	if (value >= 1e12) return Math.floor(12345678901234 / 1e10) / 100 + 'T';
+	if (value >= 1e12) return Math.floor(value / 1e10) / 100 + 'T';
 	if (value >= 1e9) return Math.floor(value / 1e8) / 10 + 'B';
 	if (value >= 1e6) return Math.floor(value / 1e5) / 10 + 'M';
 	if (value >= 1e3) return Math.floor(value / 1e3) + 'k';
