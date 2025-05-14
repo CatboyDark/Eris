@@ -90,7 +90,6 @@ async function bridge(message, consoleChannel, guildChannel, officerChannel) {
 		let content;
 		if (message.reference) {
 			const originalMessage = await message.channel.messages.fetch(message.reference.messageId);
-			console.log(originalMessage);
 			const targetUser =
 				originalMessage.embeds?.[0]?.data.author.name.split(' ')?.[0] ??
 				originalMessage.attachments.first()?.name?.replace('.png', '') ??
