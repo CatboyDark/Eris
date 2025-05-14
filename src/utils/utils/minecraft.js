@@ -11,14 +11,12 @@ export {
 	getCata,
 	getDiscord,
 	getGuild,
-	getNw,
-	getPlayer,
+	getNw, getOnlineMembers, getPlayer,
 	getSBLevel,
 	getSlayers,
 	getUser,
 	messageQ,
-	send,
-	getOnlineMembers
+	send
 };
 
 async function getUser(user) {
@@ -677,6 +675,7 @@ async function getOnlineMembers() {
 					}
 
 					resolve({ guildName, membersOnline, membersTotal, onlineList });
+					console.log(response);
 				}
 			}
 			else if (capturing) {
