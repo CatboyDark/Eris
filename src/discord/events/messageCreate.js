@@ -94,7 +94,7 @@ async function bridge(message, consoleChannel, guildChannel, officerChannel) {
 			const targetUser =
 				originalMessage.embeds?.[0]?.data.author.name.split(' ')?.[0] ??
 				originalMessage.attachments.first()?.name?.replace('.png', '') ??
-				originalMessage.member?.displayName
+				originalMessage.member?.displayName;
 
 			content = `${user} -> ${targetUser}: ${msg}`;
 		}
@@ -112,7 +112,7 @@ async function bridge(message, consoleChannel, guildChannel, officerChannel) {
 			const targetUser =
 				originalMessage.embeds?.[0]?.data.author.name.split(' ')?.[0] ??
 				originalMessage.attachments.first()?.name?.replace('.png', '') ??
-				originalMessage.member?.displayName
+				originalMessage.member?.displayName;
 
 			content = `${user} -> ${targetUser}: ${msg}`;
 		}

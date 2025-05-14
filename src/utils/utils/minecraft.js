@@ -16,7 +16,6 @@ export {
 	getSlayers,
 	getUser,
 	messageQ,
-	nFormat,
 	send
 };
 
@@ -108,7 +107,7 @@ const getCata = {
 			dungeons.dungeon_types.master_catacombs.tier_completions[4] +
 			dungeons.dungeon_types.master_catacombs.tier_completions[5] +
 			dungeons.dungeon_types.master_catacombs.tier_completions[6] +
-			dungeons.dungeon_types.master_catacombs.tier_completions[7]
+			dungeons.dungeon_types.master_catacombs.tier_completions[7];
 
 		const cataData = {
 			level: getCataLevels.overflow(dungeons.dungeon_types.catacombs.experience).toFixed(1),
@@ -183,7 +182,7 @@ const getCata = {
 			dungeons.dungeon_types.master_catacombs.tier_completions[4] +
 			dungeons.dungeon_types.master_catacombs.tier_completions[5] +
 			dungeons.dungeon_types.master_catacombs.tier_completions[6] +
-			dungeons.dungeon_types.master_catacombs.tier_completions[7]
+			dungeons.dungeon_types.master_catacombs.tier_completions[7];
 
 		const cataData = {
 			level: getCataLevels.overflow(dungeons.dungeon_types.catacombs.experience).toFixed(1),
@@ -424,9 +423,9 @@ const getNw = {
 		}
 
 		return {
-			networth: nFormat(nw.networth),
-			purse: nFormat(nw.purse),
-			bank: nFormat(nw.bank)
+			networth: nw.networth,
+			purse: nw.purse,
+			bank: nw.bank
 		};
 	},
 
@@ -438,20 +437,12 @@ const getNw = {
 		const nw = await profile.getNetworth();
 
 		return {
-			networth: nFormat(nw.networth),
-			purse: nFormat(nw.purse),
-			bank: nFormat(nw.bank)
+			networth: nw.networth,
+			purse: nw.purse,
+			bank: nw.bank
 		};
 	}
 };
-
-function nFormat(value) {
-	if (value >= 1e12) return (Math.floor(value / 1e10) / 100).toFixed(2) + 'T';
-	if (value >= 1e9) return (Math.floor(value / 1e8) / 10).toFixed(1) + 'B';
-	if (value >= 1e6) return Math.floor(value / 1e6) + 'M';
-	if (value >= 1e3) return Math.floor(value / 1e3) + 'k';
-	return Math.floor(value.toString());
-}
 
 const getSlayers = {
 	highest: async function (player) {
@@ -461,7 +452,7 @@ const getSlayers = {
 		if (!profiles) return null;
 
 		for (const profile of profiles.values()) {
-			const slayer = await profile.getSlayerXP();
+			const slayer = profile.slayer.zombie.xp;
 			if (slayer) {
 				slayers = slayer;
 			}
@@ -475,9 +466,32 @@ const getSlayers = {
 		if (!profiles) return null;
 
 		const profile = [...profiles.values()].find((profile) => profile.selected);
-		const slayer = await profile.getSlayerXP();
-
-		return slayer;
+		return {
+			zombies: {
+				level: profile.slayer.zombie.level,
+				xp: profile.slayer.zombie.xp
+			},
+			spiders: {
+				level: profile.slayer.spider.level,
+				xp: profile.slayer.spider.xp
+			},
+			wolves: {
+				level: profile.slayer.wolf.level,
+				xp: profile.slayer.wolf.xp
+			},
+			enders: {
+				level: profile.slayer.enderman.level,
+				xp: profile.slayer.enderman.xp
+			},
+			vamps: {
+				level: profile.slayer.vampire.level,
+				xp: profile.slayer.vampire.xp
+			},
+			blazes: {
+				level: profile.slayer.blaze.level,
+				xp: profile.slayer.blaze.xp
+			}
+		};
 	}
 };
 

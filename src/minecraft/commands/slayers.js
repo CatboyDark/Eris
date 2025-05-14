@@ -24,18 +24,26 @@ export default {
 
 		let slayers;
 		if (message.options.profile === '-h') {
-			cata = await getSlayers.highest(player).catch((e) => {
+			slayers = await getSlayers.highest(player).catch((e) => {
 				if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
 				console.log(e);
 			});
 		}
 		else {
-			cata = await getSlayers.current(player).catch((e) => {
+			slayers = await getSlayers.current(player).catch((e) => {
 				if (e.message.includes('The player has no skyblock profiles.')) return message.reply(`${player.nickname} doesn't play Skyblock!`);
 				console.log(e);
 			});
 		}
 
-		await message.reply(`${player.nickname}'s Slayers: ௐ${slayers.levelRevs} ੭${slayers.levelTarans} ❂${slayers.levelWolves} ᛃ${slayers.levelEnders} 〣${slayers.levelBlazes} ჶ${slayers.levelVamps} Total Slayer XP:${slayers.totalXP}`);
+		await message.reply(`${player.nickname}'s Slayers: Zombie ${slayers.zombies.level} (${format(slayers.zombies.xp)}) | Spider ${slayers.spiders.level} (${format(slayers.spiders.xp)}) | Wolf ${slayers.wolves.level} (${format(slayers.wolves.xp)}) | Ender ${slayers.enders.level} (${format(slayers.enders.xp)}) | Blaze ${slayers.blazes.level} (${format(slayers.blazes.xp)}) | Vamp ${slayers.vamps.level} (${format(slayers.vamps.xp)})`);
 	}
 };
+
+function format(value) {
+	if (value >= 1e12) return (Math.floor(value / 1e10) / 100).toFixed(2) + 'T';
+	if (value >= 1e9) return (Math.floor(value / 1e8) / 10).toFixed(1) + 'B';
+	if (value >= 1e6) return (Math.floor(value / 1e6)).toFixed(1) + 'M';
+	if (value >= 1e3) return Math.floor(value / 1e3) + 'k';
+	return Math.floor(value.toString());
+}

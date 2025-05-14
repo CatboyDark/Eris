@@ -36,6 +36,14 @@ export default {
 
 		if (!nw) return;
 
-		message.reply(`${player.nickname}'s Networth: ${nw.networth} | Purse: ${nw.purse} | Bank: ${nw.bank}`);
+		message.reply(`${player.nickname}'s Networth: ${format(nw.networth)} | Purse: ${format(nw.purse)} | Bank: ${format(nw.bank)}`);
 	}
 };
+
+function format(value) {
+	if (value >= 1e12) return (Math.floor(value / 1e10) / 100).toFixed(2) + 'T';
+	if (value >= 1e9) return (Math.floor(value / 1e8) / 10).toFixed(1) + 'B';
+	if (value >= 1e6) return Math.floor(value / 1e6) + 'M';
+	if (value >= 1e3) return Math.floor(value / 1e3) + 'k';
+	return Math.floor(value.toString());
+}

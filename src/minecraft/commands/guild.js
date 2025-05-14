@@ -1,4 +1,4 @@
-import { getPlayer, getGuild, getUser, nFormat } from '../../utils/utils.js';
+import { getPlayer, getGuild, getUser } from '../../utils/utils.js';
 
 export default {
 	name: 'guild',
@@ -13,7 +13,7 @@ export default {
 			const guild = await getGuild.name(message.options.entry);
 
 			const guildMaster = await getUser(guild.members.find(member => member.rank === 'Guild Master').uuid);
-			return message.reply(`${guild.name}: Level: ${Number(Math.floor(guild.level.toFixed(1)))} | GM: ${guildMaster.ign} | Members: ${guild.members.length}/125 | Weekly GXP: ${nFormat(guild.totalWeeklyGexp.toFixed(1))} `);
+			return message.reply(`${guild.name}: Level: ${Number(Math.floor(guild.level.toFixed(1)))} | GM: ${guildMaster.ign} | Members: ${guild.members.length}/125 | Weekly GXP: ${format(guild.totalWeeklyGexp.toFixed(1))} `);
 		}
 
 		const player = await getPlayer(message.options.entry ? message.options.entry : message.sender).catch((e) => {
@@ -32,3 +32,11 @@ export default {
 		message.reply(`${player.nickname}: ${guild.name} | Weekly GXP: ${playerWeeklyGXP}`);
 	}
 };
+
+function format(value) {
+	if (value >= 1e12) return (Math.floor(value / 1e10) / 100).toFixed(2) + 'T';
+	if (value >= 1e9) return (Math.floor(value / 1e8) / 10).toFixed(1) + 'B';
+	if (value >= 1e6) return Math.floor(value / 1e6) + 'M';
+	if (value >= 1e3) return Math.floor(value / 1e3) + 'k';
+	return Math.floor(value.toString());
+}
