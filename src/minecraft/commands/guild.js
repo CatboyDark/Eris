@@ -8,7 +8,6 @@ export default {
 	options: ['entry', 'args'],
 
 	async execute(message) {
-
 		if (message.options.args === '-g') {
 			const guild = await getGuild.name(message.options.entry);
 

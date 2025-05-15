@@ -16,7 +16,8 @@ export {
 	getSlayers,
 	getUser,
 	messageQ,
-	send
+	send,
+	getSkills
 };
 
 async function getUser(user) {
@@ -685,3 +686,56 @@ async function getOnlineMembers() {
 		minecraft.on('message', messageListener);
 	});
 }
+
+const getSkills = {
+	highest: async function (player) {
+		let skills = null;
+
+		const profiles = await hypixel.getSkyblockMember(player.uuid);
+		if (!profiles) return null;
+
+		let thisSkills = 0;
+		for (const profile of profiles.values()) {
+			if (profile.skills.total > thisSkills) {
+				thisSkills = profile.skills.total;
+				skills = profile.skills;
+			}
+		}
+
+		return {
+			farming: skills.farming.level,
+			mining: skills.mining.level,
+			combat: skills.combat.level,
+			fishing: skills.fishing.level,
+			foraging: skills.foraging.level,
+			enchanting: skills.enchanting.level,
+			alchemy: skills.alchemy.level,
+			carpentry: skills.carpentry.level,
+			taming: skills.taming.level,
+			runecrafting: skills.runecrafting.level,
+			social: skills.social.level,
+			skillAverage: skills.average
+		};
+	},
+
+	current: async function (player) {
+		const profiles = await hypixel.getSkyblockMember(player.uuid);
+		if (!profiles) return null;
+
+		const profile = [...profiles.values()].find((profile) => profile.selected);
+		return {
+			farming: profile.skills.farming.level,
+			mining: profile.skills.mining.level,
+			combat: profile.skills.combat.level,
+			fishing: profile.skills.fishing.level,
+			foraging: profile.skills.foraging.level,
+			enchanting: profile.skills.enchanting.level,
+			alchemy: profile.skills.alchemy.level,
+			carpentry: profile.skills.carpentry.level,
+			taming: profile.skills.taming.level,
+			runecrafting: profile.skills.runecrafting.level,
+			social: profile.skills.social.level,
+			skillAverage: profile.skills.average
+		};
+	}
+};

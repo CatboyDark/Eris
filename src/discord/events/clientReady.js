@@ -32,7 +32,7 @@ export default {
 
 		await initEmojis(client);
 
-		// updateCheck(client, config);
+		// updateCheck(client, config);	
 		// schedule('0 */6 * * *', // Once every 6 hours
 		// 	async () => updateCheck(client, config)
 		// );
