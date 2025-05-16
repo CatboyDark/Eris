@@ -12,12 +12,10 @@ export {
 	getDiscord,
 	getGuild,
 	getNw, getOnlineMembers, getPlayer,
-	getSBLevel,
-	getSlayers,
+	getSBLevel, getSkills, getSlayers,
 	getUser,
 	messageQ,
-	send,
-	getSkills
+	send
 };
 
 async function getUser(user) {
@@ -45,6 +43,8 @@ async function getPlayer(user) {
 }
 
 async function getDiscord(player) {
+	console.log(player);
+	console.log(player.socialMedia);
 	const discord = player.socialMedia.find((media) => media.id === 'DISCORD');
 	return discord ? discord.link.toLowerCase() : null;
 }
