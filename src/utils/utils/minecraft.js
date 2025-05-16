@@ -43,8 +43,6 @@ async function getPlayer(user) {
 }
 
 async function getDiscord(player) {
-	console.log(player);
-	console.log(player.socialMedia);
 	const discord = player.socialMedia.find((media) => media.id === 'DISCORD');
 	return discord ? discord.link.toLowerCase() : null;
 }

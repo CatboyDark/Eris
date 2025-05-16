@@ -14,10 +14,18 @@ export default {
 			await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
 			const ign = interaction.options.getString('ign');
-			const player = await getPlayer(ign).catch((e) => {
-				if (e.message.includes('Player does not exist.')) return interaction.editReply('Invalid player!');
-				if (e.message.includes('Player has never logged into Hypixel.')) return interaction.editReply(`${ign} doesn't play Hypixel!`);
-			});
+			let player;
+			try {
+				player = await getPlayer(ign);
+			}
+			catch (e) {
+				if (e.message.includes('Player does not exist.')) {
+					return interaction.editReply({ embeds: [createMsg({ color: 'Red', desc: '**Invalid player!**' })] });
+				}
+				if (e.message.includes('Player has never logged into Hypixel.')) {
+					return interaction.editReply({ embeds: [createMsg({ color: 'Red', desc: `**${ign} doesn't play Hypixel!**` })] });
+				}
+			}
 
 			const discord = await getDiscord(player);
 
