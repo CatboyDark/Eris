@@ -20,7 +20,7 @@ async function Minecraft() {
 		version: '1.8.9',
 		viewDistance: 'tiny',
 		chatLengthLimit: 256,
-		profilesFolder: './cache'
+		profilesFolder: './cache/minecraft'
 	};
 
 	minecraft = mineflayer.createBot(bot);
