@@ -43,7 +43,7 @@ async function Minecraft() {
 			}
 
 			command.name = command.prefix ? `${config.prefix}${command.name}` : command.name;
-			mcCommands.set(command.name, command);
+			mcCommands.set(command.name.toLowerCase(), command);
 
 			if (command.aliases) {
 				for (const alias of command.aliases) {
