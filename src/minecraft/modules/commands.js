@@ -12,7 +12,7 @@ async function commands(msg) {
 	if (!isCommand || !mcCommands.has(isCommand)) return;
 	const command = mcCommands.get(isCommand);
 
-	if (!msg.content.startsWith(isCommand) || !command.channel.includes(msg.channel)) return;
+	if (!msg.content.startsWith(isCommand.toLowerCase()) || !command.channel.includes(msg.channel)) return;
 
 	const options = {};
 	if (command.options) {
