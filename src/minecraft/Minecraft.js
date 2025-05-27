@@ -38,7 +38,7 @@ async function Minecraft() {
 
 		for (const command of cList) {
 			if (!command) {
-				display.y(`Invalid command: ${cFile}`);
+				display.y(`Invalid command: ${cFile.replace('.js', '')}`);
 				continue;
 			}
 

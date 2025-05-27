@@ -32,7 +32,7 @@ export default {
 
 		await initEmojis(client);
 
-		// updateCheck(client, config);	
+		// updateCheck(client, config);
 		// schedule('0 */6 * * *', // Once every 6 hours
 		// 	async () => updateCheck(client, config)
 		// );
@@ -121,40 +121,25 @@ async function initEmojis(client) {
 async function logGXP() {
 	try {
 		const db = getMongo('gxp', config.guild.name, gxpSchema);
-
-		const data = new Map();
+		const data = [];
 
 		for (const member of guild.members) {
 			const { uuid, expHistory } = member;
 
 			for (const { day, exp } of expHistory) {
 				const date = Number(day.replace(/-/g, ''));
-				const entries = data.get(date) || [];
-				const existingEntry = entries.find(entry => entry.uuid === uuid);
-				if (existingEntry) {
-					existingEntry.gxp = exp;
-				}
-				else {
-					entries.push({
-						uuid: uuid,
-						gxp: exp
-					});
-				}
-				data.set(date, entries);
+
+				data.push({
+					updateOne: {
+						filter: { uuid, date },
+						update: { $set: { gxp: exp } },
+						upsert: true
+					}
+				});
 			}
 		}
 
-		const sortedData = [...data].sort(([a], [b]) => b - a);
-
-		const bulk = sortedData.map(([date, entries]) => ({
-			updateOne: {
-				filter: { date },
-				update: { $set: { entries } },
-				upsert: true
-			}
-		}));
-
-		await db.bulkWrite(bulk);
+		await db.bulkWrite(data);
 
 	}
 	catch (e) {
