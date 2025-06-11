@@ -1,136 +1,14 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ModalBuilder, PermissionFlagsBits, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, Team, TextInputBuilder, TextInputStyle } from 'discord.js';
+import { ActionRowBuilder, ButtonStyle, ContainerBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, PermissionFlagsBits, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js';
 import { discord } from '../../discord/Discord.js';
-import { display, getGuild, getSBLevel, readConfig } from '../utils.js';
 
 export {
-	createForm,
-	createMsg,
-	createRow,
-	createSlash,
-	Error,
 	getChannel,
-	getEmoji,
-	updateRoles
+	createSlash,
+	createMsg
 };
 
-const config = readConfig();
-
-function createMsg({ color, title, desc, fields, header, icon, image, footer, footerIcon, timestamp }) {
-	const embed = new EmbedBuilder();
-
-	embed.setColor(color ?? config.color);
-	if (title) embed.setTitle(title);
-	if (desc) embed.setDescription(desc);
-	if (header) embed.setAuthor({
-		name: header.name,
-		iconURL: header.icon,
-		url: header.url
-	});
-	if (icon) embed.setThumbnail(icon);
-	if (image) embed.setImage(image);
-	if (footer) embed.setFooter({ text: footer, iconURL: footerIcon });
-	if (fields) {
-		fields.forEach(field => {
-			embed.addFields({
-				name: field.title,
-				value: field.desc,
-				inline: field.inline || false
-			});
-		}
-		);
-	}
-	if (timestamp) embed.setTimestamp();
-	return embed;
-};
-
-const styles = {
-	Blue: ButtonStyle.Primary,
-	Gray: ButtonStyle.Secondary,
-	Green: ButtonStyle.Success,
-	Red: ButtonStyle.Danger
-};
-
-function createButtons({ id, label, color, url, emoji }) {
-	if (typeof color === 'boolean') color = color ? 'Green' : 'Red';
-
-	const button = new ButtonBuilder();
-
-	if (url) {
-		button.setURL(url).setStyle(ButtonStyle.Link);
-	}
-	else {
-		if (label) button.setLabel(label);
-		if (emoji) button.setEmoji(emoji);
-
-		button.setCustomId(id).setStyle(styles[color]);
-	}
-	return button;
-}
-
-function createSelectMenu({ id, placeholder, options }) {
-	const selectMenu = new StringSelectMenuBuilder()
-		.setCustomId(id)
-		.setPlaceholder(placeholder);
-
-	const selectMenuOptions = options.map(({ value, label, desc }) =>
-		new StringSelectMenuOptionBuilder()
-			.setValue(value)
-			.setLabel(label)
-			.setDescription(desc)
-	);
-	return selectMenu.addOptions(selectMenuOptions);
-}
-
-function createRow(components) {
-	const actionRow = new ActionRowBuilder();
-
-	components.forEach((item) => {
-		if (item.label || item.emoji) {
-			actionRow.addComponents(createButtons(item));
-		}
-		else if (item.placeholder && item.options) {
-			actionRow.addComponents(createSelectMenu(item));
-		}
-	});
-	return actionRow;
-}
-
-function createForm({ id, title, components }) {
-	const modal = new ModalBuilder().setCustomId(id).setTitle(title);
-
-	components.forEach((component) => {
-		let textInputStyle;
-
-		switch (component.style.toLowerCase()) {
-			case 'short':
-				textInputStyle = TextInputStyle.Short;
-				break;
-			case 'long':
-				textInputStyle = TextInputStyle.Paragraph;
-				break;
-			default:
-				throw new Error(`Invalid text input style: ${component.style}`);
-		}
-
-		const textInput = new TextInputBuilder()
-			.setCustomId(component.id)
-			.setLabel(component.label)
-			.setStyle(textInputStyle)
-			.setRequired(component.required);
-
-		if (Array.isArray(component.length) && component.length.length === 2) {
-			const [minLength, maxLength] = component.length.map((num) =>
-				parseInt(num, 10)
-			);
-			if (isNaN(minLength) || isNaN(maxLength)) {
-				throw new Error(`Invalid length values: ${component.length}`);
-			}
-			textInput.setMinLength(minLength).setMaxLength(maxLength);
-		}
-
-		modal.addComponents(new ActionRowBuilder().addComponents(textInput));
-	});
-	return modal;
+function getChannel(channel) {
+	return discord.channels.cache.get(channel);
 }
 
 function createSlash({ name, desc, options = [], permissions = [], execute }) {
@@ -190,92 +68,101 @@ function createSlash({ name, desc, options = [], permissions = [], execute }) {
 	};
 }
 
-async function Error(name, e) {
-	display.r(name, e);
+function createMsg(items = []) {
+	const components = [];
 
-	const app = await discord.application.fetch();
+	for (const item of items) {
+		if (item.desc || item.icon || item.button) {
+			const section = new SectionBuilder();
 
-	const eMessage = typeof e === 'string' ? e : e.message;
+			if (item.desc) {
+				const text = Array.isArray(item.desc) ? item.desc : [item.desc];
+				text.forEach(line => section.addTextDisplayComponents(new TextDisplayBuilder().setContent(line)));
+			}
+			if (item.icon) {
+				const icon = new ThumbnailBuilder().setURL(item.icon.url);
+				if (item.icon.desc) icon.setDescription(item.icon.desc);
+				if (item.icon.spoiler) icon.setSpoiler(true);
+				section.setThumbnailAccessory(icon);
+			}
+			if (item.button) {
+				const button = createButtons(item.button);
+				section.addActionRowComponents(new ActionRowBuilder().addComponents(button));
+			}
+			components.push(section);
+		}
+		else if (Array.isArray(item)) {
+			if (item.every(x => x.img)) {
+				const gallery = new MediaGalleryBuilder();
+				item.forEach(({ img, desc, spoiler }) => {
+					const media = new MediaGalleryItemBuilder().setURL(img);
+					if (desc) media.setDescription(desc);
+					if (spoiler) media.setSpoiler(true);
+					gallery.addItems(media);
+				});
+				components.push(gallery);
+			}
+			else {
+				const row = new ActionRowBuilder();
+				item.forEach(button => row.addComponents(createButtons(button)));
+				components.push(row);
+			}
+		}
+		else if (item.file) {
+			components.push(new FileBuilder().setURL(item.file));
+		}
+		else if (item.divider) {
+			components.push(new SeparatorBuilder().setDivider(item.divider).setSpacing(item.size === 'small' ? SeparatorSpacingSize.Small : SeparatorSpacingSize.Large));
+		}
+		else if (item.options) {
+			components.push(new ContainerBuilder().addActionRowComponents(new ActionRowBuilder().addComponents(createSelectMenu(item))));
+		}
+	}
 
-	await getChannel(config.logs.bot.channel).send({
-		content: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`,
-		embeds: [createMsg({
-			color: 'Red',
-			title: 'A Silly Has Occured!',
-			desc: `\`\`\`${eMessage}\`\`\`\n-# If you believe this is a bug, please contact @catboydark.`,
-			timestamp: true
-		})]
+	return {
+		flags: 32768,
+		components
+	};
+}
+
+const styles = {
+	Blue: ButtonStyle.Primary,
+	Gray: ButtonStyle.Secondary,
+	Green: ButtonStyle.Success,
+	Red: ButtonStyle.Danger
+};
+
+function createButtons({ id, label, color, url, emoji, disabled }) {
+	if (typeof color === 'boolean') color = color ? 'Green' : 'Red';
+
+	const button = new ButtonBuilder();
+	if (disabled) button.setDisabled(true);
+
+	if (url) {
+		button.setURL(url).setStyle(ButtonStyle.Link);
+	}
+	else {
+		if (label) button.setLabel(label);
+		if (emoji) button.setEmoji(emoji);
+		button.setCustomId(id).setStyle(styles[color]);
+	}
+	return button;
+}
+
+function createSelectMenu({ id, label, options, min, max, disabled }) {
+	const selectMenu = new StringSelectMenuBuilder().setCustomId(id);
+	if (label) selectMenu.setPlaceholder(label);
+	if (min) selectMenu.setMinValues(min);
+	if (max) selectMenu.setMaxValues(max);
+	if (disabled) selectMenu.setDisabled(true);
+
+	const selectMenuOptions = options.map(({ id, label, desc, emoji, setDefault }) => {
+		const option = new StringSelectMenuOptionBuilder().setValue(id).setLabel(label);
+		if (desc) option.setDescription(desc);
+		if (emoji) option.setEmoji(emoji);
+		if (setDefault) option.setDefault(true);
+		return option;
 	});
-}
 
-async function getEmoji(name) {
-	const app = await discord.application.emojis.fetch();
-	const emoji = app.find(e => e.name === name);
-	if (!emoji) display.r(`Invalid emoji: ${name}`);
-
-	return emoji;
-}
-
-function getChannel(channel) {
-	return discord.channels.cache.get(channel);
-}
-
-async function updateRoles(member, player) {
-	const guild = await getGuild.player(player.uuid);
-
-	const addedRoles = [];
-	const removedRoles = [];
-
-	if (config.link.role.enabled) {
-		if (!member.roles.cache.has(config.link.role.role)) {
-			await member.roles.add(config.link.role.role);
-			addedRoles.push(config.link.role.role);
-		}
-	}
-
-	if (config.welcome.role.removeOnLink) {
-		if (member.roles.cache.has(config.welcome.role.role)) {
-			await member.roles.remove(config.welcome.role.role);
-			removedRoles.push(config.welcome.role.role);
-		}
-	}
-
-	if (config.guild.role.enabled) {
-		if (guild && guild.name === config.guild.name) {
-			if (!member.roles.cache.has(config.guild.role.role)) {
-				await member.roles.add(config.guild.role.role);
-				addedRoles.push(config.guild.role.role);
-			}
-		}
-		else {
-			if (member.roles.cache.has(config.guild.role.role)) {
-				await member.roles.remove(config.guild.role.role);
-				removedRoles.push(config.guild.role.role);
-			}
-		}
-	}
-
-	// guildRankRoles
-
-	if (config.levelRoles.enabled) {
-		const level = await getSBLevel.highest(player);
-		const key = Math.floor(level / 40) * 40;
-		const assignedRole = config.levelRoles.roles[key];
-
-		if (!assignedRole) return;
-
-		if (!member.roles.cache.has(assignedRole)) {
-			await member.roles.add(assignedRole);
-			addedRoles.push(assignedRole);
-		}
-
-		for (const role of Object.values(config.levelRoles.roles)) {
-			if (role !== assignedRole && member.roles.cache.has(role)) {
-				await member.roles.remove(role);
-				removedRoles.push(role);
-			}
-		}
-	}
-
-	return { addedRoles, removedRoles };
+	return selectMenu.addOptions(selectMenuOptions);
 }

@@ -1,9 +1,12 @@
 import fs from 'fs';
 
-export function readConfig() {
-	return JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+
+function saveConfig() {
+	fs.writeFileSync('./config.json', JSON.stringify(config, null, 2), 'utf8');
 }
 
-export function writeConfig(config) {
-	fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'), 'utf8');
-}
+export {
+	config,
+	saveConfig
+};

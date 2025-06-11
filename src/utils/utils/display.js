@@ -114,5 +114,3 @@ display.m = function (str) {
 display.y = function (str) {
 	display(`^+FFFF00${str}`);
 };
-
-// '\\^' acts as an escape char

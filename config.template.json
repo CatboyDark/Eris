@@ -4,9 +4,17 @@
 	"ign": "",
 	"logs": {
 		"channel": "",
-		"bot": "",
-		"discord": "",
-		"console": ""
+		"bot": {
+			"channel": "",
+			"commands": false,
+			"buttons": false,
+			"selectMenus": false,
+			"forms": false
+		},
+		"console": {
+			"enabled": false,
+			"channel": ""
+		}
 	},
 	"guild": {
 		"name": "",
@@ -16,20 +24,33 @@
 		},
 		"rankRoles": {
 			"enabled": false,
-			"roles": [
-				{
-					"rank": "",
-					"role": ""
-				}
-			]
+			"roles": []
 		},
 		"joinMessage": {
 			"enabled": true,
-			"message": "Welcome @ign!"
+			"message": ""
 		},
 		"autoAccept": {
 			"enabled": false,
 			"requirement": 0
+		}
+	},
+	"bridge": {
+		"font": {
+			"WARNING": "IT IS NOT RECOMMENDED TO TOUCH FONTS AS IT IS A PAIN IN THE ASS TO CALIBRATE",
+			"size": 40,
+			"name": "Minecraft Regular",
+			"path": "./assets/Minecraft.ttf"
+		},
+		"guild": {
+			"enabled": false,
+			"channel": "",
+			"fancy": false
+		},
+		"officer": {
+			"enabled": false,
+			"channel": "",
+			"fancy": false
 		}
 	},
 	"levelRoles": {
@@ -50,12 +71,7 @@
 			"480": ""
 		}
 	},
-	"permissions": [
-		{
-			"role": "",
-			"perms": []
-		}
-	],
+	"permissions": [],
 	"welcome": {
 		"message": {
 			"enabled": false,
@@ -76,19 +92,17 @@
 			"role": ""
 		}
 	},
-	"bridge": {
-		"guild": {
-			"enabled": false,
-			"channel": ""
-		},
-		"officer": {
-			"enabled": false,
-			"channel": ""
-		}
-	},
 	"statsChannels": {
-		"level": "",
-		"members": ""
+		"level": {
+			"enabled": false,
+			"channel": "1361600497374728283",
+			"name": ""
+		},
+		"members": {
+			"enabled": false,
+			"channel": "1361600498444140678",
+			"name": ""
+		}
 	},
 	"skyblockEvents": {
 		"enabled": false,
@@ -157,5 +171,41 @@
 			}
 		]
 	},
-	"hash": ""
+	"commands": {
+		"cata_f0": true,
+		"cata_f1": true,
+		"cata_f2": true,
+		"cata_f3": true,
+		"cata_f4": true,
+		"cata_f5": true,
+		"cata_f6": true,
+		"cata_f7": true,
+		"cata_m1": true,
+		"cata_m2": true,
+		"cata_m3": true,
+		"cata_m4": true,
+		"cata_m5": true,
+		"cata_m6": true,
+		"cata_m7": true,
+		"cata": true,
+		"discord": true,
+		"forge": true,
+		"guild": true,
+		"guildextras": true,
+		"level": true,
+		"meow": true,
+		"colon_three": true,
+		"mp": true,
+		"namehistory": true,
+		"networth": true,
+		"restart": false,
+		"skills": true,
+		"slayer_blazes": true,
+		"slayer_enders": true,
+		"slayer_revs": true,
+		"slayer_svens": true,
+		"slayer_tarans": true,
+		"slayer_vamps": true,
+		"slayers": true
+	}
 }
