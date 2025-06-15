@@ -1,15 +1,13 @@
-import { ActionRowBuilder, ButtonStyle, ContainerBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, PermissionFlagsBits, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonStyle, ContainerBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, PermissionFlagsBits, resolveColor, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js';
 import { discord } from '../../discord/Discord.js';
 
 export {
-	getChannel,
 	createSlash,
-	createMsg
+	getChannel,
+	getEmoji,
+	createMsg,
+	DCsend
 };
-
-function getChannel(channel) {
-	return discord.channels.cache.get(channel);
-}
 
 function createSlash({ name, desc, options = [], permissions = [], execute }) {
 	const command = new SlashCommandBuilder()
@@ -68,28 +66,136 @@ function createSlash({ name, desc, options = [], permissions = [], execute }) {
 	};
 }
 
+function getChannel(channel) {
+	return discord.channels.cache.get(channel);
+}
+
+async function getEmoji(name) {
+	const app = await discord.application.emojis.fetch();
+	const emoji = app.find(e => e.name === name);
+	if (!emoji) return console.red(`Invalid Emoji: ${name}`);
+
+	return emoji;
+}
+
+/*
+	const exampleMessage = createMsg([
+
+		// Containers may include any other component
+		{
+			spoiler: true,
+			color: 'FFFFFF',
+			embed: [
+				{
+					desc: 'This is a standalone line of text.'
+				}
+			]
+		},
+
+		{ desc: 'This is a standalone line of text.' },
+		{
+			desc: ['Multiple text entries', 'With an icon and a button!'],
+			icon: {
+				url: 'https://example.com/icon.png',
+				desc: 'Example icon',
+				spoiler: false
+			},
+			button: {
+				label: 'Click Me',
+				emoji: { name: '🍆' },
+				color: 'Blue',
+				id: 'click_me',
+			}
+		},
+		[
+			// Max 10 images per gallery
+			{ img: 'https://example.com/img1.jpg', desc: 'Image 1', spoiler: true }
+		],
+		{ file: 'https://example.com/file.pdf' },
+		{ divider: false, size: 'small' },
+		[
+			{ label: 'Do Not Click!', color: 'Red', custom_id: 'do_not_click' }
+		],
+		{
+			label: 'Select an option',
+			options: [
+				{
+					label: 'Option 1',
+					id: '1',
+					desc: 'This is option 1',
+					emoji: '1️⃣',
+				},
+			],
+			id: 'select_menu'
+		}
+	]);
+*/
+
 function createMsg(items = []) {
 	const components = [];
 
 	for (const item of items) {
 		if (item.desc || item.icon || item.button) {
-			const section = new SectionBuilder();
+			const lines = Array.isArray(item.desc) ? item.desc : [item.desc];
 
-			if (item.desc) {
-				const text = Array.isArray(item.desc) ? item.desc : [item.desc];
-				text.forEach(line => section.addTextDisplayComponents(new TextDisplayBuilder().setContent(line)));
+			if (!item.icon && !item.button) {
+				lines.forEach(line => {
+					components.push(new TextDisplayBuilder().setContent(line));
+				});
 			}
-			if (item.icon) {
-				const icon = new ThumbnailBuilder().setURL(item.icon.url);
-				if (item.icon.desc) icon.setDescription(item.icon.desc);
-				if (item.icon.spoiler) icon.setSpoiler(true);
-				section.setThumbnailAccessory(icon);
+			else {
+				const section = new SectionBuilder();
+
+				lines.forEach(line => {
+					section.addTextDisplayComponents(new TextDisplayBuilder().setContent(line));
+				});
+
+				if (item.icon) {
+					const icon = new ThumbnailBuilder().setURL(item.icon.url);
+					if (item.icon.desc) icon.setDescription(item.icon.desc);
+					if (item.icon.spoiler) icon.setSpoiler(true);
+					section.setThumbnailAccessory(icon);
+				}
+				if (item.button) {
+					const button = createButtons(item.button);
+					section.addActionRowComponents(new ActionRowBuilder().addComponents(button));
+				}
+				components.push(section);
 			}
-			if (item.button) {
-				const button = createButtons(item.button);
-				section.addActionRowComponents(new ActionRowBuilder().addComponents(button));
+		}
+		else if (item.embed) {
+			const container = new ContainerBuilder();
+			if (item.color) container.setAccentColor(resolveColor(item.color));
+			if (item.spoiler) container.setSpoiler(true);
+
+			const embed = createMsg(item.embed).components;
+			for (const item of embed) {
+				if (item instanceof TextDisplayBuilder) {
+					container.addTextDisplayComponents(item);
+				}
+				else if (item instanceof SectionBuilder) {
+					container.addSectionComponents(item);
+				}
+				else if (item instanceof ActionRowBuilder) {
+					container.addActionRowComponents(item);
+				}
+				else if (item instanceof MediaGalleryBuilder) {
+					container.addMediaGalleryComponents(item);
+				}
+				else if (item instanceof SeparatorBuilder) {
+					container.addSeparatorComponents(item);
+				}
+				else if (item instanceof FileBuilder) {
+					container.addFileComponents(item);
+				}
 			}
-			components.push(section);
+			if (item.timestamp) {
+				let timestamp;
+				if (item.timestamp === 'r') timestamp = `<t:${Math.floor(Date.now() / 1000)}:R>`;
+				else if (item.timestamp === 'f') timestamp = `<t:${Math.floor(Date.now() / 1000)}:f>`;
+				container.addTextDisplayComponents(new TextDisplayBuilder().setContent(`_ _\n-# ${timestamp}`));
+			}
+			components.push(container);
 		}
 		else if (Array.isArray(item)) {
 			if (item.every(x => x.img)) {
@@ -120,7 +226,7 @@ function createMsg(items = []) {
 	}
 
 	return {
-		flags: 32768,
+		flags: MessageFlags.IsComponentsV2,
 		components
 	};
 }
@@ -165,4 +271,8 @@ function createSelectMenu({ id, label, options, min, max, disabled }) {
 	});
 
 	return selectMenu.addOptions(selectMenuOptions);
+}
+
+function DCsend(channelID, message) {
+	return discord.channels.cache.get(channelID).send(createMsg(message));
 }

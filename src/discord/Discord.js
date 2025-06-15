@@ -1,7 +1,7 @@
 import { Client, Collection, GatewayIntentBits, REST, Routes } from 'discord.js';
 import fs from 'fs';
 import auth from '../../auth.json' with { type: 'json' };
-import { createSlash, display, config } from '../utils/utils.js';
+import { createSlash, config } from '../utils/utils.js';
 
 export { Discord, discord };
 
@@ -37,7 +37,7 @@ async function loadSlashCommands() {
 	for (const slashFile of slashDir) {
 		const slashCommand = (await import(`./commands/slash/${slashFile}`)).default;
 		if (!slashCommand) {
-			display.y(`Invalid slash command: ${slashFile.replace('.js', '')}`);
+			console.yellow(`Invalid slash command: ${slashFile.replace('.js', '')}`);
 			continue;
 		}
 		const slashCmd = createSlash(slashCommand);
@@ -55,7 +55,7 @@ async function loadPlainCommands() {
 	for (const plainFile of plainDir) {
 		const plainCommand = (await import(`./commands/plain/${plainFile}`)).default;
 		if (!plainCommand) {
-			display.y(`Invalid plain command: ${plainFile.replace('.js', '')}`);
+			console.yellow(`Invalid plain command: ${plainFile.replace('.js', '')}`);
 			continue;
 		}
 		if (plainCommand.prefix) {

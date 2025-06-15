@@ -1,16 +1,15 @@
 import mongoose from 'mongoose';
 import auth from '../../auth.json' with { type: 'json' };
-import { display } from '../utils/utils.js';
 
 export { Mongo };
 
 async function Mongo() {
 	try {
 		await mongoose.connect(auth.mongoURI);
-		display.c('Database is online!');
+		console.cyan('Database is online!');
 	}
 	catch (e) {
-		display('Database >', e);
+		console.error('! Database >', e);
 		process.exit(1);
 	}
 }
