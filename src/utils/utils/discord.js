@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonStyle, ContainerBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, PermissionFlagsBits, resolveColor, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, PermissionFlagsBits, resolveColor, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js';
 import { discord } from '../../discord/Discord.js';
 
 export {
@@ -81,7 +81,7 @@ async function getEmoji(name) {
 /*
 	const exampleMessage = createMsg([
 
-		// Containers may include any other component
+		// CONTAINERS MAY INCLUDE ANY OTHER COMPONENT
 		{
 			spoiler: true,
 			color: 'FFFFFF',
@@ -108,29 +108,31 @@ async function getEmoji(name) {
 			}
 		},
 		[
-			// Max 10 images per gallery
-			{ img: 'https://example.com/img1.jpg', desc: 'Image 1', spoiler: true }
+			// MAX 10 IMAGES PER GALLERY
+			{ img: 'https://example.com/image.jpg', desc: 'Image 1', spoiler: true }
 		],
 		{ file: 'https://example.com/file.pdf' },
-		{ divider: false, size: 'small' },
+		{ divider: true, size: 'small' }, // FOR WHITESPACE divider: false
 		[
-			{ label: 'Do Not Click!', color: 'Red', custom_id: 'do_not_click' }
+			{ id: 'button_id', label: 'Do Not Click!', emoji: '❗', color: 'Red', disabled: false }, // COLOR SUPPORTS BOOL true = 'Green' false = 'Red'
+			{ label: 'Subscribe to Technoblade!', url: 'https://www.youtube.com/@Technoblade' }
 		],
 		{
+			id: 'select_menu_id',
 			label: 'Select an option',
+			disabled: false,
 			options: [
 				{
+					id: 'option_1',
 					label: 'Option 1',
-					id: '1',
 					desc: 'This is option 1',
 					emoji: '1️⃣',
+					setDefault: false
 				},
-			],
-			id: 'select_menu'
+			]
 		}
 	]);
 */
-
 function createMsg(items = []) {
 	const components = [];
 

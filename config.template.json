@@ -5,7 +5,7 @@
 	"logs": {
 		"channel": "",
 		"bot": {
-			"channel": "",
+			"channelID": "",
 			"commands": false,
 			"buttons": false,
 			"selectMenus": false,
@@ -13,18 +13,21 @@
 		},
 		"console": {
 			"enabled": false,
-			"channel": ""
+			"channelID": ""
 		}
 	},
 	"guild": {
 		"name": "",
+		"logGXP": true,
 		"role": {
-			"enabled": false,
-			"role": ""
+			"roleID": "",
+			"assignOnLink": true,
+			"autoSync": true
 		},
 		"rankRoles": {
-			"enabled": false,
-			"roles": []
+			"roleIDs": [],
+			"assignOnLink": true,
+			"autoSync": true
 		},
 		"joinMessage": {
 			"enabled": true,
@@ -44,18 +47,19 @@
 		},
 		"guild": {
 			"enabled": false,
-			"channel": "",
+			"channelID": "",
 			"fancy": false
 		},
 		"officer": {
 			"enabled": false,
-			"channel": "",
+			"channelID": "",
 			"fancy": false
 		}
 	},
 	"levelRoles": {
-		"enabled": false,
-		"roles": {
+		"assignOnLink": false,
+		"autoSync": false,
+		"roleIDs": {
 			"0": "",
 			"40": "",
 			"80": "",
@@ -68,45 +72,46 @@
 			"360": "",
 			"400": "",
 			"440": "",
-			"480": ""
+			"480": "",
+			"520": ""
 		}
 	},
 	"permissions": [],
 	"welcome": {
 		"message": {
 			"enabled": false,
-			"channel": "",
+			"channelID": "",
 			"message": ""
 		},
 		"role": {
 			"enabled": false,
-			"role": "",
+			"roleID": "",
 			"removeOnLink": false
 		}
 	},
 	"link": {
-		"channel": "",
+		"channelID": "",
 		"infoMessage": "",
 		"role": {
 			"enabled": false,
-			"role": ""
+			"roleID": ""
 		}
 	},
 	"statsChannels": {
 		"level": {
 			"enabled": false,
-			"channel": "1361600497374728283",
+			"channelID": "1361600497374728283",
 			"name": ""
 		},
 		"members": {
 			"enabled": false,
-			"channel": "1361600498444140678",
+			"channelID": "1361600498444140678",
 			"name": ""
 		}
 	},
 	"skyblockEvents": {
 		"enabled": false,
-		"channel": "",
+		"channelID": "",
 		"message": "",
 		"events": [
 			{
