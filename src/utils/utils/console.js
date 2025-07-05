@@ -2,6 +2,15 @@ import { Team } from 'discord.js';
 import { discord } from '../../discord/Discord.js';
 import { config, DCsend } from '../utils.js';
 
+const colors = {
+	red:    'FF0000',
+	green:  '00FF00',
+	blue:   '0000FF',
+	cyan:   '00FFFF',
+	magenta:'FF00FF',
+	yellow: 'FFFF00'
+};
+
 (function extendConsole() {
 	const validFormats = 'ibusr';
 	const validColors = 'ABCDEFabcdef1234567890';
@@ -88,15 +97,6 @@ import { config, DCsend } from '../utils.js';
 		return console.log(result);
 	}
 
-	const colors = {
-		red:    'FF0000',
-		green:  '00FF00',
-		blue:   '0000FF',
-		cyan:   '00FFFF',
-		magenta:'FF00FF',
-		yellow: 'FFFF00'
-	};
-
 	for (const [method, hex] of Object.entries(colors)) {
 		console[method] = function (text, error) {
 			display(`^+${hex}${text}`);
@@ -112,7 +112,7 @@ import { config, DCsend } from '../utils.js';
 
 		const app = await discord.application.fetch();
 
-		DCsend(config.logs.bot.channel, [
+		DCsend(config.logs.bot.channelID, [
 			{ desc: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>` },
 			{
 				color: 'Red',

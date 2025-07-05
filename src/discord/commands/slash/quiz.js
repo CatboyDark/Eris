@@ -8,8 +8,8 @@ export default {
 		const msg = createMsg([
 			{
 				embed: [
-					[{ img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/250px-International_Pok%C3%A9mon_logo.svg.png' }],
 					{ desc: '### Quiz Time!' },
+					[{ img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/International_Pok%C3%A9mon_logo.svg/250px-International_Pok%C3%A9mon_logo.svg.png' }],
 					{ desc: '**Players**\n- CatboyDark\n - ancientone649' }
 				]
 			},

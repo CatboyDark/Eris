@@ -48,12 +48,16 @@ function createSlash({ name, desc, options = [], permissions = [], execute }) {
 		}
 	});
 
-	if (permissions && permissions.length > 0) {
+	if (typeof permissions === 'number' && permissions === 0) {
+		command.setDefaultMemberPermissions(BigInt(0));
+	}
+	else if (Array.isArray(permissions) && permissions.length > 0) {
 		const permissionBits = permissions.reduce((acc, perm) => {
 			const permBit = PermissionFlagsBits[perm];
-			if (permBit === undefined) {
+			if (!permBit) {
 				throw new Error(`Invalid permission: ${perm}`);
 			}
+
 			return acc | BigInt(permBit);
 		}, BigInt(0));
 
@@ -120,6 +124,7 @@ async function getEmoji(name) {
 		{
 			id: 'select_menu_id',
 			label: 'Select an option',
+			multi: [1, 10] // MIN, MAX
 			disabled: false,
 			options: [
 				{
@@ -133,11 +138,84 @@ async function getEmoji(name) {
 		}
 	]);
 */
-function createMsg(items = []) {
+function createMsg(items = [], options = {}) {
+	const { ephemeral = false, mentions = true } = options;
 	const components = [];
 
 	for (const item of items) {
-		if (item.desc || item.icon || item.button) {
+		if (item.embed) {
+			const container = new ContainerBuilder();
+			if (item.color) container.setAccentColor(resolveColor(item.color));
+			if (item.spoiler) container.setSpoiler(true);
+
+			for (const embed of item.embed) {
+				if (embed.desc || embed.icon || embed.button) {
+					const lines = Array.isArray(embed.desc) ? embed.desc : [embed.desc];
+
+					if (!embed.icon && !embed.button) {
+						lines.forEach(line => {
+							container.addTextDisplayComponents(new TextDisplayBuilder().setContent(line));
+						});
+					}
+					else {
+						const section = new SectionBuilder();
+						lines.forEach(line => {
+							section.addTextDisplayComponents(new TextDisplayBuilder().setContent(line));
+						});
+
+						if (embed.icon) {
+							const icon = new ThumbnailBuilder().setURL(embed.icon.url);
+							if (embed.icon.desc) icon.setDescription(embed.icon.desc);
+							if (embed.icon.spoiler) icon.setSpoiler(true);
+							section.setThumbnailAccessory(icon);
+						}
+						if (embed.button) {
+							const button = createButtons(embed.button);
+							section.addActionRowComponents(new ActionRowBuilder().addComponents(button));
+						}
+
+						container.addSectionComponents(section);
+					}
+				}
+				else if (embed.options) {
+					container.addActionRowComponents(new ActionRowBuilder().addComponents(createMenu(embed)));
+				}
+				else if (Array.isArray(embed)) {
+					if (embed.every(x => x.img)) {
+						const gallery = new MediaGalleryBuilder();
+
+						embed.forEach(({ img, desc, spoiler }) => {
+							const media = new MediaGalleryItemBuilder().setURL(img);
+							if (desc) media.setDescription(desc);
+							if (spoiler) media.setSpoiler(true);
+							gallery.addItems(media);
+						});
+
+						container.addMediaGalleryComponents(gallery);
+					}
+					else {
+						const row = new ActionRowBuilder();
+						embed.forEach(button => row.addComponents(createButtons(button)));
+
+						container.addActionRowComponents(row);
+					}
+				}
+				else if (embed.file) {
+					container.addFileComponents(new FileBuilder().setURL(embed.file));
+				}
+				else if (embed.divider) {
+					container.addSectionComponents(new SeparatorBuilder().setDivider(embed.divider).setSpacing(embed.size === 'small' ? SeparatorSpacingSize.Small : SeparatorSpacingSize.Large));
+				}
+			}
+			if (item.timestamp) {
+				let timestamp;
+				if (item.timestamp === 'r') timestamp = `<t:${Math.floor(Date.now() / 1000)}:R>`;
+				else if (item.timestamp === 'f') timestamp = `<t:${Math.floor(Date.now() / 1000)}:f>`;
+				container.addTextDisplayComponents(new TextDisplayBuilder().setContent(`_ _\n-# ${timestamp}`));
+			}
+			components.push(container);
+		}
+		else if (item.desc || item.icon || item.button) {
 			const lines = Array.isArray(item.desc) ? item.desc : [item.desc];
 
 			if (!item.icon && !item.button) {
@@ -162,57 +240,27 @@ function createMsg(items = []) {
 					const button = createButtons(item.button);
 					section.addActionRowComponents(new ActionRowBuilder().addComponents(button));
 				}
+
 				components.push(section);
 			}
-		}
-		else if (item.embed) {
-			const container = new ContainerBuilder();
-			if (item.color) container.setAccentColor(resolveColor(item.color));
-			if (item.spoiler) container.setSpoiler(true);
-
-			const embed = createMsg(item.embed).components;
-			for (const item of embed) {
-				if (item instanceof TextDisplayBuilder) {
-					container.addTextDisplayComponents(item);
-				}
-				else if (item instanceof SectionBuilder) {
-					container.addSectionComponents(item);
-				}
-				else if (item instanceof ActionRowBuilder) {
-					container.addActionRowComponents(item);
-				}
-				else if (item instanceof MediaGalleryBuilder) {
-					container.addMediaGalleryComponents(item);
-				}
-				else if (item instanceof SeparatorBuilder) {
-					container.addSeparatorComponents(item);
-				}
-				else if (item instanceof FileBuilder) {
-					container.addFileComponents(item);
-				}
-			}
-			if (item.timestamp) {
-				let timestamp;
-				if (item.timestamp === 'r') timestamp = `<t:${Math.floor(Date.now() / 1000)}:R>`;
-				else if (item.timestamp === 'f') timestamp = `<t:${Math.floor(Date.now() / 1000)}:f>`;
-				container.addTextDisplayComponents(new TextDisplayBuilder().setContent(`_ _\n-# ${timestamp}`));
-			}
-			components.push(container);
 		}
 		else if (Array.isArray(item)) {
 			if (item.every(x => x.img)) {
 				const gallery = new MediaGalleryBuilder();
+
 				item.forEach(({ img, desc, spoiler }) => {
 					const media = new MediaGalleryItemBuilder().setURL(img);
 					if (desc) media.setDescription(desc);
 					if (spoiler) media.setSpoiler(true);
 					gallery.addItems(media);
 				});
+
 				components.push(gallery);
 			}
 			else {
 				const row = new ActionRowBuilder();
 				item.forEach(button => row.addComponents(createButtons(button)));
+
 				components.push(row);
 			}
 		}
@@ -223,13 +271,14 @@ function createMsg(items = []) {
 			components.push(new SeparatorBuilder().setDivider(item.divider).setSpacing(item.size === 'small' ? SeparatorSpacingSize.Small : SeparatorSpacingSize.Large));
 		}
 		else if (item.options) {
-			components.push(new ContainerBuilder().addActionRowComponents(new ActionRowBuilder().addComponents(createSelectMenu(item))));
+			components.push(new ContainerBuilder().addActionRowComponents(new ActionRowBuilder().addComponents(createMenu(item))));
 		}
 	}
 
 	return {
-		flags: MessageFlags.IsComponentsV2,
-		components
+		flags: MessageFlags.IsComponentsV2 | (ephemeral ? MessageFlags.Ephemeral : 0),
+		components,
+		allowedMentions: mentions ? undefined : { parse: [], users: [], roles: [], repliedUser: false }
 	};
 }
 
@@ -257,14 +306,17 @@ function createButtons({ id, label, color, url, emoji, disabled }) {
 	return button;
 }
 
-function createSelectMenu({ id, label, options, min, max, disabled }) {
-	const selectMenu = new StringSelectMenuBuilder().setCustomId(id);
-	if (label) selectMenu.setPlaceholder(label);
-	if (min) selectMenu.setMinValues(min);
-	if (max) selectMenu.setMaxValues(max);
-	if (disabled) selectMenu.setDisabled(true);
+function createMenu({ id, label, options, multi, disabled }) {
+	const menu = new StringSelectMenuBuilder().setCustomId(id);
+	if (label) menu.setPlaceholder(label);
+	if (Array.isArray(multi)) {
+		const [min, max] = multi;
+		if (min !== null) menu.setMinValues(min);
+		if (max !== null) menu.setMaxValues(max);
+	}
+	if (disabled) menu.setDisabled(true);
 
-	const selectMenuOptions = options.map(({ id, label, desc, emoji, setDefault }) => {
+	const menuOptions = options.map(({ id, label, desc, emoji, setDefault }) => {
 		const option = new StringSelectMenuOptionBuilder().setValue(id).setLabel(label);
 		if (desc) option.setDescription(desc);
 		if (emoji) option.setEmoji(emoji);
@@ -272,9 +324,11 @@ function createSelectMenu({ id, label, options, min, max, disabled }) {
 		return option;
 	});
 
-	return selectMenu.addOptions(selectMenuOptions);
+	return menu.addOptions(menuOptions);
 }
 
-function DCsend(channelID, message) {
-	return discord.channels.cache.get(channelID).send(createMsg(message));
+// channel can be a channel object or a channel ID
+function DCsend(channel, message, options = {}) {
+	channel = typeof channel === 'string' ? discord.channels.cache.get(channel) : channel;
+	return channel.send(createMsg(message, options));
 }

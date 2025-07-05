@@ -20,10 +20,12 @@ async function Discord() {
 	discord.plainCommands = new Collection();
 	discord.slashCommands = new Collection();
 	discord.buttons = new Collection();
+	discord.menus = new Collection();
 
 	await loadSlashCommands();
 	await loadPlainCommands();
 	await loadButtons();
+	await loadMenus();
 	await loadEvents();
 
 	await discord.login(auth.discordToken);
@@ -76,10 +78,25 @@ async function loadButtons() {
 	}
 }
 
+async function loadMenus() {
+	const menuDir = fs.readdirSync('./src/discord/menus').filter(file => file.endsWith('.js'));
+	for (const menuFile of menuDir) {
+		const menu = await import(`./menus/${menuFile}`);
+		const options = menu.default || [];
+		for (const o of options) {
+			discord.menus.set(o.id, o);
+		}
+	}
+}
+
 async function loadEvents() {
-	const eventDir = fs.readdirSync('./src/discord/events').filter(file => file.endsWith('.js'));
+	const eventDir = fs.readdirSync('./src/discord/_events').filter(file => file.endsWith('.js'));
 	for (const eventFile of eventDir) {
-		const event = (await import(`./events/${eventFile}`)).default;
+		const event = (await import(`./_events/${eventFile}`)).default;
+		if (!event) {
+			console.yellow(`Invalid event: ${eventFile.replace('.js', '')}`);
+			continue;
+		}
 		discord.on(event.name, (...args) => event.execute(...args));
 	};
 }

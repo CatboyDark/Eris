@@ -2,13 +2,35 @@
 	"color": "FF6EC7",
 	"prefix": ".",
 	"ign": "",
+	"logsChannelID": "1345071213885526026",
+	"bot": {
+		"channelID": "1382215984374481088",
+		"memberJoin": true,
+		"commands": true
+	},
+	"console": {
+		"enabled": true,
+		"channelID": "1382215986597335121"
+	},
 	"logs": {
+		"channelID": "1345071213885526026",
+		"bot": {
+			"channelID": "1382215984374481088",
+			"memberJoin": true,
+			"commands": true
+		},
+		"console": {
+			"enabled": true,
+			"channelID": "1382215986597335121"
+		}
+	},
+	"dlogs": {
 		"channel": "",
 		"bot": {
 			"channelID": "",
 			"commands": false,
 			"buttons": false,
-			"selectMenus": false,
+			"menus": false,
 			"forms": false
 		},
 		"console": {
@@ -177,22 +199,8 @@
 		]
 	},
 	"commands": {
-		"cata_f0": true,
-		"cata_f1": true,
-		"cata_f2": true,
-		"cata_f3": true,
-		"cata_f4": true,
-		"cata_f5": true,
-		"cata_f6": true,
-		"cata_f7": true,
-		"cata_m1": true,
-		"cata_m2": true,
-		"cata_m3": true,
-		"cata_m4": true,
-		"cata_m5": true,
-		"cata_m6": true,
-		"cata_m7": true,
 		"cata": true,
+		"cataextras": true,
 		"discord": true,
 		"forge": true,
 		"guild": true,
@@ -205,12 +213,6 @@
 		"networth": true,
 		"restart": false,
 		"skills": true,
-		"slayer_blazes": true,
-		"slayer_enders": true,
-		"slayer_revs": true,
-		"slayer_svens": true,
-		"slayer_tarans": true,
-		"slayer_vamps": true,
 		"slayers": true
 	}
 }
