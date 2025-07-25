@@ -1,14 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 
 export {
-	getMongo,
-	gxpSchema,
-	membersSchema
+	membersDB,
+	gxpDB
 };
-
-function getMongo(collection, schema) {
-	return mongoose.connection.useDb('Eris').model(collection, schema, collection);
-}
 
 const membersSchema = new Schema({
 	uuid: { type: String, required: true, unique: true },
@@ -20,3 +15,8 @@ const gxpSchema = new Schema({
 	uuid: { type: String, required: true, index: true },
 	gxp: { type: Number, required: true }
 });
+
+const db = mongoose.connection.useDb('Eris');
+
+const membersDB = db.model('members', membersSchema);
+const gxpDB = db.model('gxp', gxpSchema);

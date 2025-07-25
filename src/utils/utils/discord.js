@@ -1,18 +1,19 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, PermissionFlagsBits, resolveColor, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js';
 import { discord } from '../../discord/Discord.js';
+import { config } from './config.js';
 
 export {
 	createSlash,
 	getChannel,
+	getRole,
+	getMember,
 	getEmoji,
 	createMsg,
 	DCsend
 };
 
 function createSlash({ name, desc, options = [], permissions = [], execute }) {
-	const command = new SlashCommandBuilder()
-		.setName(name)
-		.setDescription(desc);
+	const command = new SlashCommandBuilder().setName(name).setDescription(desc);
 
 	options.forEach((option) => {
 		const { type, name, desc, required, choices } = option;
@@ -74,6 +75,14 @@ function getChannel(channel) {
 	return discord.channels.cache.get(channel);
 }
 
+function getRole(role) {
+	return getChannel(config.logs.bot.channelID).guild.roles.cache.get(role);
+}
+
+function getMember(member) {
+	return getChannel(config.logs.bot.channelID).guild.members.cache.get(member);
+}
+
 async function getEmoji(name) {
 	const app = await discord.application.emojis.fetch();
 	const emoji = app.find(e => e.name === name);
@@ -81,6 +90,11 @@ async function getEmoji(name) {
 
 	return emoji;
 }
+
+const colors = {
+	Error: 'FF4040',
+	Success: '40FF40'
+};
 
 /*
 	const exampleMessage = createMsg([
@@ -138,14 +152,16 @@ async function getEmoji(name) {
 		}
 	]);
 */
-function createMsg(items = [], options = {}) {
-	const { ephemeral = false, mentions = true } = options;
+function createMsg(items, { ephemeral = false, mentions = true } = {}) {
 	const components = [];
 
 	for (const item of items) {
 		if (item.embed) {
 			const container = new ContainerBuilder();
-			if (item.color) container.setAccentColor(resolveColor(item.color));
+			if (item.color) {
+				if (item.color in colors) container.setAccentColor(resolveColor(colors[item.color]));
+				else container.setAccentColor(resolveColor(item.color));
+			}
 			if (item.spoiler) container.setSpoiler(true);
 
 			for (const embed of item.embed) {
@@ -327,7 +343,7 @@ function createMenu({ id, label, options, multi, disabled }) {
 	return menu.addOptions(menuOptions);
 }
 
-// channel can be a channel object or a channel ID
+// channel can be Discord channel object or channel ID
 function DCsend(channel, message, options = {}) {
 	channel = typeof channel === 'string' ? discord.channels.cache.get(channel) : channel;
 	return channel.send(createMsg(message, options));

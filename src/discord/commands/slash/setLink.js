@@ -28,6 +28,6 @@ export default {
 		config.link.channel.channelID = channel.id;
 		saveConfig();
 
-		await interaction.reply(createMsg([{ embed: [{ desc: `**Account Linking channel has been set to <#${channel.id}>**` }] }], { ephemeral: true }));
+		interaction.reply(createMsg([{ embed: [{ desc: `**Account Linking channel has been set to <#${channel.id}>**` }] }], { ephemeral: true }));
 	}
 };

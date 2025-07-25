@@ -1,7 +1,6 @@
 import fs from 'fs';
 import { ActivityType, Events, PermissionFlagsBits } from 'discord.js';
-import { config, saveConfig, getChannel, DCsend, getGuild, getEmoji } from '../../utils/utils.js';
-import { getMongo, gxpSchema, membersSchema } from '../../mongo/schemas.js';
+import { config, saveConfig, getChannel, DCsend, getGuild, getEmoji, InvalidIGN, getRole, getMember, gxpDB, getSkyblockLevel, getUser, membersDB } from '../../utils/utils.js';
 import { schedule } from 'node-cron';
 
 export default {
@@ -21,8 +20,8 @@ export default {
 				guild = await getGuild.player(config.ign);
 			}
 			catch (e) {
-				if (e.message.includes('Invalid Player')) console.red('ERROR: Invalid Player! Please enter a valid IGN in the config.');
-				else console.red(e);
+				if (e instanceof InvalidIGN) return console.red('Error | Invalid IGN! Please enter a valid IGN in the config.');
+				else return console.error(e);
 			}
 
 			if (guild) {
@@ -33,7 +32,10 @@ export default {
 
 		client.user.setActivity(config.guild.name || getChannel(config.logs.channelID).guild.name, { type: ActivityType.Watching });
 
+		// This is necessary to get a role's members
 		await getChannel(config.logs.bot.channelID).guild.members.fetch();
+
+		await syncMembers(guild);
 
 		schedule('0 0 * * *',
 			async () => {
@@ -43,11 +45,13 @@ export default {
 						guild = await getGuild.name(config.guild.name);
 					}
 					catch (e) {
-						console.error('! getGuild >', e);
+						return console.error('Error | getGuild', e);
 					}
 
+					if (!guild) return console.error('Error | getGuild', 'Invalid Guild!');
+
 					await logGXP(guild);
-					await syncRoles(guild);
+					// await syncMembers(guild);
 					await updateStatsChannels(guild);
 				}
 			},
@@ -123,14 +127,13 @@ async function initEmojis(client) {
 		}
 	}
 	catch (e) {
-		console.error('! Emojis', e);
+		return console.error('Error | Emojis', e);
 	}
 }
 
 async function logGXP(guild) {
 	if (!config.guild.logGXP) return;
 
-	const db = getMongo('gxp', gxpSchema);
 	const data = [];
 
 	for (const member of guild.members) {
@@ -139,7 +142,7 @@ async function logGXP(guild) {
 				date: Number(date.replace(/-/g, '')),
 				uuid: member.uuid,
 				gxp
-			});
+		});
 		}
 	}
 
@@ -152,71 +155,166 @@ async function logGXP(guild) {
 	}));
 
 	try {
-		await db.bulkWrite(write);
+		await gxpDB.bulkWrite(write);
 	}
 	catch(e) {
-		console.error('! logGXP', e);
+		return console.error('! logGXP', e);
 	}
 
 	DCsend(config.logs.bot.channelID, [{ embed: [{ desc: `### GXP Logger\nGXP has been logged for ${guild.members.length} members.` }], timestamp: 'f' }]);
 }
 
-async function syncRoles(guild) {
-	if (!config.guild.role.sync) return;
+async function syncMembers(guild) {
+	DCsend(config.logs.bot.channelID, [{ embed: [{ desc: '**Syncing members...**' }], timestamp: 'f' }]);
 
-	const plus = await getEmoji('plus');
-	const minus = await getEmoji('minus');
+	const members = [];
 
-	const guildRole = getChannel(config.logs.bot.channelID).guild.roles.cache.get(config.guild.role.roleID);
-	if (!guildRole) return console.error('! Guild Role', 'Invalid guild role!');
+	const whyareyourranksnotsortedhypixel = guild.ranks.sort((a, b) => a.priority - b.priority);
 
-	const db = getMongo('members', membersSchema);
-	const memberUUIDs = new Set(guild.members.map(member => member.uuid));
+	const guildRanks = config.guild.ranks.roles.map((rank, i) => ({
+		name: whyareyourranksnotsortedhypixel[i].name,
+		roleID: rank.roleID,
+		level: Number(rank.level)
+	})).filter(r => !isNaN(r.level));
 
-	const addedRoles = [];
-	const removedRoles = [];
-
-	try {
-		for (const [dcid, member] of guildRole.members) {
-			const linked = await db.findOne({ dcid });
-			if (!linked || !memberUUIDs.has(linked.uuid)) {
-				await member.roles.remove(guildRole);
-				removedRoles.push(member.user.id);
-			}
-		}
+	if (config.guild.ranks.autoRank || config.customRoles.skyblockLevel.enabled) {
+		console.log('Fetching members...');
+		let i = 0;
 
 		for (const member of guild.members) {
-			const linked = await db.findOne({ uuid: member.uuid });
-			if (linked) {
-				let DCmember;
-				try {
-					DCmember = getChannel(config.logs.bot.channelID).guild.members.cache.get(linked.dcid);
-				}
-				catch (e) {
-					if (e.code === 10007) continue;
-				}
+			i++;
 
-				if (DCmember && !DCmember.roles.cache.has(guildRole.id)) {
-					await DCmember.roles.add(guildRole);
-					addedRoles.push(DCmember.user.id);
+			const user = await getUser(member.uuid);
+			const level = await getSkyblockLevel(member.uuid);
+
+			const rankOld = member.rank;
+			let rankNew = guildRanks[0].name;
+
+			if (!guildRanks.find(r => r.name === rankOld)) {
+				rankNew = rankOld;
+			}
+			else {
+				for (const rank of guildRanks) {
+					if (level >= rank.level) rankNew = rank.name;
+				}
+			}
+
+			members.push({ id: user.id, ign: user.ign, level, rankOld, rankNew });
+
+			console.log(`Fetching members: ${i}/${guild.members.length}`);
+			// await new Promise(resolve => setTimeout(resolve, 12000));
+		}
+
+		console.log('Fetching complete.');
+	}
+
+	console.log(members);
+
+	if (config.guild.ranks.autoRank) {
+		for (const member of members) {
+			if (member.rankOld === member.rankNew) continue;
+
+			// MCsend(`/g setrank ${ign} ${rankNew}`);
+			DCsend(config.logs.bot.channelID, [{ embed: [{ desc: `Assigned **${member.rankNew}** rank to **${member.ign}**` }] }]);
+		}
+	}
+
+	if (config.autoRoles) {
+		const plus = await getEmoji('plus');
+		const minus = await getEmoji('minus');
+
+		let guildRole;
+		if (config.guild.role.enabled) {
+			guildRole = getRole(config.guild.role.roleID);
+			if (!guildRole) return console.error('! Guild Role', 'Invalid guild role ID!');
+
+			for (const [dcid, member] of guildRole.members) {
+				const data = await membersDB.findOne({ dcid });
+
+				if (!data || !members.some(m => m.id === data.uuid)) {
+					await member.roles.remove(guildRole);
+
+					DCsend(config.logs.bot.channelID, [{ embed: [{ desc: `${member}\n\n${minus} ${guildRole}` }] }], { mentions: false });
 				}
 			}
 		}
-	}
-	catch (e) {
-		if (e.message.includes('Missing Permissions')) {
-			return console.error('! Sync Roles', 'I don\'t have permission to assign the guild member role!');
-		}
-		else {
-			return console.error('! Sync Roles', e);
-		}
-	}
 
-	let desc = '### Role Syncing\nGuild member role has been synced!';
-	if (addedRoles.length) desc += `\n\n${addedRoles.map((user) => `${plus} <@${user}>`).join('\n')}`;
-	if (removedRoles.length) desc += `\n\n${removedRoles.map((user) => `${minus} <@${user}>`).join('\n')}\n`;
+		for (const member of members) {
+			const addedRoles = [];
+			const removedRoles = [];
 
-	DCsend(config.logs.bot.channelID, [{ embed: [{ desc }], timestamp: 'f' } ]);
+			const data = await membersDB.findOne({ uuid: member.id });
+			if (!data) continue;
+
+			let DCmember;
+			try {
+				DCmember = getMember(data.dcid);
+				if (!DCmember) continue; // Outdated dcid in membersDB
+			}
+			catch (e) {
+				if (e.code === 10007) continue; // Member is not in the server
+				else return console.error('Error | Sync Members', e);
+			}
+
+			if (config.guild.role.enabled && !DCmember.roles.cache.has(guildRole.id)) {
+				await DCmember.roles.add(guildRole);
+				addedRoles.push(guildRole);
+			}
+
+			if (config.guild.ranks.enabled) {
+				for (const rank of guildRanks) {
+					const role = getRole(rank.roleID);
+					if (member.rankNew !== rank.name && DCmember.roles.cache.has(role.id)) {
+						await DCmember.roles.remove(role);
+						removedRoles.push(role);
+					}
+				}
+
+				if (guildRanks.find(r => r.name === member.rankNew)) {
+					const role = getRole(guildRanks.find(r => r.name === member.rankNew).roleID);
+					if (!role) return console.error('! Guild Ranks', `Invalid role ID for rank ${rankNew.name}!`);
+
+					if (!DCmember.roles.cache.has(role.id)) {
+						await DCmember.roles.add(role);
+						addedRoles.push(role);
+					}
+				}
+			}
+
+			if (config.customRoles.skyblockLevel.enabled) {
+				let roleNew = config.customRoles.skyblockLevel.roles[0].roleID;
+				for (const role of config.customRoles.skyblockLevel.roles) {
+					if (!getRole(role.roleID)) return console.error('! Custom Roles', `Invalid role ID for Skyblock level ${role.level}! (ID: ${role.roleID})`);
+					if (isNaN(role.level)) return console.error('! Custom Roles', `Invalid level for Skyblock level role ID ${role.roleID}!`);
+
+					if (member.level >= role.level) roleNew = role.roleID;
+				}
+
+				if (!DCmember.roles.cache.has(roleNew)) {
+					const role = getRole(roleNew);
+					await DCmember.roles.add(role);
+					addedRoles.push(role);
+				}
+
+				for (const role of config.customRoles.skyblockLevel.roles) {
+					const roleOld = getRole(role.roleID);
+					if (roleOld.id !== roleNew && DCmember.roles.cache.has(roleOld.id)) {
+						await DCmember.roles.remove(roleOld);
+						removedRoles.push(roleOld);
+					}
+				}
+			}
+
+			if (addedRoles.length || removedRoles.length) {
+				let desc = `${DCmember}`;
+				if (addedRoles.length) desc += `\n\n${addedRoles.map((role) => `${plus} ${role}`).join('\n')}`;
+				if (removedRoles.length) desc += `\n\n${removedRoles.map((role) => `${minus} ${role}`).join('\n')}`;
+
+				DCsend(config.logs.bot.channelID, [{ embed: [{ desc }] }], { mentions: false });
+			}
+		}
+	}
+	DCsend(config.logs.bot.channelID, [{ embed: [{ desc: '**Sync complete!**' }], timestamp: 'f' }]);
 }
 
 async function updateStatsChannels(guild) {
@@ -235,15 +333,9 @@ async function updateStatsChannels(guild) {
 		}
 	}
 	catch (e) {
-		if (e.message.includes('Missing Permissions')) {
-			return console.error('! Stats Channels', 'I don\'t have permission to update the stats channels!');
-		}
-		else if (e.message.includes('Missing Access')) {
-			return console.error('! Stats Channels', 'I need the \'Connect\' channel permission to update the stats channels!');
-		}
-		else {
-			return console.error('! Stats Channels', e);
-		}
+		if (e.message.includes('Missing Permissions')) return console.error('Error | Stats Channels', 'I don\'t have permission to update the stats channels!');
+		else if (e.message.includes('Missing Access')) return console.error('Error | Stats Channels', 'I need the \'Connect\' channel permission to update the stats channels!');
+		else return console.error('Error | Stats Channels', e);
 	}
 
 	DCsend(config.logs.bot.channelID, [{ embed: [{ desc: '### Stats Channels\nStats channels have been updated!' }], timestamp: 'f' }]);

@@ -106,23 +106,21 @@ const colors = {
 
 	console.display = display;
 
-	console.error = async function (name, error) {
+	console.error = async function (name, error = null) {
 		console.red(name);
 		console.log(error);
 
 		const app = await discord.application.fetch();
 
-		DCsend(config.logs.bot.channelID, [
-			{ desc: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>` },
-			{
-				color: 'Red',
-				embed: [{ desc:
-					'### A Silly has occured!\n' +
-					`\`\`\`${typeof error === 'string' ? error : error.message}\`\`\`\n` +
-					'-# If you believe this is a bug, please contact @catboydark.'
-				}],
-				timestamp: 'f'
-			}
-		]);
+		DCsend(config.logs.bot.channelID, [{ desc: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>` }]);
+		DCsend(config.logs.bot.channelID, [{
+			color: 'Error',
+			embed: [{ desc:
+				'### A Silly has occured!\n' +
+				`\`\`\`${typeof error === 'string' ? error : error.message}\`\`\`\n` +
+				'-# If you believe this is a bug, please contact @catboydark.'
+			}],
+			timestamp: 'f'
+		}], { mentions: false });
 	};
 })();

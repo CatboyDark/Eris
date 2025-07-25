@@ -1,10 +1,18 @@
 import auth from '../../../auth.json' with { type: 'json' };
+import { HypixelInvalidAPIKey, HypixelInvalidGuild, HypixelRateLimit, InvalidIGN, UnknownError } from '../utils.js';
 
 export {
 	getUser,
+	getPlayer,
+	getDiscord,
 	getGuild,
-	getSkyblock
+	getSkyblockLevel
 };
+
+/*
+	Non-cached API calls:
+	- getDiscord
+*/
 
 const guildCache = new Map();
 const playerGuildCache = new Map();
@@ -35,14 +43,14 @@ function cacheTTL() {
 	return Date.now() + 5 * 60 * 1000;
 }
 
-async function getUser(player) {
-	const response = await fetch(`https://mowojang.matdoes.dev/${player}`);
+async function getUser(ign) {
+	const response = await fetch(`https://mowojang.matdoes.dev/${ign}`);
 	if (!response.ok) {
 		switch (response.status) {
 			case 404:
-				throw new Error('Invalid Player');
+				throw new InvalidIGN();
 			default:
-				throw new Error(`Unknown Error | ${response.status} ${response.statusText}`);
+				throw new UnknownError(response);
 		}
 	}
 	const data = await response.json();
@@ -53,25 +61,50 @@ async function getUser(player) {
 	};
 }
 
+async function getPlayer(ign) {
+	const user = await getUser(ign);
+	const uuid = user.id;
+
+	const response = await fetch(`https://api.hypixel.net/v2/player?key=${auth.hypixelAPIKey}&uuid=${uuid}`);
+	if (!response.ok) {
+		switch (response.status) {
+			case 403:
+				throw new HypixelInvalidAPIKey();
+			case 429:
+				throw new HypixelRateLimit();
+			default:
+				throw new UnknownError(response);
+		}
+	}
+	const data = await response.json();
+
+	return data.player;
+}
+
+async function getDiscord(ign) {
+	const player = await getPlayer(ign);
+	return player.socialMedia.links?.DISCORD.toLowerCase();
+}
+
 const getGuild = {
 	name: async function (name) {
 		const cache = guildCache.get(name);
 		if (cache && Date.now() < cache.expiration) return cache.data;
 
-		const response = await fetch(`https://api.hypixel.net/v2/guild?key=${auth.hypixelAPI}&name=${name}`);
+		const response = await fetch(`https://api.hypixel.net/v2/guild?key=${auth.hypixelAPIKey}&name=${name}`);
 		if (!response.ok) {
 			switch (response.status) {
 				case 403:
-					throw new Error('Invalid API Key');
+					throw new HypixelInvalidAPIKey();
 				case 429:
-					throw new Error('Rate Limit');
+					throw new HypixelRateLimit();
 				default:
-					throw new Error(`Unknown Error | ${response.status} ${response.statusText}`);
+					throw new UnknownError(response);
 			}
 		}
 		const data = await response.json();
 		if (!data.guild) {
-			throw new Error('Invalid Guild');
+			throw new HypixelInvalidGuild();
 		}
 
 		data.guild.level = toGuildLevel(data.guild.exp);
@@ -85,38 +118,47 @@ const getGuild = {
 		return data.guild;
 	},
 
-	player: async function (player) {
-		const user = await getUser(player);
+	player: async function (ign) {
+		const user = await getUser(ign);
 		const uuid = user.id;
 
 		const cache = playerGuildCache.get(uuid);
 		if (cache && Date.now() < cache.expiration) {
+			if (cache.data === null) return null;
+			
 			const entry = guildCache.get(cache.data);
 			if (entry && Date.now() < entry.expiration) return entry.data;
 		}
 
-		const response = await fetch(`https://api.hypixel.net/v2/guild?key=${auth.hypixelAPI}&player=${uuid}`);
+		const response = await fetch(`https://api.hypixel.net/v2/guild?key=${auth.hypixelAPIKey}&player=${uuid}`);
 		if (!response.ok) {
 			switch (response.status) {
 				case 403:
-					throw new Error('Invalid API Key');
+					throw new HypixelInvalidAPIKey();
 				case 429:
-					throw new Error('Rate Limit');
+					throw new HypixelRateLimit();
 				default:
-					throw new Error(`Unknown Error | ${response.status} ${response.statusText}`);
+					throw new UnknownError(response);
 			}
 		}
 		const data = await response.json();
 
-		data.guild.level = toGuildLevel(data.guild.exp);
-
 		const expiration = cacheTTL();
-		guildCache.set(data.guild.name, { data: data.guild, expiration });
-		for (const member of data.guild.members) {
-			playerGuildCache.set(member.uuid, { data: data.guild.name, expiration });
-		}
 
-		return data.guild;
+		if (data.guild) {
+			data.guild.level = toGuildLevel(data.guild.exp);
+			guildCache.set(data.guild.name, { data: data.guild, expiration });
+
+			for (const member of data.guild.members) {
+				playerGuildCache.set(member.uuid, { data: data.guild.name, expiration });
+			}
+
+			return data.guild;
+		}
+		else {
+			playerGuildCache.set(uuid, { data: null, expiration });
+			return null;
+		}
 	}
 };
 
@@ -148,22 +190,22 @@ function toGuildLevel(xp) {
 	return thresholds.length + xp / 3_000_000;
 }
 
-async function getSkyblock(player) {
-	const user = await getUser(player);
+async function getSkyblock(ign, { withUUID = false } = {}) {
+	const user = await getUser(ign);
 	const uuid = user.id;
 
 	const cache = skyblockCache.get(uuid);
-	if (cache && Date.now() < cache.expiration) return cache.data;
+	if (cache && Date.now() < cache.expiration) return withUUID ? { uuid, data: cache.data } : cache.data;
 
-	const response = await fetch(`https://api.hypixel.net/v2/skyblock/profiles?key=${auth.hypixelAPI}&uuid=${uuid}`);
+	const response = await fetch(`https://api.hypixel.net/v2/skyblock/profiles?key=${auth.hypixelAPIKey}&uuid=${uuid}`);
 	if (!response.ok) {
 		switch (response.status) {
 			case 403:
-				throw new Error('Invalid API Key');
+				throw new HypixelInvalidAPIKey();
 			case 429:
-				throw new Error('Rate Limit');
+				throw new HypixelRateLimit();
 			default:
-				throw new Error(`Unknown Error | ${response.status} ${response.statusText}`);
+				throw new UnknownError(response);
 		}
 	}
 	const data = await response.json();
@@ -171,5 +213,24 @@ async function getSkyblock(player) {
 	const expiration = cacheTTL();
 	skyblockCache.set(uuid, { data: data.profiles, expiration });
 
-	return data.profiles;
+	return withUUID ? { uuid, data: data.profiles } : data.profiles;
 }
+
+const getSkyblockLevel = async function(ign) {
+	const { uuid, data } = await getSkyblock(ign, { withUUID: true });
+
+	let xp = 0;
+	for (const profile of data) {
+		const experience = profile.members[uuid].leveling?.experience ?? 0;
+		if (experience > xp) xp = experience;
+	}
+
+	return (xp / 100).toFixed(2);
+};
+
+getSkyblockLevel.current = async function (ign) {
+	const { uuid, data } = await getSkyblock(ign, { withUUID: true });
+	for (const profile of data) {
+		if (profile.selected) return (profile.members[uuid].leveling.experience / 100).toFixed(2);
+	}
+};

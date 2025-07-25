@@ -9,7 +9,7 @@ async function Mongo() {
 		console.cyan('Database is online!');
 	}
 	catch (e) {
-		console.error('! Database >', e);
+		console.error('Error | Database', e);
 		process.exit(1);
 	}
 }

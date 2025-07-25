@@ -12,7 +12,7 @@ export default {
 		}
 		catch (e) {
 			if (e.message.includes('Unknown Message')) return;
-			else console.error('! Command: clear', e);
+			else console.error('Error | Command: clear', e);
 		}
 
 		await message.delete();
@@ -34,12 +34,8 @@ export default {
 			}
 		}
 		catch (e) {
-			if (e.message.includes('Missing Access')) {
-				console.error('! Clear', 'I don\'t have permission to delete messages!');
-			}
-			else {
-				console.error('! Clear', e);
-			}
+			if (e.message.includes('Missing Access')) return console.error('Error | Command: clear', 'I don\'t have permission to delete messages!');
+			else return console.error('Error | Command: clear', e);
 		}
 	}
 };

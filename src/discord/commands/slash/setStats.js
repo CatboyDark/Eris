@@ -3,6 +3,7 @@ import { createMsg } from '../../../utils/utils.js';
 export default {
 	name: 'setstats',
 	desc: 'Setup stats channels',
+	permissions: 0,
 
 	async execute(interaction) {
 		interaction.reply(createMsg([{ embed: [

@@ -1,7 +1,5 @@
 import { Events } from 'discord.js';
-import { config, createMsg, DCsend } from '../../utils/utils.js';
-
-const userError = createMsg([{ color: 'Red', embed: [{ desc: '### Oops!\nThat wasn\'t supposed to happen! Staff has been notified.' }] }]);
+import { config, createMsg, DCsend, userError } from '../../utils/utils.js';
 
 export default {
 	name: Events.InteractionCreate,
@@ -42,7 +40,7 @@ export default {
 				error = `Invalid ${type}: ${interaction.customId}`;
 			}
 
-			console.error(`! ${type}`, error);
+			console.error(`Error | ${type}`, error);
 
 			if (interaction.replied || interaction.deferred) {
 				return interaction.followUp(userError);
@@ -57,11 +55,11 @@ async function interactionLog(interaction, log = null) {
 
 	if (interaction.isChatInputCommand() && config.logs.bot.commands) {
 		const options = interaction.options.data.map((option) =>
-			option.type === 6 ? ` <@${option.value}> ` :
-			option.type === 8 ? ` <@&${option.value}> ` :
-			` ${option.value} `
+			option.type === 6 ? `<@${option.value}>` :
+			option.type === 8 ? `<@&${option.value}>` :
+			`${option.value}`
 		);
-		const optionString = options.length > 0 ? options.join(' ') : '';
+		const optionString = options.length > 0 ? ' ' + options.join(' ') : '';
 
 		let url = `https://discord.com/channels/${interaction.guildId}/${interaction.channelId}`;
 		if (log) {
@@ -69,10 +67,10 @@ async function interactionLog(interaction, log = null) {
 			url = message.url;
 		}
 
-		desc = `<@${interaction.user.id}> ran: **/${interaction.commandName}**${optionString}\n\n${url}`;
+		desc = `<@${interaction.user.id}> ran **/${interaction.commandName}**${optionString}\n\n${url}`;
 	}
 	else if (interaction.isButton() && config.logs.bot.buttons) {
-		desc = `<@${interaction.user.id}> clicked: ${interaction.component.data.label}\n\n${interaction.message.url}`;
+		desc = `<@${interaction.user.id}> clicked **${interaction.component.data.label}**\n\n${interaction.message.url}`;
 	}
 
 	if (!desc) return;
