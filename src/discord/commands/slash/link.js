@@ -1,5 +1,5 @@
 import { MessageFlags } from 'discord.js';
-import { config, createMsg, getEmoji, getGuild, getPlayer, getRole, InvalidIGN, membersDB, userError } from '../../../utils/utils.js';
+import { config, createMsg, getEmoji, getGuild, getPlayer, getRole, InvalidPlayer, membersDB, userError } from '../../../utils/utils.js';
 
 export default {
 	name: 'link',
@@ -16,32 +16,30 @@ export default {
 			player = await getPlayer(interaction.options.getString('ign'));
 		}
 		catch (e) {
-			if (e instanceof InvalidIGN) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Invalid IGN!**' }] }]));
+			if (e instanceof InvalidPlayer) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Invalid player!**' }] }]));
 			else {
 				interaction.editReply(userError);
 				return console.error(e);
 			}
 		}
 
-		const discord = player.socialMedia?.links?.DISCORD.toLowerCase();
+		if (!player.discord) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Discord is not linked!**' }] }]));
+		if (interaction.user.username !== player.discord) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Discord does not match!**' }] }]));
 
-		if (!discord) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Discord is not linked!**' }] }]));
-		if (interaction.user.username !== discord) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Discord does not match!**' }] }]));
-
-		const uuidDoc = await membersDB.findOne({ uuid: player.uuid });
+		const uuidDoc = await membersDB.findOne({ uuid: player.id });
 		const dcidDoc = await membersDB.findOne({ dcid: interaction.user.id });
 
 		if (uuidDoc && uuidDoc.dcid !== interaction.user.id) await membersDB.deleteOne({ uuidDoc });
-		if (dcidDoc && dcidDoc.uuid !== player.uuid) await membersDB.deleteOne({ dcidDoc });
+		if (dcidDoc && dcidDoc.uuid !== player.id) await membersDB.deleteOne({ dcidDoc });
 
 		await membersDB.findOneAndUpdate(
 			{ dcid: interaction.user.id },
-			{ $set: { uuid: player.uuid, dcid: interaction.user.id } },
+			{ $set: { uuid: player.id, dcid: interaction.user.id } },
 			{ upsert: true }
 		);
 
 		try {
-			await interaction.member.setNickname(player.displayname);
+			await interaction.member.setNickname(player.ign);
 		}
 		catch (e) {
 			if (e.message.includes('Missing Permissions')) console.error('Error | Command: link', 'I don\'t have permission to assign nicknames!\n(I am also unable to nick the server owner)');
@@ -91,7 +89,7 @@ export default {
 		}
 
 		if (config.guild.role.enabled && config.guild.name) {
-			const guild = await getGuild.player(player.displayname);
+			const guild = await getGuild.player(player.ign);
 			const roleID = config.guild.role.roleID;
 			if (!getRole(roleID)) {
 				interaction.editReply(userError);
@@ -119,7 +117,7 @@ export default {
 		const plus = await getEmoji('plus');
 		const minus = await getEmoji('minus');
 
-		let desc = `${check} **${player.displayname} is now linked!**`;
+		let desc = `${check} **${player.ign} is now linked!**`;
 		if (addedRoles.length) desc += `\n\n${addedRoles.map((role) => `${plus} <@&${role}>`).join('\n')}`;
 		if (removedRoles.length) desc += `\n\n${removedRoles.map((role) => `${minus} <@&${role}>`).join('\n')}\n`;
 

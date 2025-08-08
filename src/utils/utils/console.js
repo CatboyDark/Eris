@@ -106,9 +106,9 @@ const colors = {
 
 	console.display = display;
 
-	console.error = async function (name, error = null) {
+	console.error = async function(name, error = null) {
 		console.red(name);
-		console.log(error);
+		if (error) console.log(error);
 
 		const app = await discord.application.fetch();
 
@@ -117,7 +117,7 @@ const colors = {
 			color: 'Error',
 			embed: [{ desc:
 				'### A Silly has occured!\n' +
-				`\`\`\`${typeof error === 'string' ? error : error.message}\`\`\`\n` +
+				`\`\`\`${typeof error === 'string' ? error : error?.message ?? name}\`\`\`\n` +
 				'-# If you believe this is a bug, please contact @catboydark.'
 			}],
 			timestamp: 'f'

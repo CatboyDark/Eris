@@ -1,5 +1,6 @@
 import { Events } from 'discord.js';
 import { config, DCsend, getChannel, getEmoji, getGuild, getPlayer, getRole, membersDB } from '../../utils/utils.js';
+// import { DCserver } from './clientReady.js';
 
 export default {
 	name: Events.GuildMemberAdd,
@@ -11,7 +12,7 @@ export default {
 
 			try {
 				DCsend(channel, [{ embed:[{
-					desc: config.welcome.message.message ? config.welcome.message.message.replace('@member', member.toString()) : `### Welcome to ${config.guild.name || getChannel(config.logs.bot.channelID).guild.name}!\n### ${member.toString()}`,
+					desc: config.welcome.message.message ? config.welcome.message.message.replace('@member', member.toString()) : `### Welcome to ${config.guild.name || DCserver.name}!\n### ${member.toString()}`,
 					icon: { url: member.user.displayAvatarURL() }
 				}] }]);
 			}
@@ -33,7 +34,7 @@ export default {
 			const player = await getPlayer(dcidDoc.uuid);
 
 			try {
-				await member.setNickname(player.displayname);
+				await member.setNickname(player.ign);
 			}
 			catch (e) {
 				if (e.message.includes('Missing Permissions')) console.error('Error | Command: link', 'I don\'t have permission to assign nicknames!\n(I am also unable to nick the server owner)');
@@ -55,7 +56,7 @@ export default {
 			}
 
 			if (config.guild.role.enabled && config.guild.name) {
-				const guild = await getGuild.player(player.displayname);
+				const guild = await getGuild.player(player.ign);
 				const roleID = config.guild.role.roleID;
 				if (!getRole(roleID)) return console.error('Error | Command: link', 'Invalid Guild Role!');
 

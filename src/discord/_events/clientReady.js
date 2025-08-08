@@ -1,7 +1,10 @@
 import fs from 'fs';
 import { ActivityType, Events, PermissionFlagsBits } from 'discord.js';
-import { config, saveConfig, getChannel, DCsend, getGuild, getEmoji, InvalidIGN, getRole, getMember, gxpDB, getSkyblockLevel, getUser, membersDB } from '../../utils/utils.js';
+import { config, saveConfig, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUser, membersDB, MCsend, getSkyblock } from '../../utils/utils.js';
 import { schedule } from 'node-cron';
+import { dcReady } from '../../modules/bridge.js';
+
+export let DCserver;
 
 export default {
 	name: Events.ClientReady,
@@ -17,10 +20,11 @@ export default {
 		let guild;
 		if (config.ign) {
 			try {
-				guild = await getGuild.player(config.ign);
+				const user = await getUser(config.ign);
+				guild = await getGuild.player(user.id);
 			}
 			catch (e) {
-				if (e instanceof InvalidIGN) return console.red('Error | Invalid IGN! Please enter a valid IGN in the config.');
+				if (e instanceof InvalidPlayer) return console.red('Error | Invalid player! Please enter a valid IGN in the config.');
 				else return console.error(e);
 			}
 
@@ -30,12 +34,12 @@ export default {
 			}
 		}
 
-		client.user.setActivity(config.guild.name || getChannel(config.logs.channelID).guild.name, { type: ActivityType.Watching });
+		client.user.setActivity(config.guild.name || DCserver.name, { type: ActivityType.Watching });
 
-		// This is necessary to get a role's members
-		await getChannel(config.logs.bot.channelID).guild.members.fetch();
+		// This is necessary to get all members of every role
+		await DCserver.members.fetch();
 
-		await syncMembers(guild);
+		dcReady();
 
 		schedule('0 0 * * *',
 			async () => {
@@ -51,7 +55,7 @@ export default {
 					if (!guild) return console.error('Error | getGuild', 'Invalid Guild!');
 
 					await logGXP(guild);
-					// await syncMembers(guild);
+					await syncMembers(guild);
 					await updateStatsChannels(guild);
 				}
 			},
@@ -88,16 +92,18 @@ async function createLogsChannel(client) {
 	}
 
 	const logsChannel = getChannel(config.logs.channelID);
-	if (!logsChannel.threads.cache.find(x => x.name === 'Bot')) {
+	if (!getChannel(config.logs.bot.channelID)) {
 		const channel = await logsChannel.threads.create({ name: 'Bot' });
 		config.logs.bot.channelID = channel.id;
 		saveConfig();
 	}
-	if (config.logs.console.enabled && !logsChannel.threads.cache.find(x => x.name === 'Console')) {
+	if (config.minecraft.console.enabled && !getChannel(config.minecraft.console.channelID)) {
 		const channel = await logsChannel.threads.create({ name: 'Console' });
-		config.logs.console.channelID = channel.id;
+		config.minecraft.console.channelID = channel.id;
 		saveConfig();
 	}
+
+	DCserver = logsChannel.guild;
 }
 
 async function initEmojis(client) {
@@ -185,7 +191,7 @@ async function syncMembers(guild) {
 			i++;
 
 			const user = await getUser(member.uuid);
-			const level = await getSkyblockLevel(member.uuid);
+			const player = await getSkyblock(member.uuid);
 
 			const rankOld = member.rank;
 			let rankNew = guildRanks[0].name;
@@ -195,14 +201,14 @@ async function syncMembers(guild) {
 			}
 			else {
 				for (const rank of guildRanks) {
-					if (level >= rank.level) rankNew = rank.name;
+					if (player.level >= rank.level) rankNew = rank.name;
 				}
 			}
 
-			members.push({ id: user.id, ign: user.ign, level, rankOld, rankNew });
+			members.push({ id: user.id, ign: user.ign, level: player.level, rankOld, rankNew });
 
 			console.log(`Fetching members: ${i}/${guild.members.length}`);
-			// await new Promise(resolve => setTimeout(resolve, 12000));
+			await new Promise(resolve => setTimeout(resolve, 12000));
 		}
 
 		console.log('Fetching complete.');
@@ -214,7 +220,7 @@ async function syncMembers(guild) {
 		for (const member of members) {
 			if (member.rankOld === member.rankNew) continue;
 
-			// MCsend(`/g setrank ${ign} ${rankNew}`);
+			MCsend.raw(`/g setrank ${ign} ${rankNew}`);
 			DCsend(config.logs.bot.channelID, [{ embed: [{ desc: `Assigned **${member.rankNew}** rank to **${member.ign}**` }] }]);
 		}
 	}
@@ -327,7 +333,7 @@ async function updateStatsChannels(guild) {
 			else console.yellow('! Stats Channels', 'Invalid stats channel ID for guild level!');
 		}
 		if (config.statsChannels.guildMembers.enabled) {
-			const channel = await getChannel(config.statsChannels.guildMembers.channelID);
+			const channel = getChannel(config.statsChannels.guildMembers.channelID);
 			if (channel) channel.setName(config.statsChannels.guildMembers.name ? config.statsChannels.guildMembers.name.replace('#members', guild.members.length) : `😋 Members: ${guild.members.length}/125`);
 			else console.yellow('! Stats Channels', 'Invalid stats channel ID for guild members!');
 		}

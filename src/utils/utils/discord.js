@@ -1,6 +1,6 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, PermissionFlagsBits, resolveColor, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, EmbedBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, PermissionFlagsBits, resolveColor, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js';
 import { discord } from '../../discord/Discord.js';
-import { config } from './config.js';
+// import { DCserver } from '../../discord/_events/clientReady.js';
 
 export {
 	createSlash,
@@ -76,11 +76,11 @@ function getChannel(channel) {
 }
 
 function getRole(role) {
-	return getChannel(config.logs.bot.channelID).guild.roles.cache.get(role);
+	return DCserver.roles.cache.get(role);
 }
 
 function getMember(member) {
-	return getChannel(config.logs.bot.channelID).guild.members.cache.get(member);
+	return DCserver.members.cache.get(member);
 }
 
 async function getEmoji(name) {
@@ -298,6 +298,34 @@ function createMsg(items, { ephemeral = false, mentions = true } = {}) {
 	};
 }
 
+createMsg.old = function createMsg({ color, title, desc, fields, header, icon, image, footer, footerIcon, timestamp }) {
+	const embed = new EmbedBuilder();
+
+	embed.setColor(color ?? 'FF00FF');
+	if (title) embed.setTitle(title);
+	if (desc) embed.setDescription(desc);
+	if (header) embed.setAuthor({
+		name: header.name,
+		iconURL: header.icon,
+		url: header.url
+	});
+	if (icon) embed.setThumbnail(icon);
+	if (image) embed.setImage(image);
+	if (footer) embed.setFooter({ text: footer, iconURL: footerIcon });
+	if (fields) {
+		fields.forEach(field => {
+			embed.addFields({
+				name: field.title,
+				value: field.desc,
+				inline: field.inline || false
+			});
+		}
+		);
+	}
+	if (timestamp) embed.setTimestamp();
+	return embed;
+};
+
 const styles = {
 	Blue: ButtonStyle.Primary,
 	Gray: ButtonStyle.Secondary,
@@ -312,7 +340,7 @@ function createButtons({ id, label, color, url, emoji, disabled }) {
 	if (disabled) button.setDisabled(true);
 
 	if (url) {
-		button.setURL(url).setStyle(ButtonStyle.Link);
+		button.setLabel(label).setURL(url).setStyle(ButtonStyle.Link);
 	}
 	else {
 		if (label) button.setLabel(label);

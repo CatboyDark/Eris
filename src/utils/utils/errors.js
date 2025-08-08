@@ -3,7 +3,7 @@ import { createMsg } from './discord.js';
 export {
 	userError,
 	UnknownError,
-	InvalidIGN,
+	InvalidPlayer,
 	HypixelInvalidAPIKey,
 	HypixelInvalidGuild,
 	HypixelRateLimit,
@@ -19,7 +19,7 @@ class UnknownError extends Error {
 	}
 }
 
-class InvalidIGN extends Error {
+class InvalidPlayer extends Error {
 	constructor() {
 		super('Error | Invalid Player');
 	}

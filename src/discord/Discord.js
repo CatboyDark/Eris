@@ -3,9 +3,9 @@ import fs from 'fs';
 import auth from '../../auth.json' with { type: 'json' };
 import { createSlash, config } from '../utils/utils.js';
 
-export { Discord, discord };
+export { Discord };
 
-let discord;
+export let discord;
 
 async function Discord() {
 	discord = new Client({

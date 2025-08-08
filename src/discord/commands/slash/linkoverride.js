@@ -1,5 +1,5 @@
 import { MessageFlags } from 'discord.js';
-import { config, createMsg, getEmoji, getGuild, getPlayer, getRole, membersDB, userError } from '../../../utils/utils.js';
+import { config, createMsg, getEmoji, getGuild, getPlayer, getRole, InvalidPlayer, membersDB, userError } from '../../../utils/utils.js';
 
 export default {
 	name: 'linkoverride',
@@ -14,22 +14,29 @@ export default {
 		interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
 		const member = interaction.options.getMember('discord');
-		const player = await getPlayer(interaction.options.getString('ign'));
 
-		const uuidDoc = await membersDB.findOne({ uuid: player.uuid });
+		let player;
+		try {
+			player = await getPlayer(interaction.options.getString('ign'));
+		}
+		catch (e) {
+			if (e instanceof InvalidPlayer) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Invalid player!**' }] }]));
+		}
+
+		const uuidDoc = await membersDB.findOne({ uuid: player.id });
 		const dcidDoc = await membersDB.findOne({ dcid: member.id });
 
-		if (uuidDoc && uuidDoc.dcid !== member.id) await membersDB.deleteOne({ uuid: player.uuid });
-		if (dcidDoc && dcidDoc.uuid !== player.uuid) await membersDB.deleteOne({ dcid: member.id });
+		if (uuidDoc && uuidDoc.dcid !== member.id) await membersDB.deleteOne({ uuid: player.id });
+		if (dcidDoc && dcidDoc.uuid !== player.id) await membersDB.deleteOne({ dcid: member.id });
 
 		await membersDB.findOneAndUpdate(
 			{ dcid: member.id },
-			{ $set: { uuid: player.uuid, dcid: member.id } },
+			{ $set: { uuid: player.id, dcid: member.id } },
 			{ upsert: true }
 		);
 
 		try {
-			await member.setNickname(player.displayname);
+			await member.setNickname(player.ign);
 		}
 		catch (e) {
 			if (e.message.includes('Missing Permissions')) console.error('Error | Command: link', 'I don\'t have permission to assign nicknames!\n(I am also unable to nick the server owner)');
@@ -79,7 +86,7 @@ export default {
 		}
 
 		if (config.guild.role.enabled && config.guild.name) {
-			const guild = await getGuild.player(player.displayname);
+			const guild = await getGuild.player(player.ign);
 			const roleID = config.guild.role.roleID;
 			if (!getRole(roleID)) {
 				interaction.editReply(userError);
@@ -107,7 +114,7 @@ export default {
 		const plus = await getEmoji('plus');
 		const minus = await getEmoji('minus');
 
-		let desc = `${check} **Linked ${member} to ${player.displayname}!**`;
+		let desc = `${check} **Linked ${member} to ${player.ign}!**`;
 		if (addedRoles.length) desc += `\n\n${addedRoles.map((role) => `${plus} <@&${role}>`).join('\n')}`;
 		if (removedRoles.length) desc += `\n\n${removedRoles.map((role) => `${minus} <@&${role}>`).join('\n')}\n`;
 

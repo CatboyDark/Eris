@@ -1,4 +1,8 @@
 import { Events } from 'discord.js';
+import { loadFunny } from '../../utils/utils.js';
+import { DCbridge } from '../../modules/bridge.js';
+import { fakeBridgeCommands } from '../../modules/bridgeCommands.js';
+// import { DCserver } from './clientReady.js';
 
 export default {
 	name: Events.MessageCreate,
@@ -7,6 +11,10 @@ export default {
 		if (message.author.bot) return;
 
 		await plainCommands(message);
+		await loadFunny.discord(message);
+
+		await DCbridge(message);
+		await fakeBridgeCommands(message);
 	}
 };
 
