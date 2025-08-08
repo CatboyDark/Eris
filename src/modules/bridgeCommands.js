@@ -13,6 +13,8 @@ async function bridgeCommands(message) {
 	if (!commandName || !mcCommands.has(commandName)) return;
 
 	const command = mcCommands.get(commandName);
+
+	console.log(command);
 	if (!command.channels.includes(message.channel)) return;
 
 	const options = {};

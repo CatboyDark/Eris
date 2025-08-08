@@ -8,7 +8,8 @@ const buttons =	[
 ];
 
 const mcCommandInfo = {
-	'level': { title: 'Level', aliases: ['l', 'lv'], example: 'CatboyDark: Cata 59.9 | Class Avg 50.6 (➶50, ⚡51, ☄50, ⚓50, ⚚50) | Secrets: 156k (9.3 S/R)' }
+	'level': { title: 'Level', aliases: ['l', 'lv'], example: 'CatboyDark: Cata 59.9 | Class Avg 50.6 (➶50, ⚡51, ☄50, ⚓50, ⚚50) | Secrets: 156k (9.3 S/R)' },
+	
 };
 
 export default [
