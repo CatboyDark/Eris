@@ -2,7 +2,7 @@ export default {
 	name: 'namehistory',
 	prefix: true,
 	aliases: ['nh'],
-	channel: ['guild', 'officer', 'party', 'dm'],
+	channels: ['guild', 'officer', 'party', 'dm'],
 	options: ['ign'],
 
 	async execute(message) {
