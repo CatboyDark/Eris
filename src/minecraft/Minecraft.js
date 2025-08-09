@@ -62,7 +62,146 @@ async function mcEvents() {
 		minecraft.chat('/limbo');
 		if (!globalThis.ChatManInitialized) await ChatManager();
 		mcReady();
+		// testSpamBypass().then(results => {
+		// 	console.log('Test completed:', results);
+		// });
 	});
+}
+
+async function testSpamBypass() {
+    const prefix = '/oc';
+    const maxLen = 252;
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function sendMessage(message) {
+        return new Promise((resolve) => {
+            let responded = false;
+            const timeout = setTimeout(() => {
+                if (!responded) {
+                    responded = true;
+                    minecraft.removeListener('message', listener);
+                    resolve({ success: null, response: 'TIMEOUT' });
+                }
+            }, 2000);
+
+            const listener = (responseMessage) => {
+                if (responded) return;
+
+                const response = responseMessage.toString().trim();
+                console.log(`Server response: ${response}`);
+
+                // Check for spam filter responses
+                if (response.includes('cannot say the same message') ||
+                    response.includes('spam') ||
+                    response.includes('duplicate')) {
+                    responded = true;
+                    clearTimeout(timeout);
+                    minecraft.removeListener('message', listener);
+                    resolve({ success: false, response });
+                }
+                else if (response.includes(message.substring(0, Math.min(10, message.length)))) {
+                    responded = true;
+                    clearTimeout(timeout);
+                    minecraft.removeListener('message', listener);
+                    resolve({ success: true, response });
+                }
+            };
+
+            minecraft.on('message', listener);
+            minecraft.chat(`${prefix} ${message}`);
+        });
+    }
+
+    const results = {};
+
+    // Global character index that continues across all message lengths
+    let globalCharIndex = 0;
+    const alphabet = 'abcdefghijmnopqrstuvwxyz'; // Skip 'k' and 'l'
+
+    // Test each message length
+    const prefixLength = 4; // "/oc "
+    for (let msgLen = 1; msgLen <= maxLen - prefixLength; msgLen++) {
+        console.log(`\n=== Testing message length ${msgLen} ===`);
+        const baseMessage = 'a'.repeat(msgLen);
+
+        // First send the base message
+        console.log(`Sending: "${baseMessage}"`);
+        await sendMessage(baseMessage);
+        await sleep(1500);
+
+        // Try sending it again to trigger duplicate detection
+        console.log(`Testing duplicate: "${baseMessage}"`);
+        const duplicateResult = await sendMessage(baseMessage);
+        await sleep(1500);
+
+        if (duplicateResult.success === false) {
+            console.log(`Duplicate detected, finding minimum spam length...`);
+
+            let found = false;
+            let spamLen = 1;
+            const alphabet = 'abcdefghijmnopqrstuvwxyz'; // Skip 'k' and 'l'
+            let consecutiveSuccesses = 0;
+            const requiredSuccesses = 3;
+
+            while (!found && spamLen <= 20) {
+                const char = alphabet[globalCharIndex % alphabet.length];
+                const spamString = char.repeat(spamLen);
+                const testMsg = `${baseMessage} - ${spamString}`;
+
+                const totalLength = prefixLength + testMsg.length;
+                if (totalLength > maxLen) {
+                    console.log(`Total message too long: ${totalLength} > ${maxLen}`);
+                    break;
+                }
+
+                console.log(`Testing: "${testMsg}"`);
+                const result = await sendMessage(testMsg);
+                await sleep(1500);
+
+                if (result.success === true) {
+                    consecutiveSuccesses++;
+                    console.log(`✓ Success (${consecutiveSuccesses}/${requiredSuccesses})`);
+
+                    if (consecutiveSuccesses >= requiredSuccesses) {
+                        console.log(`✓ Found working spam length for message length ${msgLen}: ${spamLen}`);
+                        results[msgLen] = spamLen;
+                        found = true;
+                    }
+					else {
+                        // Continue with next character at same spam length
+                        globalCharIndex++;
+                    }
+                }
+				else {
+                    console.log(`✗ Failed - moving to next spam length`);
+                    consecutiveSuccesses = 0;
+                    spamLen++;
+                    globalCharIndex++; // Move to next character for the new spam length
+                }
+            }
+
+            if (!found) {
+                console.log(`✗ Could not find working spam length for message length ${msgLen}`);
+                results[msgLen] = -1; // Indicate failure
+            }
+        }
+		 else {
+            console.log(`No duplicate detection for length ${msgLen}`);
+            results[msgLen] = 0; // No spam needed
+        }
+
+        await sleep(2000);
+    }
+
+    console.log('\n=== Final Results ===');
+    for (const [msgLen, spamLen] of Object.entries(results)) {
+        console.log(`Message length ${msgLen}: minimum spam length ${spamLen}`);
+    }
+
+    return results;
 }
 
 let mcCommandsResolve;

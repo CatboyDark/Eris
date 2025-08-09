@@ -186,7 +186,7 @@ async function getSkyblock(uuid, profile, { networth = false } = {}) {
 	if (cache && Date.now() < cache.expiration) {
 		const { raw, expiration, profiles, selectedProfile } = cache;
 
-		const key = Object.keys(profiles).find(key => key.toLowerCase() === profile?.toLowerCase()) ?? selectedProfile;
+		const key = Object.keys(profiles).find(k => k.toLowerCase() === profile?.toLowerCase()) ?? selectedProfile ?? Object.entries(profiles).sort(([, a], [, b]) => b.level - a.level)[0]?.[0] ?? null;
 
 		if (networth && !profiles[key].networth) {
 			const profile = raw.profiles.find(p => p.cute_name.toLowerCase() === key.toLowerCase());
@@ -237,7 +237,7 @@ async function getSkyblock(uuid, profile, { networth = false } = {}) {
 	const expiration = cacheTTL();
 	skyblockCache.set(uuid, { raw: data, profiles, selectedProfile, expiration });
 
-	const key = Object.keys(profiles).find(key => key.toLowerCase() === profile?.toLowerCase()) ?? selectedProfile;
+	const key = Object.keys(profiles).find(k => k.toLowerCase() === profile?.toLowerCase()) ?? selectedProfile ?? Object.entries(profiles).sort(([, a], [, b]) => b.level - a.level)[0]?.[0] ?? null;
 
 	if (networth) {
 		const profile = data.profiles.find(p => p.cute_name.toLowerCase() === key.toLowerCase());
