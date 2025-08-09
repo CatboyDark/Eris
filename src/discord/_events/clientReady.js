@@ -2,9 +2,11 @@ import fs from 'fs';
 import { ActivityType, Events, PermissionFlagsBits } from 'discord.js';
 import { config, saveConfig, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUser, membersDB, MCsend, getSkyblock } from '../../utils/utils.js';
 import { schedule } from 'node-cron';
-import { dcReady } from '../../modules/bridge.js';
 
 export let DCserver;
+
+let dcResolve;
+export const dcReady = new Promise((res) => { dcResolve = res; });
 
 export default {
 	name: Events.ClientReady,
@@ -39,7 +41,8 @@ export default {
 		// This is necessary to get all members of every role
 		await DCserver.members.fetch();
 
-		dcReady();
+		dcResolve();
+		await syncMembers(guild);
 
 		schedule('0 0 * * *',
 			async () => {
@@ -213,8 +216,6 @@ async function syncMembers(guild) {
 
 		console.log('Fetching complete.');
 	}
-
-	console.log(members);
 
 	if (config.guild.ranks.autoRank) {
 		for (const member of members) {

@@ -1,13 +1,10 @@
 // import { DCserver } from '../../discord/_events/clientReady.js';
 import { unemojify } from 'node-emoji';
-import { DCserver } from '../discord/_events/clientReady.js';
+import { dcReady, DCserver } from '../discord/_events/clientReady.js';
 import { config, createMsg, DCsend, getChannel, MCsend } from '../utils/utils.js';
 import { minecraft } from '../minecraft/Minecraft.js';
 
 export {
-	dcReady,
-	discordReady,
-	mcReady,
 	MCconsole,
 	MCbridge,
 	DCbridge
@@ -15,23 +12,17 @@ export {
 
 const useBridge = config.minecraft.console.enabled || config.minecraft.bridge.guild.enabled || config.minecraft.bridge.officer.enabled;
 
-let dcResolve, mcResolve;
-
-const discordReady = new Promise((res) => { dcResolve = res; });
-const minecraftReady = new Promise((res) => { mcResolve = res; });
+let mcResolve;
+export const minecraftReady = new Promise((res) => { mcResolve = res; });
 
 export let bridgeReady = false;
 
-Promise.all([discordReady, minecraftReady]).then(() => {
-	if (useBridge) bridgeReady = true;
+Promise.all([dcReady, minecraftReady]).then(() => {
+  if (useBridge) bridgeReady = true;
 });
 
-function dcReady() {
-	if (useBridge) dcResolve();
-}
-
-function mcReady() {
-	if (useBridge) mcResolve();
+export function mcReady() {
+  if (useBridge && mcResolve) mcResolve();
 }
 
 function MCconsole(message) {
@@ -93,7 +84,13 @@ function MCbridge(message) {
 // const bad_words = JSON.parse(fs.readFileSync('./assets/bad_words.json', 'utf8'));
 
 let consoleChannel;
-discordReady.then(() => { consoleChannel = getChannel(config.minecraft.console.channelID); });
+
+async function wait() {
+	await dcReady;
+	consoleChannel = getChannel(config.minecraft.console.channelID);
+}
+
+wait();
 
 async function DCbridge(m) {
 	if (!bridgeReady) return m.react('❌');

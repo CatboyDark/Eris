@@ -1,6 +1,6 @@
 import { config, getChannel, MCsend } from '../utils/utils.js';
 import { mcCommands, minecraft } from '../minecraft/Minecraft.js';
-import { discordReady } from './bridge.js';
+import { dcReady } from '../discord/_events/clientReady.js';
 
 export { bridgeCommands, fakeBridgeCommands };
 
@@ -33,9 +33,15 @@ async function bridgeCommands(message) {
 }
 
 let guildChannel;
-discordReady.then(() => { guildChannel = getChannel(config.minecraft.bridge.guild.channelID); });
 let officerChannel;
-discordReady.then(() => { officerChannel = getChannel(config.minecraft.bridge.officer.channelID); });
+
+async function wait() {
+	await dcReady;
+	guildChannel = getChannel(config.minecraft.bridge.guild.channelID);
+	officerChannel = getChannel(config.minecraft.bridge.officer.channelID);
+}
+
+wait();
 
 async function fakeBridgeCommands(message) {
 	const isGuild = message.channel.id === guildChannel.id;
