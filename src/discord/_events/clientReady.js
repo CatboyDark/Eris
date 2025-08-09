@@ -220,7 +220,7 @@ async function syncMembers(guild) {
 		for (const member of members) {
 			if (member.rankOld === member.rankNew) continue;
 
-			MCsend.raw(`/g setrank ${ign} ${rankNew}`);
+			MCsend.raw(`/g setrank ${member.ign} ${member.rankNew}`);
 			DCsend(config.logs.bot.channelID, [{ embed: [{ desc: `Assigned **${member.rankNew}** rank to **${member.ign}**` }] }]);
 		}
 	}
