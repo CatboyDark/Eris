@@ -1,3 +1,5 @@
+import { createMsg } from '../../../utils/utils.js';
+
 export default {
 	name: 'echo',
 	desc: 'It\'s alive!',
@@ -11,6 +13,7 @@ export default {
 		const channel = interaction.options.getChannel('channel') || interaction.channel;
 		const text = interaction.options.getString('text');
 
-		channel.send(text);
+		const message = await channel.send(text);
+		interaction.reply(createMsg([{ embed: [{ desc: `\`${text}\`\n\n${message.url}` }] }], { ephemeral: true }));
 	}
 };

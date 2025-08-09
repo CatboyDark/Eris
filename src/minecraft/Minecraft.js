@@ -65,6 +65,13 @@ async function mcEvents() {
 	});
 }
 
+let mcCommandsResolve;
+export const mcCommandsReady = new Promise(res => { mcCommandsResolve = res; });
+
+function mccReady() {
+	mcCommandsResolve();
+}
+
 async function loadCommands() {
 	const dir = fs.readdirSync('./src/minecraft/commands').filter(file => file.endsWith('.js'));
 	const seen = new Set();
@@ -109,4 +116,6 @@ async function loadCommands() {
 			}
 		}
 	}
+
+	mccReady();
 }

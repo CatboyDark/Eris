@@ -5,6 +5,7 @@ export default {
 	prefix: true,
 	channels: ['guild', 'officer', 'party', 'dm'],
 	options: ['ign', 'profile'],
+	aliases: ['skill'],
 
 	async execute(message) {
 		let user;
