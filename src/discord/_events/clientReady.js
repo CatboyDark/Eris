@@ -40,9 +40,8 @@ export default {
 
 		// This is necessary to get all members of every role
 		await DCserver.members.fetch();
-
+	
 		dcResolve();
-		await syncMembers(guild);
 
 		schedule('0 0 * * *',
 			async () => {

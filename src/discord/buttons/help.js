@@ -39,7 +39,7 @@ function genMCinfo() {
 	if (!mcCommands) return desc = '### No Minecraft commands loaded!';
 
 	for (const key in mcCommandInfo) {
-		const mapKey = key.startsWith('.') ? key : `.${key}`;
+		const mapKey = key.startsWith(config.prefix) ? key : `${config.prefix}${key}`;
 
 		if (!mcCommands.has(mapKey)) continue;
 
