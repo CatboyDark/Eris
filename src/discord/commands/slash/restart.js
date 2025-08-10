@@ -7,13 +7,13 @@ export default {
 	permissions: 0,
 
 	async execute(interaction) {
+		interaction.reply(createMsg([{ embed: [{ desc: '**Restarting...**' }] }], { ephemeral: true }));
+
 		try {
 			execSync('pm2 restart Eris');
 		}
 		catch (e) {
 			console.error('Error | Restart', e);
 		}
-
-		interaction.reply(createMsg([{ embed: [{ desc: '**Restarting...**' }] }], { ephemeral: true }));
 	}
 };
