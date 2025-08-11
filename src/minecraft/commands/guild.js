@@ -23,7 +23,7 @@ export default {
 		}
 
 		const guild = await getGuild.player(user.id);
-		if (!guild) return message.reply(`${message.options.ign} isn't in a guild!`);
+		if (!guild) return message.reply(`${user.ign} isn't in a guild!`);
 
 		const member = guild.members.find(member => member.uuid === user.id);
 		message.reply(`${user.ign}: ${guild.name} | Weekly GXP: ${format(member.weeklyGXP)}`);
