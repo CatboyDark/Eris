@@ -21,7 +21,13 @@ export default {
 			user = await getUser(message.sender);
 		}
 
-		const player = await getSkyblock(user.id, message.options.profile);
+		let player;
+		try {
+			player = await getSkyblock(user.id, message.options.profile);
+		}
+		catch (e) {
+			if (e instanceof HypixelNoSkyblockData) return message.reply(`${user.ign} has never played Skyblock!`);
+		}
 
 		const cata = player.cata;
 		if (!cata.level) return message.reply(`${user.ign} has not played dungeons on ${profileName}!`);

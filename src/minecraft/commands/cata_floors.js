@@ -25,7 +25,14 @@ for (const floor of floors) {
 				user = await getUser(message.sender);
 			}
 
-			const player = await getSkyblock(user.id, message.options.profile);
+			let player;
+			try {
+				player = await getSkyblock(user.id, message.options.profile);
+			}
+			catch (e) {
+				if (e instanceof HypixelNoSkyblockData) return message.reply(`${user.ign} has never played Skyblock!`);
+			}
+
 			const floors = player.cata.floors;
 
 			if (!floors[floor].runs) return message.reply(`${user.ign} has no ${floor.toUpperCase()} completions on ${profileName}!`);

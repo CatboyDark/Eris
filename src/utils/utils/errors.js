@@ -7,6 +7,7 @@ export {
 	HypixelInvalidAPIKey,
 	HypixelInvalidGuild,
 	HypixelRateLimit,
+	HypixelNoSkyblockData,
 	MissingRolePerms,
 	InvalidRole
 };
@@ -40,6 +41,12 @@ class HypixelInvalidGuild extends Error {
 class HypixelRateLimit extends Error {
 	constructor() {
 		super('Error | Hypixel Rate Limit');
+	}
+}
+
+class HypixelNoSkyblockData extends Error {
+	constructor() {
+		super('Error | No Skyblock Data');
 	}
 }
 

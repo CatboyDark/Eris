@@ -33,7 +33,13 @@ for (const [slayer, aliasList] of Object.entries(aliases)) {
 				user = await getUser(message.sender);
 			}
 
-			const player = await getSkyblock(user.id, message.options.profile);
+			let player;
+			try {
+				player = await getSkyblock(user.id, message.options.profile);
+			}
+			catch (e) {
+				if (e instanceof HypixelNoSkyblockData) return message.reply(`${user.ign} has never played Skyblock!`);
+			}
 
 			const slayerData = player.slayers?.[slayer];
 			const { level, xp, ...tiers } = slayerData;

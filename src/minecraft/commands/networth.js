@@ -21,7 +21,13 @@ export default {
 			user = await getUser(message.sender);
 		}
 
-		const player = await getSkyblock(user.id, message.options.profile, { networth: true });
+		let player;
+		try {
+			player = await getSkyblock(user.id, message.options.profile, { networth: true });
+		}
+		catch (e) {
+			if (e instanceof HypixelNoSkyblockData) return message.reply(`${user.ign} has never played Skyblock!`);
+		}
 
 		message.reply(`${user.ign}'s Networth: ${format(player.networth)} | Purse: ${format(player.purse)} | Bank: ${format(player.bank)}`);
 	}

@@ -21,7 +21,13 @@ export default {
 			user = await getUser(message.sender);
 		}
 
-		const player = await getSkyblock(user.id, message.options.profile);
+		let player;
+		try {
+			player = await getSkyblock(user.id, message.options.profile);
+		}
+		catch (e) {
+			if (e instanceof HypixelNoSkyblockData) return message.reply(`${user.ign} has never played Skyblock!`);
+		}
 
 		const skills = {};
 		for (const [key, value] of Object.entries(player.skills)) {

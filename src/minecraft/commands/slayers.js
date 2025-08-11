@@ -21,7 +21,14 @@ export default {
 			user = await getUser(message.sender);
 		}
 
-		const player = await getSkyblock(user.id, message.options.profile);
+		let player;
+		try {
+			player = await getSkyblock(user.id, message.options.profile);
+		}
+		catch (e) {
+			if (e instanceof HypixelNoSkyblockData) return message.reply(`${user.ign} has never played Skyblock!`);
+		}
+		
 		const slayers = player.slayers;
 
 		message.reply(`${user.ign}: Zombie ${slayers.zombie.level} | Spider ${slayers.spider.level} | Wolf ${slayers.wolf.level} | Enderman ${slayers.ender.level} | Blaze ${slayers.blaze.level} | Vampire ${slayers.vampire.level}`);

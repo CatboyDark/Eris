@@ -1,6 +1,6 @@
 import fs from 'fs';
 import auth from '../../../auth.json' with { type: 'json' };
-import { getUser, HypixelInvalidAPIKey, HypixelInvalidGuild, HypixelRateLimit, UnknownError } from '../utils.js';
+import { getUser, HypixelInvalidAPIKey, HypixelInvalidGuild, HypixelNoSkyblockData, HypixelRateLimit, UnknownError } from '../utils.js';
 import { ProfileNetworthCalculator } from 'skyhelper-networth';
 
 export {
@@ -217,6 +217,8 @@ async function getSkyblock(uuid, profile, { networth = false } = {}) {
 
 	const profiles = {};
 	let selectedProfile = null;
+
+	if (!data.profiles) throw new HypixelNoSkyblockData();
 
 	for (const profile of data.profiles) {
 		const name = profile.cute_name;
