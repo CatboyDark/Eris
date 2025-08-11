@@ -4,7 +4,7 @@ export { meow };
 
 const meows = JSON.parse(fs.readFileSync('./assets/meow.json', 'utf8'));
 const escapedMeows = meows.map(m => m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-const meowRegex = new RegExp(`(?:${escapedMeows.join('|')})`, 'i');
+const meowRegex = new RegExp(`\\b(?:${escapedMeows.join('|')})\\b`, 'i');
 
 const meow = {
 	async discord(message) {
