@@ -1,6 +1,7 @@
 import { ChannelType, PermissionFlagsBits } from 'discord.js';
 import { config, createMsg, getChannel, getGuild, saveConfig } from '../../utils/utils.js';
 import { discord } from '../Discord.js';
+import { DCserver } from '../_events/clientReady.js';
 
 export default [{
 	id: 'setStats',
