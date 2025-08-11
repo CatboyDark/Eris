@@ -1,4 +1,4 @@
-import { getSkyblock, getUser, InvalidPlayer } from '../../utils/utils.js';
+import { getSkyblock, getUser, HypixelNoSkyblockData, InvalidPlayer } from '../../utils/utils.js';
 
 const commands = [];
 

@@ -1,4 +1,4 @@
-import { getSkyblock, getUser, InvalidPlayer } from '../../utils/utils.js';
+import { getSkyblock, getUser, HypixelNoSkyblockData, InvalidPlayer } from '../../utils/utils.js';
 
 export default {
 	name: 'slayers',
@@ -28,7 +28,7 @@ export default {
 		catch (e) {
 			if (e instanceof HypixelNoSkyblockData) return message.reply(`${user.ign} has never played Skyblock!`);
 		}
-		
+
 		const slayers = player.slayers;
 
 		message.reply(`${user.ign}: Zombie ${slayers.zombie.level} | Spider ${slayers.spider.level} | Wolf ${slayers.wolf.level} | Enderman ${slayers.ender.level} | Blaze ${slayers.blaze.level} | Vampire ${slayers.vampire.level}`);

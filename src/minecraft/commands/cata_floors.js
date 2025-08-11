@@ -1,4 +1,4 @@
-import { getSkyblock, getUser, InvalidPlayer } from '../../utils/utils.js';
+import { getSkyblock, getUser, HypixelNoSkyblockData, InvalidPlayer } from '../../utils/utils.js';
 
 const floors = ['f0', 'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7'];
 
