@@ -5,7 +5,7 @@ export { autoAccept };
 async function autoAccept(message) {
 	if (!config.minecraft.autoAccept.enabled || !message.startsWith('-') || !message.includes('Click here to accept or type /guild accept')) return;
 
-	const match = msg.match(/\/guild accept (\w+)/);
+	const match = message.match(/\/guild accept (\w+)/);
 	const ign = match[1];
 
 	const user = await getUser(ign);
