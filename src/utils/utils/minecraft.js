@@ -9,7 +9,7 @@ export {
 
 const messageQ = [];
 
-function MCsend(channel, sender = null, content, discordMessage = null) {
+function MCsend({ channel, sender = null, content, discordMessage = null }) {
 	messageQ.push({ channel, sender, content, discordMessage });
 }
 

@@ -69,7 +69,7 @@ async function fakeBridgeCommands(message) {
 		sender: message.member.displayName,
 		options,
 		reply: (content) => {
-			MCsend(channel, message.member.displayName, content);
+			MCsend({ channel, sender: message.member.displayName, content });
 		}
 	};
 

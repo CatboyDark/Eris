@@ -123,7 +123,7 @@ async function DCbridge(m) {
 			content = `${m.member.displayName} > ${message}`;
 		}
 
-		MCsend('guild', m.member.displayName, content, m);
+		MCsend({ channel: 'guild', sender: m.member.displayName, content, discordMessage: m });
 	}
 
 	if (config.minecraft.bridge.officer.enabled && m.channel.id === config.minecraft.bridge.officer.channelID) {
@@ -142,7 +142,7 @@ async function DCbridge(m) {
 			content = `${m.member.displayName} > ${message}`;
 		}
 
-		MCsend('officer', m.member.displayName, content, m);
+		MCsend({ channel: 'officer', sender: m.member.displayName, content, discordMessage: m });
 	}
 }
 

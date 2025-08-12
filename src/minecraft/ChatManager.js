@@ -31,7 +31,7 @@ async function ChatManager() {
 		const message = getMessage(rawMessage);
 
 		message.reply = (content) => {
-			MCsend(message.channel, message.sender, content);
+			MCsend({ channel: message.channel, sender: message.sender, content });
 		};
 
 		await memberJoin(rawMessage);
