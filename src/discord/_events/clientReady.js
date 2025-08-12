@@ -40,7 +40,7 @@ export default {
 
 		// This is necessary to get all members of every role
 		await DCserver.members.fetch();
-	
+
 		dcResolve();
 
 		schedule('0 0 * * *',
@@ -186,14 +186,14 @@ async function syncMembers(guild) {
 	})).filter(r => !isNaN(r.level));
 
 	if (config.guild.ranks.autoRank || config.customRoles.skyblockLevel.enabled) {
-		console.log('Fetching members...');
+		console.magenta('Fetching members...');
 		let i = 0;
 
 		for (const member of guild.members) {
 			i++;
 
 			const user = await getUser(member.uuid);
-			const player = await getSkyblock(member.uuid);
+			const player = await getSkyblock(member.uuid, 'highest');
 
 			const rankOld = member.rank;
 			let rankNew = guildRanks[0].name;
@@ -209,11 +209,11 @@ async function syncMembers(guild) {
 
 			members.push({ id: user.id, ign: user.ign, level: player.level, rankOld, rankNew });
 
-			console.log(`Fetching members: ${i}/${guild.members.length}`);
+			console.magenta(`Fetching members: ${i}/${guild.members.length}`);
 			await new Promise(resolve => setTimeout(resolve, 12000));
 		}
 
-		console.log('Fetching complete.');
+		console.magenta('Fetching complete.');
 	}
 
 	if (config.guild.ranks.autoRank) {

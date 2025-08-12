@@ -17,7 +17,7 @@ async function autoAccept(message) {
 
 	let player;
 	try {
-		player = await getSkyblock(user.id);
+		player = await getSkyblock(user.id, 'highest');
 	}
 	catch (e) {
 		if (e instanceof HypixelNoSkyblockData) return MCsend({ channel: 'officer', message: `${user.ign} has never played Skyblock!`});

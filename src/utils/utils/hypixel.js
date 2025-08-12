@@ -239,7 +239,13 @@ async function getSkyblock(uuid, profile, { networth = false } = {}) {
 	const expiration = cacheTTL();
 	skyblockCache.set(uuid, { raw: data, profiles, selectedProfile, expiration });
 
-	const key = Object.keys(profiles).find(k => k.toLowerCase() === profile?.toLowerCase()) ?? selectedProfile ?? Object.entries(profiles).sort(([, a], [, b]) => b.level - a.level)[0]?.[0] ?? null;
+	const highestProfile = Object.entries(profiles).sort(([, a], [, b]) => b.level - a.level)[0]?.[0];
+
+	const key = profile?.toLowerCase() === 'highest'
+		? highestProfile
+		: Object.keys(profiles).find(k => k.toLowerCase() === profile?.toLowerCase())
+		?? selectedProfile
+		?? highestProfile;
 
 	if (networth) {
 		const profile = data.profiles.find(p => p.cute_name.toLowerCase() === key.toLowerCase());

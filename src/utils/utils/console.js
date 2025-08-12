@@ -121,6 +121,6 @@ const colors = {
 				'-# If you believe this is a bug, please contact @catboydark.'
 			}],
 			timestamp: 'f'
-		}], { mentions: false });
+		}], { mentions: false, ephemeral: true });
 	};
 })();
