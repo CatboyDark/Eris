@@ -89,7 +89,7 @@ export default {
 		}
 
 		if (config.guild.role.enabled && config.guild.name) {
-			const guild = await getGuild.player(player.ign);
+			const guild = await getGuild.player(player.id);
 			const roleID = config.guild.role.roleID;
 			if (!getRole(roleID)) {
 				interaction.editReply(userError);
