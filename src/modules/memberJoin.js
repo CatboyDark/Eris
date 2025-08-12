@@ -27,11 +27,11 @@ async function autoAccept(message) {
 	const level = player.level;
 
 	if (level >= config.minecraft.memberJoin.autoAccept.requirement) {
-		MCsend({ channel: 'officer', content: `${user.ign} meets our reqs! (${player.level})` });
+		MCsend({ channel: 'officer', content: `${user.ign} meets our reqs! (${Math.floor(player.level)})` });
 		return MCsend.raw(`/g accept ${user.ign}`);
 	}
 	else {
-		return MCsend({ channel: 'guild', content: `${user.ign} doesn't meets our reqs! (${player.level})` });
+		return MCsend({ channel: 'guild', content: `${user.ign} doesn't meets our reqs! (${Math.floor(player.level)})` });
 	}
 }
 
