@@ -31,7 +31,7 @@ async function autoAccept(message) {
 		return MCsend.raw(`/g accept ${user.ign}`);
 	}
 	else {
-		return MCsend({ channel: 'guild', content: `${user.ign} doesn't meets our reqs! (${Math.floor(player.level)})` });
+		return MCsend({ channel: 'officer', content: `${user.ign} doesn't meets our reqs! (${Math.floor(player.level)})` });
 	}
 }
 
