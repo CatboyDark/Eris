@@ -4,7 +4,7 @@ export { memberJoin };
 
 async function memberJoin(message) {
 	await autoAccept(message);
-	await joinMessage(message);
+	// await joinMessage(message);
 }
 
 async function autoAccept(message) {
@@ -27,23 +27,23 @@ async function autoAccept(message) {
 	const level = player.level;
 
 	if (level >= config.minecraft.memberJoin.autoAccept.requirement) {
-		MCsend({ channel: 'officer', content: `${user.ign} meets our req! (${player.level})` });
+		MCsend({ channel: 'officer', content: `${user.ign} meets our reqs! (${player.level})` });
 		return MCsend.raw(`/g accept ${user.ign}`);
 	}
 	else {
-		return MCsend({ channel: 'guild', content: `${user.ign} doesn't meets our req! (${player.level})` });
+		return MCsend({ channel: 'guild', content: `${user.ign} doesn't meets our reqs! (${player.level})` });
 	}
 }
 
-async function joinMessage(message) {
-	if (!config.minecraft.memberJoin.joinMessage.enabled) return;
+// async function joinMessage(message) {
+// 	if (!config.minecraft.memberJoin.joinMessage.enabled) return;
 
-	const match = message.match(/^(?:\[[^\]]+\] )?(\w+) joined the guild!$/);
-	if (!match) return;
+// 	const match = message.match(/^(?:\[[^\]]+\] )?(\w+) joined the guild!$/);
+// 	if (!match) return;
 
-	const ign = match[1];
+// 	const ign = match[1];
 
-	setTimeout(() => {
-		MCsend({ channel: 'guild', content: config.minecraft.memberJoin.joinMessage.message.replace('@ign', ign) ?? `Welcome ${ign}!` });
-	}, 3000);
-}
+// 	setTimeout(() => {
+// 		MCsend({ channel: 'guild', content: config.minecraft.memberJoin.joinMessage.message.replace('@ign', ign) ?? `Welcome ${ign}!` });
+// 	}, 3000);
+// }
