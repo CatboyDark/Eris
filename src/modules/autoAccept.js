@@ -1,4 +1,4 @@
-import { config, getUser, MCsend } from '../utils/utils.js';
+import { config, getUser, HypixelNoSkyblockData, MCsend } from '../utils/utils.js';
 
 export { autoAccept };
 
