@@ -3,6 +3,7 @@ import { minecraft } from './Minecraft.js';
 import { config, getChannel, loadFunny, MCsend, shipIt } from '../utils/utils.js';
 import { bridgeReady, MCbridge, MCconsole } from '../modules/bridge.js';
 import { bridgeCommands } from '../modules/bridgeCommands.js';
+import { autoAccept } from '../modules/autoAccept.js';
 
 export { ChatManager, getMessage };
 
@@ -24,21 +25,22 @@ async function ChatManager() {
 	}
 
 	minecraft.on('message', async (m) => {
-		const msg = m.toString().trim();
-		if (!msg || ignore.some((ignored) => msg.startsWith(ignored))) return;
+		const rawMessage = m.toString().trim();
+		if (!rawMessage || ignore.some((ignored) => rawMessage.startsWith(ignored))) return;
 
-		const message = getMessage(msg);
+		const message = getMessage(rawMessage);
 
 		message.reply = (content) => {
 			MCsend(message.channel, message.sender, content);
 		};
 
+		await autoAccept(rawMessage);
 		await bridgeCommands(message);
 		await loadFunny.minecraft(message);
 
 		if (bridgeReady) {
 			if (config.minecraft.console.enabled) {
-				MCconsole(msg);
+				MCconsole(rawMessage);
 			}
 
 			if (config.minecraft.bridge.guild.enabled && message.channel === 'guild') {
