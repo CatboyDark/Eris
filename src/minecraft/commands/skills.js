@@ -15,6 +15,7 @@ export default {
 			}
 			catch (e) {
 				if (e instanceof InvalidPlayer) return message.reply(`${message.options.ign}: Invalid player!`);
+				else console.error('Error | MCcommand: skills', e);
 			}
 		}
 		else {
@@ -27,6 +28,7 @@ export default {
 		}
 		catch (e) {
 			if (e instanceof HypixelNoSkyblockData) return message.reply(`${user.ign} has never played Skyblock!`);
+			else console.error('Error | MCcommand: skills', e);
 		}
 
 		const skills = {};

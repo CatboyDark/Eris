@@ -3,7 +3,7 @@ import { minecraft } from './Minecraft.js';
 import { config, getChannel, loadFunny, MCsend, shipIt } from '../utils/utils.js';
 import { bridgeReady, MCbridge, MCconsole } from '../modules/bridge.js';
 import { bridgeCommands } from '../modules/bridgeCommands.js';
-import { autoAccept } from '../modules/autoAccept.js';
+import { memberJoin } from '../modules/memberJoin.js';
 
 export { ChatManager, getMessage };
 
@@ -34,7 +34,7 @@ async function ChatManager() {
 			MCsend(message.channel, message.sender, content);
 		};
 
-		await autoAccept(rawMessage);
+		await memberJoin(rawMessage);
 		await bridgeCommands(message);
 		await loadFunny.minecraft(message);
 
