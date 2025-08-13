@@ -186,7 +186,13 @@ async function getSkyblock(uuid, profile, { networth = false } = {}) {
 	if (cache && Date.now() < cache.expiration) {
 		const { raw, expiration, profiles, selectedProfile } = cache;
 
-		const key = Object.keys(profiles).find(k => k.toLowerCase() === profile?.toLowerCase()) ?? selectedProfile ?? Object.entries(profiles).sort(([, a], [, b]) => b.level - a.level)[0]?.[0] ?? null;
+	const highestProfile = Object.entries(profiles).sort(([, a], [, b]) => b.level - a.level)[0]?.[0];
+
+	const key = profile?.toLowerCase() === 'highest'
+		? highestProfile
+		: Object.keys(profiles).find(k => k.toLowerCase() === profile?.toLowerCase())
+		?? selectedProfile
+		?? highestProfile;
 
 		if (networth && !profiles[key].networth) {
 			const profile = raw.profiles.find(p => p.cute_name.toLowerCase() === key.toLowerCase());
@@ -275,7 +281,7 @@ Math.floor2 = function (num) {
 };
 
 function getLevel(player) {
-	return (player.leveling?.experience / 100) ?? 0;
+	return ((player.leveling?.experience ?? 0) / 100);
 }
 
 const skillXP = JSON.parse(fs.readFileSync('./assets/skillXP.json', 'utf8'));
