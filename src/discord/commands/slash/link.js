@@ -77,8 +77,10 @@ export default {
 				}
 
 				try {
-					await interaction.member.roles.remove(roleID);
-					removedRoles.push(roleID);
+					if (member.roles.has(roleID)) {
+						await member.roles.remove(roleID);
+						removedRoles.push(roleID);
+					}
 				}
 				catch (e) {
 					interaction.editReply(userError);

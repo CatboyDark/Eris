@@ -23,6 +23,8 @@ export default {
 			if (e instanceof InvalidPlayer) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Invalid player!**' }] }]));
 		}
 
+		console.log(player)
+		console.log(player.id)
 		const uuidDoc = await membersDB.findOne({ uuid: player.id });
 		const dcidDoc = await membersDB.findOne({ dcid: member.id });
 
@@ -74,8 +76,10 @@ export default {
 				}
 
 				try {
-					await member.roles.remove(roleID);
-					removedRoles.push(roleID);
+					if (member.roles.has(roleID)) {
+						await member.roles.remove(roleID);
+						removedRoles.push(roleID);
+					}
 				}
 				catch (e) {
 					interaction.editReply(userError);
