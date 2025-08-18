@@ -77,7 +77,7 @@ export default {
 				}
 
 				try {
-					if (member.roles.has(roleID)) {
+					if (member.roles.cache.has(roleID)) {
 						await member.roles.remove(roleID);
 						removedRoles.push(roleID);
 					}
