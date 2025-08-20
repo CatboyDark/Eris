@@ -1,11 +1,17 @@
 export { colon_three };
 
+const colonThreeRegex = /(?:^|\W):3(?:$|\W)/;
+
 const colon_three = {
 	async discord(message) {
-		if (message.content.includes(':3')) return message.channel.send(':3');
+		if (colonThreeRegex.test(message.content)) {
+			return message.channel.send(':3');
+		}
 	},
 
 	async minecraft(message) {
-		if (message.content.includes(':3')) return message.reply(':3');
+		if (colonThreeRegex.test(message.content)) {
+			return message.reply(':3');
+		}
 	}
 };
