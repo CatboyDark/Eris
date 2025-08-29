@@ -8,18 +8,18 @@
 	"main": "start.js",
 	"type": "module",
 	"dependencies": {
-		"canvas": "^3.1.2",
+		"canvas": "^3.2.0",
 		"cheerio": "^1.1.2",
-		"discord.js": "^14.21.0",
-		"mineflayer": "^4.30.0",
-		"mongoose": "^8.16.5",
+		"discord.js": "^14.22.1",
+		"mineflayer": "^4.32.0",
+		"mongoose": "^8.18.0",
 		"node-cron": "^3.0.3",
 		"node-emoji": "^2.2.0",
 		"node-schedule": "^2.1.1",
 		"rss-parser": "^3.13.0",
-		"skyhelper-networth": "^2.4.1"
+		"skyhelper-networth": "^2.4.3"
 	},
 	"devDependencies": {
-		"eslint": "^9.32.0"
+		"eslint": "^9.34.0"
 	}
 }

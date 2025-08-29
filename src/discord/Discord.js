@@ -30,7 +30,7 @@ async function Discord() {
 
 	await discord.login(auth.discordToken);
 
-	await new Promise(resolve => discord.once('ready', resolve));
+	await new Promise(resolve => discord.once('clientReady', resolve));
 }
 
 async function loadSlashCommands() {
