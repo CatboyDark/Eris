@@ -8,7 +8,7 @@ const skyblockGeneralDiscussion = 'https://hypixel.net/forums/skyblock-general-d
 const skyblockPatchNotes = 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss';
 const skyblockAlphaNetwork = 'https://hypixel.net/skyblock-alpha/index.rss';
 
-async function getFeed(url, channel, role) {
+export async function getFeed(url, channel, role) {
 	if (!config.sbNews.enabled) return;
 
 	const feed = await parser.parseURL(url);
@@ -80,12 +80,7 @@ export default {
 		const desc = role ? `**Skyblock news channel has been set to <#${channel.id}> and will ping** ${role}` : `**Skyblock news channel has been set to <#${channel.id}>**`;
 		interaction.reply(createMsg([{ embed: [{ desc }] }], { ephemeral: true }));
 
-		await getFeed(skyblockPatchNotes, channel, role).then(
-			setInterval(() => getFeed(skyblockPatchNotes, channel, role), 60 * 1000)
-		);
-
-		await getFeed(skyblockAlphaNetwork, channel, role).then(
-			setInterval(() => getFeed(skyblockAlphaNetwork, channel, role), 60 * 1000)
-		);
+		await getFeed(skyblockPatchNotes, channel, role);
+		await getFeed(skyblockAlphaNetwork, channel, role);
 	}
 };

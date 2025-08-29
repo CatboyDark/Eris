@@ -2,6 +2,7 @@ import fs from 'fs';
 import { ActivityType, Events, PermissionFlagsBits } from 'discord.js';
 import { config, saveConfig, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUser, membersDB, MCsend, getSkyblock } from '../../utils/utils.js';
 import { schedule } from 'node-cron';
+import { getFeed } from '../commands/slash/setNews.js';
 
 export let DCserver;
 
@@ -42,6 +43,8 @@ export default {
 		await DCserver.members.fetch();
 
 		dcResolve();
+
+		await sbNews();
 
 		schedule('0 0 * * *',
 			async () => {
@@ -345,4 +348,20 @@ async function updateStatsChannels(guild) {
 	}
 
 	DCsend(config.logs.bot.channelID, [{ embed: [{ desc: '### Stats Channels\nStats channels have been updated!' }], timestamp: 'f' }]);
+}
+
+// const allForums = 'https://hypixel.net/forums/-/index.rss';
+const skyblockPatchNotes = 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss';
+const skyblockAlphaNetwork = 'https://hypixel.net/skyblock-alpha/index.rss';
+
+const newsChannel = config.sbNews.channelID;
+const newsRole = config.sbNews.roleID;
+
+async function sbNews() {
+	if (!config.sbNews.enabled) return;
+
+	setInterval(async () => {
+		await getFeed(skyblockPatchNotes, newsChannel, newsRole);
+		await getFeed(skyblockAlphaNetwork, newsChannel, newsRole);
+	}, 60 * 1000);
 }
