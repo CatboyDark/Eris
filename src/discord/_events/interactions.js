@@ -59,6 +59,7 @@ async function interactionLog(interaction, log = null) {
 	if (interaction.isChatInputCommand() && config.logs.bot.commands) {
 		const options = interaction.options.data.map((option) =>
 			option.type === 6 ? `<@${option.value}>` :
+			option.type === 7 ? `<@#${option.value}>` :
 			option.type === 8 ? `<@&${option.value}>` :
 			`${option.value}`
 		);
