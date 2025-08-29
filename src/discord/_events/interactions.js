@@ -1,5 +1,5 @@
 import { Events } from 'discord.js';
-import { config, createMsg, DCsend, userError } from '../../utils/utils.js';
+import { config, createMsg, DCsend, getRole, read, userError } from '../../utils/utils.js';
 
 export default {
 	name: Events.InteractionCreate,
@@ -20,6 +20,9 @@ export default {
 				}
 			}
 			else if (interaction.isButton()) {
+				const isReactionRole = await reactionRoles(interaction);
+				if (isReactionRole) return;
+
 				const button = interaction.client.buttons.get(interaction.customId);
 				await button.execute(interaction);
 			}
@@ -80,4 +83,24 @@ async function interactionLog(interaction, log = null) {
 	else {
 		return DCsend(config.logs.bot.channelID, [{ embed: [{ desc }], timestamp: 'f' }], { mentions: false });
 	}
+}
+
+async function reactionRoles(interaction) {
+	const cache = read('.cache/bot/reactionroles.json');
+	const isReactionRole = cache[interaction.customId];
+
+	if (!isReactionRole) return false;
+
+	const role = getRole(isReactionRole);
+
+	if (interaction.member.roles.cache.has(role.id)) {
+		await interaction.member.roles.remove(role.id);
+		await interaction.reply(createMsg([{ embed: [{ desc: `**${role} has been removed!**` }] }], { ephemeral: true }));
+	}
+	else {
+		await interaction.member.roles.add(role.id);
+		await interaction.reply(createMsg([{ embed: [{ desc: `**${role} has been assigned!**` }] }], { ephemeral: true }));
+	}
+
+	return true;
 }
