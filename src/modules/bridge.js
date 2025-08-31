@@ -162,21 +162,17 @@ function DCfilter(message) {
 
 	content = unemojify(content);
 
-	if (message.attachments.size > 0) {
-		let at = '';
+    if (message.attachments.size > 0) {
+      const attachments = [...message.attachments.values()]
+        .map((attachment) => {
+          const dot = attachment.name.lastIndexOf('.');
+          const clean = (dot !== -1 ? attachment.name.slice(0, dot) : attachment.name).replace(/\./g, '_');
+          return `[${clean}]`;
+        })
+        .join(' ');
 
-		for (const [, attachment] of message.attachments) {
-			const name = attachment.name;
-			const dot = name.lastIndexOf('.');
-
-			let clean = dot !== -1 ? name.slice(0, dot) : name;
-			clean = clean.replace(/\./g, '_');
-
-			at += `[${clean}] `;
-		}
-
-		content = content ? `${at}${content}` : at.trim();
-	}
+      output = output ? `${attachments} ${output}` : attachments;
+    }
 
 	if (message.stickers.size > 0) {
 		const sticker = message.stickers.first();
