@@ -1,6 +1,6 @@
 import Parser from 'rss-parser';
 import * as cheerio from 'cheerio';
-import { config, createMsg, read, saveConfig, write } from '../../../utils/utils.js';
+import { config, createMsg, MCsend, read, saveConfig, write } from '../../../utils/utils.js';
 
 const parser = new Parser();
 // const allForums = 'https://hypixel.net/forums/-/index.rss';
@@ -53,6 +53,7 @@ export async function getFeed(url, channel, role) {
 		);
 
 		await channel.send(createMsg(parts));
+		if (config.minecraft.enabled) MCsend({ channel: 'guild', content: `${item.title} ${item.link}` });
 	}
 
 	cache[category] = feed.items.map(item => item.guid);

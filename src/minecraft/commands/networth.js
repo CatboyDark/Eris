@@ -42,3 +42,4 @@ function format(value) {
 	if (value >= 1e3) return Math.floor(value / 1e3) + 'k';
 	return Math.floor(value);
 }
+	

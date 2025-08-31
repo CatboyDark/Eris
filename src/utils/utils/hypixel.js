@@ -276,8 +276,8 @@ Math.floor1 = function (i) {
 	return Math.floor(i * 10) / 10;
 };
 
-Math.floor2 = function (num) {
-	return Math.floor(num * 100) / 100;
+Math.floor2 = function (i) {
+	return Math.floor(i * 100) / 100;
 };
 
 function getLevel(player) {
