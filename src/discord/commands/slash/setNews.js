@@ -35,7 +35,7 @@ export async function getFeed(url, c, r) {
 
 		const parts = [];
 
-		if (role) {
+		if (r) {
 			const role = getRole(r);
 			parts.push({ desc: `-# ${role}` });
 		}
