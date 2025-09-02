@@ -171,7 +171,7 @@ function DCfilter(message) {
         })
         .join(' ');
 
-      output = output ? `${attachments} ${output}` : attachments;
+      content = content ? `${attachments} ${content}` : attachments;
     }
 
 	if (message.stickers.size > 0) {
