@@ -1,4 +1,5 @@
 import { config, getSkyblock, getUser, HypixelNoSkyblockData, MCsend } from '../utils/utils.js';
+import fs from 'fs';
 
 export { memberJoin };
 
