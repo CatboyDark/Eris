@@ -1,6 +1,6 @@
 import Parser from 'rss-parser';
 import * as cheerio from 'cheerio';
-import { config, createMsg, MCsend, read, saveConfig, write } from '../../../utils/utils.js';
+import { config, createMsg, getChannel, getRole, MCsend, read, saveConfig, write } from '../../../utils/utils.js';
 
 const parser = new Parser();
 // const allForums = 'https://hypixel.net/forums/-/index.rss';
@@ -8,7 +8,7 @@ const skyblockGeneralDiscussion = 'https://hypixel.net/forums/skyblock-general-d
 const skyblockPatchNotes = 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss';
 const skyblockAlphaNetwork = 'https://hypixel.net/skyblock-alpha/index.rss';
 
-export async function getFeed(url, channel, role) {
+export async function getFeed(url, c, r) {
 	if (!config.sbNews.enabled) return;
 
 	const feed = await parser.parseURL(url);
@@ -36,6 +36,7 @@ export async function getFeed(url, channel, role) {
 		const parts = [];
 
 		if (role) {
+			const role = getRole(r);
 			parts.push({ desc: `-# ${role}` });
 		}
 
@@ -51,6 +52,8 @@ export async function getFeed(url, channel, role) {
 			},
 			[{ label: 'View Thread', url: item.link }]
 		);
+
+		const channel = getChannel(c);
 
 		await channel.send(createMsg(parts));
 		if (config.minecraft.enabled) MCsend({ channel: 'guild', content: `${item.title} ${item.link}` });

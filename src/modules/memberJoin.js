@@ -15,6 +15,11 @@ async function autoAccept(message) {
 
 	const user = await getUser(ign);
 
+	const blacklist = JSON.parse(fs.readFileSync('./.cache/bot/guildBlacklist.json', 'utf8'));
+	if (blacklist.includes(user.id)) {
+		return MCsend({ channel: 'officer', content: `${user.ign} is blacklisted from the guild!` });
+	}
+
 	let player;
 	try {
 		player = await getSkyblock(user.id, 'highest');
