@@ -8,20 +8,34 @@ function saveConfig() {
 }
 
 function read(file) {
+	let cache;
+
 	try {
-		return JSON.parse(fs.readFileSync(file, 'utf-8'));
+		cache = JSON.parse(fs.readFileSync(file, 'utf-8'));
 	}
 	catch (e) {
 		if (e.code === 'ENOENT') {
 			fs.mkdirSync(path.dirname(file), { recursive: true });
 			fs.writeFileSync(file, JSON.stringify({}, null, '\t'), 'utf-8');
-			return {};
+			cache = {};
 		}
 		else {
 			console.error(`Error | Unknown File: ${file}`);
 			process.exit(0);
 		}
 	}
+
+	return new Proxy(cache, {
+		get(target, prop) {
+			if (prop === 'read') return () => (cache = read(file));
+			if (prop === 'write') return () => write(file, cache);
+			return target[prop];
+		},
+		set(target, prop, value) {
+			target[prop] = value;
+			return true;
+		}
+	});
 }
 
 function write(file, data) {
@@ -31,6 +45,5 @@ function write(file, data) {
 export {
 	config,
 	saveConfig,
-	read,
-	write
+	read
 };

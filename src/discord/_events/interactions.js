@@ -20,6 +20,8 @@ export default {
 				}
 			}
 			else if (interaction.isButton()) {
+				if (interaction.customId.startsWith('rps')) return;
+				
 				const isReactionRole = await reactionRoles(interaction);
 				if (isReactionRole) return;
 

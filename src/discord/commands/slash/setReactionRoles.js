@@ -1,4 +1,4 @@
-import { createMsg, DCsend, read, write } from '../../../utils/utils.js';
+import { createMsg, DCsend, read } from '../../../utils/utils.js';
 
 export default {
 	name: 'setreactionroles',
@@ -31,7 +31,7 @@ export default {
 
 		const cache = read('.cache/bot/reactionroles.json');
 		cache[id] = role.id;
-		write('.cache/bot/reactionroles.json', cache);
+		cache.write();
 
 		DCsend(channel, [{ embed: [{ desc: `**${label}**` }] }, [{ id, label: emoji ? emoji : label, color }]]);
 		interaction.reply(createMsg([{ embed: [{ desc: '**Reaction role has been created!**' }] }], { ephemeral: true }));

@@ -93,7 +93,12 @@ async function wait() {
 wait();
 
 async function DCbridge(m) {
-	if (!bridgeReady) return m.react('❌');
+	const bridgeChannels = [
+		config.minecraft.bridge.guild.enabled && config.minecraft.bridge.guild.channelID,
+		config.minecraft.bridge.officer.enabled && config.minecraft.bridge.officer.channelID,
+		config.minecraft.console.enabled && config.minecraft.console.channelID
+	].filter(Boolean);
+	if (!bridgeReady && bridgeChannels.includes(m.channel.id)) return m.react('❌');
 
 	// const sender = m.member.displayName;
 
@@ -162,17 +167,17 @@ function DCfilter(message) {
 
 	content = unemojify(content);
 
-    if (message.attachments.size > 0) {
-      const attachments = [...message.attachments.values()]
-        .map((attachment) => {
-          const dot = attachment.name.lastIndexOf('.');
-          const clean = (dot !== -1 ? attachment.name.slice(0, dot) : attachment.name).replace(/\./g, '_');
-          return `[${clean}]`;
-        })
-        .join(' ');
+	if (message.attachments.size > 0) {
+		const attachments = [...message.attachments.values()]
+			.map((attachment) => {
+				const dot = attachment.name.lastIndexOf('.');
+				const clean = (dot !== -1 ? attachment.name.slice(0, dot) : attachment.name).replace(/\./g, '_');
+				return `[${clean}]`;
+			})
+			.join(' ');
 
-      output = output ? `${attachments} ${output}` : attachments;
-    }
+		content = content ? `${attachments} ${content}` : attachments;
+	}
 
 	if (message.stickers.size > 0) {
 		const sticker = message.stickers.first();

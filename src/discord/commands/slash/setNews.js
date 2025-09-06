@@ -1,6 +1,6 @@
 import Parser from 'rss-parser';
 import * as cheerio from 'cheerio';
-import { config, createMsg, getChannel, getRole, MCsend, read, saveConfig, write } from '../../../utils/utils.js';
+import { config, createMsg, getChannel, getRole, MCsend, read, saveConfig } from '../../../utils/utils.js';
 
 const parser = new Parser();
 // const allForums = 'https://hypixel.net/forums/-/index.rss';
@@ -60,7 +60,7 @@ export async function getFeed(url, c, r) {
 	}
 
 	cache[category] = feed.items.map(item => item.guid);
-	write('.cache/bot/rss.json', cache);
+	cache.write();
 }
 
 export default {

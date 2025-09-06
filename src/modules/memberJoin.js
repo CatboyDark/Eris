@@ -1,5 +1,4 @@
-import { config, getSkyblock, getUser, HypixelNoSkyblockData, MCsend } from '../utils/utils.js';
-import fs from 'fs';
+import { config, getSkyblock, getUser, HypixelNoSkyblockData, MCsend, read } from '../utils/utils.js';
 
 export { memberJoin };
 
@@ -16,7 +15,7 @@ async function autoAccept(message) {
 
 	const user = await getUser(ign);
 
-	const blacklist = JSON.parse(fs.readFileSync('./.cache/bot/guildBlacklist.json', 'utf8'));
+	const blacklist = read('./.cache/bot/guildBlacklist.json');
 	if (blacklist.includes(user.id)) {
 		return MCsend({ channel: 'officer', content: `${user.ign} is blacklisted from the guild!` });
 	}
