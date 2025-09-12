@@ -553,7 +553,7 @@ async function updateRoles(uuid) {
 				if (!role) return console.error('! Guild Ranks', `Invalid role ID for rank ${rankNew.name}!`);
 
 				if (!DCmember.roles.cache.has(role.id)) {
-					add.push(role);
+					add.push(role.roleID);
 				}
 			}
 

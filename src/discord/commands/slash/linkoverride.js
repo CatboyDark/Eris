@@ -1,5 +1,5 @@
 import { MessageFlags } from 'discord.js';
-import { Config, createMsg, getEmoji, getGuild, getPlayer, getRole, InvalidPlayer, LinkedUsers, updateRoles, userError } from '../../../utils/utils.js';
+import { Config, createMsg, getEmoji, getPlayer, getRole, InvalidPlayer, LinkedUsers, updateRoles, userError } from '../../../utils/utils.js';
 
 export default {
 	name: 'linkoverride',
