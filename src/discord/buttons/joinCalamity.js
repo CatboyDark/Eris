@@ -17,6 +17,9 @@ export default [{
 		const profiles = await getSkyblock(isLinked.uuid, { all: true });
 		const guild = await getGuild.name(Config.guild.name);
 
+		const userGuild = await getGuild.player(isLinked.uuid);
+		if (userGuild && userGuild.name === Config.guild.name) return interaction.reply(createMsg([{ color: 'Error', embed: [{ desc: '**You\'re already in the guild, you silly goober!**' }] }], { ephemeral: true }));
+
 		const values = Object.values(profiles);
 
 		const highestLevel = values.reduce((highest, value) =>
