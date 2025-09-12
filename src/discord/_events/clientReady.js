@@ -277,8 +277,8 @@ async function syncMembers(guild) {
 
 			if (addedRoles.length || removedRoles.length) {
 				let desc = `${DCmember}`;
-				if (addedRoles.length) desc += `\n\n${addedRoles.map((role) => `${plus} ${role}`).join('\n')}`;
-				if (removedRoles.length) desc += `\n\n${removedRoles.map((role) => `${minus} ${role}`).join('\n')}`;
+			if (addedRoles.length) desc += `\n\n${addedRoles.map((role) => `${plus} <@&${role}>`).join('\n')}`;
+				if (removedRoles.length) desc += `\n\n${removedRoles.map((role) => `${minus} <@&${role}>`).join('\n')}`;
 
 				DCsend(Config.logs.bot.channelID, [{ embed: [{ desc }] }], { mentions: false });
 			}

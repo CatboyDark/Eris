@@ -1,5 +1,5 @@
 import { MessageFlags } from 'discord.js';
-import { Config, createMsg, getEmoji, getGuild, getPlayer, getRole, InvalidPlayer, LinkedUsers, updateRoles, userError } from '../../../utils/utils.js';
+import { Config, createMsg, getEmoji, getPlayer, getRole, InvalidPlayer, LinkedUsers, updateRoles, userError } from '../../../utils/utils.js';
 
 export default {
 	name: 'link',
@@ -87,8 +87,8 @@ export default {
 				}
 
 				try {
-					if (member.roles.cache.has(roleID)) {
-						await member.roles.remove(roleID);
+					if (interaction.member.roles.cache.has(roleID)) {
+						await interaction.member.roles.remove(roleID);
 						removedRoles.push(roleID);
 					}
 				}

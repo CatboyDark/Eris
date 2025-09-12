@@ -100,11 +100,11 @@ export default {
 		const { add, remove } = await updateRoles(player.id);
 
 		for (const roleID of add) {
-			await interaction.member.roles.add(roleID);
+			await member.roles.add(roleID);
 			addedRoles.push(roleID);
 		}
 		for (const roleID of remove) {
-			await interaction.member.roles.remove(roleID);
+			await member.roles.remove(roleID);
 			removedRoles.push(roleID);
 		}
 
