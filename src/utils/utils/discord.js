@@ -537,30 +537,27 @@ async function updateRoles(uuid) {
 			})).filter(r => !isNaN(r.level));
 
 			const rankOld = guild.members.find(p => p.uuid === uuid).rank;
-			let rankNew = guildRanks[0].name;
+			let rankNew = guildRanks[0].roleID;
 
 			if (!guildRanks.find(r => r.name === rankOld)) {
-				rankNew = rankOld;
+				rankNew = null;
 			}
 			else {
 				for (const rank of guildRanks) {
-					if (player.level >= rank.level) rankNew = rank.name;
+					if (player.level >= rank.level) rankNew = rank.roleID;
 				}
 			}
 
-
-			if (guildRanks.find(r => r.name === rankNew)) {
-				const role = getRole(guildRanks.find(r => r.name === rankNew).roleID);
-				if (!role) return console.error('! Guild Ranks', `Invalid role ID for rank ${rankNew}!`);
-
-				if (!DCmember.roles.cache.has(role.id)) {
-					add.push(role.id);
+			if (rankNew) {
+				if (!getRole(rankNew)) return console.error('! Guild Ranks', `Invalid guild rank role! (ID: ${rankNew})`);
+				if (!DCmember.roles.cache.has(rankNew)) {
+					add.push(rankNew);
 				}
-			}
 
-			for (const rank of guildRanks) {
-				if (rank.roleID !== rankNew && DCmember.roles.cache.has(rank.roleID)) {
-					remove.push(rank.roleID);
+				for (const rank of guildRanks) {
+					if (rank.roleID !== rankNew && DCmember.roles.cache.has(rank.roleID)) {
+						remove.push(rank.roleID);
+					}
 				}
 			}
 		}
