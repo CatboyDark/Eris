@@ -1,6 +1,6 @@
 import fs from 'fs';
 import mineflayer from 'mineflayer';
-import { config, DCsend } from '../utils/utils.js';
+import { Config, DCsend } from '../utils/utils.js';
 import { ChatManager } from './ChatManager.js';
 import { mcReady } from '../modules/bridge.js';
 
@@ -10,11 +10,11 @@ export let minecraft;
 const mcCommands = new Map();
 
 async function Minecraft() {
-	if (!config.minecraft.enabled) return;
+	if (!Config.minecraft.enabled) return;
 
 	minecraft = mineflayer.createBot({
 		host: 'mc.hypixel.net',
-		username: config.ign,
+		username: Config.ign,
 		auth: 'microsoft',
 		version: '1.8.9',
 		viewDistance: 'tiny',
@@ -57,7 +57,7 @@ async function mcEvents() {
 		globalThis.mcConnected = true;
 
 		console.cyan(`${minecraft.username} is online!`);
-		DCsend(config.logs.bot.channelID, [{ embed: [{ desc: `**${minecraft.username}** is online!` }]} ]);
+		DCsend(Config.logs.bot.channelID, [{ embed: [{ desc: `**${minecraft.username}** is online!` }]} ]);
 
 		minecraft.chat('/limbo');
 		if (!globalThis.ChatManInitialized) await ChatManager();
@@ -217,7 +217,7 @@ async function loadCommands() {
 
 	for (const file of dir) {
 		const commandName = file.replace('.js', '');
-		if (!config.minecraft.commands[commandName]) {
+		if (!Config.minecraft.commands[commandName]) {
 			console.yellow(`Disabling MC command: ${commandName}`);
 			continue;
 		}
@@ -232,12 +232,12 @@ async function loadCommands() {
 			}
 
 			const entries = [];
-			const baseName = c.prefix ? `${config.prefix}${c.name}` : c.name;
+			const baseName = c.prefix ? `${Config.prefix}${c.name}` : c.name;
 			entries.push(baseName.toLowerCase());
 
 			if (Array.isArray(c.aliases)) {
 				for (const alias of c.aliases) {
-					const aliasName = c.prefix ? `${config.prefix}${alias}` : alias;
+					const aliasName = c.prefix ? `${Config.prefix}${alias}` : alias;
 					entries.push(aliasName.toLowerCase());
 				}
 			}

@@ -1,12 +1,12 @@
 import { Events } from 'discord.js';
-import { config, createMsg, DCsend, getRole, read, userError } from '../../utils/utils.js';
+import { Config, createMsg, DCsend, getRole, read, userError } from '../../utils/utils.js';
 
 export default {
 	name: Events.InteractionCreate,
 
 	async execute(interaction) {
 		let log = null;
-		if (config.logs.bot.commands || config.logs.bot.buttons || config.logs.bot.menus/* || config.logs.bot.forms*/) {
+		if (Config.logs.bot.commands || Config.logs.bot.buttons || Config.logs.bot.menus/* || config.logs.bot.forms*/) {
 			log = await interactionLog(interaction);
 		}
 
@@ -15,13 +15,13 @@ export default {
 				const command = interaction.client.slashCommands.get(interaction.commandName);
 				await command.execute(interaction);
 
-				if (config.logs.bot.commands) {
+				if (Config.logs.bot.commands) {
 					await interactionLog(interaction, log);
 				}
 			}
 			else if (interaction.isButton()) {
 				if (interaction.customId.startsWith('rps')) return;
-				
+
 				const isReactionRole = await reactionRoles(interaction);
 				if (isReactionRole) return;
 
@@ -58,7 +58,7 @@ export default {
 async function interactionLog(interaction, log = null) {
 	let desc;
 
-	if (interaction.isChatInputCommand() && config.logs.bot.commands) {
+	if (interaction.isChatInputCommand() && Config.logs.bot.commands) {
 		const options = interaction.options.data.map((option) =>
 			option.type === 6 ? `<@${option.value}>` :
 			option.type === 7 ? `<#${option.value}>` :
@@ -75,7 +75,7 @@ async function interactionLog(interaction, log = null) {
 
 		desc = `<@${interaction.user.id}> ran **/${interaction.commandName}**${optionString}\n\n${url}`;
 	}
-	else if (interaction.isButton() && config.logs.bot.buttons) {
+	else if (interaction.isButton() && Config.logs.bot.buttons) {
 		desc = `<@${interaction.user.id}> clicked **${interaction.component.data.label}**\n\n${interaction.message.url}`;
 	}
 
@@ -84,7 +84,7 @@ async function interactionLog(interaction, log = null) {
 		return log.edit(createMsg([{ embed: [{ desc }], timestamp: 'f' }], { mentions: false }));
 	}
 	else {
-		return DCsend(config.logs.bot.channelID, [{ embed: [{ desc }], timestamp: 'f' }], { mentions: false });
+		return DCsend(Config.logs.bot.channelID, [{ embed: [{ desc }], timestamp: 'f' }], { mentions: false });
 	}
 }
 

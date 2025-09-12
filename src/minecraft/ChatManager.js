@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { minecraft } from './Minecraft.js';
-import { config, getChannel, loadFunny, MCsend, shipIt } from '../utils/utils.js';
+import { Config, getChannel, loadFunny, MCsend, shipIt } from '../utils/utils.js';
 import { bridgeReady, MCbridge, MCconsole } from '../modules/bridge.js';
 import { bridgeCommands } from '../modules/bridgeCommands.js';
 import { memberJoin } from '../modules/memberJoin.js';
@@ -14,13 +14,13 @@ async function ChatManager() {
 
 	await shipIt();
 
-	if (config.minecraft.console.enabled && !getChannel(config.minecraft.console.channelID)) {
+	if (Config.minecraft.console.enabled && !getChannel(Config.minecraft.console.channelID)) {
 		return console.error('Error | Console Channel', 'Invalid channel ID for Minecraft console!');
 	}
-	if (config.minecraft.bridge.guild.enabled && !getChannel(config.minecraft.bridge.guild.channelID)) {
+	if (Config.minecraft.bridge.guild.enabled && !getChannel(Config.minecraft.bridge.guild.channelID)) {
 		return console.error('Error | Guild Channel', 'Invalid channel ID for Minecraft guild bridge!');
 	}
-	if (config.minecraft.bridge.officer.enabled && !getChannel(config.minecraft.bridge.officer.channelID)) {
+	if (Config.minecraft.bridge.officer.enabled && !getChannel(Config.minecraft.bridge.officer.channelID)) {
 		return console.error('Error | Officer Channel', 'Invalid channel ID for Minecraft officer bridge!');
 	}
 
@@ -39,17 +39,17 @@ async function ChatManager() {
 		await loadFunny.minecraft(message);
 
 		if (bridgeReady) {
-			if (config.minecraft.console.enabled) {
+			if (Config.minecraft.console.enabled) {
 				MCconsole(rawMessage);
 			}
 
-			if (config.minecraft.bridge.guild.enabled && message.channel === 'guild') {
+			if (Config.minecraft.bridge.guild.enabled && message.channel === 'guild') {
 				if (message.sender === minecraft.username && isBridgeMessage(message.content)) return;
 
 				MCbridge(message);
 			}
 
-			if (config.minecraft.bridge.officer.enabled && message.channel === 'officer') {
+			if (Config.minecraft.bridge.officer.enabled && message.channel === 'officer') {
 				if (message.sender === minecraft.username && isBridgeMessage(message.content)) return;
 
 				MCbridge(message);

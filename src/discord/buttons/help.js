@@ -1,5 +1,5 @@
 import { mcCommands, mcCommandsReady } from '../../minecraft/Minecraft.js';
-import { config, createMsg } from '../../utils/utils.js';
+import {  Config, createMsg } from '../../utils/utils.js';
 
 const buttons =	[
 	{ id: 'DCcmds', label: 'Discord Commands', color: 'Green' },
@@ -34,19 +34,19 @@ mcCommandsReady.then(() => {
 });
 
 function genMCinfo() {
-	let desc = `### Minecraft Commands\nCommands take IGN and Profile (if applicable) as arguments.\nExample: \`${config.prefix}level CatboyDark Banana\`\n\n`;
+	let desc = `### Minecraft Commands\nCommands take IGN and Profile (if applicable) as arguments.\nExample: \`${Config.prefix}level CatboyDark Banana\`\n\n`;
 
 	if (!mcCommands) return desc = '### No Minecraft commands loaded!';
 
 	for (const key in mcCommandInfo) {
-		const mapKey = key.startsWith(config.prefix) ? key : `${config.prefix}${key}`;
+		const mapKey = key.startsWith(Config.prefix) ? key : `${Config.prefix}${key}`;
 
 		if (!mcCommands.has(mapKey)) continue;
 
 		const cmd = mcCommandInfo[key];
 		const mcCmd = mcCommands.get(mapKey);
 
-		const prefix = (mcCmd && mcCmd.prefix) ? config.prefix : '';
+		const prefix = (mcCmd && mcCmd.prefix) ? Config.prefix : '';
 		const aliases = (cmd.aliases || []).map(a => `\`${prefix}${a}\``).join(' ');
 
 		if (key === '.f0') {

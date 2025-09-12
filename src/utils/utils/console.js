@@ -1,6 +1,6 @@
 import { Team } from 'discord.js';
 import { discord } from '../../discord/Discord.js';
-import { config, DCsend } from '../utils.js';
+import { Config, DCsend } from '../utils.js';
 
 const colors = {
 	red:    'FF0000',
@@ -112,8 +112,8 @@ const colors = {
 
 		const app = await discord.application.fetch();
 
-		DCsend(config.logs.bot.channelID, [{ desc: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>` }]);
-		DCsend(config.logs.bot.channelID, [{
+		DCsend(Config.logs.bot.channelID, [{ desc: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>` }]);
+		DCsend(Config.logs.bot.channelID, [{
 			color: 'Error',
 			embed: [{ desc:
 				'### A Silly has occured!\n' +

@@ -1,18 +1,18 @@
 import { Events } from 'discord.js';
-import { config, DCsend, getChannel, getEmoji, getGuild, getPlayer, getRole, membersDB } from '../../utils/utils.js';
+import { Config, DCsend, getChannel, getEmoji, getGuild, getPlayer, getRole, LinkedUsers } from '../../utils/utils.js';
 // import { DCserver } from './clientReady.js';
 
 export default {
 	name: Events.GuildMemberAdd,
 
 	async execute(member) {
-		if (config.welcome.message.enabled) {
-			const channel = getChannel(config.welcome.message.channelID);
+		if (Config.welcome.message.enabled) {
+			const channel = getChannel(Config.welcome.message.channelID);
 			if (!channel) return console.error('Error | Welcome Channel', 'Invalid channel ID for welcome message!');
 
 			try {
 				DCsend(channel, [{ embed:[{
-					desc: config.welcome.message.message ? config.welcome.message.message.replace('@member', member.toString()) : `### Welcome to ${config.guild.name || DCserver.name}!\n### ${member.toString()}`,
+					desc: Config.welcome.message.message ? Config.welcome.message.message.replace('@member', member.toString()) : `### Welcome to ${Config.guild.name || DCserver.name}!\n### ${member.toString()}`,
 					icon: { url: member.user.displayAvatarURL() }
 				}] }]);
 			}
@@ -25,13 +25,13 @@ export default {
 		const addedRoles = [];
 		let isLinked = false;
 
-		if (config.welcome.autoLink) {
-			const dcidDoc = await membersDB.findOne({ dcid: member.id });
-			if (!dcidDoc) return;
+		if (Config.welcome.autoLink) {
+			const user = LinkedUsers.find(u => u.dcid === member.id);
+			if (!user) return;
 
 			isLinked = true;
 
-			const player = await getPlayer(dcidDoc.uuid);
+			const player = await getPlayer(user.uuid);
 
 			try {
 				await member.setNickname(player.ign);
@@ -41,8 +41,8 @@ export default {
 				else console.error('Error | Command: link', e);
 			}
 
-			if (config.link.role.enabled) {
-				const roleID = config.link.role.roleID;
+			if (Config.link.role.enabled) {
+				const roleID = Config.link.role.roleID;
 				if (!getRole(roleID)) return console.error('Error | Command: link', 'Invalid Link Role!');
 
 				try {
@@ -55,13 +55,13 @@ export default {
 				}
 			}
 
-			if (config.guild.role.enabled && config.guild.name) {
+			if (Config.guild.role.enabled && Config.guild.name) {
 				const guild = await getGuild.player(player.ign);
-				const roleID = config.guild.role.roleID;
+				const roleID = Config.guild.role.roleID;
 				if (!getRole(roleID)) return console.error('Error | Command: link', 'Invalid Guild Role!');
 
 				try {
-					if (guild.name === config.guild.name) {
+					if (guild.name === Config.guild.name) {
 						await member.roles.add(roleID);
 						addedRoles.push(roleID);
 					}
@@ -72,8 +72,8 @@ export default {
 				}
 			}
 		}
-		else if (config.welcome.role.enabled) {
-			for (const roleID of config.welcome.role.roleIDs) {
+		else if (Config.welcome.role.enabled) {
+			for (const roleID of Config.welcome.role.roleIDs) {
 				if (!getRole(roleID)) return console.error('Error | Welcome Role', `Invalid Welcome Role!${roleID ? ` (ID: ${roleID})` : ''}`);
 
 				try {
@@ -89,11 +89,11 @@ export default {
 		const check = await getEmoji('check');
 		const plus = await getEmoji('plus');
 
-		if (config.logs.bot.memberJoin) {
+		if (Config.logs.bot.memberJoin) {
 			let rolesDesc = '';
 			if (isLinked) rolesDesc = `\n\n${check} **Autolinked!**\n\n${addedRoles.map(roleID => `${plus} <@&${roleID}>`).join('\n')}`;
 
-			DCsend(config.logs.bot.channelID, [{ embed: [{
+			DCsend(Config.logs.bot.channelID, [{ embed: [{
 				desc: `### New Member\n${member.toString()}\nAccount created <t:${(member.user.createdTimestamp / 1000).toFixed()}:R>${rolesDesc}`,
 				icon: { url: member.user.displayAvatarURL() }
 			}] }]);

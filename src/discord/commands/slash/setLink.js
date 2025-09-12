@@ -1,4 +1,4 @@
-import { config, createMsg, DCsend, getEmoji, saveConfig } from '../../../utils/utils.js';
+import { Config, createMsg, DCsend, getEmoji } from '../../../utils/utils.js';
 
 export default {
 	name: 'setlink',
@@ -23,10 +23,10 @@ export default {
 			[{ id: 'linkHelp', label: 'How To Link', color: 'Gray' }]
 		]);
 
-		config.link.channel.enabled;
-		config.link.channel.infoMessage = infoMessage.id;
-		config.link.channel.channelID = channel.id;
-		saveConfig();
+		Config.link.channel.enabled;
+		Config.link.channel.infoMessage = infoMessage.id;
+		Config.link.channel.channelID = channel.id;
+		Config.write();
 
 		interaction.reply(createMsg([{ embed: [{ desc: `**Account Linking channel has been set to <#${channel.id}>**` }] }], { ephemeral: true }));
 	}

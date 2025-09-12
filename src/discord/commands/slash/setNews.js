@@ -1,6 +1,6 @@
 import Parser from 'rss-parser';
 import * as cheerio from 'cheerio';
-import { config, createMsg, getChannel, getRole, MCsend, read, saveConfig } from '../../../utils/utils.js';
+import { Config, createMsg, getChannel, getRole, MCsend, read } from '../../../utils/utils.js';
 
 const parser = new Parser();
 // const allForums = 'https://hypixel.net/forums/-/index.rss';
@@ -9,7 +9,7 @@ const skyblockPatchNotes = 'https://hypixel.net/forums/skyblock-patch-notes.158/
 const skyblockAlphaNetwork = 'https://hypixel.net/skyblock-alpha/index.rss';
 
 export async function getFeed(url, c, r) {
-	if (!config.sbNews.enabled) return;
+	if (!Config.sbNews.enabled) return;
 
 	const feed = await parser.parseURL(url);
 	const cache = read('.cache/bot/rss.json');
@@ -56,7 +56,7 @@ export async function getFeed(url, c, r) {
 		const channel = getChannel(c);
 
 		await channel.send(createMsg(parts));
-		if (config.minecraft.enabled) MCsend({ channel: 'guild', content: `${item.title} ${item.link}` });
+		if (Config.minecraft.enabled) MCsend({ channel: 'guild', content: `${item.title} ${item.link}` });
 	}
 
 	cache[category] = feed.items.map(item => item.guid);
@@ -76,10 +76,10 @@ export default {
 		const channel = interaction.options.getChannel('channel') ?? interaction.channel;
 		const role = interaction.options.getRole('role') ?? null;
 
-		config.sbNews.enabled = true;
-		config.sbNews.channelID = channel.id;
-		config.sbNews.roleID = role ? role.id : null;
-		saveConfig();
+		Config.sbNews.enabled = true;
+		Config.sbNews.channelID = channel.id;
+		Config.sbNews.roleID = role ? role.id : null;
+		Config.write();
 
 		const desc = role ? `**Skyblock news channel has been set to <#${channel.id}> and will ping** ${role}` : `**Skyblock news channel has been set to <#${channel.id}>**`;
 		interaction.reply(createMsg([{ embed: [{ desc }] }], { ephemeral: true }));

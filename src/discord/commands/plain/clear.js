@@ -1,14 +1,14 @@
 import { PermissionFlagsBits } from 'discord.js';
-import { config, getChannel } from '../../../utils/utils.js';
+import { Config, getChannel } from '../../../utils/utils.js';
 
 export default {
 	name: 'clear',
 
 	async execute(message) {
-		if (!config.link.channel.enabled || message.channel.id !== config.link.channel.channelID || !message.member.permissions.has(PermissionFlagsBits.ManageMessages)) return;
+		if (!Config.link.channel.enabled || message.channel.id !== Config.link.channel.channelID || !message.member.permissions.has(PermissionFlagsBits.ManageMessages)) return;
 
 		try {
-			await getChannel(config.link.channel.channelID).messages.fetch(config.link.channel.infoMessage);
+			await getChannel(Config.link.channel.channelID).messages.fetch(Config.link.channel.infoMessage);
 		}
 		catch (e) {
 			if (e.message.includes('Unknown Message')) return;
@@ -21,7 +21,7 @@ export default {
 
 		const toDelete = [];
 		for (const msg of messages.values()) {
-			if (msg.id === config.link.channel.infoMessage) break;
+			if (msg.id === Config.link.channel.infoMessage) break;
 			toDelete.push(msg);
 		}
 

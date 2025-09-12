@@ -1,4 +1,4 @@
-export * from './utils/config.js';
+export * from './utils/read.js';
 export * from './utils/console.js';
 export * from './utils/discord.js';
 export * from './utils/errors.js';

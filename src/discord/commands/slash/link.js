@@ -1,5 +1,5 @@
 import { MessageFlags } from 'discord.js';
-import { config, createMsg, getEmoji, getGuild, getPlayer, getRole, InvalidPlayer, membersDB, userError } from '../../../utils/utils.js';
+import { Config, createMsg, getEmoji, getGuild, getPlayer, getRole, InvalidPlayer, LinkedUsers, updateRoles, userError } from '../../../utils/utils.js';
 
 export default {
 	name: 'link',
@@ -26,17 +26,27 @@ export default {
 		if (!player.discord) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Discord is not linked!**' }] }]));
 		if (interaction.user.username !== player.discord) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Discord does not match!**' }] }]));
 
-		const uuidDoc = await membersDB.findOne({ uuid: player.id });
-		const dcidDoc = await membersDB.findOne({ dcid: interaction.user.id });
+		const uuidDoc = LinkedUsers.find(u => u.uuid === player.id);
+		const dcidDoc = LinkedUsers.find(u => u.dcid === interaction.user.id);
 
-		if (uuidDoc && uuidDoc.dcid !== interaction.user.id) await membersDB.deleteOne({ uuidDoc });
-		if (dcidDoc && dcidDoc.uuid !== player.id) await membersDB.deleteOne({ dcidDoc });
+		if (uuidDoc && uuidDoc.dcid !== interaction.user.id) {
+			const i = LinkedUsers.indexOf(uuidDoc);
+			if (i !== -1) LinkedUsers.splice(i, 1);
+		}
+		if (dcidDoc && dcidDoc.uuid !== player.id) {
+			const i = LinkedUsers.indexOf(dcidDoc);
+			if (i !== -1) LinkedUsers.splice(i, 1);
+		}
 
-		await membersDB.findOneAndUpdate(
-			{ dcid: interaction.user.id },
-			{ $set: { uuid: player.id, dcid: interaction.user.id } },
-			{ upsert: true }
-		);
+		const existing = LinkedUsers.find(u => u.dcid === interaction.user.id);
+		if (existing) {
+			existing.uuid = player.id;
+		}
+		else {
+			LinkedUsers.push({ dcid: interaction.user.id, uuid: player.id });
+		}
+
+		LinkedUsers.write();
 
 		try {
 			await interaction.member.setNickname(player.ign);
@@ -49,8 +59,8 @@ export default {
 		const addedRoles = [];
 		const removedRoles = [];
 
-		if (config.link.role.enabled) {
-			const roleID = config.link.role.roleID;
+		if (Config.link.role.enabled) {
+			const roleID = Config.link.role.roleID;
 			if (!getRole(roleID)) {
 				interaction.editReply(userError);
 				return console.error('Error | Command: link', 'Invalid Link Role!');
@@ -69,8 +79,8 @@ export default {
 			}
 		}
 
-		if (config.welcome.roleRemoveOnLink.enabled) {
-			for (const roleID of config.welcome.roleRemoveOnLink.roleIDs) {
+		if (Config.welcome.roleRemoveOnLink.enabled) {
+			for (const roleID of Config.welcome.roleRemoveOnLink.roleIDs) {
 				if (!getRole(roleID)) {
 					interaction.editReply(userError);
 					return console.error('Error | Command: link', `Invalid Welcome Role!${roleID ? ` (ID: ${roleID})` : ''}`);
@@ -90,29 +100,15 @@ export default {
 			}
 		}
 
-		if (config.guild.role.enabled && config.guild.name) {
-			const guild = await getGuild.player(player.id);
-			const roleID = config.guild.role.roleID;
-			if (!getRole(roleID)) {
-				interaction.editReply(userError);
-				return console.error('Error | Command: link', 'Invalid Guild Role!');
-			}
+		const { add, remove } = await updateRoles(player.id);
 
-			try {
-				if (guild.name === config.guild.name && !interaction.member.roles.cache.has(roleID)) {
-					await interaction.member.roles.add(roleID);
-					addedRoles.push(roleID);
-				}
-				else if (guild.name !== config.guild.name && interaction.member.roles.cache.has(roleID)) {
-					await interaction.member.roles.remove(roleID);
-					removedRoles.push(roleID);
-				}
-			}
-			catch (e) {
-				interaction.editReply(userError);
-				if (e.message.includes('Missing Permissions')) return console.error('Error | Command: link', 'I don\'t have permission to assign/remove Guild Role!');
-				else return console.error('Error | Command: link', e);
-			}
+		for (const roleID of add) {
+			await interaction.member.roles.add(roleID);
+			addedRoles.push(roleID);
+		}
+		for (const roleID of remove) {
+			await interaction.member.roles.remove(roleID);
+			removedRoles.push(roleID);
 		}
 
 		const check = await getEmoji('check');

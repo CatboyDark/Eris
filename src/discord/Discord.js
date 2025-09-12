@@ -1,7 +1,7 @@
 import { Client, Collection, GatewayIntentBits, REST, Routes } from 'discord.js';
 import fs from 'fs';
 import auth from '../../auth.json' with { type: 'json' };
-import { createSlash, config } from '../utils/utils.js';
+import { createSlash, Config } from '../utils/utils.js';
 
 export { Discord };
 
@@ -53,7 +53,7 @@ async function loadSlashCommands() {
 
 async function loadPlainCommands() {
 	const plainDir = fs.readdirSync('./src/discord/commands/plain').filter(file => file.endsWith('.js'));
-	const prefix = config.prefix;
+	const prefix = Config.prefix;
 	for (const plainFile of plainDir) {
 		const plainCommand = (await import(`./commands/plain/${plainFile}`)).default;
 		if (!plainCommand) {

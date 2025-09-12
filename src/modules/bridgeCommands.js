@@ -1,4 +1,4 @@
-import { config, getChannel, MCsend } from '../utils/utils.js';
+import { Config, getChannel, MCsend } from '../utils/utils.js';
 import { mcCommands, minecraft } from '../minecraft/Minecraft.js';
 import { dcReady } from '../discord/_events/clientReady.js';
 
@@ -37,17 +37,19 @@ let officerChannel;
 
 async function wait() {
 	await dcReady;
-	guildChannel = getChannel(config.minecraft.bridge.guild.channelID);
-	officerChannel = getChannel(config.minecraft.bridge.officer.channelID);
+	guildChannel = getChannel(Config.minecraft.bridge.guild.channelID);
+	officerChannel = getChannel(Config.minecraft.bridge.officer.channelID);
 }
 
 wait();
 
 async function fakeBridgeCommands(message) {
+	if (!guildChannel || !officerChannel) return;
+
 	const isGuild = message.channel.id === guildChannel.id;
 	const isOfficer = message.channel.id === officerChannel.id;
 
-	if ((!isGuild && !isOfficer) || (isGuild && !config.minecraft.bridge.guild.enabled) || (isOfficer && !config.minecraft.bridge.officer.enabled)) return;
+	if ((!isGuild && !isOfficer) || (isGuild && !Config.minecraft.bridge.guild.enabled) || (isOfficer && !Config.minecraft.bridge.officer.enabled)) return;
 
 	const args = message.content.match(/"([^"]+)"|'([^']+)'|\S+/g)?.map(arg => arg.replace(/^["']|["']$/g, '')) || [];
 	const commandName = typeof args[0] === 'string' ? args[0].toLowerCase() : null;

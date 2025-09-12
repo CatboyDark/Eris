@@ -1,6 +1,9 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, EmbedBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, PermissionFlagsBits, resolveColor, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, ContainerBuilder, EmbedBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, PermissionFlagsBits, resolveColor, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js';
 import { discord } from '../../discord/Discord.js';
 import { DCserver } from '../../discord/_events/clientReady.js';
+import path from 'path';
+import { Config, LinkedUsers } from './read.js';
+import { getGuild, getSkyblock } from './hypixel.js';
 
 export {
 	createSlash,
@@ -9,7 +12,9 @@ export {
 	getMember,
 	getEmoji,
 	createMsg,
-	DCsend
+	createMessage,
+	DCsend,
+	updateRoles
 };
 
 function createSlash({ name, desc, options = [], permissions = [], execute }) {
@@ -154,6 +159,7 @@ const colors = {
 */
 function createMsg(items, { ephemeral = false, mentions = true } = {}) {
 	const components = [];
+	const files = [];
 
 	for (const item of items) {
 		if (item.embed) {
@@ -216,8 +222,15 @@ function createMsg(items, { ephemeral = false, mentions = true } = {}) {
 						container.addActionRowComponents(row);
 					}
 				}
-				else if (embed.file) {
-					container.addFileComponents(new FileBuilder().setURL(embed.file));
+				else if (item.file) {
+					if (/^https?:\/\//i.test(item.file)) {
+						components.push(new FileBuilder().setURL(item.file));
+					}
+					else {
+						const filename = require('path').basename(item.file);
+						files.push(new AttachmentBuilder(item.file));
+						components.push(new FileBuilder().setURL(`attachment://${filename}`));
+					}
 				}
 				else if (embed.divider) {
 					container.addSectionComponents(new SeparatorBuilder().setDivider(embed.divider).setSpacing(embed.size === 'small' ? SeparatorSpacingSize.Small : SeparatorSpacingSize.Large));
@@ -326,7 +339,102 @@ createMsg.old = function createMsg({ color, title, desc, fields, header, icon, i
 	return embed;
 };
 
-const styles = {
+/*
+
+const exampleMessage = createMessage(
+	[
+		// Messages
+		{ content: 'This is a regular text message.' },
+
+		// Buttons (5 per row max)
+		[
+			{ id: 'exampleButton', label: 'Button', color: 'Green' }, // Colors: Green, Red, Blue, Gray // Optional: replace label with emoji (takes custom emoji id or unicode (if animated, add 'animated: true')), disabled: bool
+			{ link: 'https://discord.com', label: 'Link Button' } // Must start with https or discord, Optional: disabled: bool
+		],
+
+		// Select Menus
+		{},
+
+		// Files
+		{ file: 'https://i.imgur.com/wSTFkRM.png' }, // URL or local path ('attachment://${filePath}')
+	],
+	{ ephemeral: true } // Optional
+);
+
+*/
+function createMessage(items, { ephemeral = false /* , mentions = true */ } = {}) {
+	const components = [];
+	const files = [];
+
+	for (const item of items)  {
+
+		// Messages
+		if (item.content) {
+			components.push({ type: ComponentType.TextDisplay, content: item.content });
+		}
+
+		// // Select Menus
+		// else if (item.options) {
+
+		// }
+
+		else if (Array.isArray(item)) {
+			for (const subitem of item) {
+
+				// Buttons
+				if (subitem.label || subitem.emoji) {
+					if (subitem.link) {
+						const subcomponents = { type: ComponentType.Button, style: ButtonStyle.Link, url: subitem.link, label: subitem.label, disabled: subitem.disabled };
+						components.push({ type: ComponentType.ActionRow, components: [subcomponents] });
+					}
+					else {
+						let style;
+						if (typeof subitem.color === 'boolean') {
+							style = subitem.color ? ButtonStyle.Success : ButtonStyle.Danger;
+						}
+						else {
+							style = buttonColors[subitem.color];
+						}
+
+						let emoji;
+						if (subitem.emoji) {
+							if (/^\d+$/.test(subitem.emoji)) {
+								emoji = { id: subitem.emoji };
+							}
+							else if (/[\p{Emoji}\uFE0F]/u.test(subitem.emoji)) {
+								emoji = { name: subitem.emoji };
+							}
+						}
+
+						const subcomponents = { type: ComponentType.Button, style, custom_id: subitem.id, label: subitem.label, emoji, disabled: subitem.disabled };
+						components.push({ type: ComponentType.ActionRow, components: [subcomponents] });
+					}
+				}
+			}
+		}
+
+		// Attachments
+		else if (item.file) {
+			let url;
+			if (item.file.startsWith('http')) {
+				url = item.file;
+			}
+			else {
+				url = `attachment://${item.file}`;
+				files.push({ attachment: path.basename(item.file) });
+			}
+			components.push({ type: ComponentType.File, file: { url } });
+		}
+	}
+
+	return {
+		flags: MessageFlags.IsComponentsV2 | (ephemeral ? MessageFlags.Ephemeral : 0),
+		components,
+		files: files.length > 0 ? files : undefined
+	};
+}
+
+const buttonColors = {
 	Blue: ButtonStyle.Primary,
 	Gray: ButtonStyle.Secondary,
 	Green: ButtonStyle.Success,
@@ -345,7 +453,7 @@ function createButtons({ id, label, color, url, emoji, disabled }) {
 	else {
 		if (label) button.setLabel(label);
 		if (emoji) button.setEmoji(emoji);
-		button.setCustomId(id).setStyle(styles[color]);
+		button.setCustomId(id).setStyle(buttonColors[color]);
 	}
 	return button;
 }
@@ -375,4 +483,109 @@ function createMenu({ id, label, options, multi, disabled }) {
 function DCsend(channel, message, options = {}) {
 	channel = typeof channel === 'string' ? discord.channels.cache.get(channel) : channel;
 	return channel.send(createMsg(message, options));
+}
+
+// I KNOW THIS CODE IS SHIT BUT I JUST NEED IT TO WORK FOR NOW
+// please for the love of god redo this monstrosity
+async function updateRoles(uuid) {
+	const add = [];
+	const remove = [];
+
+	const isLinked = LinkedUsers.find(u => u.uuid === uuid);
+	if (!isLinked) return { add, remove };
+
+	const DCmember = getMember(isLinked.dcid);
+	if (!DCmember) return { add, remove };
+
+	let guild;
+	let player;
+
+	if ((Config.guild.role.enabled || Config.guild.ranks.enabled) && Config.guild.name) {
+		guild = await getGuild.player(uuid);
+		player = Config.guild.ranks.enabled || Config.customRoles.skyblockLevel.enabled ? await getSkyblock(uuid, { profile: 'highest' }) : null;
+	}
+
+	if (Config.guild.role.enabled) {
+		const roleID = Config.guild.role.roleID;
+		if (!getRole(roleID)) return console.error('Error | updateRoles', 'Invalid Link Role!');
+
+		try {
+			if (guild?.name === Config.guild.name && !DCmember.roles.cache.has(roleID)) {
+				add.push(roleID);
+			}
+			else if (guild?.name !== Config.guild.name && DCmember.roles.cache.has(roleID)) {
+				remove.push(roleID);
+			}
+		}
+		catch (e) {
+			if (e.message.includes('Missing Permissions')) return console.error('Error | updateRoles', 'I don\'t have permission to assign/remove the guild member role!');
+			else return console.error('Error | updateRoles', e);
+		}
+	}
+
+	if (Config.guild.ranks.enabled) {
+		if (guild?.name !== Config.guild.name && DCmember.roles.cache.some(r => Config.guild.ranks.roles.map(r => r.roleID).includes(r.id))) {
+			remove.push(...DCmember.roles.cache.filter(r => Config.guild.ranks.roles.map(r => r.roleID).includes(r.id)).map(r => r.id));
+		}
+		else if (guild?.name === Config.guild.name) {
+			const whyAreYourRanksNotSortedHypixel = guild.ranks.sort((a, b) => a.priority - b.priority);
+
+			const guildRanks = Config.guild.ranks.roles.map((rank, i) => ({
+				name: whyAreYourRanksNotSortedHypixel[i].name,
+				roleID: rank.roleID,
+				level: Number(rank.level)
+			})).filter(r => !isNaN(r.level));
+
+			const rankOld = guild.members.find(p => p.uuid === uuid).rank;
+			let rankNew = guildRanks[0].name;
+
+			if (!guildRanks.find(r => r.name === rankOld)) {
+				rankNew = rankOld;
+			}
+			else {
+				for (const rank of guildRanks) {
+					if (player.level >= rank.level) rankNew = rank.name;
+				}
+			}
+
+			if (guildRanks.find(r => r.name === rankNew)) {
+				const role = getRole(guildRanks.find(r => r.name === rankNew).roleID);
+				if (!role) return console.error('! Guild Ranks', `Invalid role ID for rank ${rankNew.name}!`);
+
+				if (!DCmember.roles.cache.has(role.id)) {
+					add.push(role);
+				}
+			}
+
+			for (const rank of guildRanks) {
+				if (rank.roleID !== rankNew && DCmember.roles.cache.has(rank.roleID)) {
+					remove.push(rank.roleID);
+				}
+			}
+		}
+	}
+
+	if (Config.customRoles.skyblockLevel.enabled) {
+		let roleNew = Config.customRoles.skyblockLevel.roles[0].roleID;
+		for (const role of Config.customRoles.skyblockLevel.roles) {
+			if (!getRole(role.roleID)) return console.error('! Custom Roles', `Invalid role ID for Skyblock level ${role.level}! (ID: ${role.roleID})`);
+			if (isNaN(role.level)) return console.error('! Custom Roles', `Invalid level for Skyblock level role ID ${role.roleID}!`);
+
+			if (player.level >= role.level) roleNew = role.roleID;
+		}
+
+		if (!DCmember.roles.cache.has(roleNew)) {
+			const role = getRole(roleNew);
+			add.push(role.id);
+		}
+
+		for (const role of Config.customRoles.skyblockLevel.roles) {
+			const roleOld = getRole(role.roleID);
+			if (roleOld.id !== roleNew && DCmember.roles.cache.has(roleOld.id)) {
+				remove.push(roleOld.id);
+			}
+		}
+	}
+
+	return { add, remove };
 }

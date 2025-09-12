@@ -1,4 +1,4 @@
-import { config, getSkyblock, getUser, HypixelNoSkyblockData, MCsend, read } from '../utils/utils.js';
+import { Config, getSkyblock, getUser, HypixelNoSkyblockData, MCsend, read } from '../utils/utils.js';
 
 export { memberJoin };
 
@@ -8,7 +8,7 @@ async function memberJoin(message) {
 }
 
 async function autoAccept(message) {
-	if (!config.minecraft.memberJoin.autoAccept.enabled || !message.startsWith('-') || !message.includes('Click here to accept or type /guild accept')) return;
+	if (!Config.minecraft.memberJoin.autoAccept.enabled || !message.startsWith('-') || !message.includes('Click here to accept or type /guild accept')) return;
 
 	const match = message.match(/\/guild accept (\w+)/);
 	const ign = match[1];
@@ -22,7 +22,7 @@ async function autoAccept(message) {
 
 	let player;
 	try {
-		player = await getSkyblock(user.id, 'highest');
+		player = await getSkyblock(user.id, { profile: 'highest' });
 	}
 	catch (e) {
 		if (e instanceof HypixelNoSkyblockData) return MCsend({ channel: 'officer', message: `${user.ign} has never played Skyblock!`});
@@ -31,7 +31,7 @@ async function autoAccept(message) {
 
 	const level = player.level;
 
-	if (level >= config.minecraft.memberJoin.autoAccept.requirement) {
+	if (level >= Config.minecraft.memberJoin.autoAccept.requirement) {
 		MCsend({ channel: 'officer', content: `${user.ign} meets our reqs! (${Math.floor(player.level)})` });
 		return MCsend.raw(`/g accept ${user.ign}`);
 	}

@@ -1,7 +1,7 @@
 // import { DCserver } from '../../discord/_events/clientReady.js';
 import { unemojify } from 'node-emoji';
 import { dcReady, DCserver } from '../discord/_events/clientReady.js';
-import { config, createMsg, DCsend, getChannel, MCsend } from '../utils/utils.js';
+import { Config, createMsg, DCsend, getChannel, MCsend } from '../utils/utils.js';
 import { minecraft } from '../minecraft/Minecraft.js';
 
 export {
@@ -10,7 +10,7 @@ export {
 	DCbridge
 };
 
-const useBridge = config.minecraft.console.enabled || config.minecraft.bridge.guild.enabled || config.minecraft.bridge.officer.enabled;
+const useBridge = Config.minecraft.console.enabled || Config.minecraft.bridge.guild.enabled || Config.minecraft.bridge.officer.enabled;
 
 let mcResolve;
 export const minecraftReady = new Promise((res) => { mcResolve = res; });
@@ -26,13 +26,13 @@ export function mcReady() {
 }
 
 function MCconsole(message) {
-	DCsend(config.minecraft.console.channelID, [{ desc: MCfilter(message) }], { mentions: false });
+	DCsend(Config.minecraft.console.channelID, [{ desc: MCfilter(message) }], { mentions: false });
 }
 
 function MCbridge(message) {
 	const bridge =
-		message.channel === 'guild' ? config.minecraft.bridge.guild :
-		message.channel === 'officer' ? config.minecraft.bridge.officer :
+		message.channel === 'guild' ? Config.minecraft.bridge.guild :
+		message.channel === 'officer' ? Config.minecraft.bridge.officer :
 		null;
 
 	const channel = bridge.channelID;
@@ -87,16 +87,18 @@ let consoleChannel;
 
 async function wait() {
 	await dcReady;
-	consoleChannel = getChannel(config.minecraft.console.channelID);
+	consoleChannel = getChannel(Config.minecraft.console.channelID);
 }
 
 wait();
 
 async function DCbridge(m) {
+	if (!consoleChannel) return;
+
 	const bridgeChannels = [
-		config.minecraft.bridge.guild.enabled && config.minecraft.bridge.guild.channelID,
-		config.minecraft.bridge.officer.enabled && config.minecraft.bridge.officer.channelID,
-		config.minecraft.console.enabled && config.minecraft.console.channelID
+		Config.minecraft.bridge.guild.enabled && Config.minecraft.bridge.guild.channelID,
+		Config.minecraft.bridge.officer.enabled && Config.minecraft.bridge.officer.channelID,
+		Config.minecraft.console.enabled && Config.minecraft.console.channelID
 	].filter(Boolean);
 	if (!bridgeReady && bridgeChannels.includes(m.channel.id)) return m.react('❌');
 
@@ -112,7 +114,7 @@ async function DCbridge(m) {
 		}
 	}
 
-	if (config.minecraft.bridge.guild.enabled && m.channel.id === config.minecraft.bridge.guild.channelID) {
+	if (Config.minecraft.bridge.guild.enabled && m.channel.id === Config.minecraft.bridge.guild.channelID) {
 		let content;
 		if (m.reference) {
 			const originalMessage = await m.channel.messages.fetch(m.reference.messageId);
@@ -131,7 +133,7 @@ async function DCbridge(m) {
 		MCsend({ channel: 'guild', sender: m.member.displayName, content, discordMessage: m });
 	}
 
-	if (config.minecraft.bridge.officer.enabled && m.channel.id === config.minecraft.bridge.officer.channelID) {
+	if (Config.minecraft.bridge.officer.enabled && m.channel.id === Config.minecraft.bridge.officer.channelID) {
 		let content;
 		if (m.reference) {
 			const originalMessage = await m.channel.messages.fetch(m.reference.messageId);

@@ -1,4 +1,4 @@
-import { config, getGuild, getUser, HypixelInvalidGuild } from '../../utils/utils.js';
+import { Config, getGuild, getUser, HypixelInvalidGuild } from '../../utils/utils.js';
 
 export default {
 	name: 'guildinfo',
@@ -14,7 +14,7 @@ export default {
 				guild = await getGuild.name(message.options.guild);
 			}
 			catch (e) {
-				if (e instanceof HypixelInvalidGuild) return message.reply(`${message.options.guild}: Invalid guild name! (For names with spaces, use quotes: ${config.prefix}guild 'Creators Club')`);
+				if (e instanceof HypixelInvalidGuild) return message.reply(`${message.options.guild}: Invalid guild name! (For names with spaces, use quotes: ${Config.prefix}guild 'Creators Club')`);
 				else console.error('Error | MC command: guildinfo', e);
 			}
 		}

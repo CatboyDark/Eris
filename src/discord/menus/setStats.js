@@ -1,5 +1,5 @@
 import { ChannelType, PermissionFlagsBits } from 'discord.js';
-import { config, createMsg, getChannel, getGuild, saveConfig } from '../../utils/utils.js';
+import { Config, createMsg, getChannel, getGuild } from '../../utils/utils.js';
 import { discord } from '../Discord.js';
 import { DCserver } from '../_events/clientReady.js';
 
@@ -9,26 +9,26 @@ export default [{
 	async execute(interaction) {
 		const selection = interaction.values;
 
-		const guild = await getGuild.name(config.guild.name);
-		const category = getChannel(config.statsChannels.categoryID);
+		const guild = await getGuild.name(Config.guild.name);
+		const category = getChannel(Config.statsChannels.categoryID);
 		if (!category) {
 			const newCategory = await DCserver.channels.create({
 				name: 'Guild Stats',
 				type: ChannelType.GuildCategory,
 				position: 0
 			});
-			config.statsChannels.categoryID = newCategory.id;
-			saveConfig();
+			Config.statsChannels.categoryID = newCategory.id;
+			Config.write();
 		}
 
 		if (selection.includes('guildLevel')) {
-			const guildLevel = getChannel(config.statsChannels.guildLevel.channelID);
+			const guildLevel = getChannel(Config.statsChannels.guildLevel.channelID);
 			if (!guildLevel) {
-				config.statsChannels.guildLevel.enabled = true;
+				Config.statsChannels.guildLevel.enabled = true;
 				const channel = await DCserver.channels.create({
-					name: config.statsChannels.guildLevel.name ? config.statsChannels.guildLevel.name.replace('#level', guild.level.toFixed(1)) : `⭐ Level: ${guild.level.toFixed(1)}`,
+					name: Config.statsChannels.guildLevel.name ? Config.statsChannels.guildLevel.name.replace('#level', guild.level.toFixed(1)) : `⭐ Level: ${guild.level.toFixed(1)}`,
 					type: 2,
-					parent: config.statsChannels.categoryID,
+					parent: Config.statsChannels.categoryID,
 					permissionOverwrites: [
 						{
 							id: DCserver.roles.everyone.id,
@@ -40,17 +40,17 @@ export default [{
 						}
 					]
 				});
-				config.statsChannels.guildLevel.channelID = channel.id;
+				Config.statsChannels.guildLevel.channelID = channel.id;
 			}
 		}
 		if (selection.includes('guildMembers')) {
-			const guildMembers = getChannel(config.statsChannels.guildMembers.channelID);
+			const guildMembers = getChannel(Config.statsChannels.guildMembers.channelID);
 			if (!guildMembers) {
-				config.statsChannels.guildMembers.enabled = true;
+				Config.statsChannels.guildMembers.enabled = true;
 				const channel = await DCserver.channels.create({
-					name: config.statsChannels.guildMembers.name ? config.statsChannels.guildMembers.name.replace('#members', guild.members.length) : `😋 Members: ${guild.members.length}/125`,
+					name: Config.statsChannels.guildMembers.name ? Config.statsChannels.guildMembers.name.replace('#members', guild.members.length) : `😋 Members: ${guild.members.length}/125`,
 					type: 2,
-					parent: config.statsChannels.categoryID,
+					parent: Config.statsChannels.categoryID,
 					permissionOverwrites: [
 						{
 							id: DCserver.roles.everyone.id,
@@ -62,10 +62,10 @@ export default [{
 						}
 					]
 				});
-				config.statsChannels.guildMembers.channelID = channel.id;
+				Config.statsChannels.guildMembers.channelID = channel.id;
 			}
 		}
-		saveConfig();
+		Config.write();
 
 		interaction.reply(createMsg([{ embed: [{ desc: 'Stats Channels have been created!' }] }], { ephemeral: true }));
 	}

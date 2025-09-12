@@ -28,7 +28,7 @@ for (const floor of floors) {
 
 			let player;
 			try {
-				player = await getSkyblock(user.id, message.options.profile);
+				player = await getSkyblock(user.id, { profile: message.options.profile });
 			}
 			catch (e) {
 				if (e instanceof HypixelNoSkyblockData) return message.reply(`${user.ign} has never played Skyblock!`);

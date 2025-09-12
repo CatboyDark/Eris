@@ -181,18 +181,32 @@ function toGuildLevel(xp) {
 	return thresholds.length + xp / 3_000_000;
 }
 
-async function getSkyblock(uuid, profile, { networth = false } = {}) {
+async function getSkyblock(uuid, { profile = null, networth = false, all = false } = {}) {
 	const cache = skyblockCache.get(uuid);
 	if (cache && Date.now() < cache.expiration) {
 		const { raw, expiration, profiles, selectedProfile } = cache;
 
-	const highestProfile = Object.entries(profiles).sort(([, a], [, b]) => b.level - a.level)[0]?.[0];
+		if (all) {
+			if (networth) {
+				for (const p of Object.values(profiles)) {
+					if (!p.networth) {
+						const rawProfile = raw.profiles.find(r => r.cute_name === p.name);
+						const museum = await getMuseum(rawProfile.profile_id);
+						const networthManager = new ProfileNetworthCalculator(rawProfile.members[uuid], museum.members[uuid], rawProfile.banking?.balance ?? 0);
+						const nw = await networthManager.getNetworth();
+						p.networth = nw.networth;
+					}
+				}
+				skyblockCache.set(uuid, { raw, profiles, selectedProfile, expiration });
+			}
+			return profiles;
+		}
 
-	const key = profile?.toLowerCase() === 'highest'
-		? highestProfile
-		: Object.keys(profiles).find(k => k.toLowerCase() === profile?.toLowerCase())
-		?? selectedProfile
-		?? highestProfile;
+		const key = profile?.toLowerCase() === 'highest'
+			? Object.entries(profiles).sort(([, a], [, b]) => b.level - a.level)[0]?.[0]
+			: Object.keys(profiles).find(k => k.toLowerCase() === profile?.toLowerCase())
+			?? selectedProfile
+			?? Object.entries(profiles).sort(([, a], [, b]) => b.level - a.level)[0]?.[0];
 
 		if (networth && !profiles[key].networth) {
 			const profile = raw.profiles.find(p => p.cute_name.toLowerCase() === key.toLowerCase());
@@ -231,7 +245,9 @@ async function getSkyblock(uuid, profile, { networth = false } = {}) {
 		if (profile.selected) selectedProfile = name;
 
 		profiles[name] = {
+			name,
 			id: profile.profile_id,
+			type: profile.game_mode ??'normal',
 			bank: profile.banking?.balance ?? 0,
 			purse: profile.members[uuid].currencies?.coin_purse ?? 0,
 			level: getLevel(profile.members[uuid]),
@@ -244,6 +260,22 @@ async function getSkyblock(uuid, profile, { networth = false } = {}) {
 
 	const expiration = cacheTTL();
 	skyblockCache.set(uuid, { raw: data, profiles, selectedProfile, expiration });
+
+	if (all) {
+		if (networth) {
+			for (const p of Object.values(profiles)) {
+				if (!p.networth) {
+					const rawProfile = raw.profiles.find(r => r.cute_name === p.name);
+					const museum = await getMuseum(rawProfile.profile_id);
+					const networthManager = new ProfileNetworthCalculator(rawProfile.members[uuid], museum.members[uuid], rawProfile.banking?.balance ?? 0);
+					const nw = await networthManager.getNetworth();
+					p.networth = nw.networth;
+				}
+			}
+			skyblockCache.set(uuid, { raw, profiles, selectedProfile, expiration });
+		}
+		return profiles;
+	}
 
 	const highestProfile = Object.entries(profiles).sort(([, a], [, b]) => b.level - a.level)[0]?.[0];
 
