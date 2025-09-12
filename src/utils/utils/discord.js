@@ -560,7 +560,7 @@ async function updateRoles(uuid) {
 
 			for (const rank of guildRanks) {
 				if (rank.roleID !== rankNew && DCmember.roles.cache.has(rank.roleID)) {
-					remove.push(role.roleID);
+					remove.push(rank.roleID);
 				}
 			}
 		}
