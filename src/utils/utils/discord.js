@@ -548,18 +548,19 @@ async function updateRoles(uuid) {
 				}
 			}
 
+
 			if (guildRanks.find(r => r.name === rankNew)) {
 				const role = getRole(guildRanks.find(r => r.name === rankNew).roleID);
-				if (!role) return console.error('! Guild Ranks', `Invalid role ID for rank ${rankNew.name}!`);
+				if (!role) return console.error('! Guild Ranks', `Invalid role ID for rank ${rankNew}!`);
 
 				if (!DCmember.roles.cache.has(role.id)) {
-					add.push(role.roleID);
+					add.push(role.id);
 				}
 			}
 
 			for (const rank of guildRanks) {
 				if (rank.roleID !== rankNew && DCmember.roles.cache.has(rank.roleID)) {
-					remove.push(rank.roleID);
+					remove.push(role.roleID);
 				}
 			}
 		}

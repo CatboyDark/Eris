@@ -21,6 +21,7 @@ export default {
 		}
 		catch (e) {
 			if (e instanceof InvalidPlayer) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Invalid player!**' }] }]));
+			else return console.error('Error | Command: linkoverride', e);
 		}
 
 		const uuidDoc = LinkedUsers.find(u => u.uuid === player.id);
@@ -98,6 +99,7 @@ export default {
 		}
 
 		const { add, remove } = await updateRoles(player.id);
+		console.log(add, remove);
 
 		for (const roleID of add) {
 			await member.roles.add(roleID);
