@@ -195,6 +195,7 @@ async function syncMembers(guild) {
 		for (const member of guild.members) {
 			i++;
 
+			console.log(member);
 			const user = await getUser(member.uuid);
 			const player = await getSkyblock(member.uuid, { profile: 'highest' });
 
@@ -264,6 +265,7 @@ async function syncMembers(guild) {
 				else return console.error('Error | Sync Members', e);
 			}
 
+			console.log(user);
 			const { add, remove } = await updateRoles(user.uuid);
 
 			for (const roleID of add) {
