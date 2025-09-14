@@ -544,6 +544,8 @@ function getKuudra(player) {
 		}
 	});
 
+	highest.tier = highest.tier.charAt(0).toUpperCase() + highest.tier.slice(1);
 	result.highest = highest;
+
 	return result;
 }
