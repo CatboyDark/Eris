@@ -254,7 +254,8 @@ async function getSkyblock(uuid, { profile = null, networth = false, all = false
 			skills: getSkills(profile.members[uuid]),
 			cata: getCata(profile.members[uuid]),
 			slayers: getSlayers(profile.members[uuid]),
-			networth: null
+			networth: null,
+			kuudra: getKuudra(profile.members[uuid])
 		};
 	}
 
@@ -524,4 +525,25 @@ function getSlayers(player) {
 	}
 
 	return slayerData;
+}
+
+function getKuudra(player) {
+	const tiers = ['none', 'hot', 'burning', 'fiery', 'infernal'];
+
+	const result = {};
+	let highest = { tier: null, waves: 0 };
+
+	for (const tier of tiers) {
+		const completions = player.nether_island_player_data.kuudra_completed_tiers[tier] ?? 0;
+		const waves = player.nether_island_player_data[`highest_wave_${tier}`] ?? 0;
+
+		result[`k${i + 1}`] = completions;
+
+		if (waves > highest.waves || (waves === highest.waves && i > tiers.indexOf(highest.tier))) {
+			highest = { tier, waves };
+		}
+	}
+
+	result.highest = highest;
+	return result;
 }
