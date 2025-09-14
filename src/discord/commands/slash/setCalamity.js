@@ -11,30 +11,8 @@ export default {
 	async execute(interaction) {
 		const channel = interaction.options.getChannel('channel') ?? interaction.channel;
 		await DCsend(channel, [
-			{
-				embed: [
-					{ desc:
-						'### Guild Requirements\n_ _\n' +
-						'One of the following- Skyblock Level 280 **OR** Cata 45\n' +
-						'-# Friends: Members with guild rank Legend and above may invite anyone above Level 200 or Cata 40\n\n' +
-						'- 200k GXP a month\n' +
-						'To check your monthly GXP, run `/gxp` in <#1070775232530489356>\n\n' +
-						'**Purges will occur at the beginning of every month.**\n' +
-						'Run /inactivity if you are unable to meet the gxp reqs.'
-					}
-				]
-			},
-			{
-				embed: [
-					{ desc:
-						'### Guild Ranks\n' +
-						'**Novice**\nLevel 280\n\n' +
-						'**Elite**\nLevel 320\n\n' +
-						'**Legend**\nLevel 360\n\n' +
-						'**God**\nLevel 400'
-					}
-				]
-			},
+			[{ img: 'https://raw.githubusercontent.com/CatboyDark/Eris/refs/heads/Calamity/assets/Calamity%20Recruiting%20Poster.png' }],
+			{ desc: '**Friend Invites →** Legends and above may invite players Level 200 or Cata 40' },
 			[
 				{ id: 'joinCalamity', label: 'Join Our Guild!', color: 'Green' }
 			]
