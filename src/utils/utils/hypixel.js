@@ -534,8 +534,8 @@ function getKuudra(player) {
 	let highest = { tier: null, waves: 0 };
 
 	for (const tier of tiers) {
-		const completions = player.nether_island_player_data.kuudra_completed_tiers[tier] ?? 0;
-		const waves = player.nether_island_player_data[`highest_wave_${tier}`] ?? 0;
+		const completions = player.nether_island_player_data?.kuudra_completed_tiers[tier] ?? 0;
+		const waves = player.nether_island_player_data?.kuudra_completed_tiers[`highest_wave_${tier}`] ?? 0;
 
 		result[`k${i + 1}`] = completions;
 
