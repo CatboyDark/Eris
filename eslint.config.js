@@ -10,7 +10,8 @@ export default
 			'no-unused-vars': ['warn'],
 			'eqeqeq': ['warn', 'always'],
 			'comma-dangle': ['warn', 'never'],
-			'eol-last': ['warn', 'always']
+			'eol-last': ['warn', 'always'],
+			'max-len': ['error', { 'code': 120, 'ignoreStrings': true }]
         }
     }
 ];

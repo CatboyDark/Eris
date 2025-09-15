@@ -515,6 +515,13 @@ async function updateRoles(uuid) {
 			}
 			else if (guild?.name !== Config.guild.name && DCmember.roles.cache.has(roleID)) {
 				remove.push(roleID);
+
+				if (Config.guild.ranks.enabled) {
+					const guildRankIDs = Config.guild.ranks.roles.map(r => r.roleID);
+					remove.push(...DCmember.roles.cache
+						.filter(r => guildRankIDs.includes(r.id))
+						.map(r => r.id));
+				}
 			}
 		}
 		catch (e) {
