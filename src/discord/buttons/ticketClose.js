@@ -23,7 +23,7 @@ export default [{
 
 		const content = messages.map(msg => {
 			const { yyyy, mm, dd, hh, min, ss } = getTime(msg.createdAt);
-			return `[UTC ${yyyy}.${mm}.${dd} - ${hh}:${min}:${ss}] ${msg.member.displayName}: ${msg.content || '[embed/attachment]'}`;
+			return `[UTC ${yyyy}.${mm}.${dd} - ${hh}:${min}:${ss}] ${msg.member.displayName ?? msg.author.displayName}: ${msg.content || '[embed/attachment]'}`;
 		}).join('\n');
 
 		const { yyyy, mm, dd, hh, min } = getTime(messages[0].createdAt);
