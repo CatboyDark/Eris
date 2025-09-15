@@ -225,7 +225,9 @@ async function syncMembers(guild) {
 			if (member.rankOld === member.rankNew) continue;
 
 			MCsend.raw(`/g setrank ${member.ign} ${member.rankNew}`);
-			DCsend(Config.logs.bot.channelID, [{ embed: [{ desc: `Assigned **${member.rankNew}** rank to **${member.ign}**` }] }]);
+			DCsend(Config.logs.bot.channelID,
+				[{ embed: [{ desc: `Assigned **${member.rankNew}** rank to **${member.ign}**` }] }]
+			);
 		}
 	}
 
@@ -244,7 +246,12 @@ async function syncMembers(guild) {
 					if (!user || !members.some(m => m.uuid === user.uuid)) {
 						await member.roles.remove(guildRole);
 
-					DCsend(Config.logs.bot.channelID, [{ embed: [{ desc: `${member}\n\n${minus} ${guildRole}` }] }], { mentions: false });
+					DCsend(Config.logs.bot.channelID,
+						[
+							{ embed: [{ desc: `${member}\n\n${minus} ${guildRole}` }] }
+						],
+						{ mentions: false }
+					);
 				}
 			}
 		}
@@ -314,6 +321,7 @@ async function updateStatsChannels(guild) {
 }
 
 // const allForums = 'https://hypixel.net/forums/-/index.rss';
+const skyblockAnnouncements = 'https://hypixel.net/forums/news-and-announcements.4/index.rss';
 const skyblockPatchNotes = 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss';
 const skyblockAlphaNetwork = 'https://hypixel.net/skyblock-alpha/index.rss';
 
@@ -324,6 +332,7 @@ async function sbNews() {
 	if (!Config.sbNews.enabled) return;
 
 	setInterval(async () => {
+		await getFeed(skyblockAnnouncements, newsChannel, newsRole);
 		await getFeed(skyblockPatchNotes, newsChannel, newsRole);
 		await getFeed(skyblockAlphaNetwork, newsChannel, newsRole);
 	}, 60 * 1000);

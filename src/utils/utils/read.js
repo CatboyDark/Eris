@@ -30,7 +30,7 @@ function read(file) {
 						fs.renameSync(tempFile, file);
 					}
 					catch (e) {
-						console.log(`Error | Failed to write to file: ${file}`, e);
+						console.error(`Error | Failed to write to file: ${file}`, e);
 					}
 				};
 			}

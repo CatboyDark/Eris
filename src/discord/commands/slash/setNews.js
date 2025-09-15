@@ -5,6 +5,7 @@ import { Config, createMsg, getChannel, getRole, MCsend, read } from '../../../u
 const parser = new Parser();
 // const allForums = 'https://hypixel.net/forums/-/index.rss';
 const skyblockGeneralDiscussion = 'https://hypixel.net/forums/skyblock-general-discussion.157/index.rss';
+const skyblockAnnouncements = 'https://hypixel.net/forums/news-and-announcements.4/index.rss';
 const skyblockPatchNotes = 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss';
 const skyblockAlphaNetwork = 'https://hypixel.net/skyblock-alpha/index.rss';
 
@@ -16,6 +17,7 @@ export async function getFeed(url, c, r) {
 
 	const category =
 		url === skyblockGeneralDiscussion ? 'Skyblock General Discussions' :
+		url === skyblockAnnouncements ?  'Skyblock Announcements' :
 		url === skyblockPatchNotes ? 'SkyBlock Patch Notes' :
 		url === skyblockAlphaNetwork ? 'Skyblock Alpha Network' :
 		'Miscellaneous';
@@ -26,6 +28,7 @@ export async function getFeed(url, c, r) {
 		.reverse()
 		.filter(item => {
 			if (cache[category].includes(item.guid)) return false;
+			if (category === 'Skyblock Announcements' && !item.title.toLowerCase().includes('skyblock')) return false;
 			if (category === 'Skyblock Alpha Network' && item.creator !== 'Hypixel Team') return false;
 			return true;
 		});
@@ -35,7 +38,7 @@ export async function getFeed(url, c, r) {
 
 		const parts = [];
 
-		if (role) {
+		if (r) {
 			const role = getRole(r);
 			parts.push({ desc: `-# ${role}` });
 		}
@@ -81,9 +84,15 @@ export default {
 		Config.sbNews.roleID = role ? role.id : null;
 		Config.write();
 
-		const desc = role ? `**Skyblock news channel has been set to <#${channel.id}> and will ping** ${role}` : `**Skyblock news channel has been set to <#${channel.id}>**`;
-		interaction.reply(createMsg([{ embed: [{ desc }] }], { ephemeral: true }));
+		interaction.reply(createMsg(
+			[{ embed: [{ desc: role
+				? `**Skyblock news channel has been set to <#${channel.id}> and will ping** ${role}`
+				: `**Skyblock news channel has been set to <#${channel.id}>**`
+			}] }],
+			{ ephemeral: true })
+		);
 
+		await getFeed(skyblockAnnouncements, channel, role);
 		await getFeed(skyblockPatchNotes, channel, role);
 		await getFeed(skyblockAlphaNetwork, channel, role);
 	}
