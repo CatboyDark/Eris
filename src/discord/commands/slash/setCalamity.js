@@ -11,7 +11,7 @@ export default {
 	async execute(interaction) {
 		const channel = interaction.options.getChannel('channel') ?? interaction.channel;
 		await DCsend(channel, [
-			[{ img: 'https://raw.githubusercontent.com/CatboyDark/Eris/refs/heads/Calamity/assets/Calamity%20Recruiting%20Poster.png' }],
+			[{ img: 'https://raw.githubusercontent.com/CatboyDark/Eris/refs/heads/Calamity/assets/CalamityRecruiting.png' }],
 			{ desc: '**Friend Invites →** Legends and above may invite players Level 200 or Cata 40' },
 			[
 				{ id: 'joinCalamity', label: 'Join Our Guild!', color: 'Green' }
