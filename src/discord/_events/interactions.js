@@ -98,11 +98,17 @@ async function reactionRoles(interaction) {
 
 	if (interaction.member.roles.cache.has(role.id)) {
 		await interaction.member.roles.remove(role.id);
-		await interaction.reply(createMsg([{ embed: [{ desc: `**${role} has been removed!**` }] }], { ephemeral: true }));
+		await interaction.reply(createMsg(
+			[{ embed: [{ desc: `**${role} has been removed!**` }] }],
+			{ ephemeral: true })
+		);
 	}
 	else {
 		await interaction.member.roles.add(role.id);
-		await interaction.reply(createMsg([{ embed: [{ desc: `**${role} has been assigned!**` }] }], { ephemeral: true }));
+		await interaction.reply(createMsg(
+			[{ embed: [{ desc: `**${role} has been assigned!**` }] }],
+			{ ephemeral: true })
+		);
 	}
 
 	return true;

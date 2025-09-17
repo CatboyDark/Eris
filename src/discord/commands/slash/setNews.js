@@ -9,6 +9,53 @@ const skyblockAnnouncements = 'https://hypixel.net/forums/news-and-announcements
 const skyblockPatchNotes = 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss';
 const skyblockAlphaNetwork = 'https://hypixel.net/skyblock-alpha/index.rss';
 
+const staff = [
+	'Hypixel Team',
+
+	// Skyblock Nerds
+	'Flare',
+
+	// Network Devs
+	'Plancke',
+	'ConnorLinfoot',
+	'inventivetalent',
+	'Yeleha',
+	'OrangeMarshall',
+	'Cryptkeeper',
+
+	// Skyblock Devs
+	'Jayavarmen',
+	'TimeDeo',
+	'xHascox',
+	'Heatran',
+	'aPunch',
+	'Cerus',
+	'mrkeith',
+	'Nitroholic_',
+	'pollieboy',
+	'Relenter',
+	'skyerzz',
+	'TacNayn',
+	'TheBirmanator',
+	'TheMGRF',
+
+	// Content Management
+	'Donpireso',
+	'ChiLynn',
+	'DavuDavuD',
+	'eeyitscoco',
+	'jtsandman45',
+
+	// Community Management
+	'LadyBleu',
+	'Judg3',
+
+	// Bugs
+	'Sylent',
+	'Bloozing',
+	'Citria'
+];
+
 export async function getFeed(url, c, r) {
 	if (!Config.sbNews.enabled) return;
 
@@ -29,7 +76,8 @@ export async function getFeed(url, c, r) {
 		.filter(item => {
 			if (cache[category].includes(item.guid)) return false;
 			if (category === 'Skyblock Announcements' && !item.title.toLowerCase().includes('skyblock')) return false;
-			if (category === 'Skyblock Alpha Network' && item.creator !== 'Hypixel Team') return false;
+			if (category === 'Skyblock Alpha Network' && !staff.includes(item.creator)) return false;
+			if (category === 'Skyblock General Discussions' && !staff.includes(item.creator)) return false;
 			return true;
 		});
 
@@ -95,5 +143,6 @@ export default {
 		await getFeed(skyblockAnnouncements, channel, role);
 		await getFeed(skyblockPatchNotes, channel, role);
 		await getFeed(skyblockAlphaNetwork, channel, role);
+		await getFeed(skyblockGeneralDiscussion, channel, role);
 	}
 };

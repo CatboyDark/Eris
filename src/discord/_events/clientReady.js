@@ -45,7 +45,7 @@ export default {
 		dcResolve();
 
 		await sbNews();
-
+		// await syncMembers(guild);
 		schedule('0 0 * * *',
 			async () => {
 				if (Config.guild.name) {
@@ -176,6 +176,8 @@ async function logGXP(guild) {
 }
 
 async function syncMembers(guild) {
+	if (!Config.guild.ranks.autoRank && !Config.autoRoles) return;
+
 	DCsend(Config.logs.bot.channelID, [{ embed: [{ desc: '**Syncing members...**' }], timestamp: 'f' }]);
 
 	const members = [];
@@ -214,7 +216,7 @@ async function syncMembers(guild) {
 			members.push({ uuid: user.id, ign: user.ign, level: player.level, rankOld, rankNew });
 
 			console.magenta(`Fetching members: ${i}/${guild.members.length}`);
-			await new Promise(resolve => setTimeout(resolve, 12000));
+			// await new Promise(resolve => setTimeout(resolve, 12000));
 		}
 
 		console.magenta('Fetching complete.');
@@ -321,6 +323,7 @@ async function updateStatsChannels(guild) {
 }
 
 // const allForums = 'https://hypixel.net/forums/-/index.rss';
+const skyblockGeneralDiscussion = 'https://hypixel.net/forums/skyblock-general-discussion.157/index.rss';
 const skyblockAnnouncements = 'https://hypixel.net/forums/news-and-announcements.4/index.rss';
 const skyblockPatchNotes = 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss';
 const skyblockAlphaNetwork = 'https://hypixel.net/skyblock-alpha/index.rss';
@@ -328,6 +331,8 @@ const skyblockAlphaNetwork = 'https://hypixel.net/skyblock-alpha/index.rss';
 const newsChannel = Config.sbNews.channelID;
 const newsRole = Config.sbNews.roleID;
 
+
+// TODO This might run twice if the /setNews command is run
 async function sbNews() {
 	if (!Config.sbNews.enabled) return;
 
@@ -335,5 +340,6 @@ async function sbNews() {
 		await getFeed(skyblockAnnouncements, newsChannel, newsRole);
 		await getFeed(skyblockPatchNotes, newsChannel, newsRole);
 		await getFeed(skyblockAlphaNetwork, newsChannel, newsRole);
+		await getFeed(skyblockGeneralDiscussion, newsChannel, newsRole);
 	}, 60 * 1000);
 }

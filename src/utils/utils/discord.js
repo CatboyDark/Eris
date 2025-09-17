@@ -520,7 +520,8 @@ async function updateRoles(uuid) {
 					const guildRankIDs = Config.guild.ranks.roles.map(r => r.roleID);
 					remove.push(...DCmember.roles.cache
 						.filter(r => guildRankIDs.includes(r.id))
-						.map(r => r.id));
+						.map(r => r.id)
+					);
 				}
 			}
 		}
