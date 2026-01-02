@@ -121,9 +121,9 @@ function genBypass(base) {
 
 	return [
 		base,
-		base + '.'.repeat(bypassLength),
-		base + ','.repeat(bypassLength),
-		base + '\''.repeat(bypassLength),
+		base + ' ' + '.'.repeat(bypassLength),
+		base + ' ' + ','.repeat(bypassLength),
+		base + ' ' + '\''.repeat(bypassLength),
 	];
 }
 
