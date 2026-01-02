@@ -1,5 +1,6 @@
 import { minecraft } from '../../minecraft/Minecraft.js';
 import { InvalidPlayer, UnknownError } from './errors.js';
+import fs from 'fs';
 
 export {
 	MCsend,
@@ -25,6 +26,8 @@ const prefixes = {
 	party: '/pc',
 	dm: '/w'
 };
+
+const spamBypass = JSON.parse(fs.readFileSync('./assets/spamBypass.json', 'utf8'));
 
 async function shipIt() {
 	if (shipping) return;
@@ -53,47 +56,24 @@ async function shipIt() {
 		const parts = splitText(content, 256 - (channel.length + 1));
 
 		for (const part of parts) {
-			const messagePromise = new Promise((resolve) => {
-				const messageListener = (responseMessage) => {
-					const response = responseMessage.toString().trim();
+			const base = channel === 'dm' ? `${prefix} ${sender} ${part}` : `${prefix} ${part}`
+			const variants = genBypass(base)
 
-					if (response.includes(part)) {
-						minecraft.removeListener('message', messageListener);
-						resolve('success');
-					}
-					else if (response.includes('Advertising is against the rules.')) {
-						minecraft.removeListener('message', messageListener);
-						resolve('error_link');
-					}
-					else if (response === 'You cannot say the same message twice!') {
-						minecraft.removeListener('message', messageListener);
-						resolve('error_duplicate');
-					}
-				};
+			let finalResult = 'error_duplicate'
 
-				minecraft.on('message', messageListener);
-				minecraft.chat(channel === 'dm' ? `${prefix} ${sender} ${part}` : `${prefix} ${part}`);
+			for (const variant of variants) {
+				finalResult = await cardboard(variant, content)
 
-				setTimeout(() => {
-					minecraft.removeListener('message', messageListener);
-					resolve('timeout');
-				}, 1000);
-			});
-
-			const result = await messagePromise;
-
-			if (result === 'error_link') {
-				if (discordMessage) {
-					await discordMessage.react('❌');
+				if (finalResult !== 'error_duplicate') {
+					break
 				}
-			}
-			else if (result === 'error_duplicate') {
-				if (discordMessage) {
-					await discordMessage.react('❌');
-				}
+
+				await new Promise(r => setTimeout(r, 500));
 			}
 
-			await new Promise(res => setTimeout(res, 500));
+			if (finalResult !== 'success' && discordMessage) {
+				await discordMessage.react('❌');
+			}
 		}
 	}
 
@@ -134,4 +114,48 @@ async function getUser(ign) {
 		id: data.id,
 		ign: data.name
 	};
+}
+
+function genBypass(base) {
+	const bypassLength = spamBypass[base.length]
+
+	return [
+		base,
+		base + '.'.repeat(bypassLength),
+		base + ','.repeat(bypassLength),
+		base + '\''.repeat(bypassLength),
+	];
+}
+
+function cardboard(message, content) {
+	return new Promise((resolve) => {
+		const listener = (responseMessage) => {
+			const response = responseMessage.toString().trim();
+
+			if (response.includes(content)) {
+				cleanup();
+				resolve('success');
+			}
+			else if (response.includes('Advertising is against the rules.')) {
+				cleanup();
+				resolve('error_link');
+			}
+			else if (response === 'You cannot say the same message twice!') {
+				cleanup();
+				resolve('error_duplicate');
+			}
+		};
+
+		const cleanup = () => {
+			minecraft.removeListener('message', listener);
+		};
+
+		minecraft.on('message', listener);
+		minecraft.chat(message);
+
+		setTimeout(() => {
+			cleanup();
+			resolve('timeout');
+		}, 1000);
+	});
 }
