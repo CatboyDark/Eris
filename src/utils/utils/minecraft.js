@@ -99,7 +99,7 @@ function splitText(text, maxLength) {
 }
 
 async function getUser(ign) {
-	const response = await fetch(`https://mowojang.matdoes.dev/${ign}`);
+	const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${ign}`);
 	if (!response.ok) {
 		switch (response.status) {
 			case 404:
