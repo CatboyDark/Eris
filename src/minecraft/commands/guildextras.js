@@ -27,8 +27,13 @@ export default {
 
 		const member = guild.members.find(member => member.uuid === user.id);
 		const level = Math.floor1(guild.level);
-		console.log(guild.members.find(member => member.rank === 'Guild Master'))
-		const guildMaster = await getUser(guild.members.find(member => member.rank === 'Guild Master').uuid);
+
+		const gmid = guild.members.find(member => member.rank === 'Guild Master').uuid
+		console.log(gmid)
+		const usera = await getUser(gmid)
+		const gm = usera.id
+		console.log(gm)
+		// const guildMaster = await getUser(guild.members.find(member => member.rank === 'Guild Master').uuid).ign;
 
 		message.reply(`${user.ign}: ${guild.name} | Weekly GXP: ${format(member.weeklyGXP)}`);
 		message.reply(`${guild.name}: Level ${level} | GM: ${guildMaster.ign} | Members: ${guild.members.length} | Weekly GXP: ${format(guild.weeklyGXP)}`);
