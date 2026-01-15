@@ -1,6 +1,6 @@
 import fs from 'fs';
 import auth from '../../../auth.json' with { type: 'json' };
-import { getUser, HypixelInvalidAPIKey, HypixelInvalidGuild, HypixelNoSkyblockData, HypixelRateLimit, UnknownError } from '../utils.js';
+import { getUserByUUID, getUserByIGN, HypixelInvalidAPIKey, HypixelInvalidGuild, HypixelNoSkyblockData, HypixelRateLimit, UnknownError } from '../utils.js';
 import { ProfileNetworthCalculator } from 'skyhelper-networth';
 
 export {
