@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from 'discord.js';
-import { Config, createMsg, DCsend, getChannel, getGuild, getSkyblock, GetUserByID, LinkedUsers } from '../../utils/utils.js';
+import { Config, createMsg, DCsend, getChannel, getGuild, getSkyblock, getUserByUUID, LinkedUsers } from '../../utils/utils.js';
 import { DCserver } from '../_events/clientReady.js';
 import { discord } from '../Discord.js';
 
@@ -13,7 +13,7 @@ export default [{
 		const isLinked = LinkedUsers.find(u => u.dcid === interaction.member.id);
 		if (!isLinked) return interaction.reply(createMsg([{ color: 'Error', embed: [{ desc: '**You are not linked! Run /link to link your account.**' }] }], { ephemeral: true }));
 
-		const minecraftUser = await GetUserByID(isLinked.uuid);
+		const minecraftUser = await getUserByUUID(isLinked.uuid);
 		const profiles = await getSkyblock(isLinked.uuid, { all: true });
 		const guild = await getGuild.name(Config.guild.name);
 

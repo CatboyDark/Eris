@@ -1,4 +1,4 @@
-import { Config, createMsg, getEmoji, getUserByID, LinkedUsers } from '../../../utils/utils.js';
+import { Config, createMsg, getEmoji, getUserByUUID, LinkedUsers } from '../../../utils/utils.js';
 
 export default {
 	name: 'unlink',
@@ -26,7 +26,7 @@ export default {
 		}
 
 		const check = await getEmoji('check');
-		const user = await getUserByID(result.uuid);
+		const user = await getUserByUUID(result.uuid);
 		interaction.reply(createMsg([{ embed: [{ desc: `${check} **${user.ign} is now unlinked!**` }] }], { ephemeral: true }));
 	}
 };
