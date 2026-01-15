@@ -5,7 +5,8 @@ import fs from 'fs';
 export {
 	MCsend,
 	shipIt,
-	getUser
+	getUserByUUID,
+	getUserByIGN
 };
 
 const messageQ = [];
@@ -98,8 +99,26 @@ function splitText(text, maxLength) {
 	return parts;
 }
 
-async function getUser(ign) {
-	const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${ign}`);
+async function getUserByIGN(ign) {
+	const response = await fetch(`https://api.minecraftservices.com/minecraft/profile/lookup/name/${ign}`);
+	if (!response.ok) {
+		switch (response.status) {
+			case 404:
+				throw new InvalidPlayer();
+			default:
+				throw new UnknownError(response);
+		}
+	}
+	const data = await response.json();
+
+	return {
+		id: data.id,
+		ign: data.name
+	};
+}
+
+async function getUserByUUID(id) {
+	const response = await fetch(`https://api.minecraftservices.com/minecraft/profile/lookup/${id}`);
 	if (!response.ok) {
 		switch (response.status) {
 			case 404:

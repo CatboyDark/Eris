@@ -1,5 +1,5 @@
 import { MessageFlags } from 'discord.js';
-import { Config, createMsg, getEmoji, getPlayer, getRole, InvalidPlayer, LinkedUsers, updateRoles, userError } from '../../../utils/utils.js';
+import { Config, createMsg, getEmoji, getPlayerByIGN, getRole, InvalidPlayer, LinkedUsers, updateRoles, userError } from '../../../utils/utils.js';
 
 export default {
 	name: 'link',
@@ -13,7 +13,7 @@ export default {
 
 		let player;
 		try {
-			player = await getPlayer(interaction.options.getString('ign'));
+			player = await getPlayerByIGN(interaction.options.getString('ign'));
 		}
 		catch (e) {
 			if (e instanceof InvalidPlayer) return interaction.editReply(createMsg([{ color: 'Error', embed: [{ desc: '**Invalid player!**' }] }]));

@@ -1,4 +1,4 @@
-import { Config, getSkyblock, getUser, HypixelNoSkyblockData, MCsend, read } from '../utils/utils.js';
+import { Config, getSkyblock, getUserByIGN, HypixelNoSkyblockData, MCsend, read } from '../utils/utils.js';
 
 export { memberJoin };
 
@@ -13,7 +13,7 @@ async function autoAccept(message) {
 	const match = message.match(/\/guild accept (\w+)/);
 	const ign = match[1];
 
-	const user = await getUser(ign);
+	const user = await getUserByIGN(ign);
 
 	const blacklist = read('./.cache/bot/guildBlacklist.json');
 	if (blacklist.includes(user.id)) {

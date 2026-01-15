@@ -1,4 +1,4 @@
-import { getPlayer, InvalidPlayer } from '../../utils/utils.js';
+import { getPlayerByIGN, InvalidPlayer } from '../../utils/utils.js';
 
 export default {
 	name: 'discord',
@@ -13,7 +13,7 @@ export default {
 		let player;
 
 		try {
-			player = await getPlayer(message.options.ign);
+			player = await getPlayerByIGN(message.options.ign);
 		}
 		catch (e) {
 			if (e instanceof InvalidPlayer) return message.reply(`${message.options.ign}: Invalid player!`);

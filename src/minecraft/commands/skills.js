@@ -1,4 +1,4 @@
-import { getSkyblock, getUser, HypixelNoSkyblockData, InvalidPlayer } from '../../utils/utils.js';
+import { getSkyblock, getUserByIGN, HypixelNoSkyblockData, InvalidPlayer } from '../../utils/utils.js';
 
 export default {
 	name: 'skills',
@@ -11,7 +11,7 @@ export default {
 		let user;
 		if (message.options.ign) {
 			try {
-				user = await getUser(message.options.ign);
+				user = await getUserByIGN(message.options.ign);
 			}
 			catch (e) {
 				if (e instanceof InvalidPlayer) return message.reply(`${message.options.ign}: Invalid player!`);
@@ -19,7 +19,7 @@ export default {
 			}
 		}
 		else {
-			user = await getUser(message.sender);
+			user = await getUserByIGN(message.sender);
 		}
 
 		let player;

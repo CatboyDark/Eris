@@ -4,7 +4,8 @@ import { getUser, HypixelInvalidAPIKey, HypixelInvalidGuild, HypixelNoSkyblockDa
 import { ProfileNetworthCalculator } from 'skyhelper-networth';
 
 export {
-	getPlayer,
+	getPlayerByUUID,
+	getPlayerByIGN,
 	getGuild,
 	getSkyblock
 };
@@ -38,8 +39,32 @@ function cacheTTL() {
 	return Date.now() + 5 * 60 * 1000;
 }
 
-async function getPlayer(player) {
-	const user = await getUser(player);
+async function getPlayerByUUID(player) {
+	const user = await getUserByUUID(player);
+	const uuid = user.id;
+
+	const response = await fetch(`https://api.hypixel.net/v2/player?key=${auth.hypixelAPIKey}&uuid=${uuid}`);
+	if (!response.ok) {
+		switch (response.status) {
+			case 403:
+				throw new HypixelInvalidAPIKey();
+			case 429:
+				throw new HypixelRateLimit();
+			default:
+				throw new UnknownError(response);
+		}
+	}
+	const data = await response.json();
+
+	return {
+		ign: data.player?.displayname ?? null,
+		id: data.player?.uuid ?? null,
+		discord: data.player?.socialMedia?.links?.DISCORD?.toLowerCase() ?? null
+	};
+}
+
+async function getPlayerByIGN(player) {
+	const user = await getUserByIGN(player);
 	const uuid = user.id;
 
 	const response = await fetch(`https://api.hypixel.net/v2/player?key=${auth.hypixelAPIKey}&uuid=${uuid}`);

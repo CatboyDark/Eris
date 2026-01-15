@@ -1,5 +1,5 @@
 import { Events } from 'discord.js';
-import { Config, DCsend, getChannel, getEmoji, getGuild, getPlayer, getRole, LinkedUsers } from '../../utils/utils.js';
+import { Config, DCsend, getChannel, getEmoji, getGuild, getPlayerByUUID, getRole, LinkedUsers } from '../../utils/utils.js';
 // import { DCserver } from './clientReady.js';
 
 export default {
@@ -31,7 +31,7 @@ export default {
 
 			isLinked = true;
 
-			const player = await getPlayer(user.uuid);
+			const player = await getPlayerByUUID(user.uuid);
 
 			try {
 				await member.setNickname(player.ign);

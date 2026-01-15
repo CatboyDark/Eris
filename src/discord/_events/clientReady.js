@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { ActivityType, Events, PermissionFlagsBits } from 'discord.js';
-import { Config, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUser, MCsend, getSkyblock, LinkedUsers, updateRoles } from '../../utils/utils.js';
+import { Config, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUserByID, MCsend, getSkyblock, LinkedUsers, updateRoles } from '../../utils/utils.js';
 import { schedule } from 'node-cron';
 import { getFeed } from '../commands/slash/setNews.js';
 
@@ -23,7 +23,7 @@ export default {
 		let guild;
 		if (Config.ign) {
 			try {
-				const user = await getUser(Config.ign);
+				const user = await getUserByID(Config.ign);
 				guild = await getGuild.player(user.id);
 			}
 			catch (e) {
@@ -198,7 +198,7 @@ async function syncMembers(guild) {
 			i++;
 
 			console.log(member);
-			const user = await getUser(member.uuid);
+			const user = await getUserByID(member.uuid);
 			const player = await getSkyblock(member.uuid, { profile: 'highest' });
 
 			const rankOld = member.rank;

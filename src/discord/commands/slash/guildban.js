@@ -1,4 +1,4 @@
-import { createMsg, getUser, read } from '../../../utils/utils.js';
+import { createMsg, getUserByIGN, read } from '../../../utils/utils.js';
 
 export default {
 	name: 'guildban',
@@ -11,7 +11,7 @@ export default {
 	async execute(interaction) {
 		const target = interaction.options.getString('ign');
 
-		const user = await getUser(target);
+		const user = await getUserByIGN(target);
 		const blacklist = read('./.cache/bot/guildBlacklist.json');
 
 		if (blacklist.includes(user.id)) {

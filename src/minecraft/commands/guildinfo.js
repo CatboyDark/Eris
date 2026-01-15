@@ -1,4 +1,4 @@
-import { Config, getGuild, getUser, HypixelInvalidGuild } from '../../utils/utils.js';
+import { Config, getGuild, getUserByIGN, HypixelInvalidGuild } from '../../utils/utils.js';
 
 export default {
 	name: 'guildinfo',
@@ -19,12 +19,12 @@ export default {
 			}
 		}
 		else {
-			const user = await getUser(message.sender);
+			const user = await getUserByIGN(message.sender);
 			guild = await getGuild.player(user.id);
 		}
 
 		const level = Math.floor1(guild.level);
-		const guildMaster = await getUser(guild.members.find(member => member.rank === 'Guild Master').uuid);
+		const guildMaster = await getUserByIGN(guild.members.find(member => member.rank === 'Guild Master').uuid);
 
 		message.reply(`${guild.name}: Level ${level} | GM: ${guildMaster.ign} | Members: ${guild.members.length} | Weekly GXP: ${format(guild.weeklyGXP)}`);
 	}
