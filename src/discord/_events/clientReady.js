@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { ActivityType, Events, PermissionFlagsBits } from 'discord.js';
-import { Config, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUserByUUID, MCsend, getSkyblock, LinkedUsers, updateRoles } from '../../utils/utils.js';
+import { Config, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUserByUUID, MCsend, getSkyblock, LinkedUsers, updateRoles, getUserByIGN } from '../../utils/utils.js';
 import { schedule } from 'node-cron';
 import { getFeed } from '../commands/slash/setNews.js';
 
@@ -23,7 +23,7 @@ export default {
 		let guild;
 		if (Config.ign) {
 			try {
-				const user = await getUserByUUID(Config.ign);
+				const user = await getUserByIGN(Config.ign);
 				guild = await getGuild.player(user.id);
 			}
 			catch (e) {

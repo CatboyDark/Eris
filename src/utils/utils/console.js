@@ -107,12 +107,15 @@ const colors = {
 	console.display = display;
 
 	console.error = async function(name, error = null) {
-		console.red(name);
-		if (error) console.log(error);
+		return console.log(name)
+		// console.red(name);
+		// if (error) console.log(error);
 
 		const app = await discord.application.fetch();
 
-		DCsend(Config.logs.bot.channelID, [{ desc: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>` }]);
+		DCsend(Config.logs.bot.channelID, [{
+			desc: `<@${app.owner instanceof Team ? app.owner.ownerId : app.owner.id}>`
+		}]);
 		DCsend(Config.logs.bot.channelID, [{
 			color: 'Error',
 			embed: [{ desc:
