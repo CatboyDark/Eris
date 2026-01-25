@@ -31,7 +31,8 @@ export default {
 			else console.error('Error | MCcommand: networth', e);
 		}
 
-		message.reply(`${user.ign}'s Networth: ${format(player.networth)} | Purse: ${format(player.purse)} | Bank: ${format(player.bank)} + ${format(player.bank_personal)}`);
+		const personalBank = player.bank_personal ? ` + ${format(player.bank_personal)}` : '';
+		message.reply(`${user.ign}'s Networth: ${format(player.networth)} | Purse: ${format(player.purse)} | Bank: ${format(player.bank)}${personalBank}`);
 	}
 };
 
