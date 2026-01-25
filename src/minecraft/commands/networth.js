@@ -31,8 +31,16 @@ export default {
 			else console.error('Error | MCcommand: networth', e);
 		}
 
-		const personalBank = player.bank_personal ? ` + ${format(player.bank_personal)}` : '';
-		message.reply(`${user.ign}'s Networth: ${format(player.networth)} | Purse: ${format(player.purse)} | Bank: ${format(player.bank)}${personalBank}`);
+		const bank = () => {
+			if (player.bank_personal && player.bank < 1) {
+				return format(player.bank_personal);
+			}
+			else {
+				return `${format(player.bank)}${player.bank_personal ? ` + ${format(player.bank_personal)}` : ''}`
+			}
+		};
+		
+		message.reply(`${user.ign}'s Networth: ${format(player.networth)} | Purse: ${format(player.purse)} | Bank: ${bank()}`);
 	}
 };
 
