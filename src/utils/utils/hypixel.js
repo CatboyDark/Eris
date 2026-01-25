@@ -274,7 +274,7 @@ async function getSkyblock(uuid, { profile = null, networth = false, all = false
 			id: profile.profile_id,
 			type: profile.game_mode ??'normal',
 			bank: profile.banking?.balance ?? 0,
-			bank_personal: profile.members[uuid].profile.bank_account ?? 0,
+			bank_personal: profile.members[uuid].profile.bank_account > 1 ?? profile.members[uuid].profile.bank_account : 0,
 			purse: profile.members[uuid].currencies?.coin_purse ?? 0,
 			level: getLevel(profile.members[uuid]),
 			skills: getSkills(profile.members[uuid]),
