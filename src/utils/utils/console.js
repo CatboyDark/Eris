@@ -107,9 +107,8 @@ const colors = {
 	console.display = display;
 
 	console.error = async function(name, error = null) {
-		return console.log(name)
-		// console.red(name);
-		// if (error) console.log(error);
+		console.red(name);
+		if (error) console.log(error);
 
 		const app = await discord.application.fetch();
 

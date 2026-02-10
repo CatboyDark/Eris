@@ -3,7 +3,7 @@ import { meow } from '../../modules/meow.js';
 import { colon_three } from '../../modules/colon_three.js';
 import { minecraft } from '../../minecraft/Minecraft.js';
 
-export { loadFunny };
+export { loadFunny, customCommands };
 
 const loadFunny = {
 	async discord(message) {
@@ -18,3 +18,21 @@ const loadFunny = {
 		if (Config.funny.colon_three) await colon_three.minecraft(message);
 	}
 };
+
+const customCommands = {
+	async minecraft(message) {
+		if (!message.channel || message.sender === minecraft.username || message.event) return;
+
+		if (Config.customCommands) {
+			for (const command of Config.customCommands) {
+				if (command.enabled) {
+					const name = command.prefix ? `${Config.prefix}${command.name}` : command.name;
+					if (message.content.startsWith(name)) {
+						return message.reply(command.response);
+					}
+				}
+			}
+		}
+	}
+};
+p
