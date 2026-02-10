@@ -3,7 +3,7 @@ import { meow } from '../../modules/meow.js';
 import { colon_three } from '../../modules/colon_three.js';
 import { minecraft } from '../../minecraft/Minecraft.js';
 
-export { loadFunny, customCommands };
+export { loadFunny };
 
 const loadFunny = {
 	async discord(message) {
