@@ -1,38 +1,37 @@
-import { Config } from './../utils.js';
-import { meow } from '../../modules/meow.js';
-import { colon_three } from '../../modules/colon_three.js';
-import { minecraft } from '../../minecraft/Minecraft.js';
+// import { Config } from './../utils.js';
+// import { meow } from '../../modules/meow.js';
+// import { colon_three } from '../../modules/colon_three.js';
+// import { minecraft } from '../../minecraft/Minecraft.js';
 
-export { loadFunny, customCommands };
+// export { loadFunny, customCommands };
 
-const loadFunny = {
-	async discord(message) {
-		if (Config.funny.meow) await meow.discord(message);
-		if (Config.funny.colon_three) await colon_three.discord(message);
-	},
+// const loadFunny = {
+// 	async discord(message) {
+// 		if (Config.funny.meow) await meow.discord(message);
+// 		if (Config.funny.colon_three) await colon_three.discord(message);
+// 	},
 
-	async minecraft(message) {
-		if (!message.channel || message.sender === minecraft.username || message.event) return;
+// 	async minecraft(message) {
+// 		if (!message.channel || message.sender === minecraft.username || message.event) return;
 
-		if (Config.funny.meow) await meow.minecraft(message);
-		if (Config.funny.colon_three) await colon_three.minecraft(message);
-	}
-};
+// 		if (Config.funny.meow) await meow.minecraft(message);
+// 		if (Config.funny.colon_three) await colon_three.minecraft(message);
+// 	}
+// };
 
-const customCommands = {
-	async minecraft(message) {
-		if (!message.channel || message.sender === minecraft.username || message.event) return;
+// const customCommands = {
+// 	async minecraft(message) {
+// 		if (!message.channel || message.sender === minecraft.username || message.event) return;
 
-		if (Config.customCommands) {
-			for (const command of Config.customCommands) {
-				if (command.enabled) {
-					const name = command.prefix ? `${Config.prefix}${command.name}` : command.name;
-					if (message.content.startsWith(name)) {
-						return message.reply(command.response);
-					}
-				}
-			}
-		}
-	}
-};
-p
+// 		if (Config.customCommands) {
+// 			for (const command of Config.customCommands) {
+// 				if (command.enabled) {
+// 					const name = command.prefix ? `${Config.prefix}${command.name}` : command.name;
+// 					if (message.content.startsWith(name)) {
+// 						return message.reply(command.response);
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// };
