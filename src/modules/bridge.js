@@ -140,7 +140,7 @@ async function DCbridge(m) {
 		let content;
 		if (m.reference) {
 			const originalMessage = await m.channel.messages.fetch(m.reference.messageId);
-			targetUser = originalMessage.author.bot ?
+			const targetUser = originalMessage.author.bot ?
 				originalMessage.embeds?.[0]?.data.author.name.split(' ')?.[0] ??
 				originalMessage.attachments.first()?.name?.replace('.png', '') ??
 				originalMessage.member?.displayName :
