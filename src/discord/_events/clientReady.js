@@ -1,8 +1,9 @@
 import fs from 'fs';
 import { ActivityType, Events, PermissionFlagsBits } from 'discord.js';
-import { Config, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUserByUUID, MCsend, getSkyblock, LinkedUsers, updateRoles, getUserByIGN } from '../../utils/utils.js';
+import { Config, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUserByUUID, MCsend, getSkyblock, LinkedUsers, updateRoles, getUserByIGN, read } from '../../utils/utils.js';
 import { schedule } from 'node-cron';
-import { getFeed } from '../commands/slash/setNews.js';
+import Parser from 'rss-parser';
+import * as cheerio from 'cheerio';
 
 export let DCserver;
 
@@ -322,20 +323,86 @@ async function updateStatsChannels(guild) {
 	DCsend(Config.logs.bot.channelID, [{ embed: [{ desc: '### Stats Channels\nStats channels have been updated!' }], timestamp: 'f' }]);
 }
 
-// const allForums = 'https://hypixel.net/forums/-/index.rss';
-const skyblockGeneralDiscussion = 'https://hypixel.net/forums/skyblock-general-discussion.157/index.rss';
-const skyblockAnnouncements = 'https://hypixel.net/forums/news-and-announcements.4/index.rss';
-const skyblockPatchNotes = 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss';
-const skyblockAlphaNetwork = 'https://hypixel.net/skyblock-alpha/index.rss';
+const rssChannels = {
+	// 'allForums': 'https://hypixel.net/forums/-/index.rss',
+	skyblockGeneralDiscussion: 'https://hypixel.net/forums/skyblock-general-discussion.157/index.rss',
+	skyblockAnnouncements: 'https://hypixel.net/forums/news-and-announcements.4/index.rss',
+	skyblockPatchNotes: 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss',
+	skyblockAlphaNetwork: 'https://hypixel.net/skyblock-alpha/index.rss'
+};
 
 const newsChannel = Config.sbNews.channelID;
 const newsRole = Config.sbNews.roleID;
 
+const parser = new Parser();
 
-// TODO This might run twice if the /setNews command is run
-async function sbNews() {
+const staff = read('assets/hypixelStaff.jsonc');
+
+async function getFeed(url, c, r) {
 	if (!Config.sbNews.enabled) return;
 
+	const feed = await parser.parseURL(url);
+	const cache = read('.cache/bot/rss.json');
+
+	for (const key in rssChannels) {
+		cache[key] ??= '';
+	}
+
+	const category =
+		url === rssChannels.skyblockGeneralDiscussion ? 'skyblockGeneralDiscussion' :
+		url === rssChannels.skyblockAnnouncements ? 'skyblockAnnouncements' :
+		url === rssChannels.skyblockPatchNotes ? 'skyblockPatchNotes' :
+		url === rssChannels.skyblockAlphaNetwork ? 'skyblockAlphaNetwork' :
+		null;
+
+	if (!category) return;
+
+	const newItems = feed.items
+		.reverse()
+		.filter(item => {
+			if (item.guid < cache[category]) return false;
+			if (category === 'skyblockAnnouncements' && !item.title.toLowerCase().includes('skyblock')) return false;
+			if (category === 'skyblockAlphaNetwork' && !staff.includes(item.creator)) return false;
+			if (category === 'skyblockGeneralDiscussion' && !staff.includes(item.creator)) return false;
+			return true;
+		});
+
+	for (const item of newItems) {
+		const $ = cheerio.load(item['content:encoded']);
+
+		const parts = [];
+
+		if (r) {
+			const role = getRole(r);
+			parts.push({ desc: `-# ${role}` });
+		}
+
+		parts.push(
+			{
+				color: 'E7871B',
+				embed: [
+					{
+						desc: `### ${item.title}\n*${item.categories.map(c => c._)} - ${item.creator}*\n\n${$('.bbWrapper').text()}`,
+						icon: { url: 'https://avatars.githubusercontent.com/u/3840546?s=280&v=4' }
+					}
+				]
+			},
+			[{ label: 'View Thread', url: item.link }]
+		);
+
+		const channel = getChannel(c);
+
+		await channel.send(createMsg(parts));
+		if (Config.minecraft.enabled) MCsend({ channel: 'guild', content: `${item.title} ${item.link}` });
+	}
+
+	if (newItems.length) {
+		cache[category] = newItems[newItems.length - 1].guid;
+		cache.write();
+	}
+}
+
+async function sbNews() {
 	setInterval(async () => {
 		await getFeed(skyblockAnnouncements, newsChannel, newsRole);
 		await getFeed(skyblockPatchNotes, newsChannel, newsRole);

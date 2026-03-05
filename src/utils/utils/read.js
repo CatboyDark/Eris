@@ -1,11 +1,19 @@
 import fs from 'fs';
 import path from 'path';
+import { parse } from 'jsonc-parser';
 
 function read(file) {
 	let content;
 
 	try {
-		content = JSON.parse(fs.readFileSync(file, 'utf-8'));
+		const raw = fs.readFileSync(file, 'utf-8');
+
+		if (file.endsWith('.jsonc')) {
+			content = parse(raw);
+		}
+		else {
+			content = JSON.parse(raw);
+		}
 	}
 	catch (e) {
 		if (e.code === 'ENOENT') {

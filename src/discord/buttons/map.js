@@ -2,7 +2,7 @@ import { MessageFlags } from 'discord.js';
 import fs from 'fs';
 import { createMsg } from '../../utils/utils.js';
 
-const links = JSON.parse(fs.readFileSync('./assets/resource_links.json', 'utf8'));
+const links = JSON.parse(fs.readFileSync('./assets/resourceLinks.json', 'utf8'));
 
 const buttons = links.map(data => ({
     id: data.id,
