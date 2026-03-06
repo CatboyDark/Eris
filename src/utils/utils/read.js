@@ -1,54 +1,75 @@
 import fs from 'fs';
 import path from 'path';
-import { parse } from 'jsonc-parser';
+import { parse as parseJSONC } from 'jsonc-parser';
 
 function read(file) {
-	let content;
+	const dir = path.dirname(file)
+	const state = {}
 
-	try {
-		const raw = fs.readFileSync(file, 'utf-8');
+	let isWriting = false
+	let debounce
 
-		if (file.endsWith('.jsonc')) {
-			content = parse(raw);
-		}
-		else {
-			content = JSON.parse(raw);
-		}
-	}
-	catch (e) {
-		if (e.code === 'ENOENT') {
-			fs.mkdirSync(path.dirname(file), { recursive: true });
-			fs.writeFileSync(file, JSON.stringify({}, null, '\t'), 'utf-8');
-			content = {};
-		}
-		else {
-			console.error(`Error | Unknown File: ${file}`);
-			process.exit(1);
-		}
-	}
+	function load() {
+		try {
+			const raw = fs.readFileSync(file, 'utf-8');
 
-	return new Proxy(content, {
-		get(target, prop) {
-			if (prop === 'read') return () => (content = read(file));
-			if (prop === 'write') {
-				return () => {
-					try {
-						const tempFile = `${file}.temp`;
-						fs.writeFileSync(tempFile, JSON.stringify(content, null, '\t'), 'utf-8');
-						fs.renameSync(tempFile, file);
-					}
-					catch (e) {
-						console.error(`Error | Failed to write to file: ${file}`, e);
-					}
-				};
+			let data;
+			if (file.endsWith('.jsonc')) {
+				data = parseJSONC(raw);
 			}
-			return target[prop];
+			else {
+				data = JSON.parse(raw);
+			}
+
+			for (const key of Object.keys(state)) delete state[key]
+			Object.assign(state, data)
+		}
+		catch (e) {
+			if (e.code === 'ENOENT') {
+				fs.mkdirSync(dir, { recursive: true })
+				fs.writeFileSync(file, '{}', 'utf-8')
+			}
+			else {
+				console.error(`File Read | ${file}`, e)
+			}
+		}
+	}
+
+	function write() {
+		try {
+			isWriting = true
+			const temp = `${file}.temp`
+			fs.writeFileSync(temp, JSON.stringify(state, null, '\t'), 'utf-8')
+			fs.renameSync(temp, file)
+		}
+		catch (e) {
+			console.error(`File Write | ${file}`, e)
+		}
+		finally {
+			isWriting = false
+		}
+	}
+
+	load()
+
+	fs.watch(file, { persistent: false }, () => {
+		if (isWriting) return
+
+		clearTimeout(debounce)
+		debounce = setTimeout(load, 50)
+	})
+
+	return new Proxy(state, {
+		get(target, prop) {
+			if (prop === 'read') return load
+			if (prop === 'write') return write
+			return target[prop]
 		},
 		set(target, prop, value) {
-			target[prop] = value;
-			return true;
+			target[prop] = value
+			return true
 		}
-	});
+	})
 }
 
 const Config = read('./config.json');

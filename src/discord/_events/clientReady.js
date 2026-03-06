@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { ActivityType, Events, PermissionFlagsBits } from 'discord.js';
-import { Config, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUserByUUID, MCsend, getSkyblock, LinkedUsers, updateRoles, getUserByIGN, read } from '../../utils/utils.js';
+import { Events, PermissionFlagsBits } from 'discord.js';
+import { Config, getChannel, DCsend, getGuild, getEmoji, InvalidPlayer, getRole, getMember, gxpDB, getUserByUUID, MCsend, getSkyblock, LinkedUsers, updateRoles, getUserByIGN, read, createMsg } from '../../utils/utils.js';
 import { schedule } from 'node-cron';
 import Parser from 'rss-parser';
 import * as cheerio from 'cheerio';
@@ -38,7 +38,7 @@ export default {
 			}
 		}
 
-		client.user.setActivity(Config.guild.name || DCserver.name, { type: ActivityType.Watching });
+		// client.user.setActivity(Config.guild.name || DCserver.name, { type: ActivityType.Watching });
 
 		// This is necessary to get all members of every role
 		await DCserver.members.fetch();
@@ -344,10 +344,6 @@ async function getFeed(url, c, r) {
 	const feed = await parser.parseURL(url);
 	const cache = read('.cache/bot/rss.json');
 
-	for (const key in rssChannels) {
-		cache[key] ??= '';
-	}
-
 	const category =
 		url === rssChannels.skyblockGeneralDiscussion ? 'skyblockGeneralDiscussion' :
 		url === rssChannels.skyblockAnnouncements ? 'skyblockAnnouncements' :
@@ -355,15 +351,20 @@ async function getFeed(url, c, r) {
 		url === rssChannels.skyblockAlphaNetwork ? 'skyblockAlphaNetwork' :
 		null;
 
-	if (!category) return;
+	if (!cache[category]) {
+		cache[category] = Math.max(...feed.items.map(item => +item.guid));
+		cache.write();
+
+		return;
+	}
 
 	const newItems = feed.items
 		.reverse()
 		.filter(item => {
-			if (item.guid < cache[category]) return false;
+			if (+item.guid <= +cache[category]) return false;
 			if (category === 'skyblockAnnouncements' && !item.title.toLowerCase().includes('skyblock')) return false;
-			if (category === 'skyblockAlphaNetwork' && !staff.includes(item.creator)) return false;
-			if (category === 'skyblockGeneralDiscussion' && !staff.includes(item.creator)) return false;
+			if (category === 'skyblockAlphaNetwork' && !Object.values(staff).includes(item.creator)) return false;
+			if (category === 'skyblockGeneralDiscussion' && !Object.values(staff).includes(item.creator)) return false;
 			return true;
 		});
 
@@ -397,16 +398,16 @@ async function getFeed(url, c, r) {
 	}
 
 	if (newItems.length) {
-		cache[category] = newItems[newItems.length - 1].guid;
+		cache[category] = Math.max(...newItems.map(item => +item.guid));
 		cache.write();
 	}
 }
 
 async function sbNews() {
 	setInterval(async () => {
-		await getFeed(skyblockAnnouncements, newsChannel, newsRole);
-		await getFeed(skyblockPatchNotes, newsChannel, newsRole);
-		await getFeed(skyblockAlphaNetwork, newsChannel, newsRole);
-		await getFeed(skyblockGeneralDiscussion, newsChannel, newsRole);
+		await getFeed(rssChannels.skyblockAnnouncements, newsChannel, newsRole);
+		await getFeed(rssChannels.skyblockPatchNotes, newsChannel, newsRole);
+		await getFeed(rssChannels.skyblockAlphaNetwork, newsChannel, newsRole);
+		await getFeed(rssChannels.skyblockGeneralDiscussion, newsChannel, newsRole);
 	}, 60 * 1000);
 }
