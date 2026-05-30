@@ -1,24 +1,29 @@
+import { UnknownError, UserError } from '#utils'
 import fs from 'fs'
-import path from 'path'
 
-function read(file) {
-	fs.readFileSync('./config.json', 'utf-8')
+function readJSON(file) {
+	return JSON.parse(fs.readFileSync(file, 'utf-8'))
 }
 
-const Config = {
-	read('./config.json')
+let config
+try {
+	config = readJSON('./config.json')
 }
-Config.write = function() {
-	fs.writeFileSync('./config.json' Config, 'utf-8')
+catch (e) {
+	if (e.code === 'ERR_MODULE_NOT_FOUND') {
+		throw new UserError({ cause: e, message: 'Missing File | config.json', desc: 'For more info, read https://github.com/CatboyDark/Eris', fatal: true })
+	}
+	else {
+		throw new UnknownError({ cause: e })
+	}
 }
 
-read('./config.json')
-const LinkedUsers = read('./.cache/bot/users.json')
-
-
+function saveConfig() {
+	fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'))
+}
 
 export {
-	read,
-	Config,
-	LinkedUsers
+	config,
+	readJSON,
+	saveConfig
 }

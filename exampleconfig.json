@@ -1,0 +1,37 @@
+{
+	"prefix": ".",
+	"serverID": "",
+	"logs": {
+		"bot": {
+			"channelID": ""
+		},
+		"console": {
+			"channelID": ""
+		},
+		"tickets": {
+			"channelID": ""
+		},
+		"channelID": ""
+	},
+	"discord": {
+		"memberJoin": {
+			"welcomeMessage": {
+				"channelID": ""
+			}
+		},
+		"skyblockNews": {
+			"channelID": ""
+		}
+	},
+	"minecraft": {
+		"bridge": {
+			"guildChat": {
+				"channelID": ""
+			},
+			"officerChat": {
+				"channelID": ""
+			}
+		}
+	},
+	"debug": false
+}

@@ -1,13 +1,15 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, EmbedBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, resolveColor, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder } from 'discord.js'
+import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, ButtonStyle, ContainerBuilder, EmbedBuilder, FileBuilder, MediaGalleryBuilder, MediaGalleryItemBuilder, MessageFlags, PermissionFlagsBits, SectionBuilder, SeparatorBuilder, SeparatorSpacingSize, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, TextDisplayBuilder, ThumbnailBuilder, resolveColor } from 'discord.js'
 import { discord } from '../discord/Discord.js'
-import { Config } from '#utils'
+import path from 'path'
+import { config, saveConfig, UnknownError, UserError } from '#utils'
 
 export {
 	createMessage,
-	createMessageV1,
-	DCsend,
+	createMessageLegacy,
 	getServer,
-	getChannel
+	getChannel,
+	DCsend,
+	DiscordChannels
 }
 
 function createMessage(items, { ephemeral = false, mentions = true } = {}) {
@@ -17,95 +19,139 @@ function createMessage(items, { ephemeral = false, mentions = true } = {}) {
 	for (const item of items) {
 		if (item.embed) {
 			const container = new ContainerBuilder()
-			if (item.color) {
-				if (item.color in colors) container.setAccentColor(resolveColor(colors[item.color]))
-				else container.setAccentColor(resolveColor(item.color))
-			}
+			if (item.color) container.setAccentColor(resolveColor(item.color))
 			if (item.spoiler) container.setSpoiler(true)
 
-			for (const embed of item.embed) {
-				if (embed.desc || embed.icon || embed.button) {
-					const lines = Array.isArray(embed.desc) ? embed.desc : [embed.desc]
+			for (const embedItem of item.embed) {
+				if (embedItem.desc) {
+					const lines = Array.isArray(embedItem.desc) ? embedItem.desc : [embedItem.desc]
 
-					if (!embed.icon && !embed.button) {
-						lines.forEach(line => {
-							container.addTextDisplayComponents(new TextDisplayBuilder().setContent(line))
-						})
-					}
-					else {
+					if (embedItem.icon || embedItem.button) {
 						const section = new SectionBuilder()
+
 						lines.forEach(line => {
 							section.addTextDisplayComponents(new TextDisplayBuilder().setContent(line))
 						})
 
-						if (embed.icon) {
-							const icon = new ThumbnailBuilder().setURL(embed.icon.url)
-							if (embed.icon.desc) icon.setDescription(embed.icon.desc)
-							if (embed.icon.spoiler) icon.setSpoiler(true)
+						if (embedItem.icon) {
+							const icon = new ThumbnailBuilder()
+							if (/^https?:\/\//i.test(embedItem.icon)) {
+								icon.setURL(embedItem.icon)
+							}
+							else {
+								files.push(new AttachmentBuilder(embedItem.icon))
+								icon.setURL(`attachment://${path.basename(embedItem.icon)}`)
+							}
+							if (embedItem.iconDesc) icon.setDescription(embedItem.iconDesc)
+							if (embedItem.iconSpoiler) icon.setSpoiler(true)
 							section.setThumbnailAccessory(icon)
 						}
-						if (embed.button) {
-							const button = createButtons(embed.button)
-							section.addActionRowComponents(new ActionRowBuilder().addComponents(button))
+						else if (embedItem.button) {
+							section.setButtonAccessory(createButton(embedItem.button))
 						}
 
 						container.addSectionComponents(section)
 					}
-				}
-				else if (embed.options) {
-					container.addActionRowComponents(new ActionRowBuilder().addComponents(createMenu(embed)))
-				}
-				else if (Array.isArray(embed)) {
-					if (embed.every(x => x.img)) {
-						const gallery = new MediaGalleryBuilder()
-
-						embed.forEach(({ img, desc, spoiler }) => {
-							const media = new MediaGalleryItemBuilder().setURL(img)
-							if (desc) media.setDescription(desc)
-							if (spoiler) media.setSpoiler(true)
-							gallery.addItems(media)
+					else {
+						lines.forEach(line => {
+							container.addTextDisplayComponents(new TextDisplayBuilder().setContent(line))
 						})
+					}
+				}
+				else if (embedItem.images) {
+					const gallery = new MediaGalleryBuilder()
 
-						container.addMediaGalleryComponents(gallery)
+					if (typeof embedItem.images === 'string') {
+						if (/^https?:\/\//i.test(embedItem.images)) {
+							gallery.addItems(new MediaGalleryItemBuilder().setURL(embedItem.images))
+						}
+						else {
+							files.push(new AttachmentBuilder(embedItem.images))
+							gallery.addItems(new MediaGalleryItemBuilder().setURL(`attachment://${path.basename(embedItem.images)}`))
+						}
+					}
+					else if (Array.isArray(embedItem.images)) {
+						for (const image of embedItem.images) {
+							if (typeof image === 'string') {
+								if (/^https?:\/\//i.test(image)) {
+									gallery.addItems(new MediaGalleryItemBuilder().setURL(image))
+								}
+								else {
+									files.push(new AttachmentBuilder(image))
+									gallery.addItems(new MediaGalleryItemBuilder().setURL(`attachment://${path.basename(image)}`))
+								}
+							}
+							else if (typeof image === 'object') {
+								let media
+								if (/^https?:\/\//i.test(image.link)) {
+									media = new MediaGalleryItemBuilder().setURL(image.link)
+								}
+								else {
+									files.push(new AttachmentBuilder(image.link))
+									media = new MediaGalleryItemBuilder().setURL(`attachment://${path.basename(image.link)}`)
+								}
+
+								if (image.desc) media.setDescription(image.desc)
+								if (image.spoiler) media.setSpoiler(true)
+								gallery.addItems(media)
+							}
+						}
 					}
 					else {
-						const row = new ActionRowBuilder()
-						embed.forEach(button => row.addComponents(createButtons(button)))
+						let media
 
-						container.addActionRowComponents(row)
+						if (/^https?:\/\//i.test(embedItem.images.link)) {
+							media = new MediaGalleryItemBuilder().setURL(embedItem.images.link)
+						}
+						else {
+							files.push(new AttachmentBuilder(embedItem.images.link))
+							media = new MediaGalleryItemBuilder().setURL(`attachment://${path.basename(embedItem.images.link)}`)
+						}
+
+						if (embedItem.images.desc) media.setDescription(embedItem.images.desc)
+						if (embedItem.images.spoiler) media.setSpoiler(true)
+						gallery.addItems(media)
 					}
+
+					container.addMediaGalleryComponents(gallery)
 				}
-				else if (item.file) {
-					if (/^https?:\/\//i.test(item.file)) {
-						components.push(new FileBuilder().setURL(item.file))
-					}
-					else {
-						const filename = require('path').basename(item.file)
-						files.push(new AttachmentBuilder(item.file))
-						components.push(new FileBuilder().setURL(`attachment://${filename}`))
-					}
+				else if (embedItem.buttons) {
+					const row = new ActionRowBuilder()
+					embedItem.buttons.forEach(button => row.addComponents(createButton(button)))
+					container.addActionRowComponents(row)
 				}
-				else if (embed.divider) {
-					container.addSectionComponents(new SeparatorBuilder().setDivider(embed.divider).setSpacing(embed.size === 'small' ? SeparatorSpacingSize.Small : SeparatorSpacingSize.Large))
+				else if (embedItem.menu) {
+					container.addActionRowComponents(new ActionRowBuilder().addComponents(createMenu(embedItem.menu)))
+				}
+				else if (embedItem.file) {
+					files.push(new AttachmentBuilder(embedItem.file))
+					container.addFileComponents(new FileBuilder().setURL(`attachment://${path.basename(embedItem.file)}`))
+				}
+				else if (embedItem.divider !== undefined) {
+					const divider = new SeparatorBuilder()
+
+					switch (embedItem.divider) {
+						case 0:
+							divider.setDivider(false)
+							break
+						case 1:
+							divider.setSpacing(SeparatorSpacingSize.Small)
+							break
+						case 2:
+							divider.setSpacing(SeparatorSpacingSize.Large)
+							break
+					}
+
+					container.addSeparatorComponents(divider)
 				}
 			}
-			if (item.timestamp) {
-				let timestamp
-				if (item.timestamp === 'r') timestamp = `<t:${Math.floor(Date.now() / 1000)}:R>`
-				else if (item.timestamp === 'f') timestamp = `<t:${Math.floor(Date.now() / 1000)}:f>`
-				container.addTextDisplayComponents(new TextDisplayBuilder().setContent(`_ _\n-# ${timestamp}`))
-			}
+
 			components.push(container)
 		}
-		else if (item.desc || item.icon || item.button) {
+		else if (item.desc) {
 			const lines = Array.isArray(item.desc) ? item.desc : [item.desc]
 
-			if (!item.icon && !item.button) {
-				lines.forEach(line => {
-					components.push(new TextDisplayBuilder().setContent(line))
-				})
-			}
-			else {
+			if (item.icon || item.button) {
 				const section = new SectionBuilder()
 
 				lines.forEach(line => {
@@ -113,58 +159,127 @@ function createMessage(items, { ephemeral = false, mentions = true } = {}) {
 				})
 
 				if (item.icon) {
-					const icon = new ThumbnailBuilder().setURL(item.icon.url)
-					if (item.icon.desc) icon.setDescription(item.icon.desc)
-					if (item.icon.spoiler) icon.setSpoiler(true)
+					const icon = new ThumbnailBuilder()
+					if (/^https?:\/\//i.test(item.icon)) {
+						icon.setURL(item.icon)
+					}
+					else {
+						files.push(new AttachmentBuilder(item.icon))
+						icon.setURL(`attachment://${path.basename(item.icon)}`)
+					}
+					if (item.iconDesc) icon.setDescription(item.iconDesc)
+					if (item.iconSpoiler) icon.setSpoiler(true)
 					section.setThumbnailAccessory(icon)
 				}
-				if (item.button) {
-					const button = createButtons(item.button)
-					section.addActionRowComponents(new ActionRowBuilder().addComponents(button))
+				else if (item.button) {
+					section.setButtonAccessory(createButton(item.button))
 				}
 
 				components.push(section)
 			}
-		}
-		else if (Array.isArray(item)) {
-			if (item.every(x => x.img)) {
-				const gallery = new MediaGalleryBuilder()
-
-				item.forEach(({ img, desc, spoiler }) => {
-					const media = new MediaGalleryItemBuilder().setURL(img)
-					if (desc) media.setDescription(desc)
-					if (spoiler) media.setSpoiler(true)
-					gallery.addItems(media)
+			else {
+				lines.forEach(line => {
+					components.push(new TextDisplayBuilder().setContent(line))
 				})
+			}
+		}
+		else if (item.images) {
+			const gallery = new MediaGalleryBuilder()
 
-				components.push(gallery)
+			if (typeof item.images === 'string') {
+				if (/^https?:\/\//i.test(item.images)) {
+					gallery.addItems(new MediaGalleryItemBuilder().setURL(item.images))
+				}
+				else {
+					files.push(new AttachmentBuilder(item.images))
+					gallery.addItems(new MediaGalleryItemBuilder().setURL(`attachment://${path.basename(item.images)}`))
+				}
+			}
+			else if (Array.isArray(item.images)) {
+				for (const image of item.images) {
+					if (typeof image === 'string') {
+						if (/^https?:\/\//i.test(image)) {
+							gallery.addItems(new MediaGalleryItemBuilder().setURL(image))
+						}
+						else {
+							files.push(new AttachmentBuilder(image))
+							gallery.addItems(new MediaGalleryItemBuilder().setURL(`attachment://${path.basename(image)}`))
+						}
+					}
+					else if (typeof image === 'object') {
+						let media
+						if (/^https?:\/\//i.test(image.link)) {
+							media = new MediaGalleryItemBuilder().setURL(image.link)
+						}
+						else {
+							files.push(new AttachmentBuilder(image.link))
+							media = new MediaGalleryItemBuilder().setURL(`attachment://${path.basename(image.link)}`)
+						}
+
+						if (image.desc) media.setDescription(image.desc)
+						if (image.spoiler) media.setSpoiler(true)
+						gallery.addItems(media)
+					}
+				}
 			}
 			else {
-				const row = new ActionRowBuilder()
-				item.forEach(button => row.addComponents(createButtons(button)))
+				let media
 
-				components.push(row)
+				if (/^https?:\/\//i.test(item.images.link)) {
+					media = new MediaGalleryItemBuilder().setURL(item.images.link)
+				}
+				else {
+					files.push(new AttachmentBuilder(item.images.link))
+					media = new MediaGalleryItemBuilder().setURL(`attachment://${path.basename(item.images.link)}`)
+				}
+
+				if (item.images.desc) media.setDescription(item.images.desc)
+				if (item.images.spoiler) media.setSpoiler(true)
+				gallery.addItems(media)
 			}
+
+			components.push(gallery)
+		}
+		else if (item.buttons) {
+			const row = new ActionRowBuilder()
+			item.buttons.forEach(button => row.addComponents(createButton(button)))
+			components.push(row)
+		}
+		else if (item.menu) {
+			components.push(new ContainerBuilder().addActionRowComponents(new ActionRowBuilder().addComponents(createMenu(item.menu))))
 		}
 		else if (item.file) {
-			components.push(new FileBuilder().setURL(item.file))
+			files.push(new AttachmentBuilder(item.file))
+			components.push(new FileBuilder().setURL(`attachment://${path.basename(item.file)}`))
 		}
-		else if (item.divider) {
-			components.push(new SeparatorBuilder().setDivider(item.divider).setSpacing(item.size === 'small' ? SeparatorSpacingSize.Small : SeparatorSpacingSize.Large))
-		}
-		else if (item.options) {
-			components.push(new ContainerBuilder().addActionRowComponents(new ActionRowBuilder().addComponents(createMenu(item))))
+		else if (item.divider !== undefined) {
+			const divider = new SeparatorBuilder()
+
+			switch (item.divider) {
+				case 0:
+					divider.setDivider(false)
+					break
+				case 1:
+					divider.setSpacing(SeparatorSpacingSize.Small)
+					break
+				case 2:
+					divider.setSpacing(SeparatorSpacingSize.Large)
+					break
+			}
+
+			components.push(divider)
 		}
 	}
 
 	return {
 		flags: MessageFlags.IsComponentsV2 | (ephemeral ? MessageFlags.Ephemeral : 0),
 		components,
+		files,
 		allowedMentions: mentions ? undefined : { parse: [], users: [], roles: [], repliedUser: false }
 	}
 }
 
-function createMessageV1({ color, title, desc, fields, header, icon, image, footer, footerIcon, timestamp }) {
+function createMessageLegacy({ color, title, desc, fields, header, icon, image, footer, footerIcon, timestamp }) {
 	const embed = new EmbedBuilder()
 
 	embed.setColor(color ?? 'FF00FF')
@@ -199,7 +314,7 @@ const buttonColors = {
 	Red: ButtonStyle.Danger
 }
 
-function createButtons({ id, label, color, url, emoji, disabled }) {
+function createButton({ id, label, color, url, emoji, disabled }) {
 	if (typeof color === 'boolean') color = color ? 'Green' : 'Red'
 
 	const button = new ButtonBuilder()
@@ -213,6 +328,7 @@ function createButtons({ id, label, color, url, emoji, disabled }) {
 		if (emoji) button.setEmoji(emoji)
 		button.setCustomId(id).setStyle(buttonColors[color])
 	}
+
 	return button
 }
 
@@ -248,35 +364,101 @@ function getChannel(channel) {
 	return typeof channel === 'string' ? discord.channels.cache.get(channel) : channel
 }
 
-const channels = [
-	{ id: Config.logs.bot.channelID, label: 'Bot Log' },
-	{ id: Config.minecraft.console.channelID, label: 'Console Log' },
-	{ id: Config.logs.tickets.channelID, label: 'Ticket Log' },
-	{ id: Config.welcome.message.channelID, label: 'Welcome Channel' },
-	{ id: Config.skyblockNews.channelID, label: 'News Channel' },
-	{ id: Config.minecraft.bridge.guild.channelID, label: 'Guild Chat Bridge' },
-	{ id: Config.minecraft.bridge.officer.channelID, label: 'Officer Chat Bridge' }
-]
+const DiscordChannels = {
+	Bot: { id: config.logs?.bot?.channelID ?? null, name: 'Bot Logs Channel' },
+	Console: { id: config.logs?.console?.channelID ?? null, name: 'Console Logs Channel' },
+	Tickets: { id: config.logs?.tickets?.channelID ?? null, name: 'Ticket Logs Channel' },
+	Welcome: { id: config.discord?.memberJoin?.welcomeMessage?.channelID ?? null, name: 'Welcome Channel' },
+	SkyblockNews: { id: config.discord?.skyblockNews?.channelID ?? null, name: 'News Channel' },
+	GuildChatBridge: { id: config.minecraft?.bridge?.guildChat?.channelID ?? null, name: 'Guild Chat Bridge' },
+	OfficerChatBridge: { id: config.minecraft?.bridge?.officerChat?.channelID ?? null, name: 'Officer Chat Bridge' }
+}
 
-function DCsend(channel, message, options = {}) {
-	const validChannel = getChannel(channel)
-	if (validChannel) {
-		try {
-			validChannel.send(createMessage(message, options))
+async function DCsend(channel, message, options = {}) {
+	let channelID = null
+	let channelName = null
+
+	if (typeof channel === 'object') {
+		channelID = channel.id
+		channelName = channel.name
+	}
+	else if (typeof channel === 'string') {
+		channelID = channel
+
+		const knownChannel = Object.values(DiscordChannels).find(c => c.id === channelID)
+		if (knownChannel) {
+			channelName = knownChannel.name
 		}
-		catch(e) {
-			if (e.message.startsWith('Cannot read properties of undefined')) {
-				const channelExists = channels.includes(key => key.id === channel)
-				if (!channelExists) {
-					return console.error(`Invalid Channel | ${channelExists.label}`)
-				}
+	}
+
+	try {
+		const validChannel = getChannel(channelID)
+		if (validChannel) {
+			await validChannel.send(createMessage(message, options))
+		}
+		else {
+			if (channelName) {
+				await validateChannel(channelName)
+				const newChannel = getChannel(Object.values(DiscordChannels).find(c => c.name === channelName).id)
+				await newChannel.send(createMessage(message, options))
 			}
 			else {
-				return console.error('DCsend', e)
+				throw new UserError({ message: `Invalid Channel ID | ${channelName ?? channelID}` })
 			}
 		}
 	}
-	else {
-		return console.error(`Invalid Channel | ${channel}`)
+	catch (e) {
+		if (e instanceof UserError) throw e
+		throw new UnknownError({ cause: e })
+	}
+}
+
+async function validateChannel(channel) {
+	const guild = config.serverID
+	if (!guild) throw new UserError({ message: 'Invalid Server ID' })
+	const validGuild = getServer(guild)
+
+	const knownChannel = Object.values(DiscordChannels).find(c => c.name === channel)
+	if (knownChannel) {
+		if (knownChannel.name === 'Bot Logs Channel' || knownChannel.name === 'Console Logs Channel' || knownChannel.name === 'Ticket Logs Channel') {
+			let logsChannel = getChannel(config.logs.channelID)
+
+			if (!logsChannel) {
+				const channel = await validGuild.channels.create({
+					name: 'logs',
+					type: 0,
+					permissionOverwrites: [{
+						id: validGuild.roles.everyone.id,
+						deny: PermissionFlagsBits.ViewChannel
+					}]
+				})
+
+				config.logs.channelID = channel.id
+				saveConfig()
+
+				logsChannel = getChannel(config.logs.channelID)
+			}
+
+			if (knownChannel.name === 'Bot Logs Channel') {
+				const botLogsThread = await logsChannel.threads.create({ name: 'Bot' })
+				config.logs.bot.channelID = botLogsThread.id
+				DiscordChannels.Bot.id = botLogsThread.id
+				saveConfig()
+			}
+			else if (knownChannel.name === 'Console Logs Channel') {
+				const consoleLogsThread = await logsChannel.threads.create({ name: 'Console' })
+				config.logs.console.channelID = consoleLogsThread.id
+				DiscordChannels.Console.id = consoleLogsThread.id
+				saveConfig()
+
+				saveConfig()
+			}
+			else if (knownChannel.name === 'Ticket Logs Channel') {
+				const ticketLogsThread = await logsChannel.threads.create({ name: 'Tickets' })
+				config.logs.tickets.channelID = ticketLogsThread.id
+				DiscordChannels.Tickets.id = ticketLogsThread.id
+				saveConfig()
+			}
+		}
 	}
 }

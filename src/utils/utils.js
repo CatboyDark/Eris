@@ -1,3 +1,5 @@
+export * from './color.js'
 export * from './console.js'
-export * from './read.js'
 export * from './discord.js'
+export * from './error.js'
+export * from './read.js'
