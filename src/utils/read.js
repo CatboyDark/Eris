@@ -1,134 +1,61 @@
+import { AuthMissingError, ConfigMissingError, UnknownError } from '#utils'
 import fs from 'fs'
 import path from 'path'
+import { parse as parseJSONC } from 'jsonc-parser'
 
-function readJSON(file) {
-	const dir = path.dirname(file)
-	const state = {}
+function read(file) {
+	let data = {}
 
-	let isWriting = false
-	let debounce
+	try {
+		const raw = fs.readFileSync(file, 'utf-8')
 
-	function load() {
-		try {
-			const data = JSON.parse(fs.readFileSync(file, 'utf-8'))
-			for (const key of Object.keys(state)) delete state[key]
-			Object.assign(state, data)
+		if (file.endsWith('.jsonc')) {
+			data = parseJSONC(raw)
 		}
-		catch (e) {
-			if (e.code === 'ENOENT') {
-				fs.mkdirSync(dir, { recursive: true })
-				fs.writeFileSync(file, '{}', 'utf-8')
+		else if (file.endsWith('.json')) {
+			data = JSON.parse(raw)
+		}
+		// TODO
+		// add general support (for txt and log and stuff)
+	}
+	catch (e) {
+		if (e.code === 'ENOENT') {
+			if (file.includes('auth.json')) {
+				throw new AuthMissingError()
 			}
-			else {
-				console.error(`File Read | ${file}`, e)
+			else if (file.includes('config.json')) {
+				throw new ConfigMissingError()
 			}
+
+			fs.mkdirSync(path.dirname(file), { recursive: true })
+			fs.writeFileSync(file, JSON.stringify({}, null, '\t'), 'utf-8')
+
+			data = {}
+		}
+		else {
+			throw new UnknownError({ cause: e, fatal: true })
 		}
 	}
 
-	function write() {
-		try {
-			isWriting = true
-			const temp = `${file}.temp`
-			fs.writeFileSync(temp, JSON.stringify(state, null, '\t'), 'utf-8')
-			fs.renameSync(temp, file)
-		}
-		catch (e) {
-			console.error(`File Write | ${file}`, e)
-		}
-		finally {
-			isWriting = false
-		}
-	}
+	// TODO
+	// add support for writing to jsonc while preserving comments
 
-	load()
-
-	fs.watch(file, { persistent: false }, () => {
-		if (isWriting) return
-
-		clearTimeout(debounce)
-		debounce = setTimeout(load, 50)
-	})
-
-	return new Proxy(state, {
-		get(target, prop) {
-			if (prop === 'read') return load
-			if (prop === 'write') return write
-			return target[prop]
+	Object.defineProperty(data, 'write', {
+		value: function () {
+			fs.writeFileSync(file, JSON.stringify(this, null, '\t'), 'utf-8')
 		},
-		set(target, prop, value) {
-			target[prop] = value
-			return true
-		}
+		enumerable: false,
+		writable: true,
+		configurable: true
 	})
+
+	return data
 }
 
-const Config = readJSON('./config.json')
-const LinkedUsers = readJSON('./.cache/bot/users.json')
-
-function readTXT(file) {
-	const dir = path.dirname(file)
-	const state = { content: '' }
-
-	let isWriting = false
-	let debounce
-
-	function load() {
-		try {
-			const data = fs.readFileSync(file, 'utf-8')
-			state.content = data
-		}
-		catch (e) {
-			if (e.code === 'ENOENT') {
-				fs.mkdirSync(dir, { recursive: true })
-				fs.writeFileSync(file, '', 'utf-8')
-				state.content = ''
-			}
-			else {
-				console.error(`File Read | ${file}`, e)
-			}
-		}
-	}
-
-	function write() {
-		try {
-			isWriting = true
-			const temp = `${file}.temp`
-			fs.writeFileSync(temp, state.content, 'utf-8')
-			fs.renameSync(temp, file)
-		}
-		catch (e) {
-			console.error(`File Write | ${file}`, e)
-		}
-		finally {
-			isWriting = false
-		}
-	}
-
-	load()
-
-	fs.watch(file, { persistent: false }, () => {
-		if (isWriting) return
-
-		clearTimeout(debounce)
-		debounce = setTimeout(load, 50)
-	})
-
-	return new Proxy(state, {
-		get(target, prop) {
-			if (prop === 'read') return load
-			if (prop === 'write') return write
-			return target[prop]
-		},
-		set(target, prop, value) {
-			target[prop] = value
-			return true
-		}
-	})
-}
+let config = null
+config = read('./config.json')
 
 export {
-	readJSON,
-	readTXT,
-	Config,
-	LinkedUsers
+	read,
+	config
 }
