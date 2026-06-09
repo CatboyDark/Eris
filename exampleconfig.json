@@ -1,6 +1,8 @@
 {
 	"prefix": ".",
 	"serverID": "",
+	"ign": "",
+	"guildID": "",
 	"logs": {
 		"bot": {
 			"channelID": ""
@@ -13,24 +15,36 @@
 		},
 		"channelID": ""
 	},
-	"discord": {
-		"memberJoin": {
-			"welcomeMessage": {
-				"channelID": ""
-			}
+	"welcome": {
+		"discord": {
+			"enabled": true,
+			"channelID": "",
+			"text": ""
 		},
-		"skyblockNews": {
-			"channelID": ""
+		"minecraft": {
+			"enabled": true,
+			"message": ""
 		}
 	},
-	"minecraft": {
-		"bridge": {
-			"guildChat": {
-				"channelID": ""
-			},
-			"officerChat": {
-				"channelID": ""
-			}
+	"skyblockNews": {
+		"discord": {
+			"enabled": true,
+			"channelID": "",
+			"notifyRole": true,
+			"notifyRoleID": ""
+		},
+		"minecraft": {
+			"enabled": true
+		}
+	},
+	"chatBridge": {
+		"guildChat": {
+			"enabled": true,
+			"channelID": ""
+		},
+		"officerChat": {
+			"enabled": true,
+			"channelID": ""
 		}
 	},
 	"debug": false

@@ -1,29 +1,61 @@
-import { UnknownError, UserError } from '#utils'
+import { AuthMissingError, ConfigMissingError, UnknownError } from '#utils'
 import fs from 'fs'
+import path from 'path'
+import { parse as parseJSONC } from 'jsonc-parser'
 
-function readJSON(file) {
-	return JSON.parse(fs.readFileSync(file, 'utf-8'))
-}
+function read(file) {
+	let data = {}
 
-let config
-try {
-	config = readJSON('./config.json')
-}
-catch (e) {
-	if (e.code === 'ERR_MODULE_NOT_FOUND') {
-		throw new UserError({ cause: e, message: 'Missing File | config.json', desc: 'For more info, read https://github.com/CatboyDark/Eris', fatal: true })
+	try {
+		const raw = fs.readFileSync(file, 'utf-8')
+
+		if (file.endsWith('.jsonc')) {
+			data = parseJSONC(raw)
+		}
+		else if (file.endsWith('.json')) {
+			data = JSON.parse(raw)
+		}
+		// TODO
+		// add general support (for txt and log and stuff)
 	}
-	else {
-		throw new UnknownError({ cause: e })
+	catch (e) {
+		if (e.code === 'ENOENT') {
+			if (file.includes('auth.json')) {
+				throw new AuthMissingError()
+			}
+			else if (file.includes('config.json')) {
+				throw new ConfigMissingError()
+			}
+
+			fs.mkdirSync(path.dirname(file), { recursive: true })
+			fs.writeFileSync(file, JSON.stringify({}, null, '\t'), 'utf-8')
+
+			data = {}
+		}
+		else {
+			throw new UnknownError({ cause: e, fatal: true })
+		}
 	}
+
+	// TODO
+	// add support for writing to jsonc while preserving comments
+
+	Object.defineProperty(data, 'write', {
+		value: function () {
+			fs.writeFileSync(file, JSON.stringify(this, null, '\t'), 'utf-8')
+		},
+		enumerable: false,
+		writable: true,
+		configurable: true
+	})
+
+	return data
 }
 
-function saveConfig() {
-	fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'))
-}
+let config = null
+config = read('./config.json')
 
 export {
-	config,
-	readJSON,
-	saveConfig
+	read,
+	config
 }

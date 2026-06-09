@@ -1,25 +1,13 @@
-import { config, InternalError, UnknownError, UserError } from '#utils'
+import { config, DiscordInvalidCommandOptionError, DiscordInvalidCommandPermissionError, DiscordInvalidTokenError, DiscordMissingTokenError, UnknownError, discord, read } from '#utils'
 import { Client, Collection, GatewayIntentBits, PermissionFlagsBits, REST, Routes, SlashCommandBuilder } from 'discord.js'
 import fs from 'fs'
 
 export { Discord }
-export let discord
 
-let auth
-try {
-	auth = (await import('../../auth.json', { with: { type: 'json' } })).default
-}
-catch (e) {
-	if (e.code === 'ERR_MODULE_NOT_FOUND') {
-		throw new UserError({ message: 'Missing File | auth.json', desc: 'For more info, read https://github.com/CatboyDark/Eris.', cause: e, fatal: true })
-	}
-	else {
-		throw new UnknownError({ cause: e })
-	}
-}
+const auth = read('auth.json')
 
 async function Discord() {
-	discord = new Client({
+	const bot = new Client({
 		intents: [
 			GatewayIntentBits.Guilds,
 			GatewayIntentBits.GuildMembers,
@@ -28,11 +16,13 @@ async function Discord() {
 		]
 	})
 
-	discord.plainCommands = new Collection()
-	discord.slashCommands = new Collection()
-	discord.buttons = new Collection()
-	discord.menus = new Collection()
-	discord.forms = new Collection()
+	discord.bot = bot
+
+	bot.plainCommands = new Collection()
+	bot.slashCommands = new Collection()
+	bot.buttons = new Collection()
+	bot.menus = new Collection()
+	bot.forms = new Collection()
 
 	await slashCommands()
 	await plainCommands()
@@ -40,7 +30,7 @@ async function Discord() {
 	await menus()
 	await events()
 
-	await discord.login(auth.discordToken)
+	await bot.login(auth.discordBotToken)
 }
 
 async function slashCommands() {
@@ -57,22 +47,22 @@ async function slashCommands() {
 
 		const slashCommand = createSlash(command)
 
-		discord.slashCommands.set(slashCommand.data.name, slashCommand)
+		discord.bot.slashCommands.set(slashCommand.data.name, slashCommand)
 		commandList.push(slashCommand.data.toJSON())
 	}
 
-	if (auth.discordToken) {
-		const rest = new REST({ version: '10' }).setToken(auth.discordToken)
+	if (auth.discordBotToken) {
+		const rest = new REST({ version: '10' }).setToken(auth.discordBotToken)
 		try {
-			await rest.put(Routes.applicationCommands(Buffer.from(auth.discordToken.split('.')[0], 'base64').toString('ascii')), { body: commandList })
+			await rest.put(Routes.applicationCommands(Buffer.from(auth.discordBotToken.split('.')[0], 'base64').toString('ascii')), { body: commandList })
 		}
 		catch (e) {
-			if (e.status === 401) throw new UserError({ cause: e, message: 'Invalid Discord Token', desc: 'For more info, read https://github.com/CatboyDark/Eris.', fatal: true })
+			if (e.status === 401) throw new DiscordInvalidTokenError()
 			else throw new UnknownError({ cause: e })
 		}
 	}
 	else {
-		throw new UserError({ message: 'Missing Discord Token', desc: 'For more info, read https://github.com/CatboyDark/Eris.', fatal: true })
+		throw new DiscordMissingTokenError()
 	}
 }
 
@@ -80,34 +70,34 @@ function createSlash({ name, description, options = [], permissions = [], execut
 	const command = new SlashCommandBuilder().setName(name).setDescription(description)
 
 	options.forEach((option) => {
-		const { type, name, description, required, choices } = option
+		const { type, optionName, optionDescription, required, choices } = option
 
 		switch (type) {
 			case 'user':
-				command.addUserOption((o) => o.setName(name).setDescription(description).setRequired(required ?? false))
+				command.addUserOption((o) => o.setName(optionName).setDescription(optionDescription).setRequired(required ?? false))
 				break
 			case 'role':
-				command.addRoleOption((o) => o.setName(name).setDescription(description).setRequired(required ?? false))
+				command.addRoleOption((o) => o.setName(optionName).setDescription(optionDescription).setRequired(required ?? false))
 				break
 			case 'channel':
-				command.addChannelOption((o) => o.setName(name).setDescription(description).setRequired(required ?? false))
+				command.addChannelOption((o) => o.setName(optionName).setDescription(optionDescription).setRequired(required ?? false))
 				break
 			case 'string':
 				command.addStringOption((o) => {
-					o.setName(name).setDescription(description).setRequired(required ?? false)
+					o.setName(optionName).setDescription(optionDescription).setRequired(required ?? false)
 					if (choices.length > 0) o.addChoices(...choices)
 					return o
 				})
 				break
 			case 'integer':
 				command.addIntegerOption((o) => {
-					o.setName(name).setDescription(description).setRequired(required ?? false)
+					o.setName(optionName).setDescription(optionDescription).setRequired(required ?? false)
 					if (choices.length > 0) o.addChoices(...choices)
 					return o
 				})
 				break
 			default:
-				throw new InternalError({ message: `Invalid Command Option | ${type}` })
+				throw new DiscordInvalidCommandOptionError({ optionType: type, commandName: name, optionName })
 		}
 	})
 
@@ -117,7 +107,7 @@ function createSlash({ name, description, options = [], permissions = [], execut
 	else if (Array.isArray(permissions) && permissions.length > 0) {
 		const permissionBits = permissions.reduce((acc, perm) => {
 			const bit = PermissionFlagsBits[perm]
-			if (!bit) throw new InternalError({ message: `Invalid Permission | ${perm}` })
+			if (!bit) throw new DiscordInvalidCommandPermissionError({ permission: perm, commandName: name })
 
 			return acc | BigInt(bit)
 		}, BigInt(0))
@@ -143,7 +133,7 @@ async function plainCommands() {
 			continue
 		}
 
-		discord.plainCommands.set(command.prefix ? `${prefix}${command.name}` : command.name, command)
+		discord.bot.plainCommands.set(command.prefix ? `${prefix}${command.name}` : command.name, command)
 	}
 }
 
@@ -154,7 +144,7 @@ async function buttons() {
 		const button = await import(`./buttons/${file}`)
 		const buttonList = button.default || []
 		for (const item of buttonList) {
-			discord.buttons.set(item.id, item)
+			discord.bot.buttons.set(item.id, item)
 		}
 	}
 }
@@ -166,7 +156,7 @@ async function menus() {
 		const menu = await import(`./buttons/${file}`)
 		const menuList = menu.default || []
 		for (const item of menuList) {
-			discord.buttons.set(item.id, item)
+			discord.bot.buttons.set(item.id, item)
 		}
 	}
 }
@@ -181,6 +171,6 @@ async function events() {
 			continue
 		}
 
-		discord.on(event.name, (...args) => event.execute(...args))
+		discord.bot.on(event.name, (...args) => event.execute(...args))
 	}
 }

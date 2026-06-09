@@ -13,11 +13,13 @@
 	"dependencies": {
 		"cheerio": "^1.1.2",
 		"discord.js": "^14.25.1",
+		"jsonc-parser": "^3.3.1",
 		"mineflayer": "^4.0.0",
 		"node-cron": "^3.0.3",
 		"node-emoji": "^2.2.0",
 		"node-schedule": "^2.1.1",
 		"rss-parser": "^3.13.0",
+		"sharp": "^0.34.5",
 		"skyhelper-networth": "^2.4.3"
 	},
 	"devDependencies": {
