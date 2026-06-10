@@ -293,7 +293,7 @@ class Discord {
 	createMessageLegacy({ color, title, description, fields, header, icon, image, footer, footerIcon, timestamp }) {
 		const embed = new EmbedBuilder()
 
-		embed.setColor(color ?? 'FF00FF')
+		embed.setColor(color ?? '#FF00FF')
 		if (title) embed.setTitle(title)
 		if (description) embed.setDescription(description)
 		if (header) embed.setAuthor({

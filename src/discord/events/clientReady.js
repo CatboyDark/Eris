@@ -13,7 +13,6 @@ export default {
 
 	async execute(client) {
 		console.info(`${client.user.username} is online!`)
-		await discord.send(discord.channels.BOT, [{ embed: [{ description: `**${client.user.username}** is online!` }] }])
 
 		await initEmojis(client)
 
@@ -38,13 +37,12 @@ export default {
 
 		// This is necessary to get all members of every role
 		await discordServer.members.fetch()
-		await skyblockNews()
 
 		ready()
 
-		// setInterval(async () => {
-		// 	await skyblockNews()
-		// }, 60 * 1000)
+		setInterval(async () => {
+			await skyblockNews()
+		}, 60 * 1000)
 
 		schedule('0 0 * * *',
 			async () => {

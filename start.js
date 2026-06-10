@@ -8,6 +8,3 @@ export async function start() {
 }
 
 await start()
-
-// TODO
-// route info/warnings/errors to discord

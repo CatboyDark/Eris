@@ -1,15 +1,15 @@
 const reset = '\x1b[0m'
 
 const colors = {
-	red: 'FF0000',
-	green: '00FF00',
-	blue: '0000FF',
-	cyan: '00FFFF',
-	magenta: 'FF00FF',
-	yellow: 'FFFF00',
+	red: '#FF0000',
+	green: '#00FF00',
+	blue: '#0000FF',
+	cyan: '#00FFFF',
+	magenta: '#FF00FF',
+	yellow: '#FFFF00',
 
-	white: 'FFFFFF',
-	black: '000000'
+	white: '#FFFFFF',
+	black: '#000000'
 }
 
 const styles = {
@@ -21,6 +21,7 @@ const styles = {
 }
 
 function toRGB(hex) {
+	hex = hex.startsWith('#') ? hex.slice(1) : hex
 	const r = parseInt(hex.slice(0, 2), 16)
 	const g = parseInt(hex.slice(2, 4), 16)
 	const b = parseInt(hex.slice(4, 6), 16)
@@ -52,11 +53,24 @@ function build(codesMap, applied = []) {
 		},
 		{
 			get(_, prop) {
-				if (!(prop in codesMap)) return undefined
-				const val = codesMap[prop]
+				let val = codesMap[prop]
+				let isBg = typeof prop === 'string' && prop.startsWith('bg')
+
+				if (!val && typeof prop === 'string') {
+					if (prop.startsWith('bg#')) {
+						val = toRGB(prop.slice(2))
+						isBg = true
+					}
+					else if (prop.startsWith('#')) {
+						val = toRGB(prop)
+					}
+				}
+
+				if (!val) return undefined
+
 				if (typeof val === 'number') return build(codesMap, applied.concat(val))
 				if (Array.isArray(val)) {
-					const ansi = prop.startsWith('bg') ? `48;2;${val.join(';')}` : `38;2;${val.join(';')}`
+					const ansi = isBg ? `48;2;${val.join(';')}` : `38;2;${val.join(';')}`
 					return build(codesMap, applied.concat(ansi))
 				}
 			},

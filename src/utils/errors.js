@@ -1,6 +1,6 @@
 import { color, config } from '#utils'
 
-function handleError(error) {
+async function handleError(error) {
 	if (error instanceof ErisError) {
 		let output = ''
 
@@ -16,7 +16,10 @@ function handleError(error) {
 		}
 
 		if (error.fatal) {
-			console.error(error.message, output)
+			await Promise.race([
+				console.error(error.message, output),
+				new Promise(resolve => setTimeout(resolve, 5000))
+			])
 			process.exit(1)
 		}
 		else {
@@ -26,7 +29,10 @@ function handleError(error) {
 		return
 	}
 
-	console.error('Unexpected Error!', error)
+	await Promise.race([
+		console.error('Unexpected Error!', error),
+		new Promise(resolve => setTimeout(resolve, 5000))
+	])
 	process.exit(1)
 }
 

@@ -145,8 +145,8 @@ if (!Number.prototype.parse) {
 	})
 }
 else {
-	console.error('THE WORLD IS ENDING!!!')
-	console.error('Kidding. But something is hijacking Number.parse. Mission abort!')
+	console.log('THE WORLD IS ENDING!!!')
+	console.log('Kidding. But something is hijacking Number.parse. Mission abort!')
 	process.exit(1)
 }
 
