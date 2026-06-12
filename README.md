@@ -4,7 +4,7 @@ A Discord-Minecraft bot for Hypixel Skyblock guilds.
 
 **Built using:**
 
-Discord.js  
+DiscordJS  
 Mineflayer  
 Skyhelper Networth
 <br />
@@ -63,7 +63,7 @@ You will want a process that keeps the app running.
 ### PM2
 [NodeJS](https://nodejs.org/en/download) is what runs this app.
 For Debian or other Linux distributions: Get Node.js `LTS` for `Linux` using `nvm` with `npm`.  
-For Windows and macOS, you may select a prebuilt version right below.
+For Windows and macOS, you may select a prebuilt version right below and set that up.
 
 To install [PM2](https://pm2.keymetrics.io/docs/usage/quick-start/), run:
 ```
@@ -90,7 +90,7 @@ To confirm its installation, run `docker --version`.
 // continue docker setup here
 
 ## Setup
-Congratulations. The hard part is over. You can breathe now.
+Congratulations. The hard part is over. You may take a breath.
 
 - [Initializing](#initializing)
 - [Discord Bot](#discord-bot)  
@@ -109,14 +109,14 @@ Run using Docker:
 // run using docker
 ```
 
-// okay idk yet. how do you edit auth.json and config.json over cli prompts with pm2 or docker?
+// okay idk yet. how do you edit auth.json and config.json over cli prompts with pm2 or docker?  
 // also, add a reassuring statement: If you ever fuck up the initiation process, don't stress. Press Ctrl + C and rerun it. (note. add a separate command for initiation vs regular running.)
 
 ### Discord Bot
 1. Visit the [Discord Developers](https://discord.com/developers/applications) page and log in.
-2. Select "New Application" on the top right.
-3. You may choose a name, profile picture, and bio for your bot.
-4. Navigate to "Installation" on the left.
+2. Select "New Application" at the top right.
+3. You may choose a name, profile picture, banner, and bio for your bot.
+4. Navigate to "Installation" at the left.
 5. Under "Default Install Settings", "Guild Install", add "bot" to "Scopes".
 6. Assign the following permissions (or alternatively, assign Administrator):
  - Create Public Threads
@@ -126,7 +126,7 @@ Run using Docker:
  - Manage Nicknames
  - Moderate Members
  - View Audit Log
-7. Navigate to "Bot" on the left.
+7. Navigate to "Bot" at the left.
 8. Under "Token", reset your token.
 
 ### Hypixel API
@@ -141,7 +141,7 @@ If you set up mongo:
 // get mongo uri
 
 ### Configuring
-// configure config.json
+// configure config.json... or not? cli prompts cough cough
 
 ### Useful Commands
 
