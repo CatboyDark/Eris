@@ -47,6 +47,7 @@ async function getPlayerByUUID(player) {
 	if (!response.ok) {
 		switch (response.status) {
 			case 403:
+				console.log('getPlayerbyUUIDError!')
 				throw new HypixelInvalidAPIKey();
 			case 429:
 				throw new HypixelRateLimit();
@@ -71,6 +72,7 @@ async function getPlayerByIGN(player) {
 	if (!response.ok) {
 		switch (response.status) {
 			case 403:
+				console.log('getPlayerByIGN!')
 				throw new HypixelInvalidAPIKey();
 			case 429:
 				throw new HypixelRateLimit();
@@ -99,6 +101,7 @@ const getGuild = {
 		if (!response.ok) {
 			switch (response.status) {
 				case 403:
+					console.log('getGuildError!')
 					throw new HypixelInvalidAPIKey();
 				case 429:
 					throw new HypixelRateLimit();
@@ -144,6 +147,7 @@ const getGuild = {
 		if (!response.ok) {
 			switch (response.status) {
 				case 403:
+					console.log('getGuildError!')
 					throw new HypixelInvalidAPIKey();
 				case 429:
 					throw new HypixelRateLimit();
@@ -251,6 +255,7 @@ async function getSkyblock(uuid, { profile = null, networth = false, all = false
 	if (!response.ok) {
 		switch (response.status) {
 			case 403:
+				console.log('getSkyblockError!')
 				throw new HypixelInvalidAPIKey();
 			case 429:
 				throw new HypixelRateLimit();
