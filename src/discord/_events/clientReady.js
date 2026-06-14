@@ -346,6 +346,7 @@ async function getFeed(url, c, r) {
 		feed = await parser.parseURL(url);
 	}
 	catch (e) {
+		console.log('meow')
 		console.log(e)
 	}
 	const cache = read('.cache/bot/rss.json');
