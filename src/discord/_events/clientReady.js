@@ -341,7 +341,13 @@ const staff = read('assets/hypixelStaff.jsonc');
 async function getFeed(url, c, r) {
 	if (!Config.sbNews.enabled) return;
 
-	const feed = await parser.parseURL(url);
+	let feed
+	try {
+		feed = await parser.parseURL(url);
+	}
+	catch (e) {
+		console.log(e)
+	}
 	const cache = read('.cache/bot/rss.json');
 
 	const category =
