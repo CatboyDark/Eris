@@ -1,5 +1,5 @@
 > [!CAUTION]
-> This app is under active development, and is NOT ready for public use.
+> The app is undergoing active development, and is NOT ready for public use.
 
 # Eris
 
