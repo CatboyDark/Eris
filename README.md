@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This app is under active development, and is NOT ready for public use.
+
 # Eris
 
 A Discord-Minecraft bot for Hypixel Skyblock guilds.
