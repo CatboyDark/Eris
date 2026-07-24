@@ -1,6 +1,9 @@
 [
 	"Hypixel Team",
 
+	"Hypixel",
+	"Rezzus",
+
 	// Skyblock Nerds
 	"Flare",
 
@@ -28,19 +31,77 @@
 	"TheBirmanator",
 	"TheMGRF",
 
-	// Content Management
-	"Donpireso",
-	"ChiLynn",
-	"DavuDavuD",
-	"eeyitscoco",
-	"jtsandman45",
+	// Minigame Devs
+	"Kazius1",
+	"MotorGorilla",
+	"2008choco",
+	"bugfroggy",
+	"Fadest",
+	"Hulk_",
+	"iCeeker",
+	"RapidTheNerd",
+	"Sethkins",
+
+	// Web Dev
+	"Externalizable",
+
+	// Customer Support
+	"_PolynaLove_",
+	"Nausicaah",
+	"Revengeee",
+	"Taytale",
 
 	// Community Management
 	"LadyBleu",
 	"Judg3",
 
+	// Content Management
+	"ChiLynn",
+	"Donpireso",
+	"DavuDavuD",
+	"eeyitscoco",
+	"jtsandman45",
+
 	// Bugs
 	"Sylent",
 	"Bloozing",
-	"Citria"
+	"Citria",
+
+	// Build Team
+	"vinny8ball666",
+	"Cheesey",
+	"_fudgiethewhale",
+	"AdamWho",
+	"BlocksKey",
+	"carstairs95",
+	"DEADORKAI",
+	"DistrictGecko",
+	"MistressEldrid",
+	"Plummel",
+	"Rozsa",
+	"ZeaBot",
+
+	// Quality Assurance
+	"Aerh",
+	"Ahmad",
+	"Alespresso",
+	"Alexmaster",
+	"AmyTheMudkip",
+	"BugDetector",
+	"Catstaboli",
+	"DeluxeRose",
+	"Gainful",
+	"Gerbor12",
+	"LeBrillant",
+	"MCVisuals",
+	"Quack",
+	"Rhune",
+	"rosmeme",
+	"Sanity",
+	"SaltyLia",
+	"Smoarzified",
+	"SourMatt",
+	"sycophantasy",
+	"TakesEffort",
+	"Velighted"
 ]

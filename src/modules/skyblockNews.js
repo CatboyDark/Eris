@@ -4,10 +4,10 @@ import Parser from 'rss-parser'
 
 const feeds = {
 	// hypixelForums: 'https://hypixel.net/forums/-/index.rss';
-	skyblockGeneralDiscussion: 'https://hypixel.net/forums/skyblock-general-discussion.157/index.rss',
-	skyblockAnnouncements: 'https://hypixel.net/forums/news-and-announcements.4/index.rss',
-	skyblockPatchNotes: 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss',
-	skyblockAlphaNetwork: 'https://hypixel.net/skyblock-alpha/index.rss'
+	skyblockGeneralDiscussion: 'https://hypixel.net/forums/skyblock-general-discussion.157/index.rss?order=post_date',
+	skyblockAnnouncements: 'https://hypixel.net/forums/news-and-announcements.4/index.rss?order=post_date',
+	skyblockPatchNotes: 'https://hypixel.net/forums/skyblock-patch-notes.158/index.rss?order=post_date',
+	skyblockAlphaNetwork: 'https://hypixel.net/skyblock-alpha/index.rss?order=post_date'
 }
 
 const staff = read('assets/hypixelStaff.jsonc')
@@ -17,27 +17,27 @@ const parser = new Parser()
 export async function skyblockNews() {
 	if 	(!config.skyblockNews.discord.enabled && !config.skyblockNews.minecraft.enabled) return
 
-	const cache = read('.cache/bot/rss.json')
+	const cache = read('.cache/bot/skyblockNews.json')
 
 	for (const [key, value] of Object.entries(feeds)) {
 		const feed = await parser.parseURL(value)
 
+		const validItems = feed.items.reverse().filter(item => {
+			if (key === 'skyblockAnnouncements' && !item.title.toLowerCase().includes('skyblock')) return false
+			if (key === 'skyblockAlphaNetwork' && !Object.values(staff).includes(item.creator)) return false
+			if (key === 'skyblockGeneralDiscussion' && !Object.values(staff).includes(item.creator)) return false
+			return true
+		})
+
 		if (!cache[key]) {
-			cache[key] = Math.max(...feed.items.map(item => +item.guid))
+			cache[key] = validItems[0]?.isoDate ?? '1970-01-01T00:00:00.000Z'
 			cache.write()
 
+			// If this is the first run, avoid old posts flooding.
 			continue
 		}
 
-		const newItems = feed.items
-			.reverse()
-			.filter(item => {
-				if (+item.guid <= +cache[key]) return false
-				if (key === 'skyblockAnnouncements' && !item.title.toLowerCase().includes('skyblock')) return false
-				if (key === 'skyblockAlphaNetwork' && !Object.values(staff).includes(item.creator)) return false
-				if (key === 'skyblockGeneralDiscussion' && !Object.values(staff).includes(item.creator)) return false
-				return true
-			})
+		const newItems = validItems.reverse().filter(item => item.isoDate > cache[key])
 
 		for (const item of newItems) {
 			if (config.skyblockNews.discord.enabled) {
@@ -82,13 +82,13 @@ export async function skyblockNews() {
 				discord.send(discord.channels.SKYBLOCKNEWS, parts)
 			}
 
-			// TODO
-			// Implement Minecraft side here
-			// if (config.skyblockNews.minecraft.enabled)
+		// TODO
+		// Implement Minecraft side here
+		// if (config.skyblockNews.minecraft.enabled)
 		}
 
 		if (newItems.length) {
-			cache[key] = Math.max(...newItems.map(item => +item.guid))
+			cache[key] = newItems[newItems.length - 1].isoDate
 			cache.write()
 		}
 	}

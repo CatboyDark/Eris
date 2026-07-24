@@ -435,7 +435,11 @@ class Discord {
 
 		const knownChannel = Object.values(this.channels).find(c => c.name === channel)
 		if (knownChannel) {
-			if (knownChannel.name === 'Bot Logs Channel' || knownChannel.name === 'Console Logs Channel' || knownChannel.name === 'Ticket Logs Channel') {
+			if (
+				knownChannel.name === 'Bot Logs Channel' ||
+				knownChannel.name === 'Console Logs Channel' ||
+				knownChannel.name === 'Ticket Logs Channel'
+			) {
 				let logsChannel = this.getChannel(config.logs.channelID)
 
 				if (!logsChannel) {

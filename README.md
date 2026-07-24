@@ -7,21 +7,21 @@ A Discord-Minecraft bot for Hypixel Skyblock guilds.
 
 **Built using:**
 
-DiscordJS  
-Mineflayer  
+DiscordJS
+Mineflayer
 Skyhelper Networth
 <br />
 ## Prerequisites
-- [Minecraft Alt Account](#minecraft-alt-account)  
-- [Hosting](#hosting)  
+- [Minecraft Alt Account](#minecraft-alt-account)
+- [Hosting](#hosting)
 - [Git](#git)
 
 ### Minecraft Alt Account
-To utilize the Minecraft-Discord chat bridge, guild commands, and other ingame features, you will need a Minecraft account.  
+To utilize the Minecraft-Discord chat bridge, guild commands, and other ingame features, you will need a Minecraft account.
 You may also choose to set up without one.
 
 > [!NOTE]
-> The app uses Mineflayer, a non-standard Minecraft client to access Hypixel. Nobody has EVER had an issue with this, but the odds are never zero. Additionally, the account may incur chat infractions if reported for messages sent through the guild chat bridge.  
+> The app uses Mineflayer, a non-standard Minecraft client to access Hypixel. Nobody has EVER had an issue with this, but the odds are never zero. Additionally, the account may incur chat infractions if reported for messages sent through the guild chat bridge.
 > It is advised to be cautious and moderate your guild. I hold no responsibility for any punishments resulting from the app's usage.
 
 ### Hosting
@@ -33,31 +33,31 @@ Recommended minimum requirements:
 - 1 GB disk space
 
 > [!NOTE]
-> As of June 2026,  
-> [Linode](https://www.akamai.com/cloud/pricing) offers a $5 monthly Shared CPU plan "Nanode 1 GB" that meets these requirements.  
+> As of June 2026,
+> [Linode](https://www.akamai.com/cloud/pricing) offers a $5 monthly Shared CPU plan "Nanode 1 GB" that meets these requirements.
 > [Digital Ocean](https://www.digitalocean.com/pricing/droplets) offers a viable alternative.
 
 Debian Linux is the preferred operating system of choice for its minimal design and efficiency.
 
 ### Git
-[Git](https://git-scm.com/install/) is the utility that downloads and manages updates for the app. 
+[Git](https://git-scm.com/install/) is the utility that downloads and manages updates for the app.
 
-To confirm its installation, run `git --version` in the terminal (Command Prompt on Windows).  
-If you get a response "command not found", you will need to install it.  
+To confirm its installation, run `git --version` in the terminal (Command Prompt on Windows).
+If you get a response "command not found", you will need to install it.
 
 To install it on Debian, run:
 ```
 apt-get install git
-```  
+```
 Otherwise, select the operating system you're working with and follow the instructions.
 
 ## Installation
-- [PM2 vs Docker](#pm2-vs-docker)  
-- [PM2](#pm2)  
+- [PM2 vs Docker](#pm2-vs-docker)
+- [PM2](#pm2)
 - [Docker](#docker)
 
 ### PM2 vs Docker
-You will want a process that keeps the app running.  
+You will want a process that keeps the app running.
 
 > PM2 has a quick and easy setup. However, if you plan on utilizing this app to continually track guild metrics (like logging members' guild xp), you will have to manually set up MongoDB later on.
 
@@ -65,7 +65,7 @@ You will want a process that keeps the app running.
 
 ### PM2
 [NodeJS](https://nodejs.org/en/download) is what runs this app.
-For Debian or other Linux distributions: Get Node.js `LTS` for `Linux` using `nvm` with `npm`.  
+For Debian or other Linux distributions: Get Node.js `LTS` for `Linux` using `nvm` with `npm`.
 For Windows and macOS, you may select a prebuilt version right below and set that up.
 
 To install [PM2](https://pm2.keymetrics.io/docs/usage/quick-start/), run:
@@ -78,17 +78,17 @@ Download the project using:
 git clone https://github.com/CatboyDark/Eris.git
 ```
 
-MongoDB (Optional)  
+MongoDB (Optional)
 
 // insert mongo setup here
 
 ### Docker
 
-For Debian or other linux distributions (without a GUI), you want the [Docker Engine](https://docs.docker.com/engine/install/debian/).  
-On Windows or Mac, you want [Docker Desktop](https://docs.docker.com/get-started/get-docker/).  
+For Debian or other linux distributions (without a GUI), you want the [Docker Engine](https://docs.docker.com/engine/install/debian/).
+On Windows or Mac, you want [Docker Desktop](https://docs.docker.com/get-started/get-docker/).
 Visit the corresponding links. Select the operating system you're working with and follow the instructions.
 
-To confirm its installation, run `docker --version`.  
+To confirm its installation, run `docker --version`.
 
 // continue docker setup here
 
@@ -96,10 +96,10 @@ To confirm its installation, run `docker --version`.
 Congratulations. The hard part is over. You may take a breath.
 
 - [Initializing](#initializing)
-- [Discord Bot](#discord-bot)  
-- [Hypixel API](#hypixel-api)  
-- [MongoDB](#mongodb)  
-- [Configurating](#configuring)  
+- [Discord Bot](#discord-bot)
+- [Hypixel API](#hypixel-api)
+- [MongoDB](#mongodb)
+- [Configurating](#configuring)
 
 ### Initializing
 Run using PM2:
@@ -112,7 +112,7 @@ Run using Docker:
 // run using docker
 ```
 
-// okay idk yet. how do you edit auth.json and config.json over cli prompts with pm2 or docker?  
+// okay idk yet. how do you edit auth.json and config.json over cli prompts with pm2 or docker?
 // also, add a reassuring statement: If you ever fuck up the initiation process, don't stress. Press Ctrl + C and rerun it. (note. add a separate command for initiation vs regular running.)
 
 ### Discord Bot
@@ -140,7 +140,7 @@ Run using Docker:
 > This key will expire. Eventually, you will need to apply for a developer key in the "Applications" section. This process may take a week or two. I hear they're pretty harsh, so be sure to provide a thorough description. Good luck, soldier! <o
 
 ### MongoDB
-If you set up mongo:  
+If you set up mongo:
 // get mongo uri
 
 ### Configuring
@@ -193,8 +193,11 @@ pm2 logs Eris --lines 50
 **[hypixel-discord-chat-bridge](https://github.com/DuckySoLucky/hypixel-discord-chat-bridge)**
 - assets/forge.json
 
+**[Hypixel Fandom](https://hypixel.fandom.com/wiki/)**
+- assets/hypixelStaff.jsonc
+
 <br />
 <br />
 
-Created by CatboyDark  
+Created by CatboyDark
 2024.07.11

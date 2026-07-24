@@ -33,6 +33,9 @@ export default {
 		}
 
 		const discordServer = discord.getServer(config.serverID)
+		// TODO
+		// Add more customization to bot status
+
 		// client.user.setActivity(guild.name ?? discordServer.name, { type: ActivityType.Watching })
 
 		// This is necessary to get all members of every role
