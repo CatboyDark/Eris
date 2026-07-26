@@ -7,9 +7,9 @@ A Discord-Minecraft bot for Hypixel Skyblock guilds.
 
 **Built using:**
 
-DiscordJS
-Mineflayer
-Skyhelper Networth
+DiscordJS  
+Mineflayer  
+Skyhelper Networth  
 <br />
 ## Prerequisites
 - [Minecraft Alt Account](#minecraft-alt-account)
