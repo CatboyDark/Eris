@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"strict": true,
+
+		"target": "esnext",
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"lib": ["esnext"],
+		"sourceMap": true,
+		
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"noFallthroughCasesInSwitch": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true
+	},
+}
